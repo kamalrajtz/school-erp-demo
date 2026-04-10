@@ -68,7 +68,7 @@ const sidebarLinks = [
             { icon: BadgeDollarSign, title: "Class Fee Details", to: "/admin/student/class-fee-details" },
             { icon: UsersRound, title: "Parent Details", to: "/admin/student/parent-details" },
             { icon: ArrowRightLeft, title: "Student Transfer", to: "/admin/student/student-transfer" },
-            { icon: FileX, title: "Leave Request", to: "#0" },
+            // { icon: FileX, title: "Leave Request", to: "#0" },
         ]
     },
     {
