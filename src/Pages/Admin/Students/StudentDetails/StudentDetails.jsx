@@ -125,7 +125,6 @@ const StudentDetails = () => {
                                 <td className="px-2 py-4">India</td>
                                 <td className="px-2 py-4">TamilNadu</td>
                                 <td className="px-2 py-4">Trichy</td>
-                                <td className="px-2 py-4">Pudukkottai</td>
                                 <td className="px-2 py-4 text-center rounded-e-lg">
                                     <Dropdown
                                         buttonContent={<EllipsisIcon size={16} className='text-black' />}
