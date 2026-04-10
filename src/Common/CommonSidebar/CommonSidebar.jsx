@@ -1,0 +1,288 @@
+import React, { useState, useEffect, useRef } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
+import { ChevronLeft, ChevronDown, LayoutDashboard, Frame, BrickWallShield, Users, BookOpen, Car, FileText, CalendarDays, BookCopy, CalendarCheck, GraduationCap, Briefcase, FileX, School, ClipboardList, MonitorPlay, UserPlus, Library, BookOpenCheck, BookMarked, UserRound, UserRoundSearch, BadgeDollarSign, UsersRound, ArrowRightLeft, Trophy, Palette, Dumbbell, Award } from "lucide-react"
+import logo from "../../assets/images/demo-logo.svg"
+import logoMini from "../../assets/images/demo-logo-mini.svg"
+
+const sidebarLinks = [
+    {
+        id: 1,
+        title: "Dashboard",
+        to: "/dashboard",
+        icon: LayoutDashboard,
+    },
+    {
+        id: 2,
+        title: "Front Office",
+        to: "#0",
+        icon: BrickWallShield,
+        subLinks: [
+            { icon: FileText, title: "Admission List", to: "/admin/front-office/admission-list" },
+            { icon: FileText, title: "Admission Enquiry", to: "/admin/front-office/admission-enquiry" },
+            { icon: Users, title: "Teachers List", to: "/admin/front-office/teachers-list" },
+            { icon: BookOpen, title: "Librarian List", to: "/admin/front-office/librarian-list" },
+            { icon: Car, title: "Van Driver List", to: "/admin/front-office/van-driver-list" },
+        ]
+    },
+    {
+        id: 3,
+        title: "Attendance",
+        to: "#0",
+        icon: CalendarCheck,
+        subLinks: [
+            { icon: GraduationCap, title: "Students", to: "/admin/attendance/students-list" },
+            { icon: Briefcase, title: "Employees", to: "/admin/attendance/employees-list" },
+            { icon: FileX, title: "Leave Request", to: "/admin/attendance/leave-request-list" }
+        ]
+    },
+    {
+        id: 4,
+        title: "Class",
+        to: "#0",
+        icon: School,
+        subLinks: [
+            { icon: ClipboardList, title: "Class Details", to: "/admin/class/class-details" },
+            { icon: MonitorPlay, title: "Online Class", to: "/admin/class/online-class" },
+            { icon: UserPlus, title: "Extra Class", to: "/admin/class/extra-class" },
+            { icon: CalendarDays, title: "Timetable", to: "/admin/class/timetable-list" },
+            { icon: BookCopy, title: "Subjects", to: "/admin/class/subjects" },
+        ]
+    },
+    {
+        id: 5,
+        title: "Library Details",
+        to: "#0",
+        icon: Library,
+        subLinks: [
+            { icon: BookOpenCheck, title: "Book List", to: "/admin/library-details/book-list" },
+            { icon: BookMarked, title: "Issued Book", to: "/admin/library-details/issued-book" },
+        ]
+    },
+    {
+        id: 6,
+        title: "Student",
+        to: "#0",
+        icon: UserRound,
+        subLinks: [
+            { icon: UserRoundSearch, title: "Student Details", to: "/admin/student/student-details" },
+            { icon: BadgeDollarSign, title: "Class Fee Details", to: "/admin/student/class-fee-details" },
+            { icon: UsersRound, title: "Parent Details", to: "/admin/student/parent-details" },
+            { icon: ArrowRightLeft, title: "Student Transfer", to: "/admin/student/student-transfer" },
+            { icon: FileX, title: "Leave Request", to: "#0" },
+        ]
+    },
+    {
+        id: 7,
+        title: "Activities",
+        to: "#0",
+        icon: Trophy,
+        subLinks: [
+            { icon: Palette, title: "Cultural", to: "/admin/activities/cultural-list" },
+            { icon: Dumbbell, title: "Sports", to: "/admin/activities/sports-list" },
+            { icon: Award, title: "Competitions", to: "/admin/activities/competitions-list" },
+        ]
+    },
+];
+
+const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
+
+    const handleLinkClick = () => {
+        if (window.innerWidth < 1024) {
+            toggleSidebar();
+        }
+    };
+
+    const [openMenus, setOpenMenus] = useState({});
+    const [manuallyOpened, setManuallyOpened] = useState(null);
+    const flyoutRef = useRef(null);
+
+    const location = useLocation();
+
+    const toggleSubMenu = (id) => {
+        setOpenMenus(prev => ({
+            ...prev,
+            [id]: !prev[id]
+        }));
+
+        // Track manual open only in collapsed mode
+        if (sidebarHidden) {
+            setManuallyOpened(prev => (prev === id ? null : id));
+        }
+    };
+
+    useEffect(() => {
+        const newOpenMenus = {};
+        sidebarLinks.forEach((link) => {
+            if (link.subLinks) {
+                const isActive = link.subLinks.some((sub) => location.pathname === sub.to);
+                if (isActive) {
+                    newOpenMenus[link.id] = true;
+                }
+            }
+        });
+        setOpenMenus(newOpenMenus);
+    }, [location.pathname]);
+
+    useEffect(() => {
+        if (!sidebarHidden) {
+            setManuallyOpened(null);
+        }
+    }, [sidebarHidden]);
+
+    // Close flyout when clicking outside (collapsed sidebar mode)
+    useEffect(() => {
+        if (!sidebarHidden) return;
+
+        const handleClickOutside = (e) => {
+            if (flyoutRef.current && !flyoutRef.current.contains(e.target)) {
+                setOpenMenus({});
+                setManuallyOpened(null);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [sidebarHidden]);
+
+    return (
+        <aside
+            className={`bg-[#515DEF] flex flex-col h-full transition-all duration-300 fixed top-0 left-0 z-20 font-inter overflow-visible ${sidebarHidden
+                ? "w-[280px] -translate-x-full lg:translate-x-0 lg:w-[90px] shadow-none"
+                : "w-[280px] translate-x-0"
+                }`}
+        >
+
+            {/* Toggle Button - outside scrollable area so it's not clipped */}
+            <div className='hidden lg:flex justify-end relative z-50 px-2'>
+                <button
+                    onClick={toggleSidebar}
+                    className={`text-[#0c269b] cursor-pointer flex items-center justify-center size-10 bg-[#e7eaf5] rounded-full p-1 border-2 border-white relative translate-x-1/2 transition-transform hover:scale-105 ${sidebarHidden ? "rotate-180" : ""}`}
+                >
+                    <ChevronLeft />
+                </button>
+            </div>
+
+            {/* Scrollable Links Container */}
+            <div className={`flex-1 px-2 pb-4 lg:pt-0 flex flex-col gap-y-3 ${sidebarHidden ? "overflow-visible" : "overflow-y-auto sidebar-scroll-hide"}`}>
+
+                <div className="overflow-hidden border-b border-[#e4e7ec] shrink-0">
+                    {sidebarHidden ? (
+                        <img src={logoMini} className='p-4 mx-auto w-fit h-fit' alt="logo" />
+                    ) : (
+                        <img src={logo} className='p-4 min-w-full h-fit' alt="logo" />
+                    )}
+                </div>
+
+                <ul className="flex flex-col gap-y-2" ref={flyoutRef}>
+                    {sidebarLinks.map((item) => {
+                        const hasSubLinks = item.subLinks && item.subLinks.length > 0;
+                        const isOpen = !!openMenus[item.id];
+                        const isChildActive = hasSubLinks && item.subLinks.some(sub => location.pathname === sub.to);
+
+                        const commonClasses = (active) => `flex items-center gap-x-4 py-3.5 px-3 text-base font-medium rounded-md transition-all duration-300 group cursor-pointer ${active
+                            ? "text-[#3a46d1] bg-white"
+                            : "text-[#ffffffb3] hover:bg-white hover:text-[#3a46d1]"
+                            } ${sidebarHidden ? "justify-center pl-3" : "justify-start pl-6"}`;
+
+                        return (
+                            <li key={item.id} className="relative group">
+                                {hasSubLinks ? (
+                                    <div
+                                        onClick={(e) => toggleSubMenu(item.id, e)}
+                                        className={commonClasses(isChildActive)}
+                                    >
+                                        <item.icon width={30} height={30} />
+                                        {!sidebarHidden && (
+                                            <>
+                                                <span className="flex-1">{item.title}</span>
+                                                <ChevronDown
+                                                    className={`size-5 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                                                />
+                                            </>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <NavLink
+                                        to={item.to}
+                                        onClick={handleLinkClick}
+                                        className={({ isActive }) => commonClasses(isActive)}
+                                    >
+                                        <item.icon width={30} height={30} />
+                                        {!sidebarHidden && (
+                                            <span className="flex-1">{item.title}</span>
+                                        )}
+                                    </NavLink>
+                                )}
+
+                                {/* Hover tooltip when sidebar is collapsed */}
+                                {sidebarHidden && manuallyOpened !== item.id && (
+                                    <div className="absolute left-full top-1/2 -translate-y-1/2 pl-2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50">
+
+                                        {/* Arrow */}
+                                        <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-full w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-r-[6px] border-r-[#515DEF]"></div>
+
+                                        {/* Tooltip */}
+                                        <span className="bg-[#515DEF] text-white text-sm font-medium px-4 py-2 rounded-md whitespace-nowrap shadow-lg">
+                                            {item.title}
+                                        </span>
+                                    </div>
+                                )}
+
+                                {/* Expanded sidebar: inline dropdown */}
+                                {hasSubLinks && isOpen && !sidebarHidden && (
+                                    <ul className="mt-1 flex flex-col gap-y-1">
+                                        {item.subLinks.map((sub, index) => (
+                                            <li key={index}>
+                                                <NavLink
+                                                    to={sub.to}
+                                                    onClick={handleLinkClick}
+                                                    className={({ isActive }) =>
+                                                        `flex items-center gap-x-4 py-3.5 px-2.5 pl-10 text-sm font-medium rounded-md transition-all duration-300 cursor-pointer ${isActive ? "bg-white text-[#3a46d1]" : "text-[#ffffffb3] hover:bg-[#3a46d1] hover:text-white"}`
+                                                    }
+                                                >
+                                                    <sub.icon size={23} />
+                                                    {sub.title}
+                                                </NavLink>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+
+                                {/* Collapsed sidebar: flyout popup to the right */}
+                                {hasSubLinks && sidebarHidden && manuallyOpened === item.id && (
+                                    <ul
+                                        className="fixed left-[98px] w-56 bg-[#515DEF] rounded-lg shadow-xl py-2 px-2 flex flex-col gap-y-1 z-50 border border-[#6a74f2]"
+                                    >
+                                        <li className="px-3 py-2 text-xs font-semibold text-white/60 uppercase tracking-wider border-b border-white/10 mb-1">
+                                            {item.title}
+                                        </li>
+                                        {item.subLinks.map((sub, index) => (
+                                            <li key={index}>
+                                                <NavLink
+                                                    to={sub.to}
+                                                    onClick={() => {
+                                                        setOpenMenus({});
+                                                        setManuallyOpened(null);
+                                                    }}
+                                                    className={({ isActive }) =>
+                                                        `flex items-center gap-x-3 py-2.5 px-3 text-sm font-medium rounded-md transition-all duration-200 cursor-pointer whitespace-nowrap ${isActive ? "bg-white text-[#3a46d1]" : "text-[#ffffffdd] hover:bg-white hover:text-[#3a46d1]"}`
+                                                    }
+                                                >
+                                                    <sub.icon size={20} />
+                                                    {sub.title}
+                                                </NavLink>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
+        </aside>
+    );
+};
+
+export default CommonSidebar
+
