@@ -2,11 +2,16 @@ import React, { useState } from 'react'
 import signin_img from "../../assets/images/signin-img.png"
 import logo from "../../assets/images/demo-logo2.svg"
 import { Eye, EyeOff } from "lucide-react";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
 
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
+
+    const handleSignIn = () => {
+        navigate("/admin/front-office/admission-list");
+    };
 
     return (
         <div className="relative w-full h-screen bg-[#f5f7ff] overflow-hidden font-poppins">
@@ -61,7 +66,13 @@ const SignIn = () => {
                             </div>
                             <NavLink to="/forgot-password" className='text-base font-medium text-[#FF8682] hover:text-red-500 transition-all duration-200 cursor-pointer'>Forgot password?</NavLink>
                         </div>
-                        <button className='bg-[#515DEF] text-white text-base font-medium text-center px-12 py-3 rounded-md border border-[#515DEF] hover:opacity-90 transition-all duration-200 cursor-pointer w-full'>Login</button>
+                        <button
+                            type="button"
+                            onClick={handleSignIn}
+                            className='bg-[#515DEF] text-white text-base font-medium text-center px-12 py-3 rounded-md border border-[#515DEF] hover:opacity-90 transition-all duration-200 cursor-pointer w-full'
+                        >
+                            Login
+                        </button>
                     </div>
                 </div>
                 <div className='hidden md:flex justify-center items-center p-6'>

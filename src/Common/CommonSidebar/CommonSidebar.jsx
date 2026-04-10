@@ -5,12 +5,12 @@ import logo from "../../assets/images/demo-logo.svg"
 import logoMini from "../../assets/images/demo-logo-mini.svg"
 
 const sidebarLinks = [
-    {
-        id: 1,
-        title: "Dashboard",
-        to: "/dashboard",
-        icon: LayoutDashboard,
-    },
+    // {
+    //     id: 1,
+    //     title: "Dashboard",
+    //     to: "/dashboard",
+    //     icon: LayoutDashboard,
+    // },
     {
         id: 2,
         title: "Front Office",
