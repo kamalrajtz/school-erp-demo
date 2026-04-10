@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { ChevronLeft, ChevronDown, LayoutDashboard, Frame, BrickWallShield, Users, BookOpen, Car, FileText, CalendarDays, BookCopy, CalendarCheck, GraduationCap, Briefcase, FileX, School, ClipboardList, MonitorPlay, UserPlus, Library, BookOpenCheck, BookMarked, UserRound, UserRoundSearch, BadgeDollarSign, UsersRound, ArrowRightLeft, Trophy, Palette, Dumbbell, Award } from "lucide-react"
+import { ChevronLeft, ChevronDown, LayoutDashboard, Frame, BrickWallShield, Users, BookOpen, Car, FileText, CalendarDays, BookCopy, CalendarCheck, GraduationCap, Briefcase, FileX, School, ClipboardList, MonitorPlay, UserPlus, Library, BookOpenCheck, BookMarked, UserRound, UserRoundSearch, BadgeDollarSign, UsersRound, ArrowRightLeft, Trophy, Palette, Dumbbell, Award, FolderOpen } from "lucide-react"
 import logo from "../../assets/images/demo-logo.svg"
 import logoMini from "../../assets/images/demo-logo-mini.svg"
 
 const sidebarLinks = [
-    // {
-    //     id: 1,
-    //     title: "Dashboard",
-    //     to: "/dashboard",
-    //     icon: LayoutDashboard,
-    // },
+    {
+        id: 1,
+        title: "Dashboard",
+        to: "/dashboard",
+        icon: LayoutDashboard,
+    },
     {
         id: 2,
         title: "Front Office",
@@ -80,6 +80,15 @@ const sidebarLinks = [
             { icon: Palette, title: "Cultural", to: "/admin/activities/cultural-list" },
             { icon: Dumbbell, title: "Sports", to: "/admin/activities/sports-list" },
             { icon: Award, title: "Competitions", to: "/admin/activities/competitions-list" },
+        ]
+    },
+    {
+        id: 8,
+        title: "Documents",
+        to: "#0",
+        icon: FolderOpen,
+        subLinks: [
+            { icon: FileText, title: "Student Documents", to: "/admin/documents/student-documents" },
         ]
     },
 ];

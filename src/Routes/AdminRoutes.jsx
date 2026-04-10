@@ -40,6 +40,8 @@ import SportsList from '../Pages/Admin/Activities/Sports/SportsList'
 import AddSports from '../Pages/Admin/Activities/Sports/AddSports'
 import Competitions from '../Pages/Admin/Activities/Competitions/Competitions'
 import AddCompetition from '../Pages/Admin/Activities/Competitions/AddCompetition'
+import StudentDocuments from '../Pages/Admin/Documents/StudentDocuments/StudentDocuments'
+import AddStudentDocuments from '../Pages/Admin/Documents/StudentDocuments/AddStudentDocuments'
 // import Dashboard from '../Pages/Dashboard/Dashboard'
 
 const AdminRoutes = () => {
@@ -106,6 +108,10 @@ const AdminRoutes = () => {
             <Route path="/admin/activities/add-sports" element={<AddSports />} />
             <Route path="/admin/activities/competitions-list" element={<Competitions />} />
             <Route path="/admin/activities/add-competition" element={<AddCompetition />} />
+
+            {/* Documents */}
+            <Route path="/admin/documents/student-documents" element={<StudentDocuments />} />
+            <Route path="/admin/documents/add-student-documents" element={<AddStudentDocuments />} />
 
         </ReactRoutes>
     )

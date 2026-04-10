@@ -58,4 +58,8 @@ export const singleTitleMapping = {
     "/admin/activities/add-sports": "Add Sports Information",
     "/admin/activities/competitions-list": "Competitions List",
     "/admin/activities/add-competition": "Add Competition Information",
+
+    // Documents
+    "/admin/documents/student-documents": "Student Documents List",
+    "/admin/documents/add-student-documents": "Add Student Documents",
 }
