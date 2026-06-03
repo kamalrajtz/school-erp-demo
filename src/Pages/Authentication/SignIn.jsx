@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import signin_img from "../../assets/images/signin-img.png"
 import logo from "../../assets/images/demo-logo2.svg"
 import { NavLink, useNavigate } from 'react-router-dom'
-import { FAKE_CREDENTIALS, ROLE_HOME_PATHS, ROLES, useAuth } from '../../context/AuthContext'
+import { ROLE_HOME_PATHS, ROLES, useAuth } from '../../context/AuthContext'
 
 const ROLE_LABELS = {
     [ROLES.ADMIN]: 'Admin',
@@ -29,7 +29,6 @@ const SignIn = () => {
     }
 
     const roleLabel = ROLE_LABELS[pendingRole] ?? 'User'
-    const demoEmail = FAKE_CREDENTIALS[pendingRole]?.email ?? ''
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -61,9 +60,6 @@ const SignIn = () => {
                             <h1 className='text-4xl font-semibold text-[#313131] md:text-left text-center'>Login</h1>
                             <p className='text-base font-medium text-[#313131]/70 mt-4 md:text-left text-center'>
                                 Login to access your {roleLabel} account
-                            </p>
-                            <p className='text-sm font-medium text-[#515DEF] mt-2 md:text-left text-center'>
-                                Demo email: {demoEmail} · OTP: any 6 digits
                             </p>
                         </div>
 
