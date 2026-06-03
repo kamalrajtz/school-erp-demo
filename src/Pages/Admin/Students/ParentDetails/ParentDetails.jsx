@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, Calendar, Download, EllipsisIcon } from 'luc
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import mo_user from "../../../../assets/images/no-profile.png"
-import ExportModal from "./Components/ExportModal"
+import ExportModal from '../../../../Common/CommonComponents/ExportModal';
 import Dropdown from '../../../../Common/CommonComponents/Dropdown'
 
 const ParentDetails = () => {

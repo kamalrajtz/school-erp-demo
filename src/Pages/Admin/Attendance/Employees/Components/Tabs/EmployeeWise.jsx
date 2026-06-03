@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Download } from 'lucide-react'
-import ExportModal from '../ExportModal'
+import ExportModal from '../../../../../../Common/CommonComponents/ExportModal';
 
 const EmployeeWise = () => {
 

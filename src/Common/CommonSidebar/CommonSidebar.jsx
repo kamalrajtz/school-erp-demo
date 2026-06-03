@@ -1,97 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useMemo } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { ChevronLeft, ChevronDown, LayoutDashboard, Frame, BrickWallShield, Users, BookOpen, Car, FileText, CalendarDays, BookCopy, CalendarCheck, GraduationCap, Briefcase, FileX, School, ClipboardList, MonitorPlay, UserPlus, Library, BookOpenCheck, BookMarked, UserRound, UserRoundSearch, BadgeDollarSign, UsersRound, ArrowRightLeft, Trophy, Palette, Dumbbell, Award, FolderOpen } from "lucide-react"
+import { ChevronLeft, ChevronDown } from "lucide-react"
 import logo from "../../assets/images/demo-logo.svg"
 import logoMini from "../../assets/images/demo-logo-mini.svg"
-
-const sidebarLinks = [
-    // {
-    //     id: 1,
-    //     title: "Dashboard",
-    //     to: "/dashboard",
-    //     icon: LayoutDashboard,
-    // },
-    {
-        id: 2,
-        title: "Front Office",
-        to: "#0",
-        icon: BrickWallShield,
-        subLinks: [
-            { icon: FileText, title: "Admission List", to: "/admin/front-office/admission-list" },
-            { icon: FileText, title: "Admission Enquiry", to: "/admin/front-office/admission-enquiry" },
-            { icon: Users, title: "Teachers List", to: "/admin/front-office/teachers-list" },
-            { icon: BookOpen, title: "Librarian List", to: "/admin/front-office/librarian-list" },
-            { icon: Car, title: "Van Driver List", to: "/admin/front-office/van-driver-list" },
-        ]
-    },
-    {
-        id: 3,
-        title: "Attendance",
-        to: "#0",
-        icon: CalendarCheck,
-        subLinks: [
-            { icon: GraduationCap, title: "Students", to: "/admin/attendance/students-list" },
-            { icon: Briefcase, title: "Employees", to: "/admin/attendance/employees-list" },
-            { icon: FileX, title: "Leave Request", to: "/admin/attendance/leave-request-list" }
-        ]
-    },
-    {
-        id: 4,
-        title: "Class",
-        to: "#0",
-        icon: School,
-        subLinks: [
-            { icon: ClipboardList, title: "Class Details", to: "/admin/class/class-details" },
-            { icon: MonitorPlay, title: "Online Class", to: "/admin/class/online-class" },
-            { icon: UserPlus, title: "Extra Class", to: "/admin/class/extra-class" },
-            { icon: CalendarDays, title: "Timetable", to: "/admin/class/timetable-list" },
-            { icon: BookCopy, title: "Subjects", to: "/admin/class/subjects" },
-        ]
-    },
-    {
-        id: 5,
-        title: "Library Details",
-        to: "#0",
-        icon: Library,
-        subLinks: [
-            { icon: BookOpenCheck, title: "Book List", to: "/admin/library-details/book-list" },
-            { icon: BookMarked, title: "Issued Book", to: "/admin/library-details/issued-book" },
-        ]
-    },
-    {
-        id: 6,
-        title: "Student",
-        to: "#0",
-        icon: UserRound,
-        subLinks: [
-            { icon: UserRoundSearch, title: "Student Details", to: "/admin/student/student-details" },
-            { icon: BadgeDollarSign, title: "Class Fee Details", to: "/admin/student/class-fee-details" },
-            { icon: UsersRound, title: "Parent Details", to: "/admin/student/parent-details" },
-            { icon: ArrowRightLeft, title: "Student Transfer", to: "/admin/student/student-transfer" },
-            // { icon: FileX, title: "Leave Request", to: "#0" },
-        ]
-    },
-    {
-        id: 7,
-        title: "Activities",
-        to: "#0",
-        icon: Trophy,
-        subLinks: [
-            { icon: Palette, title: "Cultural", to: "/admin/activities/cultural-list" },
-            { icon: Dumbbell, title: "Sports", to: "/admin/activities/sports-list" },
-            { icon: Award, title: "Competitions", to: "/admin/activities/competitions-list" },
-        ]
-    },
-    {
-        id: 8,
-        title: "Documents",
-        to: "#0",
-        icon: FolderOpen,
-        subLinks: [
-            { icon: FileText, title: "Student Documents", to: "/admin/documents/student-documents" },
-        ]
-    },
-];
+import { adminSidebarLinks, librarianSidebarLinks, prmSidebarLinks } from './Components/sidebarLinks'
 
 const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
 
@@ -106,6 +18,12 @@ const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
     const flyoutRef = useRef(null);
 
     const location = useLocation();
+
+    const sidebarLinks = useMemo(() => {
+        if (location.pathname.startsWith('/librarian')) return librarianSidebarLinks
+        if (location.pathname.startsWith('/front-office')) return prmSidebarLinks
+        return adminSidebarLinks
+    }, [location.pathname]);
 
     const toggleSubMenu = (id) => {
         setOpenMenus(prev => ({
@@ -130,7 +48,7 @@ const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
             }
         });
         setOpenMenus(newOpenMenus);
-    }, [location.pathname]);
+    }, [location.pathname, sidebarLinks]);
 
     useEffect(() => {
         if (!sidebarHidden) {

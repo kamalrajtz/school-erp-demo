@@ -1,15 +1,24 @@
 import React from 'react'
 import logo from "../../assets/images/demo-logo2.svg"
 import select_profile_img from "../../assets/images/select-profile-img.png"
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 import admin_profile from "../../assets/images/admin-icon.png"
 import student_profile from "../../assets/images/student-icon.png"
 import teacher_profile from "../../assets/images/teacher-icon.png"
 import van_driver_profile from "../../assets/images/van-driver-icon.png"
 import librarian_profile from "../../assets/images/librarian-icon.png"
-
+import prm_profile from "../../assets/images/prm-icon.jpg"
+import { ROLES, useAuth } from '../../context/AuthContext'
 
 const SelectProfile = () => {
+    const navigate = useNavigate()
+    const { setPendingRole } = useAuth()
+
+    const handleSelect = (role) => {
+        setPendingRole(role)
+        navigate('/signin')
+    }
+
     return (
         <div className="relative w-full h-screen bg-[#f5f7ff] overflow-hidden font-poppins">
 
@@ -28,26 +37,54 @@ const SelectProfile = () => {
                             <p className='text-base font-medium text-[#313131]/70 mt-4 md:text-left text-center'>Select your correct profile</p>
                         </div>
                         <div className='grid grid-cols-2 sm:grid-cols-3 gap-8'>
-                            <NavLink to="/signin" className="flex flex-col gap-y-2 items-center">
+                            <button
+                                type="button"
+                                onClick={() => handleSelect(ROLES.ADMIN)}
+                                className="flex flex-col gap-y-2 items-center cursor-pointer"
+                            >
                                 <img src={admin_profile} className='h-24 w-24' alt="admin_profile" />
                                 <p className='text-base font-medium text-black text-center'>Admin</p>
-                            </NavLink>
-                            <NavLink to="/signin" className="flex flex-col gap-y-2 items-center">
+                            </button>
+                            <button
+                                type="button"
+                                disabled
+                                className="flex flex-col gap-y-2 items-center opacity-50 cursor-not-allowed"
+                            >
                                 <img src={student_profile} className='h-24 w-24' alt="student_profile" />
                                 <p className='text-base font-medium text-black text-center'>Student</p>
-                            </NavLink>
-                            <NavLink to="/signin" className="flex flex-col gap-y-2 items-center">
+                            </button>
+                            <button
+                                type="button"
+                                disabled
+                                className="flex flex-col gap-y-2 items-center opacity-50 cursor-not-allowed"
+                            >
                                 <img src={teacher_profile} className='h-24 w-24' alt="teacher_profile" />
                                 <p className='text-base font-medium text-black text-center'>Teacher</p>
-                            </NavLink>
-                            <NavLink to="/signin" className="flex flex-col gap-y-2 items-center">
+                            </button>
+                            <button
+                                type="button"
+                                disabled
+                                className="flex flex-col gap-y-2 items-center opacity-50 cursor-not-allowed"
+                            >
                                 <img src={van_driver_profile} className='h-24 w-24' alt="van_driver_profile" />
-                                <p className='text-base font-medium text-black text-center'>Teacher</p>
-                            </NavLink>
-                            <NavLink to="/signin" className="flex flex-col gap-y-2 items-center">
+                                <p className='text-base font-medium text-black text-center'>Van Driver</p>
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => handleSelect(ROLES.LIBRARIAN)}
+                                className="flex flex-col gap-y-2 items-center cursor-pointer"
+                            >
                                 <img src={librarian_profile} className='h-24 w-24' alt="librarian_profile" />
-                                <p className='text-base font-medium text-black text-center'>Teacher</p>
-                            </NavLink>
+                                <p className='text-base font-medium text-black text-center'>Librarian</p>
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => handleSelect(ROLES.PRM)}
+                                className="flex flex-col gap-y-2 items-center cursor-pointer"
+                            >
+                                <img src={prm_profile} className='h-24 w-24 rounded-full' alt="prm_profile" />
+                                <p className='text-base font-medium text-black text-center'>PRM</p>
+                            </button>
                         </div>
                     </div>
                 </div>

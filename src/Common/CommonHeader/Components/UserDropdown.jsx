@@ -1,7 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { FAKE_CREDENTIALS, useAuth } from "../../../context/AuthContext";
 
 const UserDropdown = () => {
+    const navigate = useNavigate();
+    const { role, logout } = useAuth();
+    const displayEmail = role ? FAKE_CREDENTIALS[role]?.email : "";
     const [open, setOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -39,14 +44,18 @@ const UserDropdown = () => {
                             Neil Sims
                         </span>
                         <span className="block text-sm text-gray-500 truncate">
-                            name@flowbite.com
+                            {displayEmail}
                         </span>
                     </div>
                     <ul className="py-1 text-gray-700">
                         <li>
                             <button
                                 className="block w-full text-left py-2 px-4 text-sm hover:bg-gray-100 cursor-pointer"
-                                onClick={() => alert("Sign out clicked")}
+                                onClick={() => {
+                                    logout();
+                                    navigate("/select-profile");
+                                    setOpen(false);
+                                }}
                             >
                                 Sign out
                             </button>

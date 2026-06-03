@@ -1,9 +1,7 @@
 import React from 'react'
 import { Route, Routes as ReactRoutes } from 'react-router-dom'
-import AdminssionList from '../Pages/Admin/FrontOffice/AdminssionList/AdminssionList'
+import AdmissionList from '../Pages/Admin/FrontOffice/AdminssionList/AdminssionList'
 import AddAdmission from '../Pages/Admin/FrontOffice/AdminssionList/AddAdmission'
-import AdmissionEnquiry from '../Pages/Admin/FrontOffice/AdmissionEnquiry/AdmissionEnquiry'
-import AddAdmissionEnquiry from '../Pages/Admin/FrontOffice/AdmissionEnquiry/AddAdmissionEnquiry'
 import TeachersList from '../Pages/Admin/FrontOffice/TeachersList/TeachersList'
 import AddTeacher from '../Pages/Admin/FrontOffice/TeachersList/AddTeacher'
 import LibrarianList from '../Pages/Admin/FrontOffice/LibrarianList/LibrarianList'
@@ -42,21 +40,41 @@ import Competitions from '../Pages/Admin/Activities/Competitions/Competitions'
 import AddCompetition from '../Pages/Admin/Activities/Competitions/AddCompetition'
 import StudentDocuments from '../Pages/Admin/Documents/StudentDocuments/StudentDocuments'
 import AddStudentDocuments from '../Pages/Admin/Documents/StudentDocuments/AddStudentDocuments'
+import VehicleDetailsList from '../Pages/Admin/Transport/VehicleDetails/VehicleDetailsList'
+import AddVehicleDetails from '../Pages/Admin/Transport/VehicleDetails/AddVehicleDetails'
+import RouteDetailsList from '../Pages/Admin/Transport/RouteDetails/RouteDetailsList'
+import AddRouteDetails from '../Pages/Admin/Transport/RouteDetails/AddRouteDetails'
+import RouteDataList from '../Pages/Admin/Transport/RouteData/RouteDataList'
+import AssignedRouteList from '../Pages/Admin/Transport/AssignedRouteList/AssignedRouteList'
+import AssignRoute from '../Pages/Admin/Transport/AssignedRouteList/AssignRoute'
+import ExamDetailsList from '../Pages/Admin/ExamDetails/ExamDetailsList'
+import AddExamDetails from '../Pages/Admin/ExamDetails/AddExamDetails'
+import SalariesList from '../Pages/Admin/Expenses/Salaries/SalariesList'
+import AddSalariesList from '../Pages/Admin/Expenses/Salaries/AddSalariesList'
+import HostelExpensesList from '../Pages/Admin/Expenses/Hostel/HostelExpensesList'
+import AddHostelExpenses from '../Pages/Admin/Expenses/Hostel/AddHostelExpenses'
+import TransportExpensesList from '../Pages/Admin/Expenses/Transport/TransportExpensesList'
+import AddTransportExpenses from '../Pages/Admin/Expenses/Transport/AddTransportExpenses'
+import LibraryExpensesList from '../Pages/Admin/Expenses/Library/LibraryExpensesList'
+import AddLibraryExpenses from '../Pages/Admin/Expenses/Library/AddLibraryExpenses'
+import OtherExpensesList from '../Pages/Admin/Expenses/Others/OtherExpensesList'
+import AddOtherExpensesList from '../Pages/Admin/Expenses/Others/AddOtherExpensesList'
+import ExamList from '../Pages/Admin/Notification/ExamList'
+import EventList from '../Pages/Admin/Notification/EventList'
+
 // import Dashboard from '../Pages/Dashboard/Dashboard'
 
 const AdminRoutes = () => {
     return (
         <ReactRoutes>
 
-            {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+            <Route path="/dashboard" element={<div>Admin Dashboard</div>} />
             <Route path="*" element={<div>Admin Home</div>} />
 
             {/* Front Office */}
 
-            <Route path="/admin/front-office/admission-list" element={<AdminssionList />} />
+            <Route path="/admin/front-office/admission-list" element={<AdmissionList />} />
             <Route path="/admin/front-office/add-admission" element={<AddAdmission />} />
-            <Route path="/admin/front-office/admission-enquiry" element={<AdmissionEnquiry />} />
-            <Route path="/admin/front-office/add-admission-enquiry" element={<AddAdmissionEnquiry />} />
             <Route path="/admin/front-office/teachers-list" element={<TeachersList />} />
             <Route path="/admin/front-office/add-teacher" element={<AddTeacher />} />
             <Route path="/admin/front-office/librarian-list" element={<LibrarianList />} />
@@ -113,6 +131,34 @@ const AdminRoutes = () => {
             <Route path="/admin/documents/student-documents" element={<StudentDocuments />} />
             <Route path="/admin/documents/add-student-documents" element={<AddStudentDocuments />} />
 
+            {/* Transport */}
+            <Route path="/admin/transport/vehicle-details" element={<VehicleDetailsList />} />
+            <Route path="/admin/transport/add-vehicle-details" element={<AddVehicleDetails />} />
+            <Route path="/admin/transport/route-details" element={<RouteDetailsList />} />
+            <Route path="/admin/transport/add-route-details" element={<AddRouteDetails />} />
+            <Route path='/admin/transport/route-data-list' element={<RouteDataList />} />
+            <Route path='/admin/transport/assigned-route-list' element={<AssignedRouteList />} />
+            <Route path='/admin/transport/assign-route' element={<AssignRoute />} />
+
+            {/* Exam Details */}
+            <Route path='/admin/exam-details/exam-details-list' element={<ExamDetailsList />} />
+            <Route path='/admin/exam-details/add-exam-details' element={<AddExamDetails />} />
+
+            {/* Expenses */}
+            <Route path='/admin/expenses/salaries-list' element={<SalariesList />} />
+            <Route path='/admin/expenses/add-salaries-exp' element={<AddSalariesList />} />
+            <Route path='/admin/expenses/hostel-list' element={<HostelExpensesList />} />
+            <Route path='/admin/expenses/add-hostel-exp' element={<AddHostelExpenses />} />
+            <Route path='/admin/expenses/transport-list' element={<TransportExpensesList />} />
+            <Route path='/admin/expenses/add-transport-exp' element={<AddTransportExpenses />} />
+            <Route path='/admin/expenses/library-list' element={<LibraryExpensesList />} />
+            <Route path='/admin/expenses/add-library-exp' element={<AddLibraryExpenses />} />
+            <Route path='/admin/expenses/others-list' element={<OtherExpensesList />} />
+            <Route path='/admin/expenses/add-others-exp' element={<AddOtherExpensesList />} />
+
+            {/* Notification */}
+            <Route path='/admin/notification/exam-list' element={<ExamList />} />
+            <Route path='/admin/notification/event-list' element={<EventList />} />
         </ReactRoutes>
     )
 }

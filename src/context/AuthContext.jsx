@@ -1,0 +1,110 @@
+import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
+
+export const ROLES = {
+    ADMIN: 'admin',
+    LIBRARIAN: 'librarian',
+    PRM: 'prm',
+}
+
+export const FAKE_CREDENTIALS = {
+    [ROLES.ADMIN]: { email: 'admin@school.com' },
+    [ROLES.LIBRARIAN]: { email: 'librarian@school.com' },
+    [ROLES.PRM]: { email: 'prm@school.com' },
+}
+
+export const ROLE_HOME_PATHS = {
+    [ROLES.ADMIN]: '/admin/front-office/admission-list',
+    [ROLES.LIBRARIAN]: '/librarian/book-management/book-list',
+    [ROLES.PRM]: '/front-office/admission-enquiry',
+}
+
+const STORAGE_KEY = 'schoolerp_auth'
+
+const readStoredAuth = () => {
+    try {
+        const raw = sessionStorage.getItem(STORAGE_KEY)
+        if (!raw) return { isAuthenticated: false, role: null }
+        const parsed = JSON.parse(raw)
+        if (parsed?.isAuthenticated && parsed?.role) {
+            return { isAuthenticated: true, role: parsed.role }
+        }
+    } catch {
+        // ignore invalid storage
+    }
+    return { isAuthenticated: false, role: null }
+}
+
+const AuthContext = createContext(null)
+
+export const AuthProvider = ({ children }) => {
+    const stored = readStoredAuth()
+    const [isAuthenticated, setIsAuthenticated] = useState(stored.isAuthenticated)
+    const [role, setRole] = useState(stored.role)
+    const [pendingRole, setPendingRole] = useState(null)
+
+    const persistAuth = useCallback((nextRole) => {
+        sessionStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify({ isAuthenticated: true, role: nextRole })
+        )
+    }, [])
+
+    const login = useCallback((email, otp, expectedRole) => {
+        const creds = FAKE_CREDENTIALS[expectedRole]
+        if (!creds) {
+            return { success: false, message: 'Please select a profile first.' }
+        }
+
+        const normalizedEmail = email.trim().toLowerCase()
+        if (normalizedEmail !== creds.email) {
+            return {
+                success: false,
+                message: `Use ${creds.email} for this profile.`,
+            }
+        }
+
+        const normalizedOtp = otp.trim()
+        if (!normalizedOtp) {
+            return { success: false, message: 'OTP is required.' }
+        }
+
+        if (normalizedOtp.length !== 6) {
+            return { success: false, message: 'Enter a valid 6-digit OTP.' }
+        }
+
+        setIsAuthenticated(true)
+        setRole(expectedRole)
+        setPendingRole(null)
+        persistAuth(expectedRole)
+        return { success: true }
+    }, [persistAuth])
+
+    const logout = useCallback(() => {
+        sessionStorage.removeItem(STORAGE_KEY)
+        setIsAuthenticated(false)
+        setRole(null)
+        setPendingRole(null)
+    }, [])
+
+    const value = useMemo(
+        () => ({
+            isAuthenticated,
+            role,
+            pendingRole,
+            setPendingRole,
+            login,
+            logout,
+        }),
+        [isAuthenticated, role, pendingRole, login, logout]
+    )
+
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+}
+
+export const useAuth = () => {
+    const context = useContext(AuthContext)
+    if (!context) {
+        throw new Error('useAuth must be used within AuthProvider')
+    }
+    return context
+}

@@ -1,32 +1,50 @@
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import AuthLayout from "./Layout/AuthLayout";
 import AdminLayout from "./Layout/AdminLayout";
+import LibrarianLayout from "./Layout/LibrarianLayout";
+import PRMLayout from "./Layout/PRMLayout";
+import { ROLE_HOME_PATHS, ROLES, useAuth } from "./context/AuthContext";
 import './App.css'
 
+const AUTH_ROUTES = ["/signin", "/signup", "/select-profile"];
+
 const App = () => {
-
   const location = useLocation();
-
   const pathname = location.pathname;
+  const { isAuthenticated, role } = useAuth();
 
-  const authTitleMapping = {
-    "/": "SelectProfile",
-    "/signin": "SignIn",
-    "/signup": "SignUp",
-    "/select-profile": "SelectProfile",
-  };
+  const isAuthRoute = AUTH_ROUTES.includes(pathname);
 
-  const isAuthRoute = authTitleMapping[pathname];
+  if (isAuthRoute) {
+    if (isAuthenticated && role) {
+      return <Navigate to={ROLE_HOME_PATHS[role] ?? "/dashboard"} replace />;
+    }
+    return <AuthLayout />;
+  }
 
-  return (
-    <>
-      {isAuthRoute ? (
-        <AuthLayout />
-      ) : (
-        <AdminLayout />
-      )}
-    </>
-  )
+  if (!isAuthenticated) {
+    return <Navigate to="/select-profile" replace />;
+  }
+
+  if (role === ROLES.LIBRARIAN) {
+    if (!pathname.startsWith("/librarian")) {
+      return <Navigate to={ROLE_HOME_PATHS[ROLES.LIBRARIAN]} replace />;
+    }
+    return <LibrarianLayout />;
+  }
+
+  if (role === ROLES.PRM) {
+    if (!pathname.startsWith("/front-office")) {
+      return <Navigate to={ROLE_HOME_PATHS[ROLES.PRM]} replace />;
+    }
+    return <PRMLayout />;
+  }
+
+  if (pathname.startsWith("/librarian") || pathname.startsWith("/front-office")) {
+    return <Navigate to={ROLE_HOME_PATHS[ROLES.ADMIN]} replace />;
+  }
+
+  return <AdminLayout />;
 }
 
 export default App

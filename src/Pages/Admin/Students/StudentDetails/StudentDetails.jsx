@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Calendar, EllipsisIcon, ChevronLeft, ChevronRight, Plus, Download } from "lucide-react";
 import mo_user from "../../../../assets/images/no-profile.png"
 import Dropdown from '../../../../Common/CommonComponents/Dropdown';
-import ExportModal from './Components/ExportModal';
+import ExportModal from '../../../../Common/CommonComponents/ExportModal';
 
 const StudentDetails = () => {
 

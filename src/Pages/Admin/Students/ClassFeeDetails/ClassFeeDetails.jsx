@@ -4,9 +4,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Calendar, EllipsisIcon, ChevronLeft, ChevronRight, Plus, Download } from "lucide-react";
 import Dropdown from '../../../../Common/CommonComponents/Dropdown';
-import ExportModal from './Components/ExportModal';
-import DeleteRequestModal from './Components/DeleteRequestModal';
-import EditRequestModal from './Components/EditRequestModal';
+import ExportModal from '../../../../Common/CommonComponents/ExportModal';
+import DeleteRequestModal from '../../../../Common/CommonComponents/DeleteRequestModal';
+import EditRequestModal from '../../../../Common/CommonComponents/EditRequestModal';
 
 
 const ClassFeeDetails = () => {

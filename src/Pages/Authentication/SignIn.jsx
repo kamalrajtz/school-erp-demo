@@ -1,17 +1,48 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import signin_img from "../../assets/images/signin-img.png"
 import logo from "../../assets/images/demo-logo2.svg"
-import { Eye, EyeOff } from "lucide-react";
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom'
+import { FAKE_CREDENTIALS, ROLE_HOME_PATHS, ROLES, useAuth } from '../../context/AuthContext'
+
+const ROLE_LABELS = {
+    [ROLES.ADMIN]: 'Admin',
+    [ROLES.LIBRARIAN]: 'Librarian',
+    [ROLES.PRM]: 'PRM',
+}
 
 const SignIn = () => {
+    const navigate = useNavigate()
+    const { pendingRole, login } = useAuth()
 
-    const [showPassword, setShowPassword] = useState(false);
-    const navigate = useNavigate();
+    const [email, setEmail] = useState('')
+    const [otp, setOtp] = useState('')
+    const [error, setError] = useState('')
 
-    const handleSignIn = () => {
-        navigate("/admin/front-office/admission-list");
-    };
+    useEffect(() => {
+        if (!pendingRole) {
+            navigate('/select-profile', { replace: true })
+        }
+    }, [pendingRole, navigate])
+
+    if (!pendingRole) {
+        return null
+    }
+
+    const roleLabel = ROLE_LABELS[pendingRole] ?? 'User'
+    const demoEmail = FAKE_CREDENTIALS[pendingRole]?.email ?? ''
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        setError('')
+
+        const result = login(email, otp, pendingRole)
+        if (!result.success) {
+            setError(result.message)
+            return
+        }
+
+        navigate(ROLE_HOME_PATHS[pendingRole] ?? '/dashboard', { replace: true })
+    }
 
     return (
         <div className="relative w-full h-screen bg-[#f5f7ff] overflow-hidden font-poppins">
@@ -25,35 +56,52 @@ const SignIn = () => {
                     <div className='absolute md:top-4 md:left-4 top-4 left-0 w-full flex justify-center md:block md:px-0 lg:px-0 xl:px-10'>
                         <img src={logo} alt="logo" className='w-52' />
                     </div>
-                    <div className='w-full max-w-lg flex flex-col gap-y-8'>
+                    <form onSubmit={handleSubmit} className='w-full max-w-lg flex flex-col gap-y-8'>
                         <div>
                             <h1 className='text-4xl font-semibold text-[#313131] md:text-left text-center'>Login</h1>
-                            <p className='text-base font-medium text-[#313131]/70 mt-4 md:text-left text-center'>Login to access your Admin account</p>
+                            <p className='text-base font-medium text-[#313131]/70 mt-4 md:text-left text-center'>
+                                Login to access your {roleLabel} account
+                            </p>
+                            <p className='text-sm font-medium text-[#515DEF] mt-2 md:text-left text-center'>
+                                Demo email: {demoEmail} · OTP: any 6 digits
+                            </p>
                         </div>
-                        <div className="relative">
-                            <input type="text" id="floating_outlined" className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-md border-2 border-[#6C7BFF] appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " />
-                            <label htmlFor="floating_outlined" className="absolute text-base text-[#1C1B1F] duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left px-2 peer-focus:rounded-md peer-focus:px-4 peer-focus:bg-[#B4C4FF]/30 peer-focus:backdrop-blur-sm peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">Email</label>
-                        </div>
-                        <div className="relative">
-                            <input
-                                type={showPassword ? "text" : "password"}
-                                id="floating_password"
-                                placeholder=" "
-                                className="block px-2.5 pb-2.5 pt-4 pr-10 w-full text-sm text-heading bg-transparent rounded-md border-2 border-[#6C7BFF] appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
-                            />
-                            <label
-                                htmlFor="floating_password"
-                                className="absolute text-base text-[#1C1B1F] duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left px-2 peer-focus:px-4 peer-focus:rounded-md peer-focus:bg-[#B4C4FF]/30 peer-focus:backdrop-blur-sm peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1"
-                            >
-                                Password
+
+                        {error && (
+                            <p className='text-sm text-red-500 text-center md:text-left'>{error}</p>
+                        )}
+
+                        <div className='flex flex-col gap-y-2'>
+                            <label htmlFor="signin-email" className='text-base font-medium text-[#1E1E1E]'>
+                                Email
                             </label>
-                            <button
-                                type="button"
-                                onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
-                            >
-                                {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
-                            </button>
+                            <input
+                                type="email"
+                                id="signin-email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                autoComplete="email"
+                                placeholder="Enter your email"
+                                className="block w-full text-sm text-[#1E1E1E] bg-transparent rounded-md border-2 border-[#6C7BFF] px-3 py-3 focus:outline-none focus:border-[#515DEF]"
+                                required
+                            />
+                        </div>
+                        <div className='flex flex-col gap-y-2'>
+                            <label htmlFor="signin-otp" className='text-base font-medium text-[#1E1E1E]'>
+                                OTP
+                            </label>
+                            <input
+                                type="text"
+                                id="signin-otp"
+                                value={otp}
+                                onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                                inputMode="numeric"
+                                autoComplete="one-time-code"
+                                placeholder="Enter 6-digit OTP"
+                                maxLength={6}
+                                className="block w-full text-sm text-[#1E1E1E] bg-transparent rounded-md border-2 border-[#6C7BFF] px-3 py-3 tracking-widest focus:outline-none focus:border-[#515DEF]"
+                                required
+                            />
                         </div>
                         <div className='flex justify-between items-center gap-y-2'>
                             <div className="checkbox-wrapper-46">
@@ -64,16 +112,26 @@ const SignIn = () => {
                                     </svg></span><span className='text-base font-medium text-[#313131]'>Remember me</span>
                                 </label>
                             </div>
-                            <NavLink to="/forgot-password" className='text-base font-medium text-[#FF8682] hover:text-red-500 transition-all duration-200 cursor-pointer'>Forgot password?</NavLink>
+                            <button
+                                type="button"
+                                className='text-base font-medium text-[#FF8682] hover:text-red-500 transition-all duration-200 cursor-pointer'
+                            >
+                                Resend OTP
+                            </button>
                         </div>
                         <button
-                            type="button"
-                            onClick={handleSignIn}
+                            type="submit"
                             className='bg-[#515DEF] text-white text-base font-medium text-center px-12 py-3 rounded-md border border-[#515DEF] hover:opacity-90 transition-all duration-200 cursor-pointer w-full'
                         >
                             Login
                         </button>
-                    </div>
+                        <NavLink
+                            to="/select-profile"
+                            className='text-center text-sm font-medium text-[#515DEF] hover:underline'
+                        >
+                            Change profile
+                        </NavLink>
+                    </form>
                 </div>
                 <div className='hidden md:flex justify-center items-center p-6'>
                     <img src={signin_img} className='w-full max-w-md' alt='signin_img' />

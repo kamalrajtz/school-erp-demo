@@ -11,7 +11,6 @@ const AuthLayout = () => {
     const pathname = location.pathname;
 
     const authTitleMapping = {
-        "/": "SelectProfile",
         "/signin": "SignIn",
         "/signup": "SignUp",
         "/select-profile": "SelectProfile",
