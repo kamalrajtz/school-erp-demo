@@ -47,8 +47,8 @@ const SelectProfile = () => {
                             </button>
                             <button
                                 type="button"
-                                disabled
-                                className="flex flex-col gap-y-2 items-center opacity-50 cursor-not-allowed"
+                                onClick={() => handleSelect(ROLES.STUDENT)}
+                                className="flex flex-col gap-y-2 items-center cursor-pointer"
                             >
                                 <img src={student_profile} className='h-24 w-24' alt="student_profile" />
                                 <p className='text-base font-medium text-black text-center'>Student</p>

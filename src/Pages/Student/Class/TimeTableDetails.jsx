@@ -1,20 +1,15 @@
 import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Calendar, ChevronLeft, ChevronRight, Plus, Download } from "lucide-react";
-import ExportModal from '../../../Common/CommonComponents/ExportModal';
-import EditRequestModal from '../../../Common/CommonComponents/EditRequestModal';
-import DeleteRequestModal from '../../../Common/CommonComponents/DeleteRequestModal';
+import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
+import WeeklyTimetable from "../Components/WeeklyTimetable";
 
-const MembersList = () => {
+const TimeTableDetails = () => {
 
     const [fromDate, setFromDate] = useState(new Date());
     const [toDate, setToDate] = useState(new Date());
+
     const [activeTab, setActiveTab] = useState(1);
-    const [exportModal, setExportModal] = useState(false);
-    const [editRequestModal, setEditRequestModal] = useState(false);
-    const [deleteRequestModal, setDeleteRequestModal] = useState(false);
 
     return (
         <section>
@@ -31,7 +26,7 @@ const MembersList = () => {
                         <input type="text" className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full' />
                     </div>
                     <div className='flex flex-col gap-y-2'>
-                        <label htmlFor="status" className='text-base font-medium text-[#808080]'>Status</label>
+                        <label htmlFor="class" className='text-base font-medium text-[#808080]'>Status</label>
                         <select name="" id="" className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full'>
                             <option value="">All</option>
                         </select>
@@ -81,13 +76,7 @@ const MembersList = () => {
 
             <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
-                    <h2 className='text-xl font-medium text-black'>Issued Book List</h2>
-                    <div className='flex gap-x-2'>
-                        <button onClick={() => setExportModal(true)} className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'>
-                            <Download size={16} />
-                            Export
-                        </button>
-                    </div>
+                    <h2 className='text-xl font-medium text-black'>Time Table List</h2>
                 </div>
                 <div className='flex gap-x-2 items-center my-2'>
                     <select name="" id="" className='px-2 py-1.5 bg-white text-[#515DEF] border border-[#515DEF] rounded-md'>
@@ -102,16 +91,15 @@ const MembersList = () => {
 
                 <div className="flex gap-4 overflow-x-auto no-scrollbar my-6">
                     {[
-                        { id: 1, label: "Student" },
-                        { id: 2, label: "Teacher" },
-                        { id: 3, label: "Employee" },
+                        { id: 1, label: "Daily Time Table" },
+                        { id: 2, label: "Weekly Time Table" },
                     ].map((tab) => (
                         <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
                             className={`whitespace-nowrap px-2 pb-1 text-sm md:text-lg font-medium cursor-pointer transition-all duration-200 ${activeTab === tab.id
                                 ? "text-[#515DEF] border-b-2 border-[#515DEF] font-semibold"
-                                : "text-[#808080]"
+                                : "text-[#808080] border-b-2 border-transparent"
                                 }`}
                         >
                             {tab.label}
@@ -125,85 +113,41 @@ const MembersList = () => {
                             <table className="w-full text-sm text-left rtl:text-right">
                                 <thead className="text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg">
                                     <tr className='rounded-lg'>
-                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg">Student Name</th>
-                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Admission No</th>
-                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Class & Section</th>
-                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Mobile Number</th>
-                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Email</th>
-                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg">Books Borrowed</th>
+                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg">Period</th>
+                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Time</th>
+                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Subject</th>
+                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg">Teacher</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     <tr className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg">
-                                        <td className="px-2 py-4 rounded-s-lg">Arun Kumar</td>
-                                        <td className="px-2 py-4">ADM2025001</td>
-                                        <td className="px-2 py-4">10 - A</td>
-                                        <td className="px-2 py-4">9876543210</td>
-                                        <td className="px-2 py-4">arun@gmail.com</td>
-                                        <td className="px-2 py-4 rounded-e-lg">2</td>
+                                        <td className="px-2 py-4 rounded-s-lg">1</td>
+                                        <td className="px-2 py-4">09:00 AM - 09:45 AM</td>
+                                        <td className="px-2 py-4">Mathematics</td>
+                                        <td className="px-2 py-4 rounded-e-lg">Sandy Selva</td>
+                                    </tr>
+                                    <tr className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg">
+                                        <td className="px-2 py-4 rounded-s-lg">2</td>
+                                        <td className="px-2 py-4">09:45 AM - 10:30 AM</td>
+                                        <td className="px-2 py-4">English</td>
+                                        <td className="px-2 py-4 rounded-e-lg">Kamal</td>
+                                    </tr>
+                                    <tr className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg">
+                                        <td className="px-2 py-4 rounded-s-lg">3</td>
+                                        <td className="px-2 py-4">10:30 AM - 11:15 AM</td>
+                                        <td className="px-2 py-4">Science</td>
+                                        <td className="px-2 py-4 rounded-e-lg">Vichu</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </>
                 )}
+
                 {activeTab === 2 && (
                     <>
-                        <div className="relative overflow-x-auto">
-                            <table className="w-full text-sm text-left rtl:text-right">
-                                <thead className="text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg">
-                                    <tr className='rounded-lg'>
-                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg">Teacher Name</th>
-                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Employee ID</th>
-                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Department</th>
-                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Mobile Number</th>
-                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Email</th>
-                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg">Books Borrowed</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    <tr className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg">
-                                        <td className="px-2 py-4 rounded-s-lg">Mr. Ravi</td>
-                                        <td className="px-2 py-4">TCH001</td>
-                                        <td className="px-2 py-4">Mathematics</td>
-                                        <td className="px-2 py-4">9876543210</td>
-                                        <td className="px-2 py-4">arun@gmail.com</td>
-                                        <td className="px-2 py-4 rounded-e-lg">1</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </>
-                )}
-                {activeTab === 3 && (
-                    <>
-                        <div className="relative overflow-x-auto">
-                            <table className="w-full text-sm text-left rtl:text-right">
-                                <thead className="text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg">
-                                    <tr className='rounded-lg'>
-                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg">Employee Name</th>
-                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Employee ID</th>
-                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Designation</th>
-                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Mobile Number</th>
-                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Email</th>
-                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg">Books Borrowed</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    <tr className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg">
-                                        <td className="px-2 py-4 rounded-s-lg">Karthik Raj</td>
-                                        <td className="px-2 py-4">EMP002</td>
-                                        <td className="px-2 py-4">Office Staff</td>
-                                        <td className="px-2 py-4">9876543210</td>
-                                        <td className="px-2 py-4">arun@gmail.com</td>
-                                        <td className="px-2 py-4 rounded-e-lg">2</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <WeeklyTimetable />
                     </>
                 )}
 
@@ -232,14 +176,8 @@ const MembersList = () => {
                 </div>
             </div>
 
-            <ExportModal exportModal={exportModal} setExportModal={setExportModal} />
-
-            <EditRequestModal editRequestModal={editRequestModal} setEditRequestModal={setEditRequestModal} />
-
-            <DeleteRequestModal deleteRequestModal={deleteRequestModal} setDeleteRequestModal={setDeleteRequestModal} />
-
         </section>
     )
 }
 
-export default MembersList
+export default TimeTableDetails

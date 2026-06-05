@@ -2,18 +2,21 @@ import React, { createContext, useCallback, useContext, useMemo, useState } from
 
 export const ROLES = {
     ADMIN: 'admin',
+    STUDENT: 'student',
     LIBRARIAN: 'librarian',
     PRM: 'prm',
 }
 
 export const FAKE_CREDENTIALS = {
     [ROLES.ADMIN]: { email: 'admin@school.com' },
+    [ROLES.STUDENT]: { email: 'student@school.com' },
     [ROLES.LIBRARIAN]: { email: 'librarian@school.com' },
     [ROLES.PRM]: { email: 'prm@school.com' },
 }
 
 export const ROLE_HOME_PATHS = {
     [ROLES.ADMIN]: '/admin/front-office/admission-list',
+    [ROLES.STUDENT]: '/student/dashboard',
     [ROLES.LIBRARIAN]: '/librarian/book-management/book-list',
     [ROLES.PRM]: '/front-office/admission-enquiry',
 }

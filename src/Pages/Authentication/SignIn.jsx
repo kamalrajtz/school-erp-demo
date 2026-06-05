@@ -6,6 +6,7 @@ import { ROLE_HOME_PATHS, ROLES, useAuth } from '../../context/AuthContext'
 
 const ROLE_LABELS = {
     [ROLES.ADMIN]: 'Admin',
+    [ROLES.STUDENT]: 'Student',
     [ROLES.LIBRARIAN]: 'Librarian',
     [ROLES.PRM]: 'PRM',
 }

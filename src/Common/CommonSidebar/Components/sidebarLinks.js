@@ -39,7 +39,9 @@ import {
     BellDot,
     PartyPopper,
     CalendarOff,
-    MessageCircle
+    MessageCircle,
+    ClipboardPen,
+    BookUser,
 } from "lucide-react";
 
 export const adminSidebarLinks = [
@@ -161,11 +163,116 @@ export const adminSidebarLinks = [
 ];
 
 export const studentSidebarLinks = [
+    // {
+    //     id: 1,
+    //     title: "Dashboard",
+    //     to: "/student/dashboard",
+    //     icon: LayoutDashboard,
+    // },
     {
-        id: 1,
-        title: "Dashboard",
-        to: "/student/dashboard",
-        icon: LayoutDashboard,
+        id: 2,
+        title: "Class",
+        to: "#0",
+        icon: School,
+        subLinks: [
+            { icon: MonitorPlay, title: "Online Class", to: "/student/class/online-class" },
+            { icon: UserPlus, title: "Extra Class", to: "/student/class/extra-class" },
+            { icon: CalendarDays, title: "Timetable", to: "/student/class/timetable-list" },
+            // { icon: UsersRound, title: "Attendance List", to: "/student/class/attendance-list" },
+        ],
+    },
+    {
+        id: 3,
+        title: "Studies",
+        to: "#0",
+        icon: BookOpen,
+        subLinks: [
+            { icon: BookCopy, title: "Study Material List", to: "/student/studies/study-material-list" },
+            { icon: ListChecks, title: "Sample Questions List", to: "/student/studies/sample-questions-list" },
+        ],
+    },
+    {
+        id: 4,
+        title: "Student Evaluation",
+        to: "#0",
+        icon: Award,
+        subLinks: [
+            { icon: NotebookPen, title: "Exam Details", to: "/student/student-evaluation/exam-details" },
+        ],
+    },
+    {
+        id: 5,
+        title: "Assessment List",
+        to: "#0",
+        icon: ClipboardList,
+        subLinks: [
+            { icon: ClipboardPen, title: "Assignment List", to: "/student/assessment/assignment-list" },
+        ],
+    },
+    // {
+    //     id: 6,
+    //     title: "Result Details",
+    //     to: "/student/result-details",
+    //     icon: BookUser,
+    // },
+    {
+        id: 7,
+        title: "Activities",
+        to: "#0",
+        icon: Trophy,
+        subLinks: [
+            { icon: Palette, title: "Cultural", to: "/student/activities/cultural-list" },
+            { icon: Dumbbell, title: "Sports", to: "/student/activities/sports-list" },
+            { icon: Award, title: "Competitions", to: "/student/activities/competitions-list" },
+        ],
+    },
+    {
+        id: 8,
+        title: "Library",
+        to: "#0",
+        icon: Library,
+        subLinks: [
+            { icon: BookMarked, title: "Borrowed Books", to: "/student/library/borrowed-books-list" },
+        ],
+    },
+    {
+        id: 9,
+        title: "Transport",
+        to: "#0",
+        icon: Van,
+        subLinks: [
+            { icon: Route, title: "Bus Route", to: "/student/transport/bus-route-details" },
+            // { icon: MapPin, title: "Track Bus", to: "/student/transport/track-bus" },
+        ],
+    },
+    {
+        id: 10,
+        title: "Hostel Details",
+        to: "/student/hostel/hostel-details",
+        icon: Bed,
+    },
+    {
+        id: 11,
+        title: "Payment Details",
+        to: "#0",
+        icon: Wallet,
+        subLinks: [
+            { icon: BadgeDollarSign, title: "Fees Payment", to: "/student/payment/fees-payment" },
+            { icon: Bed, title: "Hostel Payment", to: "/student/payment/hostel-payment" },
+            { icon: Bus, title: "Transport Payment", to: "/student/payment/transport-payment" },
+        ],
+    },
+    {
+        id: 12,
+        title: "Notification",
+        to: "#0",
+        icon: BellDot,
+        subLinks: [
+            { icon: NotebookPen, title: "Exams", to: "/student/notification/exam-notification" },
+            { icon: PartyPopper, title: "Events", to: "/student/notification/event-notification" },
+            { icon: CalendarOff, title: "Holidays", to: "/student/notification/holiday-notification" },
+            { icon: BadgeDollarSign, title: "Payment Notification", to: "/student/notification/payment-notification" },
+        ],
     },
 ];
 

@@ -96,6 +96,51 @@ export const singleTitleMapping = {
     "/admin/notification/holiday-list": "Holiday List",
     "/admin/notification/add-holiday": "Add Holiday",
 
+    // ── Student Role ──────────────────────────────────────────────────────────
+    "/student/dashboard": "Dashboard",
+    "/student/class/online-class": "Online Class List",
+    "/student/class/extra-class": "Extra Class List",
+    "/student/class/timetable-list": "Time Table List",
+    "/student/class/attendance-list": "Attendance List",
+
+    // Studies
+    "/student/studies/study-material-list": "Study Material List",
+    "/student/studies/sample-questions-list": "Sample Questions List",
+
+    // Student Evaluation
+    "/student/student-evaluation/exam-details": "Exam Details",
+
+    // Assessment List
+    "/student/assessment/assignment-list": "Assignment List",
+
+    "/student/result-details": "Result Details",
+
+    // Activities
+    "/student/activities/cultural-list": "Cultural List",
+    "/student/activities/sports-list": "Sports List",
+    "/student/activities/competitions-list": "Competitions List",
+
+    // Library
+    "/student/library/borrowed-books-list": "Borrowed Books List",
+
+    // Transport
+    "/student/transport/bus-route-details": "Bus Route Details",
+    "/student/transport/track-bus": "Track Bus Location",
+
+    // Hostel
+    "/student/hostel/hostel-details": "Hostel Details",
+
+    // Payemnt Details
+    "/student/payment/fees-payment": "Fees Payment Details",
+    "/student/payment/hostel-payment": "Hostel Payment Details",
+    "/student/payment/transport-payment": "Transport Payment Details",
+
+    // Notification
+    "/student/notification/exam-notification": "Exam Notification",
+    "/student/notification/event-notification": "Event Notification",
+    "/student/notification/holiday-notification": "Holiday Notification",
+    "/student/notification/payment-notification": "Payment Notification",
+
     // ── Librarian Role ────────────────────────────────────────────────────────
     "/librarian/dashboard": "Dashboard",
 
