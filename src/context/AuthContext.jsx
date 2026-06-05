@@ -16,7 +16,7 @@ export const FAKE_CREDENTIALS = {
 
 export const ROLE_HOME_PATHS = {
     [ROLES.ADMIN]: '/admin/front-office/admission-list',
-    [ROLES.STUDENT]: '/student/dashboard',
+    [ROLES.STUDENT]: '/student/class/online-class',
     [ROLES.LIBRARIAN]: '/librarian/book-management/book-list',
     [ROLES.PRM]: '/front-office/admission-enquiry',
 }
