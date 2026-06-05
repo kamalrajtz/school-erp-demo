@@ -209,12 +209,12 @@ export const studentSidebarLinks = [
             { icon: ClipboardPen, title: "Assignment List", to: "/student/assessment/assignment-list" },
         ],
     },
-    // {
-    //     id: 6,
-    //     title: "Result Details",
-    //     to: "/student/result-details",
-    //     icon: BookUser,
-    // },
+    {
+        id: 6,
+        title: "Result Details",
+        to: "/student/result-details",
+        icon: BookUser,
+    },
     {
         id: 7,
         title: "Activities",
