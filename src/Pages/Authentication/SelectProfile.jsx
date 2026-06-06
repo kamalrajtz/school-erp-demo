@@ -85,6 +85,14 @@ const SelectProfile = () => {
                                 <img src={prm_profile} className='h-24 w-24 rounded-full' alt="prm_profile" />
                                 <p className='text-base font-medium text-black text-center'>PRM</p>
                             </button>
+                            <button
+                                type="button"
+                                onClick={() => handleSelect(ROLES.GATEKEEPER)}
+                                className="flex flex-col gap-y-2 items-center cursor-pointer"
+                            >
+                                <img src={van_driver_profile} className='h-24 w-24' alt="gatekeeper_profile" />
+                                <p className='text-base font-medium text-black text-center'>Gate Keeper</p>
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -5,6 +5,7 @@ export const ROLES = {
     STUDENT: 'student',
     LIBRARIAN: 'librarian',
     PRM: 'prm',
+    GATEKEEPER: 'gatekeeper',
 }
 
 export const FAKE_CREDENTIALS = {
@@ -12,6 +13,7 @@ export const FAKE_CREDENTIALS = {
     [ROLES.STUDENT]: { email: 'student@school.com' },
     [ROLES.LIBRARIAN]: { email: 'librarian@school.com' },
     [ROLES.PRM]: { email: 'prm@school.com' },
+    [ROLES.GATEKEEPER]: { email: 'gatekeeper@school.com' },
 }
 
 export const ROLE_HOME_PATHS = {
@@ -19,6 +21,7 @@ export const ROLE_HOME_PATHS = {
     [ROLES.STUDENT]: '/student/class/online-class',
     [ROLES.LIBRARIAN]: '/librarian/book-management/book-list',
     [ROLES.PRM]: '/front-office/admission-enquiry',
+    [ROLES.GATEKEEPER]: '/gate-keeper/dashboard',
 }
 
 const STORAGE_KEY = 'schoolerp_auth'

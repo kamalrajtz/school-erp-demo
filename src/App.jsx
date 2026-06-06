@@ -2,6 +2,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import AuthLayout from "./Layout/AuthLayout";
 import AdminLayout from "./Layout/AdminLayout";
 import LibrarianLayout from "./Layout/LibrarianLayout";
+import GateKeeperLayout from "./Layout/GateKeeperLayout";
 import PRMLayout from "./Layout/PRMLayout";
 import StudentLayout from "./Layout/StudentLayout";
 import { ROLE_HOME_PATHS, ROLES, useAuth } from "./context/AuthContext";
@@ -48,10 +49,18 @@ const App = () => {
     return <PRMLayout />;
   }
 
+  if (role === ROLES.GATEKEEPER) {
+    if (!pathname.startsWith("/gate-keeper")) {
+      return <Navigate to={ROLE_HOME_PATHS[ROLES.GATEKEEPER]} replace />;
+    }
+    return <GateKeeperLayout />;
+  }
+
   if (
     pathname.startsWith("/librarian") ||
     pathname.startsWith("/front-office") ||
-    pathname.startsWith("/student")
+    pathname.startsWith("/student") ||
+    pathname.startsWith("/gate-keeper")
   ) {
     return <Navigate to={ROLE_HOME_PATHS[ROLES.ADMIN]} replace />;
   }

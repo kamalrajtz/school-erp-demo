@@ -161,6 +161,15 @@ export const singleTitleMapping = {
     // Common Enquiry
     "/front-office/enquiry-list": "Enquiry List",
     "/front-office/add-enquiry": "Add Enquiry",
+
+    // ── Gate Keeper Role ──────────────────────────────────────────────────────
+    "/gate-keeper/dashboard": "Dashboard",
+    "/gate-keeper/hostel-gate-pass": "Hostel Gate Pass List",
+    "/gate-keeper/my-duty": "My Duty List",
+    "/gate-keeper/incidents": "Incidents List",
+    "/gate-keeper/add-incident": "Add Incident Information",
+    "/gate-keeper/gate-pass-list": "Gate Pass List",
+    "/gate-keeper/add-gate-pass": "Add Gate Pass",
 }
 
 /** Paths with params never equal `location.pathname`; match with prefixes / patterns here */

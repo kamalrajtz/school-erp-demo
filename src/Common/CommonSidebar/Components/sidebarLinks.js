@@ -42,6 +42,10 @@ import {
     MessageCircle,
     ClipboardPen,
     BookUser,
+    AlertCircle,
+    DoorOpen,
+    ShieldCheck,
+    ShieldAlert,
 } from "lucide-react";
 
 export const adminSidebarLinks = [
@@ -342,9 +346,43 @@ export const librarianSidebarLinks = [
     },
 ];
 
+export const gateKeeperSidebarLinks = [
+    {
+        id: 1,
+        title: "Dashboard",
+        to: "/gate-keeper/dashboard",
+        icon: LayoutDashboard,
+    },
+    {
+        id: 2,
+        title: "Hostel Gate Pass",
+        to: "/gate-keeper/hostel-gate-pass",
+        icon: DoorOpen,
+    },
+    {
+        id: 3,
+        title: "My Duty",
+        to: "/gate-keeper/my-duty",
+        icon: ShieldCheck,
+    },
+    {
+        id: 4,
+        title: "Incidents",
+        to: "/gate-keeper/incidents",
+        icon: ShieldAlert,
+    },
+    {
+        id: 5,
+        title: "Gate Pass",
+        to: "/gate-keeper/gate-pass-list",
+        icon: ArrowRightLeft,
+    },
+];
+
 export const roleBasedSidebarLinks = {
     Administrator: adminSidebarLinks,
     Student: studentSidebarLinks,
     Librarian: librarianSidebarLinks,
     PRM: prmSidebarLinks,
+    GateKeeper: gateKeeperSidebarLinks,
 };
