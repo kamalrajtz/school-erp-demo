@@ -102,6 +102,7 @@ export const singleTitleMapping = {
     "/student/class/extra-class": "Extra Class List",
     "/student/class/timetable-list": "Time Table List",
     "/student/class/attendance-list": "Attendance List",
+    "/student/class/attendance-report": "Attendance Report",
 
     // Studies
     "/student/studies/study-material-list": "Study Material List",

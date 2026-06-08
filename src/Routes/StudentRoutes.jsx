@@ -5,6 +5,7 @@ import OnlineClassDetails from '../Pages/Student/Class/OnlineClassDetails'
 import ExtraClassDetails from '../Pages/Student/Class/ExtraClassDetails'
 import TimeTableDetails from '../Pages/Student/Class/TimeTableDetails'
 import AttendanceDetails from '../Pages/Student/Class/AttendanceDetails'
+import AttendanceReport from '../Pages/Student/Class/AttendanceReport'
 import StudyMaterialList from '../Pages/Student/Studies/StudyMaterialList'
 import SampleQuestionsList from '../Pages/Student/Studies/SampleQuestionsList'
 import ExamDetailsList from '../Pages/Student/StudentEvaluation/ExamDetailsList'
@@ -36,6 +37,7 @@ const StudentRoutes = () => {
             <Route path="/student/class/extra-class" element={<ExtraClassDetails />} />
             <Route path="/student/class/timetable-list" element={<TimeTableDetails />} />
             <Route path="/student/class/attendance-list" element={<AttendanceDetails />} />
+            <Route path="/student/class/attendance-report" element={<AttendanceReport />} />
             <Route path="/student/studies/study-material-list" element={<StudyMaterialList />} />
             <Route path="/student/studies/sample-questions-list" element={<SampleQuestionsList />} />
             <Route path="/student/student-evaluation/exam-details" element={<ExamDetailsList />} />

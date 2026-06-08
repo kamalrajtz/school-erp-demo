@@ -182,7 +182,7 @@ export const studentSidebarLinks = [
             { icon: MonitorPlay, title: "Online Class", to: "/student/class/online-class" },
             { icon: UserPlus, title: "Extra Class", to: "/student/class/extra-class" },
             { icon: CalendarDays, title: "Timetable", to: "/student/class/timetable-list" },
-            // { icon: UsersRound, title: "Attendance List", to: "/student/class/attendance-list" },
+            { icon: UsersRound, title: "Attendance List", to: "/student/class/attendance-list" },
         ],
     },
     {
