@@ -382,12 +382,12 @@ export const gateKeeperSidebarLinks = [
 ];
 
 export const jointDirectorSidebarLinks = [
-    {
-        id: 1,
-        title: "Dashboard",
-        to: "/joint-director/dashboard",
-        icon: LayoutDashboard,
-    },
+    // {
+    //     id: 1,
+    //     title: "Dashboard",
+    //     to: "/joint-director/dashboard",
+    //     icon: LayoutDashboard,
+    // },
     {
         id: 2,
         title: "Documents",
