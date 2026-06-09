@@ -46,6 +46,8 @@ import {
     DoorOpen,
     ShieldCheck,
     ShieldAlert,
+    BarChart3,
+    Star,
 } from "lucide-react";
 
 export const adminSidebarLinks = [
@@ -379,10 +381,44 @@ export const gateKeeperSidebarLinks = [
     },
 ];
 
+export const jointDirectorSidebarLinks = [
+    {
+        id: 1,
+        title: "Dashboard",
+        to: "/joint-director/dashboard",
+        icon: LayoutDashboard,
+    },
+    {
+        id: 2,
+        title: "Documents",
+        to: "/joint-director/documents",
+        icon: FolderOpen,
+    },
+    {
+        id: 3,
+        title: "Task Management",
+        to: "/joint-director/task-management",
+        icon: ClipboardList,
+    },
+    {
+        id: 4,
+        title: "Star Ratings",
+        to: "/joint-director/star-ratings-list",
+        icon: Star,
+    },
+    {
+        id: 5,
+        title: "Examination Approvals",
+        to: "/joint-director/examination-approvals",
+        icon: CalendarCheck,
+    },
+];
+
 export const roleBasedSidebarLinks = {
     Administrator: adminSidebarLinks,
     Student: studentSidebarLinks,
     Librarian: librarianSidebarLinks,
     PRM: prmSidebarLinks,
     GateKeeper: gateKeeperSidebarLinks,
+    JointDirector: jointDirectorSidebarLinks,
 };

@@ -93,6 +93,14 @@ const SelectProfile = () => {
                                 <img src={van_driver_profile} className='h-24 w-24' alt="gatekeeper_profile" />
                                 <p className='text-base font-medium text-black text-center'>Gate Keeper</p>
                             </button>
+                            <button
+                                type="button"
+                                onClick={() => handleSelect(ROLES.JOINT_DIRECTOR)}
+                                className="flex flex-col gap-y-2 items-center cursor-pointer"
+                            >
+                                <img src={admin_profile} className='h-24 w-24' alt="joint_director_profile" />
+                                <p className='text-base font-medium text-black text-center'>Joint Director</p>
+                            </button>
                         </div>
                     </div>
                 </div>

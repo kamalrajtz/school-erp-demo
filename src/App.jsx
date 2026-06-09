@@ -3,6 +3,7 @@ import AuthLayout from "./Layout/AuthLayout";
 import AdminLayout from "./Layout/AdminLayout";
 import LibrarianLayout from "./Layout/LibrarianLayout";
 import GateKeeperLayout from "./Layout/GateKeeperLayout";
+import JointDirectorLayout from "./Layout/JointDirectorLayout";
 import PRMLayout from "./Layout/PRMLayout";
 import StudentLayout from "./Layout/StudentLayout";
 import { ROLE_HOME_PATHS, ROLES, useAuth } from "./context/AuthContext";
@@ -56,11 +57,19 @@ const App = () => {
     return <GateKeeperLayout />;
   }
 
+  if (role === ROLES.JOINT_DIRECTOR) {
+    if (!pathname.startsWith("/joint-director")) {
+      return <Navigate to={ROLE_HOME_PATHS[ROLES.JOINT_DIRECTOR]} replace />;
+    }
+    return <JointDirectorLayout />;
+  }
+
   if (
     pathname.startsWith("/librarian") ||
     pathname.startsWith("/front-office") ||
     pathname.startsWith("/student") ||
-    pathname.startsWith("/gate-keeper")
+    pathname.startsWith("/gate-keeper") ||
+    pathname.startsWith("/joint-director")
   ) {
     return <Navigate to={ROLE_HOME_PATHS[ROLES.ADMIN]} replace />;
   }

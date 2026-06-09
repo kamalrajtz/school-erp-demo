@@ -171,6 +171,16 @@ export const singleTitleMapping = {
     "/gate-keeper/add-incident": "Add Incident Information",
     "/gate-keeper/gate-pass-list": "Gate Pass List",
     "/gate-keeper/add-gate-pass": "Add Gate Pass",
+
+    // ── Joint Director Role ───────────────────────────────────────────────────
+    "/joint-director/dashboard": "Dashboard",
+    "/joint-director/documents": "Documents",
+    "/joint-director/documents/add-documents": "Add Documents",
+    "/joint-director/task-management": "Task Management",
+    "/joint-director/task-management/add-task": "Add Task Management",
+    "/joint-director/star-ratings-list": "Star Ratings List",
+    "/joint-director/star-ratings/add-ratings": "Add Ratings",
+    "/joint-director/examination-approvals": "Examination Approvals",
 }
 
 /** Paths with params never equal `location.pathname`; match with prefixes / patterns here */
