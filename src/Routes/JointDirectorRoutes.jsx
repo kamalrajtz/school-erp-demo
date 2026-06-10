@@ -8,6 +8,8 @@ import AddDocuments from '../Pages/JointDirector/Documents/AddDocuments'
 import AddTask from '../Pages/JointDirector/TaskManagement/AddTask'
 import AddRatings from '../Pages/JointDirector/StarRatings/AddRatings'
 import ExamApprovals from '../Pages/JointDirector/ExamApprovals/ExamApprovals'
+import StudentsList from '../Pages/JointDirector/Students/StudentsList'
+import ViewStudent from '../Pages/JointDirector/Students/ViewStudent'
 
 const JointDirectorRoutes = () => {
     return (
@@ -20,6 +22,8 @@ const JointDirectorRoutes = () => {
             <Route path="/joint-director/star-ratings-list" element={<StarRatings />} />
             <Route path="/joint-director/star-ratings/add-ratings" element={<AddRatings />} />
             <Route path="/joint-director/examination-approvals" element={<ExamApprovals />} />
+            <Route path="/joint-director/students/student-details-list" element={<StudentsList />} />
+            <Route path="/joint-director/students/view-student" element={<ViewStudent />} />
             <Route path="*" element={<Navigate to="/joint-director/dashboard" replace />} />
         </ReactRoutes>
     )

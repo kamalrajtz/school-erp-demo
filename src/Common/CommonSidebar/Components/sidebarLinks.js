@@ -412,6 +412,12 @@ export const jointDirectorSidebarLinks = [
         to: "/joint-director/examination-approvals",
         icon: CalendarCheck,
     },
+    {
+        id: 6,
+        title: "Student Management",
+        to: "/joint-director/students/student-details-list",
+        icon: UserRound,
+    }
 ];
 
 export const roleBasedSidebarLinks = {

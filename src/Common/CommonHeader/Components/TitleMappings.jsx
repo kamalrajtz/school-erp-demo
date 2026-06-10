@@ -181,6 +181,8 @@ export const singleTitleMapping = {
     "/joint-director/star-ratings-list": "Star Ratings List",
     "/joint-director/star-ratings/add-ratings": "Add Ratings",
     "/joint-director/examination-approvals": "Examination Approvals",
+    "/joint-director/students/student-details-list": "Students List",
+    "/joint-director/students/view-student": "View Student Details",
 }
 
 /** Paths with params never equal `location.pathname`; match with prefixes / patterns here */

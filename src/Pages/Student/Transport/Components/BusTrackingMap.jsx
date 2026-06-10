@@ -309,7 +309,7 @@ export default function BusTrackingMap() {
                     </div>
 
                     {/* Progress line */}
-                    <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
+                    <div className="flex flex-col items-center gap-1.5 shrink-0">
                         <div className="w-28 sm:w-40 relative">
                             <div className="h-1.5 bg-[#EDEEF5] rounded-full w-full" />
                             <div className="h-1.5 bg-[#515DEF] rounded-full absolute top-0 left-0" style={{ width: "55%" }} />
