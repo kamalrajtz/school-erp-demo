@@ -24,7 +24,7 @@ export const ROLE_HOME_PATHS = {
     [ROLES.LIBRARIAN]: '/librarian/book-management/book-list',
     [ROLES.PRM]: '/front-office/admission-enquiry',
     [ROLES.GATEKEEPER]: '/gate-keeper/dashboard',
-    [ROLES.JOINT_DIRECTOR]: '/joint-director/dashboard',
+    [ROLES.JOINT_DIRECTOR]: '/joint-director/documents',
 }
 
 const STORAGE_KEY = 'schoolerp_auth'
