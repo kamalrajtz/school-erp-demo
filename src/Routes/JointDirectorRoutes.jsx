@@ -10,6 +10,8 @@ import AddRatings from '../Pages/JointDirector/StarRatings/AddRatings'
 import ExamApprovals from '../Pages/JointDirector/ExamApprovals/ExamApprovals'
 import StudentsList from '../Pages/JointDirector/Students/StudentsList'
 import ViewStudent from '../Pages/JointDirector/Students/ViewStudent'
+import TeachersList from '../Pages/JointDirector/TeacherManagement/TeachersList'
+import ViewTeacher from '../Pages/JointDirector/TeacherManagement/ViewTeacher'
 
 const JointDirectorRoutes = () => {
     return (
@@ -24,6 +26,8 @@ const JointDirectorRoutes = () => {
             <Route path="/joint-director/examination-approvals" element={<ExamApprovals />} />
             <Route path="/joint-director/students/student-details-list" element={<StudentsList />} />
             <Route path="/joint-director/students/view-student" element={<ViewStudent />} />
+            <Route path="/joint-director/teachers/teacher-details-list" element={<TeachersList />} />
+            <Route path="/joint-director/teachers/view-teacher" element={<ViewTeacher />} />
             <Route path="*" element={<Navigate to="/joint-director/dashboard" replace />} />
         </ReactRoutes>
     )

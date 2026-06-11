@@ -25,6 +25,7 @@ import ExamNotification from '../Pages/Student/Notifications/ExamNotification'
 import EventNotification from '../Pages/Student/Notifications/EventNotification'
 import HolidayNotification from '../Pages/Student/Notifications/HolidayNotification'
 import PaymentNotification from '../Pages/Student/Notifications/PaymentNotification'
+import ViewRatings from '../Pages/Student/StarRatings/ViewRatings'
 
 const StudentRoutes = () => {
     return (
@@ -59,6 +60,10 @@ const StudentRoutes = () => {
             <Route path="/student/notification/event-notification" element={<EventNotification />} />
             <Route path="/student/notification/holiday-notification" element={<HolidayNotification />} />
             <Route path="/student/notification/payment-notification" element={<PaymentNotification />} />
+
+            {/* Star Ratings */}
+            <Route path="/student/star-ratings/view-ratings" element={<ViewRatings />} />
+
         </ReactRoutes>
     )
 }

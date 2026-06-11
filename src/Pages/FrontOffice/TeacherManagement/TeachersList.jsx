@@ -7,7 +7,8 @@ import mo_user from "../../../assets/images/no-profile.png"
 import Dropdown from '../../../Common/CommonComponents/Dropdown';
 import ExportModal from '../../../Common/CommonComponents/ExportModal';
 
-const StudentsList = () => {
+
+const TeachersList = () => {
 
     const [fromDate, setFromDate] = useState(new Date());
     const [toDate, setToDate] = useState(new Date());
@@ -78,7 +79,7 @@ const StudentsList = () => {
 
             <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
-                    <h2 className='text-xl font-medium text-black'>Students List</h2>
+                    <h2 className='text-xl font-medium text-black'>Teachers List</h2>
                     <div className='flex gap-x-2'>
                         <button onClick={() => setExportModal(true)} className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'>
                             <Download size={16} />
@@ -101,12 +102,14 @@ const StudentsList = () => {
                         <thead className="text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg">
                             <tr className='rounded-lg'>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg">Profile</th>
-                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Admission Number</th>
-                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Name</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Teacher's ID</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Teacher Name</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Gender</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Email</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Mobile Number</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Date Of Birth</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Qualification</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Experience</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Country</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">State</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">City</th>
@@ -118,21 +121,23 @@ const StudentsList = () => {
                             <tr className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg">
                                 <td className="px-2 py-4 object-cover flex justify-center rounded-s-lg">
                                     <img src={mo_user} alt="no-profile-image" className='w-9 h-9' />
-                                </td> 
-                                <td className="px-2 py-4">ADM-NO1845</td>
+                                </td>
+                                <td className="px-2 py-4">TEA-1001</td>
                                 <td className="px-2 py-4">Sandy Selva</td>
                                 <td className="px-2 py-4">Male</td>
                                 <td className="px-2 py-4">san@gmail.com</td>
                                 <td className="px-2 py-4">9944076993</td>
                                 <td className="px-2 py-4">20-12-1996</td>
+                                <td className="px-2 py-4">B.SC, B.ED</td>
+                                <td className="px-2 py-4">8 Years</td>
                                 <td className="px-2 py-4">India</td>
-                                <td className="px-2 py-4">TamilNadu</td> 
+                                <td className="px-2 py-4">Tamil Nadu</td>
                                 <td className="px-2 py-4">Pudukkottai</td>
                                 <td className="px-2 py-4 text-center rounded-e-lg">
                                     <Dropdown
                                         buttonContent={<EllipsisIcon size={16} className='text-black' />}
                                     >
-                                        <NavLink to="/joint-director/students/view-student" className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
+                                        <NavLink to="/front-office/view-teacher" className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
                                             View
                                         </NavLink>
                                     </Dropdown>
@@ -142,21 +147,23 @@ const StudentsList = () => {
                             <tr className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg">
                                 <td className="px-2 py-4 object-cover flex justify-center rounded-s-lg">
                                     <img src={mo_user} alt="no-profile-image" className='w-9 h-9' />
-                                </td> 
-                                <td className="px-2 py-4">ADM-NO1846</td>
+                                </td>
+                                <td className="px-2 py-4">TEA-1002</td>
                                 <td className="px-2 py-4">John Milton</td>
                                 <td className="px-2 py-4">Male</td>
                                 <td className="px-2 py-4">John@gmail.com</td>
                                 <td className="px-2 py-4">9944076993</td>
-                                <td className="px-2 py-4">09-07-2007</td>
+                                <td className="px-2 py-4">09-07-2000</td>
+                                <td className="px-2 py-4">B.SC, B.ED</td>
+                                <td className="px-2 py-4">3.5 Years</td>
                                 <td className="px-2 py-4">India</td>
-                                <td className="px-2 py-4">TamilNadu</td> 
+                                <td className="px-2 py-4">Tamil Nadu</td>
                                 <td className="px-2 py-4">Madurai</td>
                                 <td className="px-2 py-4 text-center rounded-e-lg">
                                     <Dropdown
                                         buttonContent={<EllipsisIcon size={16} className='text-black' />}
                                     >
-                                        <NavLink to="/joint-director/students/view-student" className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
+                                        <NavLink to="/front-office/view-teacher" className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
                                             View
                                         </NavLink>
                                     </Dropdown>
@@ -197,4 +204,4 @@ const StudentsList = () => {
     )
 }
 
-export default StudentsList
+export default TeachersList

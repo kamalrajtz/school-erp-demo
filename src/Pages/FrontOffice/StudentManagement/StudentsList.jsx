@@ -132,7 +132,7 @@ const StudentsList = () => {
                                     <Dropdown
                                         buttonContent={<EllipsisIcon size={16} className='text-black' />}
                                     >
-                                        <NavLink to="/joint-director/students/view-student" className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
+                                        <NavLink to="/front-office/view-student" className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
                                             View
                                         </NavLink>
                                     </Dropdown>
@@ -156,7 +156,7 @@ const StudentsList = () => {
                                     <Dropdown
                                         buttonContent={<EllipsisIcon size={16} className='text-black' />}
                                     >
-                                        <NavLink to="/joint-director/students/view-student" className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
+                                        <NavLink to="/front-office/view-student" className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
                                             View
                                         </NavLink>
                                     </Dropdown>

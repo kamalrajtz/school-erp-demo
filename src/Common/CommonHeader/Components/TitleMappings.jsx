@@ -142,6 +142,9 @@ export const singleTitleMapping = {
     "/student/notification/holiday-notification": "Holiday Notification",
     "/student/notification/payment-notification": "Payment Notification",
 
+    // Star Ratings
+    "/student/star-ratings/view-ratings": "View Star Rating",
+
     // ── Librarian Role ────────────────────────────────────────────────────────
     "/librarian/dashboard": "Dashboard",
 
@@ -162,6 +165,12 @@ export const singleTitleMapping = {
     // Common Enquiry
     "/front-office/enquiry-list": "Enquiry List",
     "/front-office/add-enquiry": "Add Enquiry",
+    "/front-office/student-management": "Student Management List",
+    "/front-office/teacher-management": "Teacher Management List",
+    "/front-office/view-student": "View Student",
+    "/front-office/view-teacher": "View Teacher",
+    "/front-office/gate-pass-list": "Gate Pass List",
+    "/front-office/add-gate-pass": "Add Gate Pass", 
 
     // ── Gate Keeper Role ──────────────────────────────────────────────────────
     "/gate-keeper/dashboard": "Dashboard",
@@ -183,6 +192,8 @@ export const singleTitleMapping = {
     "/joint-director/examination-approvals": "Examination Approvals",
     "/joint-director/students/student-details-list": "Students List",
     "/joint-director/students/view-student": "View Student Details",
+    "/joint-director/teachers/teacher-details-list": "Teachers List",
+    "/joint-director/teachers/view-teacher": "View Teacher Details",
 }
 
 /** Paths with params never equal `location.pathname`; match with prefixes / patterns here */

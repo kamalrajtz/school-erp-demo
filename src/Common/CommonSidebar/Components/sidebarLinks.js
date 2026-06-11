@@ -42,12 +42,11 @@ import {
     MessageCircle,
     ClipboardPen,
     BookUser,
-    AlertCircle,
     DoorOpen,
     ShieldCheck,
     ShieldAlert,
-    BarChart3,
     Star,
+    UserRoundCog,
 } from "lucide-react";
 
 export const adminSidebarLinks = [
@@ -234,6 +233,12 @@ export const studentSidebarLinks = [
     },
     {
         id: 8,
+        title: "Star Ratings",
+        to: "/student/star-ratings/view-ratings",
+        icon: Star,
+    },
+    {
+        id: 9,
         title: "Library",
         to: "#0",
         icon: Library,
@@ -242,7 +247,7 @@ export const studentSidebarLinks = [
         ],
     },
     {
-        id: 9,
+        id: 10,
         title: "Transport",
         to: "#0",
         icon: Van,
@@ -252,13 +257,13 @@ export const studentSidebarLinks = [
         ],
     },
     {
-        id: 10,
+        id: 11,
         title: "Hostel Details",
         to: "/student/hostel/hostel-details",
         icon: Bed,
     },
     {
-        id: 11,
+        id: 12,
         title: "Payment Details",
         to: "#0",
         icon: Wallet,
@@ -269,7 +274,7 @@ export const studentSidebarLinks = [
         ],
     },
     {
-        id: 12,
+        id: 13,
         title: "Notification",
         to: "#0",
         icon: BellDot,
@@ -306,6 +311,24 @@ export const prmSidebarLinks = [
         subLinks: [
             { icon: FileText, title: "Enquiry List", to: "/front-office/enquiry-list" },
         ],
+    },
+    {
+        id: 4,
+        title: "Student Management",
+        to: "/front-office/student-management",
+        icon: UserRound,
+    },
+    {
+        id: 5,
+        title: "Teacher Management",
+        to: "/front-office/teacher-management",
+        icon: UserRoundCog,
+    },
+    {
+        id: 6,
+        title: "Gate Pass",
+        to: "/front-office/gate-pass-list",
+        icon: ArrowRightLeft,
     },
 ];
 
@@ -417,7 +440,13 @@ export const jointDirectorSidebarLinks = [
         title: "Student Management",
         to: "/joint-director/students/student-details-list",
         icon: UserRound,
-    }
+    },
+    {
+        id: 7,
+        title: "Teacher Management",
+        to: "/joint-director/teachers/teacher-details-list",
+        icon: UserRoundCog,
+    },
 ];
 
 export const roleBasedSidebarLinks = {

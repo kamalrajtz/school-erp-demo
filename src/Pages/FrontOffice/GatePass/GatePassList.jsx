@@ -2,15 +2,19 @@ import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Calendar, EllipsisIcon, ChevronLeft, ChevronRight, Download } from "lucide-react";
+import { Calendar, EllipsisIcon, ChevronLeft, ChevronRight, Download, Plus } from "lucide-react";
 import mo_user from "../../../assets/images/no-profile.png"
 import Dropdown from '../../../Common/CommonComponents/Dropdown';
 import ExportModal from '../../../Common/CommonComponents/ExportModal';
+import DeleteRequestModal from '../../../Common/CommonComponents/DeleteRequestModal';
+import EditRequestModal from '../../../Common/CommonComponents/EditRequestModal';
 
-const StudentsList = () => {
+const GatePassList = () => {
 
     const [fromDate, setFromDate] = useState(new Date());
     const [toDate, setToDate] = useState(new Date());
+    const [deleteRequestModal, setDeleteRequestModal] = useState(false);
+    const [editRequestModal, setEditRequestModal] = useState(false);
     const [exportModal, setExportModal] = useState(false);
 
     return (
@@ -78,8 +82,12 @@ const StudentsList = () => {
 
             <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
-                    <h2 className='text-xl font-medium text-black'>Students List</h2>
+                    <h2 className='text-xl font-medium text-black'>Gate Pass List</h2>
                     <div className='flex gap-x-2'>
+                        <NavLink to="/front-office/add-gate-pass" className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'>
+                            <Plus size={16} />
+                            Add Gate Pass
+                        </NavLink>
                         <button onClick={() => setExportModal(true)} className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'>
                             <Download size={16} />
                             Export
@@ -101,15 +109,16 @@ const StudentsList = () => {
                         <thead className="text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg">
                             <tr className='rounded-lg'>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg">Profile</th>
-                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Admission Number</th>
-                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Name</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Student ID</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Student Name</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Class & Section</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Gender</th>
-                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Email</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Mobile Number</th>
-                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Date Of Birth</th>
-                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Country</th>
-                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">State</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">City</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Reason</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Date</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Out Time</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Status</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg">Actions</th>
                             </tr>
                         </thead>
@@ -118,23 +127,30 @@ const StudentsList = () => {
                             <tr className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg">
                                 <td className="px-2 py-4 object-cover flex justify-center rounded-s-lg">
                                     <img src={mo_user} alt="no-profile-image" className='w-9 h-9' />
-                                </td> 
-                                <td className="px-2 py-4">ADM-NO1845</td>
+                                </td>
+                                <td className="px-2 py-4">STD-NO1845</td>
                                 <td className="px-2 py-4">Sandy Selva</td>
+                                <td className="px-2 py-4">10 A</td>
                                 <td className="px-2 py-4">Male</td>
-                                <td className="px-2 py-4">san@gmail.com</td>
                                 <td className="px-2 py-4">9944076993</td>
-                                <td className="px-2 py-4">20-12-1996</td>
-                                <td className="px-2 py-4">India</td>
-                                <td className="px-2 py-4">TamilNadu</td> 
                                 <td className="px-2 py-4">Pudukkottai</td>
+                                <td className="px-2 py-4">Going to Hospital</td>
+                                <td className="px-2 py-4">20-05-2026</td>
+                                <td className="px-2 py-4">10:00 AM</td>
+                                <td className="px-2 py-4">TamilNadu</td>
                                 <td className="px-2 py-4 text-center rounded-e-lg">
                                     <Dropdown
                                         buttonContent={<EllipsisIcon size={16} className='text-black' />}
                                     >
-                                        <NavLink to="/joint-director/students/view-student" className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
+                                        <button className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
                                             View
-                                        </NavLink>
+                                        </button>
+                                        <button onClick={() => setEditRequestModal(true)} className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
+                                            Edit
+                                        </button>
+                                        <button onClick={() => setDeleteRequestModal(true)} className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
+                                            Delete
+                                        </button>
                                     </Dropdown>
 
                                 </td>
@@ -142,25 +158,31 @@ const StudentsList = () => {
                             <tr className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg">
                                 <td className="px-2 py-4 object-cover flex justify-center rounded-s-lg">
                                     <img src={mo_user} alt="no-profile-image" className='w-9 h-9' />
-                                </td> 
-                                <td className="px-2 py-4">ADM-NO1846</td>
+                                </td>
+                                <td className="px-2 py-4">STD-NO1846</td>
                                 <td className="px-2 py-4">John Milton</td>
+                                <td className="px-2 py-4">12 B</td>
                                 <td className="px-2 py-4">Male</td>
-                                <td className="px-2 py-4">John@gmail.com</td>
                                 <td className="px-2 py-4">9944076993</td>
-                                <td className="px-2 py-4">09-07-2007</td>
-                                <td className="px-2 py-4">India</td>
-                                <td className="px-2 py-4">TamilNadu</td> 
                                 <td className="px-2 py-4">Madurai</td>
+                                <td className="px-2 py-4">Going to Home Town</td>
+                                <td className="px-2 py-4">24-05-2026</td>
+                                <td className="px-2 py-4">12:00 PM</td>
+                                <td className="px-2 py-4">TamilNadu</td>
                                 <td className="px-2 py-4 text-center rounded-e-lg">
                                     <Dropdown
                                         buttonContent={<EllipsisIcon size={16} className='text-black' />}
                                     >
-                                        <NavLink to="/joint-director/students/view-student" className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
+                                        <button className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
                                             View
-                                        </NavLink>
+                                        </button>
+                                        <button onClick={() => setEditRequestModal(true)} className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
+                                            Edit
+                                        </button>
+                                        <button onClick={() => setDeleteRequestModal(true)} className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
+                                            Delete
+                                        </button>
                                     </Dropdown>
-
                                 </td>
                             </tr>
                         </tbody>
@@ -193,8 +215,12 @@ const StudentsList = () => {
 
             <ExportModal exportModal={exportModal} setExportModal={setExportModal} />
 
+            <DeleteRequestModal deleteRequestModal={deleteRequestModal} setDeleteRequestModal={setDeleteRequestModal} />
+
+            <EditRequestModal editRequestModal={editRequestModal} setEditRequestModal={setEditRequestModal} />
+
         </section>
     )
 }
 
-export default StudentsList
+export default GatePassList
