@@ -12,6 +12,15 @@ import StudentsList from '../Pages/JointDirector/Students/StudentsList'
 import ViewStudent from '../Pages/JointDirector/Students/ViewStudent'
 import TeachersList from '../Pages/JointDirector/TeacherManagement/TeachersList'
 import ViewTeacher from '../Pages/JointDirector/TeacherManagement/ViewTeacher'
+import CoOrdinatorManagement from '../Pages/JointDirector/CoOrdinators/CoOrdinators'
+import ViewCoOrdinators from '../Pages/JointDirector/CoOrdinators/ViewCoOrdinators'
+import ViewPrincipal from '../Pages/JointDirector/Principal/ViewPrincipal'
+import StudentLMS from '../Pages/JointDirector/LMS/StudentLMS'
+import TeacherLMS from '../Pages/JointDirector/LMS/TeacherLMS'
+import ViewStudentLMS from '../Pages/JointDirector/LMS/ViewStudentLMS'
+import ViewTeacherLMS from '../Pages/JointDirector/LMS/ViewTeacherLMS'
+import RequestApprovals from '../Pages/JointDirector/Request-Approvals/RequestApprovals'
+import ViewRequestApproval from '../Pages/JointDirector/Request-Approvals/ViewRequestApproval'
 
 const JointDirectorRoutes = () => {
     return (
@@ -28,6 +37,15 @@ const JointDirectorRoutes = () => {
             <Route path="/joint-director/students/view-student" element={<ViewStudent />} />
             <Route path="/joint-director/teachers/teacher-details-list" element={<TeachersList />} />
             <Route path="/joint-director/teachers/view-teacher" element={<ViewTeacher />} />
+            <Route path="/joint-director/co-ordinator-management" element={<CoOrdinatorManagement />} />
+            <Route path="/joint-director/co-ordinators/view-co-ordinators" element={<ViewCoOrdinators />} />
+            <Route path="/joint-director/principal/view-principal" element={<ViewPrincipal />} />
+            <Route path="/joint-director/lms/student-lms" element={<StudentLMS />} />
+            <Route path="/joint-director/lms/view-student-lms" element={<ViewStudentLMS />} />
+            <Route path="/joint-director/lms/teacher-lms" element={<TeacherLMS />} />
+            <Route path="/joint-director/lms/view-teacher-lms" element={<ViewTeacherLMS />} />
+            <Route path="/joint-director/request-approvals" element={<RequestApprovals />} />
+            <Route path="/joint-director/request-approvals/view-request" element={<ViewRequestApproval />} />
             <Route path="*" element={<Navigate to="/joint-director/dashboard" replace />} />
         </ReactRoutes>
     )

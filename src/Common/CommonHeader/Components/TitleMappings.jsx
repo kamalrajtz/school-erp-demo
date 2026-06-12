@@ -194,6 +194,15 @@ export const singleTitleMapping = {
     "/joint-director/students/view-student": "View Student Details",
     "/joint-director/teachers/teacher-details-list": "Teachers List",
     "/joint-director/teachers/view-teacher": "View Teacher Details",
+    "/joint-director/co-ordinator-management": "Co-ordinator Management",
+    "/joint-director/principal/view-principal": "View Principal Details",
+    "/joint-director/co-ordinators/view-co-ordinators": "View Co-ordinator Details",
+    "/joint-director/lms/student-lms": "Student LMS",
+    "/joint-director/lms/view-student-lms": "View Student LMS Details",
+    "/joint-director/lms/teacher-lms": "Teacher LMS",
+    "/joint-director/lms/view-teacher-lms": "View Teacher LMS Details",
+    "/joint-director/request-approvals": "Request Approvals",
+    "/joint-director/request-approvals/view-request": "View Request Details",
 }
 
 /** Paths with params never equal `location.pathname`; match with prefixes / patterns here */

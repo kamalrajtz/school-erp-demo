@@ -3,53 +3,55 @@ import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, CalendarCheck } from 'lucide-react'
 import mo_user from '../../../assets/images/no-profile.png'
 
-const MOCK_TEACHER = {
+const MOCK_COORDINATOR = {
     profileImage: null,
-    staffId: 'STF-2024-0156',
-    userId: 'USR-100156',
-    firstName: 'Anita',
-    middleName: 'R.',
-    lastName: 'Verma',
-    gender: 'Female',
-    dateOfBirth: '1988-07-14',
-    bloodGroup: 'O+',
-    height: '162 cm',
-    weight: '58 kg',
+    coordinatorId: 'COO-1001',
+    userId: 'USR-200101',
+    firstName: 'Sandy',
+    middleName: 'K.',
+    lastName: 'Selva',
+    gender: 'Male',
+    dateOfBirth: '20-12-1996',
+    bloodGroup: 'B+',
+    height: '175 cm',
+    weight: '72 kg',
     medicalHistory: 'No chronic conditions reported.',
     address: {
-        address: '18, Model Town, Block C',
+        address: '12, Anna Nagar, Main Road',
         country: 'India',
-        state: 'Haryana',
-        city: 'Gurgaon',
-        zipCode: '122002',
+        state: 'Tamil Nadu',
+        city: 'Pudukkottai',
+        zipCode: '622001',
     },
     contact: {
-        mobileNumber: '+91 91234 56789',
-        alternativeNumber: '+91 91234 56780',
-        email: 'anita.verma@example.com',
+        mobileNumber: '+91 99440 76993',
+        alternativeNumber: '+91 98765 43210',
+        email: 'san@gmail.com',
     },
     professionalInfo: {
-        qualification: 'M.Sc. Mathematics, B.Ed.',
-        subject: 'Mathematics',
-        yearsOfExperience: '8 years',
-        previousSchool: 'Ryan International School, Sector 40',
-        joiningDate: '2019-04-01',
+        qualification: 'B.Sc., B.Ed.',
+        designation: 'Senior Co-ordinator',
+        department: 'Academic Co-ordination',
+        yearsOfExperience: '8 Years',
+        previousOrganization: 'St. Joseph Higher Secondary School, Pudukkottai',
+        joiningDate: '2017-06-15',
     },
     employmentInfo: {
         employeeType: 'Full-time',
-        salary: '₹45,000 / month',
-        workShift: 'Morning (8:00 AM – 2:00 PM)',
-        assignedClass: 'Class 9, Class 10',
-        assignedSubjects: 'Mathematics, Statistics',
+        salary: '₹52,000 / month',
+        workShift: 'Morning (8:00 AM – 4:00 PM)',
+        assignedCampus: 'Main Campus',
+        managedDepartments: 'Science, Mathematics',
+        reportingTo: 'Joint Director',
     },
     account: {
-        username: 'anita.verma',
-        password: 'Teacher@123',
+        username: 'sandy.selva',
+        password: 'Coordinator@123',
     },
     documents: {
         idProof: 'Aadhaar Card',
-        qualificationCertificate: 'M.Sc. Mathematics Certificate',
-        experienceCertificate: 'Experience Letter – Ryan International',
+        qualificationCertificate: 'B.Sc. & B.Ed. Certificates',
+        experienceCertificate: 'Experience Letter – St. Joseph School',
     },
 }
 
@@ -68,12 +70,12 @@ const Field = ({ label, value }) => (
 )
 
 const ATTENDANCE_RECORDS = [
-    { date: '03-03-2026', day: 'Monday', checkIn: '07:52 AM', checkOut: '02:05 PM', status: 'Present', remarks: 'Class 9 & 10 mathematics periods completed' },
-    { date: '04-03-2026', day: 'Tuesday', checkIn: '07:48 AM', checkOut: '02:00 PM', status: 'Present', remarks: 'Conducted unit test evaluation' },
-    { date: '05-03-2026', day: 'Wednesday', checkIn: '—', checkOut: '—', status: 'Leave', remarks: 'Medical leave — fever and rest advised' },
-    { date: '06-03-2026', day: 'Thursday', checkIn: '08:12 AM', checkOut: '02:10 PM', status: 'Present', remarks: 'Arrived late due to morning traffic' },
-    { date: '07-03-2026', day: 'Friday', checkIn: '07:50 AM', checkOut: '12:30 PM', status: 'Half Day', remarks: 'Left early for CBSE teacher training workshop' },
-    { date: '10-03-2026', day: 'Monday', checkIn: '07:55 AM', checkOut: '02:00 PM', status: 'Present', remarks: 'Parent-teacher meeting duty completed' },
+    { date: '03-03-2026', day: 'Monday', checkIn: '07:50 AM', checkOut: '04:05 PM', status: 'Present', remarks: 'Coordinated Class 9 & 10 science faculty meeting' },
+    { date: '04-03-2026', day: 'Tuesday', checkIn: '07:55 AM', checkOut: '04:00 PM', status: 'Present', remarks: 'Reviewed mid-term exam schedules for Science dept.' },
+    { date: '05-03-2026', day: 'Wednesday', checkIn: '—', checkOut: '—', status: 'Leave', remarks: 'Casual leave — personal work, approved by Joint Director' },
+    { date: '06-03-2026', day: 'Thursday', checkIn: '08:15 AM', checkOut: '04:10 PM', status: 'Present', remarks: 'Late due to inter-department briefing session' },
+    { date: '07-03-2026', day: 'Friday', checkIn: '07:48 AM', checkOut: '01:30 PM', status: 'Half Day', remarks: 'District education office visit for curriculum update' },
+    { date: '10-03-2026', day: 'Monday', checkIn: '07:52 AM', checkOut: '04:00 PM', status: 'Present', remarks: 'Supervised annual day event preparations' },
     { date: '11-03-2026', day: 'Tuesday', checkIn: '—', checkOut: '—', status: 'Absent', remarks: 'Absent without prior leave application' },
 ]
 
@@ -84,18 +86,19 @@ const attendanceBadgeColor = {
     'Half Day': 'bg-[#2196F333] text-[#2196F3]',
 }
 
-const ViewTeacher = () => {
-    const navigate = useNavigate()
-    const t = MOCK_TEACHER
-    const addr = t.address
-    const contact = t.contact
-    const prof = t.professionalInfo
-    const emp = t.employmentInfo
-    const acct = t.account
-    const docs = t.documents
+const ViewCoOrdinators = () => {
 
-    const displayName = [t.firstName, t.middleName, t.lastName].join(' ')
-    const presentDays = ATTENDANCE_RECORDS.filter((record) => record.status === 'Present').length
+    const navigate = useNavigate()
+    const coordinator = MOCK_COORDINATOR
+    const addr = coordinator.address
+    const contact = coordinator.contact
+    const prof = coordinator.professionalInfo
+    const emp = coordinator.employmentInfo
+    const acct = coordinator.account
+    const docs = coordinator.documents
+
+    const displayName = [coordinator.firstName, coordinator.middleName, coordinator.lastName].join(' ')
+    const presentDays = ATTENDANCE_RECORDS.filter((r) => r.status === 'Present').length
     const attendanceRate = Math.round((presentDays / ATTENDANCE_RECORDS.length) * 100)
 
     return (
@@ -103,7 +106,7 @@ const ViewTeacher = () => {
             <div className='flex flex-wrap items-center gap-3'>
                 <button
                     type='button'
-                    onClick={() => navigate('/joint-director/teachers/teacher-details-list')}
+                    onClick={() => navigate('/joint-director/co-ordinator-management')}
                     className='inline-flex items-center gap-2 text-sm text-[#515DEF] border border-[#515DEF] rounded-md px-4 py-2 hover:bg-[#515DEF] hover:text-white transition-colors cursor-pointer'
                 >
                     <ArrowLeft size={18} />
@@ -114,7 +117,7 @@ const ViewTeacher = () => {
             <div className='bg-white rounded-2xl shadow-md p-4'>
                 <div className='flex flex-col sm:flex-row sm:items-center gap-4'>
                     <img
-                        src={t.profileImage || mo_user}
+                        src={coordinator.profileImage || mo_user}
                         alt=''
                         className='w-20 h-20 rounded-full object-cover ring-2 ring-indigo-100'
                     />
@@ -122,10 +125,10 @@ const ViewTeacher = () => {
                         <h1 className='text-2xl font-semibold text-black'>{displayName}</h1>
                         <p className='text-sm text-[#667085] mt-1'>
                             <span className='font-medium text-[#1E1E1E]'>
-                                Staff ID: {t.staffId}
+                                Co-ordinator ID: {coordinator.coordinatorId}
                             </span>
                             {' · '}
-                            <span className='text-[#808080]'>User ID: {t.userId}</span>
+                            <span className='text-[#808080]'>User ID: {coordinator.userId}</span>
                         </p>
                     </div>
                 </div>
@@ -133,15 +136,15 @@ const ViewTeacher = () => {
 
             <Section title='Personal information'>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
-                    <Field label='First name' value={t.firstName} />
-                    <Field label='Middle name' value={t.middleName} />
-                    <Field label='Last name' value={t.lastName} />
-                    <Field label='Gender' value={t.gender} />
-                    <Field label='Date of birth' value={t.dateOfBirth} />
-                    <Field label='Blood group' value={t.bloodGroup} />
-                    <Field label='Height' value={t.height} />
-                    <Field label='Weight' value={t.weight} />
-                    <Field label='Medical history' value={t.medicalHistory} />
+                    <Field label='First name' value={coordinator.firstName} />
+                    <Field label='Middle name' value={coordinator.middleName} />
+                    <Field label='Last name' value={coordinator.lastName} />
+                    <Field label='Gender' value={coordinator.gender} />
+                    <Field label='Date of birth' value={coordinator.dateOfBirth} />
+                    <Field label='Blood group' value={coordinator.bloodGroup} />
+                    <Field label='Height' value={coordinator.height} />
+                    <Field label='Weight' value={coordinator.weight} />
+                    <Field label='Medical history' value={coordinator.medicalHistory} />
                     <div className='lg:col-span-3'>
                         <Field label='Street / full address' value={addr.address} />
                     </div>
@@ -158,9 +161,10 @@ const ViewTeacher = () => {
             <Section title='Professional information'>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
                     <Field label='Qualification' value={prof.qualification} />
-                    <Field label='Subject' value={prof.subject} />
+                    <Field label='Designation' value={prof.designation} />
+                    <Field label='Department' value={prof.department} />
                     <Field label='Years of experience' value={prof.yearsOfExperience} />
-                    <Field label='Previous school' value={prof.previousSchool} />
+                    <Field label='Previous organization' value={prof.previousOrganization} />
                     <Field label='Joining date' value={prof.joiningDate} />
                 </div>
             </Section>
@@ -170,8 +174,9 @@ const ViewTeacher = () => {
                     <Field label='Employee type' value={emp.employeeType} />
                     <Field label='Salary' value={emp.salary} />
                     <Field label='Work shift' value={emp.workShift} />
-                    <Field label='Assigned class' value={emp.assignedClass} />
-                    <Field label='Assigned subjects' value={emp.assignedSubjects} />
+                    <Field label='Assigned campus' value={emp.assignedCampus} />
+                    <Field label='Managed departments' value={emp.managedDepartments} />
+                    <Field label='Reporting to' value={emp.reportingTo} />
                 </div>
             </Section>
 
@@ -258,4 +263,4 @@ const ViewTeacher = () => {
     )
 }
 
-export default ViewTeacher
+export default ViewCoOrdinators

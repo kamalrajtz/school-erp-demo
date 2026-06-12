@@ -447,6 +447,34 @@ export const jointDirectorSidebarLinks = [
         to: "/joint-director/teachers/teacher-details-list",
         icon: UserRoundCog,
     },
+    {
+        id: 8,
+        title: "Co-ordinator Management",
+        to: "/joint-director/co-ordinator-management",
+        icon: UsersRound,
+    },
+    {
+        id: 9,
+        title: "Principal Management",
+        to: "/joint-director/principal/view-principal",
+        icon: GraduationCap,
+    },
+    {
+        id: 10,
+        title: "LMS & E-Learning",
+        to: "#0",
+        icon: BookOpen,
+        subLinks: [
+            { icon: BookOpenCheck, title: "Student LMS", to: "/joint-director/lms/student-lms" },
+            { icon: BookOpenCheck, title: "Teacher LMS", to: "/joint-director/lms/teacher-lms" },
+        ],
+    },
+    {
+        id: 11,
+        title: "Request Approvals",
+        to: "/joint-director/request-approvals",
+        icon: ClipboardList,
+    },
 ];
 
 export const roleBasedSidebarLinks = {
