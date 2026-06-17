@@ -180,6 +180,7 @@ export const singleTitleMapping = {
     "/gate-keeper/add-incident": "Add Incident Information",
     "/gate-keeper/gate-pass-list": "Gate Pass List",
     "/gate-keeper/add-gate-pass": "Add Gate Pass",
+    "/gate-keeper/broadcast-list": "Broadcast List",
 
     // ── Gate Keeper Manager Role ──────────────────────────────────────────────
     "/gatekeeper-manager/dashboard": "Dashboard",
@@ -231,6 +232,7 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/admin\/activities\/view-sports\/[^/]+$/.test(p), title: 'Sports Activity Details' },
     { test: (p) => /^\/admin\/activities\/view-competition\/[^/]+$/.test(p), title: 'Competition Activity Details' },
     { test: (p) => /^\/admin\/documents\/view-student-documents\/[^/]+$/.test(p), title: 'Student Document Details' },
+    { test: (p) => /^\/gate-keeper\/view-broadcast\/[^/]+$/.test(p), title: 'View Broadcast Details' },
 ]
 
 export function getPageTitle(pathname) {

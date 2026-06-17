@@ -403,6 +403,12 @@ export const gateKeeperSidebarLinks = [
         to: "/gate-keeper/gate-pass-list",
         icon: ArrowRightLeft,
     },
+    {
+        id: 6,
+        title: "Broadcast",
+        to: "/gate-keeper/broadcast-list",
+        icon: Rss,
+    },
 ];
 
 export const gateKeeperManagerSidebarLinks = [

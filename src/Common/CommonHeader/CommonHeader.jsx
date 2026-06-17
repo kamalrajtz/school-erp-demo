@@ -2,12 +2,12 @@ import React from 'react'
 import { TextAlignJustify, Search } from 'lucide-react'
 import UserDropdown from './Components/UserDropdown'
 import UserNotifications from './Components/UserNotifications'
-import { singleTitleMapping } from './Components/TitleMappings'
+import { getPageTitle } from './Components/TitleMappings'
 import { useLocation } from 'react-router-dom'
 
 const CommonHeader = ({ toggleSidebar, sidebarHidden }) => {
     const location = useLocation()
-    console.log(location.pathname)
+    const pageTitle = getPageTitle(location.pathname)
 
     return (
         <header className="fixed top-0 w-full z-10 antialiased bg-white border-b border-[#e4e7ec] font-inter">
@@ -20,7 +20,7 @@ const CommonHeader = ({ toggleSidebar, sidebarHidden }) => {
                         >
                             <TextAlignJustify />
                         </button>
-                        <h1 className='text-2xl font-bold'>{singleTitleMapping[location.pathname]}</h1>
+                        <h1 className='text-2xl font-bold'>{pageTitle}</h1>
                     </div>
                     <div className="flex items-center gap-x-3 lg:order-2">
                         <UserNotifications />
