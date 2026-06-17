@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { ChevronLeft, ChevronDown } from "lucide-react"
 import logo from "../../assets/images/demo-logo.svg"
 import logoMini from "../../assets/images/demo-logo-mini.svg"
-import { adminSidebarLinks, gateKeeperSidebarLinks, jointDirectorSidebarLinks, librarianSidebarLinks, prmSidebarLinks, studentSidebarLinks } from './Components/sidebarLinks'
+import { adminSidebarLinks, gateKeeperManagerSidebarLinks, gateKeeperSidebarLinks, directorSidebarLinks, librarianSidebarLinks, prmSidebarLinks, studentSidebarLinks } from './Components/sidebarLinks'
 
 const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
 
@@ -22,8 +22,9 @@ const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
     const sidebarLinks = useMemo(() => {
         if (location.pathname.startsWith('/student')) return studentSidebarLinks
         if (location.pathname.startsWith('/librarian')) return librarianSidebarLinks
+        if (location.pathname.startsWith('/gatekeeper-manager')) return gateKeeperManagerSidebarLinks
         if (location.pathname.startsWith('/gate-keeper')) return gateKeeperSidebarLinks
-        if (location.pathname.startsWith('/joint-director')) return jointDirectorSidebarLinks
+        if (location.pathname.startsWith('/director')) return directorSidebarLinks
         if (location.pathname.startsWith('/front-office')) return prmSidebarLinks
         return adminSidebarLinks
     }, [location.pathname]);

@@ -3,7 +3,8 @@ import AuthLayout from "./Layout/AuthLayout";
 import AdminLayout from "./Layout/AdminLayout";
 import LibrarianLayout from "./Layout/LibrarianLayout";
 import GateKeeperLayout from "./Layout/GateKeeperLayout";
-import JointDirectorLayout from "./Layout/JointDirectorLayout";
+import GateKeeperManagerLayout from "./Layout/GateKeeperManagerLayout";
+import DirectorLayout from "./Layout/DirectorLayout";
 import PRMLayout from "./Layout/PRMLayout";
 import StudentLayout from "./Layout/StudentLayout";
 import { ROLE_HOME_PATHS, ROLES, useAuth } from "./context/AuthContext";
@@ -50,6 +51,13 @@ const App = () => {
     return <PRMLayout />;
   }
 
+  if (role === ROLES.GATEKEEPER_MANAGER) {
+    if (!pathname.startsWith("/gatekeeper-manager")) {
+      return <Navigate to={ROLE_HOME_PATHS[ROLES.GATEKEEPER_MANAGER]} replace />;
+    }
+    return <GateKeeperManagerLayout />;
+  }
+
   if (role === ROLES.GATEKEEPER) {
     if (!pathname.startsWith("/gate-keeper")) {
       return <Navigate to={ROLE_HOME_PATHS[ROLES.GATEKEEPER]} replace />;
@@ -57,11 +65,11 @@ const App = () => {
     return <GateKeeperLayout />;
   }
 
-  if (role === ROLES.JOINT_DIRECTOR) {
-    if (!pathname.startsWith("/joint-director")) {
-      return <Navigate to={ROLE_HOME_PATHS[ROLES.JOINT_DIRECTOR]} replace />;
+  if (role === ROLES.DIRECTOR) {
+    if (!pathname.startsWith("/director")) {
+      return <Navigate to={ROLE_HOME_PATHS[ROLES.DIRECTOR]} replace />;
     }
-    return <JointDirectorLayout />;
+    return <DirectorLayout />;
   }
 
   if (
@@ -69,7 +77,8 @@ const App = () => {
     pathname.startsWith("/front-office") ||
     pathname.startsWith("/student") ||
     pathname.startsWith("/gate-keeper") ||
-    pathname.startsWith("/joint-director")
+    pathname.startsWith("/gatekeeper-manager") ||
+    pathname.startsWith("/director")
   ) {
     return <Navigate to={ROLE_HOME_PATHS[ROLES.ADMIN]} replace />;
   }

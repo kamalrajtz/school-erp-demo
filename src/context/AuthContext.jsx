@@ -6,7 +6,8 @@ export const ROLES = {
     LIBRARIAN: 'librarian',
     PRM: 'prm',
     GATEKEEPER: 'gatekeeper',
-    JOINT_DIRECTOR: 'jointdirector',
+    GATEKEEPER_MANAGER: 'gatekeepermanager',
+    DIRECTOR: 'director',
 }
 
 export const FAKE_CREDENTIALS = {
@@ -15,7 +16,8 @@ export const FAKE_CREDENTIALS = {
     [ROLES.LIBRARIAN]: { email: 'librarian@school.com' },
     [ROLES.PRM]: { email: 'prm@school.com' },
     [ROLES.GATEKEEPER]: { email: 'gatekeeper@school.com' },
-    [ROLES.JOINT_DIRECTOR]: { email: 'jointdirector@school.com' },
+    [ROLES.GATEKEEPER_MANAGER]: { email: 'gatekeepermanager@school.com' },
+    [ROLES.DIRECTOR]: { email: 'director@school.com' },
 }
 
 export const ROLE_HOME_PATHS = {
@@ -24,7 +26,8 @@ export const ROLE_HOME_PATHS = {
     [ROLES.LIBRARIAN]: '/librarian/book-management/book-list',
     [ROLES.PRM]: '/front-office/admission-enquiry',
     [ROLES.GATEKEEPER]: '/gate-keeper/dashboard',
-    [ROLES.JOINT_DIRECTOR]: '/joint-director/documents',
+    [ROLES.GATEKEEPER_MANAGER]: '/gatekeeper-manager/dashboard',
+    [ROLES.DIRECTOR]: '/director/documents',
 }
 
 const STORAGE_KEY = 'schoolerp_auth'

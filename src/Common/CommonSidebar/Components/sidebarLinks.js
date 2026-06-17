@@ -47,6 +47,7 @@ import {
     ShieldAlert,
     Star,
     UserRoundCog,
+    Rss
 } from "lucide-react";
 
 export const adminSidebarLinks = [
@@ -372,12 +373,12 @@ export const librarianSidebarLinks = [
 ];
 
 export const gateKeeperSidebarLinks = [
-    {
-        id: 1,
-        title: "Dashboard",
-        to: "/gate-keeper/dashboard",
-        icon: LayoutDashboard,
-    },
+    // {
+    //     id: 1,
+    //     title: "Dashboard",
+    //     to: "/gate-keeper/dashboard",
+    //     icon: LayoutDashboard,
+    // },
     {
         id: 2,
         title: "Hostel Gate Pass",
@@ -404,59 +405,92 @@ export const gateKeeperSidebarLinks = [
     },
 ];
 
-export const jointDirectorSidebarLinks = [
+export const gateKeeperManagerSidebarLinks = [
     // {
     //     id: 1,
     //     title: "Dashboard",
-    //     to: "/joint-director/dashboard",
+    //     to: "/gatekeeper-manager/dashboard",
+    //     icon: LayoutDashboard,
+    // },
+    {
+        id: 2,
+        title: "Assign Duty List",
+        to: "/gatekeeper-manager/assign-duty-list",
+        icon: ShieldCheck,
+    },
+    {
+        id: 3,
+        title: "Leave Approval List",
+        to: "/gatekeeper-manager/leave-approval-list",
+        icon: CalendarCheck,
+    },
+    {
+        id: 4,
+        title: "Incidents Management List",
+        to: "/gatekeeper-manager/incidents-list",
+        icon: ShieldAlert,
+    },
+    {
+        id: 5,
+        title: "Gatekeeper Broadcast",
+        to: "/gatekeeper-manager/gatekeeper-broadcast-list",
+        icon: Rss,
+    },
+];
+
+export const directorSidebarLinks = [
+    // {
+    //     id: 1,
+    //     title: "Dashboard",
+    //     to: "/director/dashboard",
     //     icon: LayoutDashboard,
     // },
     {
         id: 2,
         title: "Documents",
-        to: "/joint-director/documents",
+        to: "/director/documents",
         icon: FolderOpen,
     },
     {
         id: 3,
         title: "Task Management",
-        to: "/joint-director/task-management",
+        to: "/director/task-management",
         icon: ClipboardList,
     },
     {
         id: 4,
         title: "Star Ratings",
-        to: "/joint-director/star-ratings-list",
+        to: "/director/star-ratings-list",
         icon: Star,
     },
     {
         id: 5,
         title: "Examination Approvals",
-        to: "/joint-director/examination-approvals",
+        to: "/director/examination-approvals",
         icon: CalendarCheck,
     },
     {
         id: 6,
         title: "Student Management",
-        to: "/joint-director/students/student-details-list",
+        to: "/director/students/student-details-list",
         icon: UserRound,
     },
     {
         id: 7,
         title: "Teacher Management",
-        to: "/joint-director/teachers/teacher-details-list",
+        to: "/director/teachers/teacher-details-list",
         icon: UserRoundCog,
     },
     {
         id: 8,
         title: "Co-ordinator Management",
-        to: "/joint-director/co-ordinator-management",
+        to: "/director/co-ordinator-management",
         icon: UsersRound,
     },
     {
         id: 9,
         title: "Principal Management",
-        to: "/joint-director/principal/view-principal",
+        to: "/director/principal/view-principal",
         icon: GraduationCap,
     },
     {
@@ -465,14 +499,14 @@ export const jointDirectorSidebarLinks = [
         to: "#0",
         icon: BookOpen,
         subLinks: [
-            { icon: BookOpenCheck, title: "Student LMS", to: "/joint-director/lms/student-lms" },
-            { icon: BookOpenCheck, title: "Teacher LMS", to: "/joint-director/lms/teacher-lms" },
+            { icon: BookOpenCheck, title: "Student LMS", to: "/director/lms/student-lms" },
+            { icon: BookOpenCheck, title: "Teacher LMS", to: "/director/lms/teacher-lms" },
         ],
     },
     {
         id: 11,
         title: "Request Approvals",
-        to: "/joint-director/request-approvals",
+        to: "/director/request-approvals",
         icon: ClipboardList,
     },
 ];
@@ -483,5 +517,6 @@ export const roleBasedSidebarLinks = {
     Librarian: librarianSidebarLinks,
     PRM: prmSidebarLinks,
     GateKeeper: gateKeeperSidebarLinks,
-    JointDirector: jointDirectorSidebarLinks,
+    GateKeeperManager: gateKeeperManagerSidebarLinks,
+    Director: directorSidebarLinks,
 };
