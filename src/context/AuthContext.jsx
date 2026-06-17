@@ -26,7 +26,7 @@ export const ROLE_HOME_PATHS = {
     [ROLES.LIBRARIAN]: '/librarian/book-management/book-list',
     [ROLES.PRM]: '/front-office/admission-enquiry',
     [ROLES.GATEKEEPER]: '/gate-keeper/dashboard',
-    [ROLES.GATEKEEPER_MANAGER]: '/gatekeeper-manager/dashboard',
+    [ROLES.GATEKEEPER_MANAGER]: '/gatekeeper-manager/assign-duty-list',
     [ROLES.DIRECTOR]: '/director/documents',
 }
 
