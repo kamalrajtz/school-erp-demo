@@ -9,6 +9,10 @@ const ROLE_LABELS = {
     [ROLES.STUDENT]: 'Student',
     [ROLES.LIBRARIAN]: 'Librarian',
     [ROLES.PRM]: 'PRM',
+    [ROLES.GATEKEEPER]: 'Gate Keeper',
+    [ROLES.GATEKEEPER_MANAGER]: 'Gate Keeper Manager',
+    [ROLES.DIRECTOR]: 'Director',
+    [ROLES.PRINCIPAL]: 'Principal',
 }
 
 const SignIn = () => {

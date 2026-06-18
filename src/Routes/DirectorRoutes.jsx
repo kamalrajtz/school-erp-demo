@@ -21,6 +21,7 @@ import ViewStudentLMS from '../Pages/Director/LMS/ViewStudentLMS'
 import ViewTeacherLMS from '../Pages/Director/LMS/ViewTeacherLMS'
 import RequestApprovals from '../Pages/Director/Request-Approvals/RequestApprovals'
 import ViewRequestApproval from '../Pages/Director/Request-Approvals/ViewRequestApproval'
+import ClassTimetableApprovals from '../Pages/Director/ClassTimetable/ClassTimetableApprovals'
 
 const DirectorRoutes = () => {
     return (
@@ -33,6 +34,7 @@ const DirectorRoutes = () => {
             <Route path="/director/star-ratings-list" element={<StarRatings />} />
             <Route path="/director/star-ratings/add-ratings" element={<AddRatings />} />
             <Route path="/director/examination-approvals" element={<ExamApprovals />} />
+            <Route path="/director/class-timetable-approvals" element={<ClassTimetableApprovals />} />
             <Route path="/director/students/student-details-list" element={<StudentsList />} />
             <Route path="/director/students/view-student" element={<ViewStudent />} />
             <Route path="/director/teachers/teacher-details-list" element={<TeachersList />} />

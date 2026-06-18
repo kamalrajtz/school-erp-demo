@@ -5,6 +5,7 @@ import LibrarianLayout from "./Layout/LibrarianLayout";
 import GateKeeperLayout from "./Layout/GateKeeperLayout";
 import GateKeeperManagerLayout from "./Layout/GateKeeperManagerLayout";
 import DirectorLayout from "./Layout/DirectorLayout";
+import PrincipalLayout from "./Layout/PrincipalLayout";
 import PRMLayout from "./Layout/PRMLayout";
 import StudentLayout from "./Layout/StudentLayout";
 import { ROLE_HOME_PATHS, ROLES, useAuth } from "./context/AuthContext";
@@ -72,13 +73,21 @@ const App = () => {
     return <DirectorLayout />;
   }
 
+  if (role === ROLES.PRINCIPAL) {
+    if (!pathname.startsWith("/principal")) {
+      return <Navigate to={ROLE_HOME_PATHS[ROLES.PRINCIPAL]} replace />;
+    }
+    return <PrincipalLayout />;
+  }
+
   if (
     pathname.startsWith("/librarian") ||
     pathname.startsWith("/front-office") ||
     pathname.startsWith("/student") ||
     pathname.startsWith("/gate-keeper") ||
     pathname.startsWith("/gatekeeper-manager") ||
-    pathname.startsWith("/director")
+    pathname.startsWith("/director") ||
+    pathname.startsWith("/principal")
   ) {
     return <Navigate to={ROLE_HOME_PATHS[ROLES.ADMIN]} replace />;
   }

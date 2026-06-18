@@ -1,18 +1,47 @@
-import React from 'react'
-import logo from "../../assets/images/demo-logo2.svg"
-import select_profile_img from "../../assets/images/select-profile-img.png"
+import React, { useMemo, useState } from 'react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import logo from '../../assets/images/demo-logo2.svg'
+import select_profile_img from '../../assets/images/select-profile-img.png'
 import { useNavigate } from 'react-router-dom'
-import admin_profile from "../../assets/images/admin-icon.png"
-import student_profile from "../../assets/images/student-icon.png"
-import teacher_profile from "../../assets/images/teacher-icon.png"
-import van_driver_profile from "../../assets/images/van-driver-icon.png"
-import librarian_profile from "../../assets/images/librarian-icon.png"
-import prm_profile from "../../assets/images/prm-icon.jpg"
+import admin_profile from '../../assets/images/admin-icon.png'
+import student_profile from '../../assets/images/student-icon.png'
+import teacher_profile from '../../assets/images/teacher-icon.png'
+import van_driver_profile from '../../assets/images/van-driver-icon.png'
+import librarian_profile from '../../assets/images/librarian-icon.png'
+import prm_profile from '../../assets/images/prm-icon.jpg'
 import { ROLES, useAuth } from '../../context/AuthContext'
+
+const ROLES_PER_PAGE = 9
+
+const PROFILE_OPTIONS = [
+    { role: ROLES.ADMIN, label: 'Admin', image: admin_profile, alt: 'admin_profile' },
+    { role: ROLES.STUDENT, label: 'Student', image: student_profile, alt: 'student_profile' },
+    { role: null, label: 'Teacher', image: teacher_profile, alt: 'teacher_profile', disabled: true },
+    { role: null, label: 'Van Driver', image: van_driver_profile, alt: 'van_driver_profile', disabled: true },
+    { role: ROLES.LIBRARIAN, label: 'Librarian', image: librarian_profile, alt: 'librarian_profile' },
+    { role: ROLES.PRM, label: 'PRM', image: prm_profile, alt: 'prm_profile', imageClassName: 'rounded-full' },
+    { role: ROLES.GATEKEEPER, label: 'Gate Keeper', image: van_driver_profile, alt: 'gatekeeper_profile' },
+    {
+        role: ROLES.GATEKEEPER_MANAGER,
+        label: 'Gate Keeper Manager',
+        image: van_driver_profile,
+        alt: 'gatekeeper_manager_profile',
+    },
+    { role: ROLES.DIRECTOR, label: 'Director', image: admin_profile, alt: 'director_profile' },
+    { role: ROLES.PRINCIPAL, label: 'Principal', image: admin_profile, alt: 'principal_profile' },
+]
 
 const SelectProfile = () => {
     const navigate = useNavigate()
     const { setPendingRole } = useAuth()
+    const [currentPage, setCurrentPage] = useState(1)
+
+    const totalPages = Math.ceil(PROFILE_OPTIONS.length / ROLES_PER_PAGE)
+
+    const visibleProfiles = useMemo(() => {
+        const start = (currentPage - 1) * ROLES_PER_PAGE
+        return PROFILE_OPTIONS.slice(start, start + ROLES_PER_PAGE)
+    }, [currentPage])
 
     const handleSelect = (role) => {
         setPendingRole(role)
@@ -20,103 +49,102 @@ const SelectProfile = () => {
     }
 
     return (
-        <div className="relative w-full h-screen bg-[#f5f7ff] overflow-hidden font-poppins">
+        <div className='relative w-full min-h-screen bg-[#f5f7ff] overflow-hidden font-poppins'>
+            <div className='absolute -bottom-32 w-[600px] h-[600px] bg-[#B4C4FF] rounded-full blur-[120px] -left-28 opacity-70' />
+            <div className='absolute -top-28 w-[600px] h-[600px] bg-[#B4C4FF] rounded-full blur-[120px] -right-28 opacity-70' />
 
-            <div className="absolute -bottom-32 w-[600px] h-[600px] bg-[#B4C4FF] rounded-full blur-[120px] -left-28 opacity-70"></div>
-
-            <div className="absolute -top-28 w-[600px] h-[600px] bg-[#B4C4FF] rounded-full blur-[120px] -right-28 opacity-70"></div>
-
-            <div className="relative z-10 w-full h-full grid grid-cols-1 md:grid-cols-2">
+            <div className='relative z-10 w-full min-h-screen grid grid-cols-1 md:grid-cols-2'>
                 <div className='flex justify-center items-center md:p-6 p-2 relative'>
                     <div className='absolute md:top-4 md:left-4 top-4 left-0 w-full flex justify-center md:block md:px-0 lg:px-0 xl:px-10'>
-                        <img src={logo} alt="logo" className='w-52' />
+                        <img src={logo} alt='logo' className='w-52' />
                     </div>
-                    <div className='w-full max-w-lg flex flex-col gap-y-8 mt-20 sm:mt-0'>
+                    <div className='w-full max-w-lg flex flex-col gap-y-8 mt-20 sm:mt-0 py-8'>
                         <div>
-                            <h1 className='text-4xl font-semibold text-[#313131] md:text-left text-center'>Profile</h1>
-                            <p className='text-base font-medium text-[#313131]/70 mt-4 md:text-left text-center'>Select your correct profile</p>
+                            <h1 className='text-4xl font-semibold text-[#313131] md:text-left text-center'>
+                                Profile
+                            </h1>
+                            <p className='text-base font-medium text-[#313131]/70 mt-4 md:text-left text-center'>
+                                Select your correct profile
+                            </p>
                         </div>
+
                         <div className='grid grid-cols-2 sm:grid-cols-3 gap-8'>
-                            <button
-                                type="button"
-                                onClick={() => handleSelect(ROLES.ADMIN)}
-                                className="flex flex-col gap-y-2 items-center cursor-pointer"
-                            >
-                                <img src={admin_profile} className='h-24 w-24' alt="admin_profile" />
-                                <p className='text-base font-medium text-black text-center'>Admin</p>
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => handleSelect(ROLES.STUDENT)}
-                                className="flex flex-col gap-y-2 items-center cursor-pointer"
-                            >
-                                <img src={student_profile} className='h-24 w-24' alt="student_profile" />
-                                <p className='text-base font-medium text-black text-center'>Student</p>
-                            </button>
-                            <button
-                                type="button"
-                                disabled
-                                className="flex flex-col gap-y-2 items-center opacity-50 cursor-not-allowed"
-                            >
-                                <img src={teacher_profile} className='h-24 w-24' alt="teacher_profile" />
-                                <p className='text-base font-medium text-black text-center'>Teacher</p>
-                            </button>
-                            <button
-                                type="button"
-                                disabled
-                                className="flex flex-col gap-y-2 items-center opacity-50 cursor-not-allowed"
-                            >
-                                <img src={van_driver_profile} className='h-24 w-24' alt="van_driver_profile" />
-                                <p className='text-base font-medium text-black text-center'>Van Driver</p>
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => handleSelect(ROLES.LIBRARIAN)}
-                                className="flex flex-col gap-y-2 items-center cursor-pointer"
-                            >
-                                <img src={librarian_profile} className='h-24 w-24' alt="librarian_profile" />
-                                <p className='text-base font-medium text-black text-center'>Librarian</p>
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => handleSelect(ROLES.PRM)}
-                                className="flex flex-col gap-y-2 items-center cursor-pointer"
-                            >
-                                <img src={prm_profile} className='h-24 w-24 rounded-full' alt="prm_profile" />
-                                <p className='text-base font-medium text-black text-center'>PRM</p>
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => handleSelect(ROLES.GATEKEEPER)}
-                                className="flex flex-col gap-y-2 items-center cursor-pointer"
-                            >
-                                <img src={van_driver_profile} className='h-24 w-24' alt="gatekeeper_profile" />
-                                <p className='text-base font-medium text-black text-center'>Gate Keeper</p>
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => handleSelect(ROLES.GATEKEEPER_MANAGER)}
-                                className="flex flex-col gap-y-2 items-center cursor-pointer"
-                            >
-                                <img src={van_driver_profile} className='h-24 w-24' alt="gatekeeper_manager_profile" />
-                                <p className='text-base font-medium text-black text-center'>Gate Keeper Manager</p>
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => handleSelect(ROLES.DIRECTOR)}
-                                className="flex flex-col gap-y-2 items-center cursor-pointer"
-                            >
-                                <img src={admin_profile} className='h-24 w-24' alt="director_profile" />
-                                <p className='text-base font-medium text-black text-center'>Director</p>
-                            </button>
+                            {visibleProfiles.map((profile) => (
+                                <button
+                                    key={profile.label}
+                                    type='button'
+                                    disabled={profile.disabled}
+                                    onClick={() => profile.role && handleSelect(profile.role)}
+                                    className={`flex flex-col gap-y-2 items-center ${
+                                        profile.disabled
+                                            ? 'opacity-50 cursor-not-allowed'
+                                            : 'cursor-pointer'
+                                    }`}
+                                >
+                                    <img
+                                        src={profile.image}
+                                        className={`h-24 w-24 ${profile.imageClassName ?? ''}`}
+                                        alt={profile.alt}
+                                    />
+                                    <p className='text-base font-medium text-black text-center'>
+                                        {profile.label}
+                                    </p>
+                                </button>
+                            ))}
                         </div>
+
+                        {totalPages > 1 && (
+                            <div className='flex justify-between items-center gap-4'>
+                                <button
+                                    type='button'
+                                    onClick={() => setCurrentPage((page) => Math.max(page - 1, 1))}
+                                    disabled={currentPage === 1}
+                                    className='inline-flex items-center gap-2 text-sm font-medium text-[#515DEF] border border-[#515DEF] rounded-md px-4 py-2 hover:bg-[#515DEF] hover:text-white transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#515DEF]'
+                                >
+                                    <ChevronLeft size={16} />
+                                    Previous
+                                </button>
+
+                                <div className='flex items-center gap-2'>
+                                    {Array.from({ length: totalPages }, (_, index) => {
+                                        const page = index + 1
+                                        const isActive = page === currentPage
+                                        return (
+                                            <button
+                                                key={page}
+                                                type='button'
+                                                onClick={() => setCurrentPage(page)}
+                                                className={`size-8 flex justify-center items-center text-sm font-medium rounded-full cursor-pointer transition-colors ${
+                                                    isActive
+                                                        ? 'bg-[#515DEF] text-white'
+                                                        : 'bg-white text-[#515DEF] border border-[#E2E8F0] hover:bg-[#515DEF] hover:text-white'
+                                                }`}
+                                            >
+                                                {page}
+                                            </button>
+                                        )
+                                    })}
+                                </div>
+
+                                <button
+                                    type='button'
+                                    onClick={() =>
+                                        setCurrentPage((page) => Math.min(page + 1, totalPages))
+                                    }
+                                    disabled={currentPage === totalPages}
+                                    className='inline-flex items-center gap-2 text-sm font-medium text-[#515DEF] border border-[#515DEF] rounded-md px-4 py-2 hover:bg-[#515DEF] hover:text-white transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#515DEF]'
+                                >
+                                    Next
+                                    <ChevronRight size={16} />
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className='hidden md:flex justify-center items-center p-6'>
                     <img src={select_profile_img} className='w-full max-w-md' alt='select_profile_img' />
                 </div>
             </div>
-
         </div>
     )
 }

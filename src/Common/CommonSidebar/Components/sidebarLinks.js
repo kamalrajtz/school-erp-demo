@@ -476,6 +476,12 @@ export const directorSidebarLinks = [
         icon: CalendarCheck,
     },
     {
+        id: 12,
+        title: "Class Timetable Approvals",
+        to: "/director/class-timetable-approvals",
+        icon: CalendarDays,
+    },
+    {
         id: 6,
         title: "Student Management",
         to: "/director/students/student-details-list",
@@ -517,6 +523,81 @@ export const directorSidebarLinks = [
     },
 ];
 
+export const principalSidebarLinks = [
+    // {
+    //     id: 1,
+    //     title: "Dashboard",
+    //     to: "/principal/dashboard",
+    //     icon: LayoutDashboard,
+    // },
+    {
+        id: 2,
+        title: "Documents",
+        to: "/principal/documents",
+        icon: FolderOpen,
+    },
+    {
+        id: 3,
+        title: "Task Management",
+        to: "/principal/task-management",
+        icon: ClipboardList,
+    },
+    {
+        id: 4,
+        title: "Star Ratings",
+        to: "/principal/star-ratings-list",
+        icon: Star,
+    },
+    {
+        id: 5,
+        title: "Examination Timetable",
+        to: "/principal/examination-timetable",
+        icon: CalendarCheck,
+    },
+    {
+        id: 11,
+        title: "Class Timetable",
+        to: "/principal/class-timetable",
+        icon: CalendarDays,
+    },
+    {
+        id: 6,
+        title: "Student Management",
+        to: "/principal/students/student-details-list",
+        icon: UserRound,
+    },
+    {
+        id: 7,
+        title: "Employees Management",
+        to: "#0",
+        icon: UsersRound,
+        subLinks: [
+            { icon: UserRoundCog, title: "Teachers", to: "/principal/employees-management/teachers" },
+            { icon: UsersRound, title: "Coordinators", to: "/principal/employees-management/coordinators" },
+            { icon: Briefcase, title: "Front Office", to: "/principal/employees-management/front-office" },
+            { icon: Library, title: "Librarians", to: "/principal/employees-management/librarians" },
+            { icon: BrickWallShield, title: "Gate Keeper Manager", to: "/principal/employees-management/gatekeeper-manager" },
+            { icon: BrickWallShield, title: "Gate Keepers", to: "/principal/employees-management/gatekeepers" },
+        ],
+    },
+    {
+        id: 9,
+        title: "LMS & E-Learning",
+        to: "#0",
+        icon: BookOpen,
+        subLinks: [
+            { icon: BookOpenCheck, title: "Student LMS", to: "/principal/lms/student-lms" },
+            { icon: BookOpenCheck, title: "Teacher LMS", to: "/principal/lms/teacher-lms" },
+        ],
+    },
+    {
+        id: 10,
+        title: "Escalation Management",
+        to: "/principal/escalation-management",
+        icon: ShieldAlert,
+    },
+];
+
 export const roleBasedSidebarLinks = {
     Administrator: adminSidebarLinks,
     Student: studentSidebarLinks,
@@ -525,4 +606,5 @@ export const roleBasedSidebarLinks = {
     GateKeeper: gateKeeperSidebarLinks,
     GateKeeperManager: gateKeeperManagerSidebarLinks,
     Director: directorSidebarLinks,
+    Principal: principalSidebarLinks,
 };

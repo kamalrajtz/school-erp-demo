@@ -1,0 +1,228 @@
+import React, { useMemo, useState } from 'react'
+import { NavLink } from 'react-router-dom'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import { Calendar, EllipsisIcon, ChevronLeft, ChevronRight, Plus, Download, Star } from 'lucide-react'
+import Dropdown from '../../../Common/CommonComponents/Dropdown'
+import ExportModal from '../../../Common/CommonComponents/ExportModal'
+import EditRequestModal from '../../../Common/CommonComponents/EditRequestModal'
+import DeleteRequestModal from '../../../Common/CommonComponents/DeleteRequestModal'
+import {
+    EMPLOYEE_TYPE_OPTIONS,
+    MOCK_RATINGS,
+    RATING_FIELDS_BY_TYPE,
+    getEmployeeTypeLabel,
+    getRatingValue,
+} from './starRatingsData'
+
+const MAX_STARS = 5
+
+const StarRatingDisplay = ({ rating }) => {
+    const clampedRating = Math.min(Math.max(rating, 0), MAX_STARS)
+
+    return (
+        <div className="flex items-center gap-0.5">
+            {Array.from({ length: MAX_STARS }, (_, index) => {
+                const isFilled = index < clampedRating
+                return (
+                    <Star
+                        key={index}
+                        size={16}
+                        className={isFilled ? 'fill-[#FFC107] text-[#FFC107]' : 'fill-none text-[#D9D9D9]'}
+                    />
+                )
+            })}
+        </div>
+    )
+}
+
+const StarRatings = () => {
+    const [fromDate, setFromDate] = useState(new Date())
+    const [toDate, setToDate] = useState(new Date())
+    const [employeeTypeFilter, setEmployeeTypeFilter] = useState('')
+    const [exportModal, setExportModal] = useState(false)
+    const [editRequestModal, setEditRequestModal] = useState(false)
+    const [deleteRequestModal, setDeleteRequestModal] = useState(false)
+
+    const filteredRatings = useMemo(
+        () => MOCK_RATINGS.filter((entry) =>
+            !employeeTypeFilter || entry.employeeType === employeeTypeFilter,
+        ),
+        [employeeTypeFilter],
+    )
+
+    return (
+        <section>
+            <div className='bg-white rounded-2xl shadow-md p-4'>
+                <div className='flex justify-between md:items-center sm:items-stretch md:flex-row sm:flex-col flex-col gap-y-4'>
+                    <button className='bg-[#515DEF] text-white uppercase text-sm px-6 py-1.5 border border-[#515DEF] rounded-lg hover:opacity-90 transition-all duration-200 cursor-pointer'>Clear Filters</button>
+                    <select className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full md:max-w-xs sm:max-w-full'>
+                        <option value="">From Beginning</option>
+                    </select>
+                </div>
+                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:mt-8 mt-2'>
+                    <div className='flex flex-col gap-y-2'>
+                        <label htmlFor="search" className='text-base font-medium text-[#808080]'>Search</label>
+                        <input type="text" placeholder="Name, ID..." className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full' />
+                    </div>
+                    <div className='flex flex-col gap-y-2'>
+                        <label htmlFor="employee-type-filter" className='text-base font-medium text-[#808080]'>Employee Type</label>
+                        <select
+                            id="employee-type-filter"
+                            value={employeeTypeFilter}
+                            onChange={(e) => setEmployeeTypeFilter(e.target.value)}
+                            className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full'
+                        >
+                            <option value="">All</option>
+                            {EMPLOYEE_TYPE_OPTIONS.map((opt) => (
+                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className='flex flex-col gap-y-2'>
+                        <label className='text-base font-medium text-[#808080]'>From</label>
+                        <div className='relative w-full'>
+                            <DatePicker
+                                selected={fromDate}
+                                onChange={(date) => setFromDate(date)}
+                                isClearable={true}
+                                showMonthYearDropdown={true}
+                                scrollableMonthYearDropdown={true}
+                                className='w-full text-sm text-[#808080] border border-[#D9D9D9] rounded-md px-3 py-2 pr-10 focus:outline-none'
+                            />
+                            <Calendar size={16} className='absolute right-3 top-1/2 -translate-y-1/2 text-[#808080] pointer-events-none' />
+                        </div>
+                    </div>
+                    <div className='flex flex-col gap-y-2'>
+                        <label className='text-base font-medium text-[#808080]'>To</label>
+                        <div className='relative'>
+                            <DatePicker
+                                selected={toDate}
+                                onChange={(date) => setToDate(date)}
+                                isClearable={true}
+                                showMonthYearDropdown={true}
+                                scrollableMonthYearDropdown={true}
+                                className='w-full text-sm text-[#808080] border border-[#D9D9D9] rounded-md px-3 py-2 pr-10 focus:outline-none'
+                            />
+                            <Calendar size={16} className='absolute right-3 top-1/2 -translate-y-1/2 text-[#808080] pointer-events-none' />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
+                <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
+                    <h2 className='text-xl font-medium text-black'>Star Ratings List</h2>
+                    <div className='flex gap-x-2'>
+                        <NavLink to="/principal/star-ratings/add-ratings" className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'>
+                            <Plus size={16} />
+                            Add Ratings
+                        </NavLink>
+                        <button onClick={() => setExportModal(true)} className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'>
+                            <Download size={16} />
+                            Export
+                        </button>
+                    </div>
+                </div>
+                <div className='flex gap-x-2 items-center my-2'>
+                    <select className='px-2 py-1.5 bg-white text-[#515DEF] border border-[#515DEF] rounded-md'>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                    </select>
+                    <span className='text-sm font-normal text-[#515DEF]'>Entries Per Page</span>
+                </div>
+                <div className="relative overflow-x-auto">
+                    <table className="w-full text-sm text-left rtl:text-right">
+                        <thead className="text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg">
+                            <tr className='rounded-lg'>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg">Rating ID</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Month</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Employee Type</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Employee Name</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Employee ID</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Department</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Attendance</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Teaching / Coordination</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Task</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Discipline / Leadership</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Overall Rating</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Description</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredRatings.map((entry) => {
+                                const fields = RATING_FIELDS_BY_TYPE[entry.employeeType]
+                                const roleRatingKey = fields[1]?.key
+                                const conductRatingKey = fields[3]?.key
+
+                                return (
+                                    <tr key={entry.ratingId} className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg">
+                                        <td className="px-2 py-4 rounded-s-lg">{entry.ratingId}</td>
+                                        <td className="px-2 py-4">{entry.month}</td>
+                                        <td className="px-2 py-4">{getEmployeeTypeLabel(entry.employeeType)}</td>
+                                        <td className="px-2 py-4">{entry.employeeName}</td>
+                                        <td className="px-2 py-4">{entry.employeeId}</td>
+                                        <td className="px-2 py-4">{entry.department}</td>
+                                        <td className="px-2 py-4">
+                                            <StarRatingDisplay rating={getRatingValue(entry, 'attendance')} />
+                                        </td>
+                                        <td className="px-2 py-4">
+                                            <StarRatingDisplay rating={getRatingValue(entry, roleRatingKey)} />
+                                        </td>
+                                        <td className="px-2 py-4">
+                                            <StarRatingDisplay rating={getRatingValue(entry, 'task')} />
+                                        </td>
+                                        <td className="px-2 py-4">
+                                            <StarRatingDisplay rating={getRatingValue(entry, conductRatingKey)} />
+                                        </td>
+                                        <td className="px-2 py-4">{entry.overallPoints} Points</td>
+                                        <td className="px-2 py-4 max-w-[180px] truncate" title={entry.description}>{entry.description}</td>
+                                        <td className="px-2 py-4 text-center rounded-e-lg">
+                                            <Dropdown buttonContent={<EllipsisIcon size={16} className='text-black' />}>
+                                                <NavLink
+                                                    to={`/principal/star-ratings/view-ratings/${entry.ratingId}`}
+                                                    className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer block"
+                                                >
+                                                    View
+                                                </NavLink>
+                                                <button type='button' onClick={() => setEditRequestModal(true)} className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
+                                                    Edit
+                                                </button>
+                                                <button type='button' onClick={() => setDeleteRequestModal(true)} className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
+                                                    Delete
+                                                </button>
+                                            </Dropdown>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div className='flex justify-between items-center px-4 mt-4'>
+                <p className='text-sm font-medium text-[#515DEF]'>Showing 1 to {filteredRatings.length} of {filteredRatings.length} entries</p>
+                <div className="flex justify-center gap-x-2 flex-wrap">
+                    <button className="size-8 flex justify-center items-center p-2 bg-white text-[#515DEF] border border-[#E2E8F0] hover:bg-[#515DEF] hover:text-white rounded-full cursor-pointer">
+                        <ChevronLeft size={16} />
+                    </button>
+                    <button className="size-8 flex justify-center items-center p-2 bg-[#EDEDF5] text-[#515DEF] hover:bg-[#515DEF] hover:text-white border border-[#E2E8F0] rounded-full cursor-pointer">
+                        1
+                    </button>
+                    <button className="size-8 flex justify-center items-center p-2 bg-white text-[#515DEF] border border-[#E2E8F0] hover:bg-[#515DEF] hover:text-white rounded-full cursor-pointer">
+                        <ChevronRight size={16} />
+                    </button>
+                </div>
+            </div>
+
+            <ExportModal exportModal={exportModal} setExportModal={setExportModal} />
+            <EditRequestModal editRequestModal={editRequestModal} setEditRequestModal={setEditRequestModal} />
+            <DeleteRequestModal deleteRequestModal={deleteRequestModal} setDeleteRequestModal={setDeleteRequestModal} />
+        </section>
+    )
+}
+
+export default StarRatings
