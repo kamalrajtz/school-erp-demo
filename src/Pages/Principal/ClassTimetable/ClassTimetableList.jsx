@@ -77,6 +77,17 @@ const ClassTimetableList = () => {
                     </div>
                 </div>
 
+                <div className='flex gap-x-2 items-center my-2'>
+                    <select name="" id="" className='px-2 py-1.5 bg-white text-[#515DEF] border border-[#515DEF] rounded-md'>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="40">40</option>
+                        <option value="50">50</option>
+                    </select>
+                    <span className='text-sm font-normal text-[#515DEF]'>Entries Per Page</span>
+                </div>
+
                 <div className='relative overflow-x-auto'>
                     <table className='w-full text-sm text-left rtl:text-right'>
                         <thead className='text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg'>
