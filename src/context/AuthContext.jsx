@@ -9,6 +9,7 @@ export const ROLES = {
     GATEKEEPER_MANAGER: 'gatekeepermanager',
     DIRECTOR: 'director',
     PRINCIPAL: 'principal',
+    CANTEEN_MANAGER: 'canteenmanager',
 }
 
 export const FAKE_CREDENTIALS = {
@@ -20,6 +21,7 @@ export const FAKE_CREDENTIALS = {
     [ROLES.GATEKEEPER_MANAGER]: { email: 'gatekeepermanager@school.com' },
     [ROLES.DIRECTOR]: { email: 'director@school.com' },
     [ROLES.PRINCIPAL]: { email: 'principal@school.com' },
+    [ROLES.CANTEEN_MANAGER]: { email: 'canteenmanager@school.com' },
 }
 
 export const ROLE_HOME_PATHS = {
@@ -31,6 +33,7 @@ export const ROLE_HOME_PATHS = {
     [ROLES.GATEKEEPER_MANAGER]: '/gatekeeper-manager/assign-duty-list',
     [ROLES.DIRECTOR]: '/director/documents',
     [ROLES.PRINCIPAL]: '/principal/documents',
+    [ROLES.CANTEEN_MANAGER]: '/canteen-manager/dashboard',
 }
 
 const STORAGE_KEY = 'schoolerp_auth'

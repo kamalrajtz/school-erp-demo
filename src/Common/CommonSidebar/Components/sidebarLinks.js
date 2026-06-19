@@ -47,7 +47,12 @@ import {
     ShieldAlert,
     Star,
     UserRoundCog,
-    Rss
+    Rss,
+    UtensilsCrossed,
+    Package,
+    ShoppingCart,
+    ClipboardCheck,
+    BarChart3,
 } from "lucide-react";
 
 export const adminSidebarLinks = [
@@ -444,6 +449,51 @@ export const gateKeeperManagerSidebarLinks = [
     },
 ];
 
+export const canteenManagerSidebarLinks = [
+    {
+        id: 1,
+        title: "Dashboard",
+        to: "/canteen-manager/dashboard",
+        icon: LayoutDashboard,
+    },
+    {
+        id: 2,
+        title: "Menu Management",
+        to: "/canteen-manager/menu-management",
+        icon: UtensilsCrossed,
+    },
+    {
+        id: 3,
+        title: "Inventory Management",
+        to: "/canteen-manager/inventory",
+        icon: Package,
+    },
+    {
+        id: 4,
+        title: "Orders",
+        to: "/canteen-manager/orders",
+        icon: ShoppingCart,
+    },
+    {
+        id: 5,
+        title: "Requests & Approvals",
+        to: "/canteen-manager/requests-approvals",
+        icon: ClipboardCheck,
+    },
+    {
+        id: 6,
+        title: "Reports",
+        to: "/canteen-manager/reports",
+        icon: BarChart3,
+    },
+    {
+        id: 7,
+        title: "Broadcast",
+        to: "/canteen-manager/broadcast",
+        icon: Rss,
+    },
+];
+
 export const directorSidebarLinks = [
     // {
     //     id: 1,
@@ -605,6 +655,7 @@ export const roleBasedSidebarLinks = {
     PRM: prmSidebarLinks,
     GateKeeper: gateKeeperSidebarLinks,
     GateKeeperManager: gateKeeperManagerSidebarLinks,
+    CanteenManager: canteenManagerSidebarLinks,
     Director: directorSidebarLinks,
     Principal: principalSidebarLinks,
 };

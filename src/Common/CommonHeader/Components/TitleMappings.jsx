@@ -191,6 +191,19 @@ export const singleTitleMapping = {
     "/gatekeeper-manager/gatekeeper-broadcast-list": "Gatekeeper Broadcast List",
     "/gatekeeper-manager/add-gatekeeper-broadcast": "Add Gatekeeper Broadcast",
 
+    // ── Canteen Manager Role ──────────────────────────────────────────────────
+    "/canteen-manager/dashboard": "Dashboard",
+    "/canteen-manager/menu-management": "Menu Management",
+    "/canteen-manager/menu-management/add-menu-item": "Add Menu Item",
+    "/canteen-manager/inventory": "Inventory Management",
+    "/canteen-manager/orders": "Orders",
+    "/canteen-manager/orders/add-order": "Add Order",
+    "/canteen-manager/requests-approvals": "Requests & Approvals",
+    "/canteen-manager/requests-approvals/add-request": "Add Request",
+    "/canteen-manager/reports": "Reports",
+    "/canteen-manager/broadcast": "Broadcast",
+    "/canteen-manager/broadcast/add-broadcast": "Add Broadcast",
+
     // ── Principal Role ──────────────────────────────────────────────────────────
     "/principal/dashboard": "Dashboard",
     "/principal/documents": "Documents",
@@ -267,6 +280,10 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/gate-keeper\/view-broadcast\/[^/]+$/.test(p), title: 'View Broadcast Details' },
     { test: (p) => /^\/principal\/escalation-management\/view-escalation\/[^/]+$/.test(p), title: 'View Escalation Details' },
     { test: (p) => /^\/principal\/star-ratings\/view-ratings\/[^/]+$/.test(p), title: 'View Star Rating Details' },
+    { test: (p) => /^\/canteen-manager\/menu-management\/view-menu\/[^/]+$/.test(p), title: 'View Menu Item Details' },
+    { test: (p) => /^\/canteen-manager\/orders\/view-order\/[^/]+$/.test(p), title: 'View Order Details' },
+    { test: (p) => /^\/canteen-manager\/requests-approvals\/view-request\/[^/]+$/.test(p), title: 'View Request Details' },
+    { test: (p) => /^\/canteen-manager\/broadcast\/view-broadcast\/[^/]+$/.test(p), title: 'View Broadcast Details' },
 ]
 
 export function getPageTitle(pathname) {

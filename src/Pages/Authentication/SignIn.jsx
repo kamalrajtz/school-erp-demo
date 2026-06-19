@@ -13,6 +13,7 @@ const ROLE_LABELS = {
     [ROLES.GATEKEEPER_MANAGER]: 'Gate Keeper Manager',
     [ROLES.DIRECTOR]: 'Director',
     [ROLES.PRINCIPAL]: 'Principal',
+    [ROLES.CANTEEN_MANAGER]: 'Canteen Manager',
 }
 
 const SignIn = () => {
