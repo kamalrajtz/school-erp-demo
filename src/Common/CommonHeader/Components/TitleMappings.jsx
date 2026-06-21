@@ -225,6 +225,17 @@ export const singleTitleMapping = {
     "/stationery-store-manager/reports": "Reports",
     "/stationery-store-manager/broadcast": "Broadcast",
 
+    // ── Housekeeping Manager Role ─────────────────────────────────────────────
+    "/housekeeping-manager/dashboard": "Dashboard",
+    "/housekeeping-manager/task-management": "Task Management",
+    "/housekeeping-manager/task-management/add-task": "Add Task",
+    "/housekeeping-manager/inventory": "Inventory",
+    "/housekeeping-manager/inventory/add-item": "Add Inventory",
+    "/housekeeping-manager/requests-approvals": "Requests & Approvals",
+    "/housekeeping-manager/requests-approvals/add-request": "Add Request",
+    "/housekeeping-manager/reports": "Reports",
+    "/housekeeping-manager/broadcast": "Broadcast",
+
     // ── Principal Role ──────────────────────────────────────────────────────────
     "/principal/dashboard": "Dashboard",
     "/principal/documents": "Documents",
@@ -313,6 +324,9 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/stationery-store-manager\/issue-returns\/view\/[^/]+$/.test(p), title: 'View Issue / Return' },
     { test: (p) => /^\/stationery-store-manager\/requests-approvals\/view-request\/[^/]+$/.test(p), title: 'View Request Details' },
     { test: (p) => /^\/stationery-store-manager\/broadcast\/view-broadcast\/[^/]+$/.test(p), title: 'View Broadcast Details' },
+    { test: (p) => /^\/housekeeping-manager\/inventory\/view-item\/[^/]+$/.test(p), title: 'View Inventory Item' },
+    { test: (p) => /^\/housekeeping-manager\/requests-approvals\/view-request\/[^/]+$/.test(p), title: 'View Request Details' },
+    { test: (p) => /^\/housekeeping-manager\/broadcast\/view-broadcast\/[^/]+$/.test(p), title: 'View Broadcast Details' },
 ]
 
 export function getPageTitle(pathname) {

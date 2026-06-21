@@ -12,6 +12,7 @@ export const ROLES = {
     CANTEEN_MANAGER: 'canteenmanager',
     IT_SUPPORT_MANAGER: 'itsupportmanager',
     STATIONERY_STORE_MANAGER: 'stationerystoremanager',
+    HOUSEKEEPING_MANAGER: 'housekeepingmanager',
 }
 
 export const FAKE_CREDENTIALS = {
@@ -26,6 +27,7 @@ export const FAKE_CREDENTIALS = {
     [ROLES.CANTEEN_MANAGER]: { email: 'canteenmanager@school.com' },
     [ROLES.IT_SUPPORT_MANAGER]: { email: 'itsupportmanager@school.com' },
     [ROLES.STATIONERY_STORE_MANAGER]: { email: 'stationerystoremanager@school.com' },
+    [ROLES.HOUSEKEEPING_MANAGER]: { email: 'housekeepingmanager@school.com' },
 }
 
 export const ROLE_HOME_PATHS = {
@@ -40,6 +42,7 @@ export const ROLE_HOME_PATHS = {
     [ROLES.CANTEEN_MANAGER]: '/canteen-manager/dashboard',
     [ROLES.IT_SUPPORT_MANAGER]: '/it-support-manager/dashboard',
     [ROLES.STATIONERY_STORE_MANAGER]: '/stationery-store-manager/dashboard',
+    [ROLES.HOUSEKEEPING_MANAGER]: '/housekeeping-manager/dashboard',
 }
 
 const STORAGE_KEY = 'schoolerp_auth'

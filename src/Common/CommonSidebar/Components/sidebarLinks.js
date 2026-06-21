@@ -574,6 +574,45 @@ export const stationeryStoreManagerSidebarLinks = [
     },
 ];
 
+export const housekeepingManagerSidebarLinks = [
+    {
+        id: 1,
+        title: "Dashboard",
+        to: "/housekeeping-manager/dashboard",
+        icon: LayoutDashboard,
+    },
+    {
+        id: 2,
+        title: "Task Management",
+        to: "/housekeeping-manager/task-management",
+        icon: ClipboardList,
+    },
+    {
+        id: 3,
+        title: "Inventory",
+        to: "/housekeeping-manager/inventory",
+        icon: Package,
+    },
+    {
+        id: 4,
+        title: "Requests & Approvals",
+        to: "/housekeeping-manager/requests-approvals",
+        icon: ClipboardCheck,
+    },
+    {
+        id: 5,
+        title: "Reports",
+        to: "/housekeeping-manager/reports",
+        icon: BarChart3,
+    },
+    {
+        id: 6,
+        title: "Broadcast",
+        to: "/housekeeping-manager/broadcast",
+        icon: Rss,
+    },
+];
+
 export const directorSidebarLinks = [
     // {
     //     id: 1,
