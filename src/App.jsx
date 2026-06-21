@@ -7,6 +7,8 @@ import GateKeeperManagerLayout from "./Layout/GateKeeperManagerLayout";
 import DirectorLayout from "./Layout/DirectorLayout";
 import PrincipalLayout from "./Layout/PrincipalLayout";
 import CanteenManagerLayout from "./Layout/CanteenManagerLayout";
+import ITSupportManagerLayout from "./Layout/ITSupportManagerLayout";
+import StationeryStoreManagerLayout from "./Layout/StationeryStoreManagerLayout";
 import PRMLayout from "./Layout/PRMLayout";
 import StudentLayout from "./Layout/StudentLayout";
 import { ROLE_HOME_PATHS, ROLES, useAuth } from "./context/AuthContext";
@@ -88,6 +90,20 @@ const App = () => {
     return <CanteenManagerLayout />;
   }
 
+  if (role === ROLES.IT_SUPPORT_MANAGER) {
+    if (!pathname.startsWith("/it-support-manager")) {
+      return <Navigate to={ROLE_HOME_PATHS[ROLES.IT_SUPPORT_MANAGER]} replace />;
+    }
+    return <ITSupportManagerLayout />;
+  }
+
+  if (role === ROLES.STATIONERY_STORE_MANAGER) {
+    if (!pathname.startsWith("/stationery-store-manager")) {
+      return <Navigate to={ROLE_HOME_PATHS[ROLES.STATIONERY_STORE_MANAGER]} replace />;
+    }
+    return <StationeryStoreManagerLayout />;
+  }
+
   if (
     pathname.startsWith("/librarian") ||
     pathname.startsWith("/front-office") ||
@@ -96,7 +112,9 @@ const App = () => {
     pathname.startsWith("/gatekeeper-manager") ||
     pathname.startsWith("/director") ||
     pathname.startsWith("/principal") ||
-    pathname.startsWith("/canteen-manager")
+    pathname.startsWith("/canteen-manager") ||
+    pathname.startsWith("/it-support-manager") ||
+    pathname.startsWith("/stationery-store-manager")
   ) {
     return <Navigate to={ROLE_HOME_PATHS[ROLES.ADMIN]} replace />;
   }

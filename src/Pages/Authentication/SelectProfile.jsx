@@ -30,6 +30,8 @@ const PROFILE_OPTIONS = [
     { role: ROLES.DIRECTOR, label: 'Director', image: admin_profile, alt: 'director_profile' },
     { role: ROLES.PRINCIPAL, label: 'Principal', image: admin_profile, alt: 'principal_profile' },
     { role: ROLES.CANTEEN_MANAGER, label: 'Canteen Manager', image: librarian_profile, alt: 'canteen_manager_profile' },
+    { role: ROLES.IT_SUPPORT_MANAGER, label: 'IT Support Team Manager', image: admin_profile, alt: 'it_support_manager_profile' },
+    { role: ROLES.STATIONERY_STORE_MANAGER, label: 'Stationery Store Manager', image: librarian_profile, alt: 'stationery_store_manager_profile' },
 ]
 
 const SelectProfile = () => {

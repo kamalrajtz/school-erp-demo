@@ -53,6 +53,8 @@ import {
     ShoppingCart,
     ClipboardCheck,
     BarChart3,
+    Monitor,
+    Ticket,
 } from "lucide-react";
 
 export const adminSidebarLinks = [
@@ -494,6 +496,84 @@ export const canteenManagerSidebarLinks = [
     },
 ];
 
+export const itSupportManagerSidebarLinks = [
+    {
+        id: 1,
+        title: "Dashboard",
+        to: "/it-support-manager/dashboard",
+        icon: LayoutDashboard,
+    },
+    {
+        id: 2,
+        title: "Asset Management",
+        to: "/it-support-manager/asset-management",
+        icon: Monitor,
+    },
+    {
+        id: 3,
+        title: "Support Tickets",
+        to: "/it-support-manager/support-tickets",
+        icon: Ticket,
+    },
+    {
+        id: 4,
+        title: "Requests & Approvals",
+        to: "/it-support-manager/requests-approvals",
+        icon: ClipboardCheck,
+    },
+    {
+        id: 5,
+        title: "Reports",
+        to: "/it-support-manager/reports",
+        icon: BarChart3,
+    },
+    {
+        id: 6,
+        title: "Broadcast",
+        to: "/it-support-manager/broadcast",
+        icon: Rss,
+    },
+];
+
+export const stationeryStoreManagerSidebarLinks = [
+    {
+        id: 1,
+        title: "Dashboard",
+        to: "/stationery-store-manager/dashboard",
+        icon: LayoutDashboard,
+    },
+    {
+        id: 2,
+        title: "Inventory",
+        to: "/stationery-store-manager/inventory",
+        icon: Package,
+    },
+    {
+        id: 3,
+        title: "Issue & Returns",
+        to: "/stationery-store-manager/issue-returns",
+        icon: ArrowRightLeft,
+    },
+    {
+        id: 4,
+        title: "Requests & Approvals",
+        to: "/stationery-store-manager/requests-approvals",
+        icon: ClipboardCheck,
+    },
+    {
+        id: 5,
+        title: "Reports",
+        to: "/stationery-store-manager/reports",
+        icon: BarChart3,
+    },
+    {
+        id: 6,
+        title: "Broadcast",
+        to: "/stationery-store-manager/broadcast",
+        icon: Rss,
+    },
+];
+
 export const directorSidebarLinks = [
     // {
     //     id: 1,
@@ -656,6 +736,8 @@ export const roleBasedSidebarLinks = {
     GateKeeper: gateKeeperSidebarLinks,
     GateKeeperManager: gateKeeperManagerSidebarLinks,
     CanteenManager: canteenManagerSidebarLinks,
+    ITSupportManager: itSupportManagerSidebarLinks,
+    StationeryStoreManager: stationeryStoreManagerSidebarLinks,
     Director: directorSidebarLinks,
     Principal: principalSidebarLinks,
 };

@@ -14,6 +14,8 @@ const ROLE_LABELS = {
     [ROLES.DIRECTOR]: 'Director',
     [ROLES.PRINCIPAL]: 'Principal',
     [ROLES.CANTEEN_MANAGER]: 'Canteen Manager',
+    [ROLES.IT_SUPPORT_MANAGER]: 'IT Support Team Manager',
+    [ROLES.STATIONERY_STORE_MANAGER]: 'Stationery Store Manager',
 }
 
 const SignIn = () => {

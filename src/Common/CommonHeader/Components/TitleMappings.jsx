@@ -204,6 +204,27 @@ export const singleTitleMapping = {
     "/canteen-manager/broadcast": "Broadcast",
     "/canteen-manager/broadcast/add-broadcast": "Add Broadcast",
 
+    // ── IT Support Team Manager Role ──────────────────────────────────────────
+    "/it-support-manager/dashboard": "Dashboard",
+    "/it-support-manager/asset-management": "Asset Management",
+    "/it-support-manager/asset-management/add-asset": "Add Asset",
+    "/it-support-manager/support-tickets": "Support Tickets",
+    "/it-support-manager/requests-approvals": "Requests & Approvals",
+    "/it-support-manager/requests-approvals/add-request": "Add Request",
+    "/it-support-manager/reports": "Reports",
+    "/it-support-manager/broadcast": "Broadcast",
+
+    // ── Stationery Store Manager Role ─────────────────────────────────────────
+    "/stationery-store-manager/dashboard": "Dashboard",
+    "/stationery-store-manager/inventory": "Inventory",
+    "/stationery-store-manager/inventory/add-item": "Add Inventory",
+    "/stationery-store-manager/issue-returns": "Issue & Returns",
+    "/stationery-store-manager/issue-returns/add": "Record Issue / Return",
+    "/stationery-store-manager/requests-approvals": "Requests & Approvals",
+    "/stationery-store-manager/requests-approvals/add-request": "Add Request",
+    "/stationery-store-manager/reports": "Reports",
+    "/stationery-store-manager/broadcast": "Broadcast",
+
     // ── Principal Role ──────────────────────────────────────────────────────────
     "/principal/dashboard": "Dashboard",
     "/principal/documents": "Documents",
@@ -284,6 +305,14 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/canteen-manager\/orders\/view-order\/[^/]+$/.test(p), title: 'View Order Details' },
     { test: (p) => /^\/canteen-manager\/requests-approvals\/view-request\/[^/]+$/.test(p), title: 'View Request Details' },
     { test: (p) => /^\/canteen-manager\/broadcast\/view-broadcast\/[^/]+$/.test(p), title: 'View Broadcast Details' },
+    { test: (p) => /^\/it-support-manager\/asset-management\/view-asset\/[^/]+$/.test(p), title: 'View Asset Details' },
+    { test: (p) => /^\/it-support-manager\/support-tickets\/view-ticket\/[^/]+$/.test(p), title: 'View Support Ticket' },
+    { test: (p) => /^\/it-support-manager\/requests-approvals\/view-request\/[^/]+$/.test(p), title: 'View Request Details' },
+    { test: (p) => /^\/it-support-manager\/broadcast\/view-broadcast\/[^/]+$/.test(p), title: 'View Broadcast Details' },
+    { test: (p) => /^\/stationery-store-manager\/inventory\/view-item\/[^/]+$/.test(p), title: 'View Inventory Item' },
+    { test: (p) => /^\/stationery-store-manager\/issue-returns\/view\/[^/]+$/.test(p), title: 'View Issue / Return' },
+    { test: (p) => /^\/stationery-store-manager\/requests-approvals\/view-request\/[^/]+$/.test(p), title: 'View Request Details' },
+    { test: (p) => /^\/stationery-store-manager\/broadcast\/view-broadcast\/[^/]+$/.test(p), title: 'View Broadcast Details' },
 ]
 
 export function getPageTitle(pathname) {
