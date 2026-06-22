@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { ChevronRight, Download, Eye } from 'lucide-react'
+import { Calendar, ChevronRight, Download, Eye } from 'lucide-react'
 import ExportModal from '../../../Common/CommonComponents/ExportModal'
 import ClassTimeTableModal from './Components/ClassTimeTableModal'
 
