@@ -1,10 +1,11 @@
 import React from 'react'
 import { Route, Routes as ReactRoutes, Navigate } from 'react-router-dom'
 import Dashboard from '../Pages/Director/Dashboard/Dashboard'
-import Documents from '../Pages/Director/Documents/Documents'
+import BroadcastList from '../Pages/Director/Broadcast/BroadcastList'
+import AddBroadcast from '../Pages/Director/Broadcast/AddBroadcast'
+import ViewBroadcast from '../Pages/Director/Broadcast/ViewBroadcast'
 import StarRatings from '../Pages/Director/StarRatings/StarRatings'
 import TaskManagement from '../Pages/Director/TaskManagement/TaskManagement'
-import AddDocuments from '../Pages/Director/Documents/AddDocuments'
 import AddTask from '../Pages/Director/TaskManagement/AddTask'
 import AddRatings from '../Pages/Director/StarRatings/AddRatings'
 import ExamApprovals from '../Pages/Director/ExamApprovals/ExamApprovals'
@@ -27,8 +28,9 @@ const DirectorRoutes = () => {
     return (
         <ReactRoutes>
             <Route path="/director/dashboard" element={<Dashboard />} />
-            <Route path="/director/documents" element={<Documents />} />
-            <Route path="/director/documents/add-documents" element={<AddDocuments />} />
+            <Route path="/director/broadcast" element={<BroadcastList />} />
+            <Route path="/director/broadcast/add-broadcast" element={<AddBroadcast />} />
+            <Route path="/director/broadcast/view-broadcast/:id" element={<ViewBroadcast />} />
             <Route path="/director/task-management" element={<TaskManagement />} />
             <Route path="/director/task-management/add-task" element={<AddTask />} />
             <Route path="/director/star-ratings-list" element={<StarRatings />} />

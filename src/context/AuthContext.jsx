@@ -13,6 +13,7 @@ export const ROLES = {
     IT_SUPPORT_MANAGER: 'itsupportmanager',
     STATIONERY_STORE_MANAGER: 'stationerystoremanager',
     HOUSEKEEPING_MANAGER: 'housekeepingmanager',
+    JOINT_DIRECTOR: 'jointdirector',
 }
 
 export const FAKE_CREDENTIALS = {
@@ -28,6 +29,7 @@ export const FAKE_CREDENTIALS = {
     [ROLES.IT_SUPPORT_MANAGER]: { email: 'itsupportmanager@school.com' },
     [ROLES.STATIONERY_STORE_MANAGER]: { email: 'stationerystoremanager@school.com' },
     [ROLES.HOUSEKEEPING_MANAGER]: { email: 'housekeepingmanager@school.com' },
+    [ROLES.JOINT_DIRECTOR]: { email: 'jointdirector@school.com' },
 }
 
 export const ROLE_HOME_PATHS = {
@@ -37,12 +39,13 @@ export const ROLE_HOME_PATHS = {
     [ROLES.PRM]: '/front-office/admission-enquiry',
     [ROLES.GATEKEEPER]: '/gate-keeper/dashboard',
     [ROLES.GATEKEEPER_MANAGER]: '/gatekeeper-manager/assign-duty-list',
-    [ROLES.DIRECTOR]: '/director/documents',
+    [ROLES.DIRECTOR]: '/director/broadcast',
     [ROLES.PRINCIPAL]: '/principal/documents',
     [ROLES.CANTEEN_MANAGER]: '/canteen-manager/dashboard',
     [ROLES.IT_SUPPORT_MANAGER]: '/it-support-manager/dashboard',
     [ROLES.STATIONERY_STORE_MANAGER]: '/stationery-store-manager/dashboard',
     [ROLES.HOUSEKEEPING_MANAGER]: '/housekeeping-manager/dashboard',
+    [ROLES.JOINT_DIRECTOR]: '/joint-director/dashboard',
 }
 
 const STORAGE_KEY = 'schoolerp_auth'

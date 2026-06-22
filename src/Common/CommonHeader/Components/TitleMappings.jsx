@@ -236,6 +236,25 @@ export const singleTitleMapping = {
     "/housekeeping-manager/reports": "Reports",
     "/housekeeping-manager/broadcast": "Broadcast",
 
+    // ── Joint Director Role ───────────────────────────────────────────────────
+    "/joint-director/dashboard": "Dashboard",
+    "/joint-director/task-management": "Task Management",
+    "/joint-director/task-management/add-task": "Add Task",
+    "/joint-director/employee-management": "Employee Management",
+    "/joint-director/employee-management/jd-assistant": "JD Assistant Profile",
+    "/joint-director/employee-management/canteen-manager": "Canteen Manager Profile",
+    "/joint-director/employee-management/store-manager": "Store Manager Profile",
+    "/joint-director/employee-management/it-team-manager": "IT Team Manager Profile",
+    "/joint-director/employee-management/transport-manager": "Transport Manager Profile",
+    "/joint-director/employee-management/housekeeping-manager": "House Keeping Manager Profile",
+    "/joint-director/request-approvals": "Request Approvals",
+    "/joint-director/request-approvals/view-request": "View Request Details",
+    "/joint-director/escalations": "Escalations",
+    "/joint-director/meetings-calendar": "Meetings & Calendar",
+    "/joint-director/assets-inventory": "Assets & Inventory Overview",
+    "/joint-director/broadcast": "Broadcast",
+    "/joint-director/broadcast/add-broadcast": "Add Broadcast",
+
     // ── Principal Role ──────────────────────────────────────────────────────────
     "/principal/dashboard": "Dashboard",
     "/principal/documents": "Documents",
@@ -270,8 +289,8 @@ export const singleTitleMapping = {
 
     // ── Director Role ─────────────────────────────────────────────────────────
     "/director/dashboard": "Dashboard",
-    "/director/documents": "Documents",
-    "/director/documents/add-documents": "Add Documents",
+    "/director/broadcast": "Broadcast",
+    "/director/broadcast/add-broadcast": "Add Broadcast",
     "/director/task-management": "Task Management",
     "/director/task-management/add-task": "Add Task Management",
     "/director/star-ratings-list": "Star Ratings List",
@@ -309,7 +328,11 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/admin\/activities\/view-sports\/[^/]+$/.test(p), title: 'Sports Activity Details' },
     { test: (p) => /^\/admin\/activities\/view-competition\/[^/]+$/.test(p), title: 'Competition Activity Details' },
     { test: (p) => /^\/admin\/documents\/view-student-documents\/[^/]+$/.test(p), title: 'Student Document Details' },
+    { test: (p) => /^\/joint-director\/broadcast\/view-broadcast\/[^/]+$/.test(p), title: 'View Broadcast Details' },
+    { test: (p) => /^\/director\/broadcast\/view-broadcast\/[^/]+$/.test(p), title: 'View Broadcast Details' },
     { test: (p) => /^\/gate-keeper\/view-broadcast\/[^/]+$/.test(p), title: 'View Broadcast Details' },
+    { test: (p) => /^\/joint-director\/escalations\/view-escalation\/[^/]+$/.test(p), title: 'View Escalation Details' },
+    { test: (p) => /^\/joint-director\/assets-inventory\/view\/[^/]+$/.test(p), title: 'View Asset / Inventory Details' },
     { test: (p) => /^\/principal\/escalation-management\/view-escalation\/[^/]+$/.test(p), title: 'View Escalation Details' },
     { test: (p) => /^\/principal\/star-ratings\/view-ratings\/[^/]+$/.test(p), title: 'View Star Rating Details' },
     { test: (p) => /^\/canteen-manager\/menu-management\/view-menu\/[^/]+$/.test(p), title: 'View Menu Item Details' },

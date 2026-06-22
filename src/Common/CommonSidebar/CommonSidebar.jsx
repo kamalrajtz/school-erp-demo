@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { ChevronLeft, ChevronDown } from "lucide-react"
 import logo from "../../assets/images/demo-logo.svg"
 import logoMini from "../../assets/images/demo-logo-mini.svg"
-import { adminSidebarLinks, canteenManagerSidebarLinks, gateKeeperManagerSidebarLinks, gateKeeperSidebarLinks, directorSidebarLinks, principalSidebarLinks, librarianSidebarLinks, prmSidebarLinks, studentSidebarLinks, itSupportManagerSidebarLinks, stationeryStoreManagerSidebarLinks, housekeepingManagerSidebarLinks } from './Components/sidebarLinks'
+import { adminSidebarLinks, canteenManagerSidebarLinks, gateKeeperManagerSidebarLinks, gateKeeperSidebarLinks, directorSidebarLinks, principalSidebarLinks, librarianSidebarLinks, prmSidebarLinks, studentSidebarLinks, itSupportManagerSidebarLinks, stationeryStoreManagerSidebarLinks, housekeepingManagerSidebarLinks, jointDirectorSidebarLinks } from './Components/sidebarLinks'
 
 const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
 
@@ -26,6 +26,7 @@ const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
         if (location.pathname.startsWith('/it-support-manager')) return itSupportManagerSidebarLinks
         if (location.pathname.startsWith('/stationery-store-manager')) return stationeryStoreManagerSidebarLinks
         if (location.pathname.startsWith('/housekeeping-manager')) return housekeepingManagerSidebarLinks
+        if (location.pathname.startsWith('/joint-director')) return jointDirectorSidebarLinks
         if (location.pathname.startsWith('/gatekeeper-manager')) return gateKeeperManagerSidebarLinks
         if (location.pathname.startsWith('/gate-keeper')) return gateKeeperSidebarLinks
         if (location.pathname.startsWith('/director')) return directorSidebarLinks

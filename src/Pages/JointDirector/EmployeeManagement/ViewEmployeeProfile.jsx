@@ -1,83 +1,34 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import {
-    ArrowLeft,
-    GraduationCap,
-    User,
     Briefcase,
+    ClipboardList,
+    GraduationCap,
     KeyRound,
     FileText,
     CalendarCheck,
+    User,
+    UserRoundCog,
+    UtensilsCrossed,
+    ShoppingCart,
+    Monitor,
+    Bus,
+    Sparkles,
 } from 'lucide-react'
 import mo_user from '../../../assets/images/no-profile.png'
+import {
+    EMPLOYEE_PROFILES,
+    attendanceBadgeColor,
+    taskStatusBadgeColor,
+} from './employeeData'
 
-const MOCK_PRINCIPAL = {
-    profileImage: null,
-    principalId: 'PRN-1001',
-    userId: 'USR-300001',
-    firstName: 'Rajesh',
-    middleName: 'M.',
-    lastName: 'Kumar',
-    gender: 'Male',
-    dateOfBirth: '15-03-1975',
-    bloodGroup: 'A+',
-    height: '178 cm',
-    weight: '78 kg',
-    medicalHistory: 'Mild hypertension under medication.',
-    address: {
-        address: '45, Green Park Avenue, Sector 12',
-        country: 'India',
-        state: 'Tamil Nadu',
-        city: 'Chennai',
-        zipCode: '600028',
-    },
-    contact: {
-        mobileNumber: '+91 98765 43210',
-        alternativeNumber: '+91 91234 56789',
-        email: 'rajesh.kumar@school.edu',
-    },
-    professionalInfo: {
-        qualification: 'M.Ed., Ph.D. in Educational Administration',
-        designation: 'Principal',
-        schoolName: 'Queen Mira International School',
-        yearsOfExperience: '22 Years',
-        previousOrganization: 'Delhi Public School, Chennai',
-        joiningDate: '2010-04-01',
-    },
-    employmentInfo: {
-        employeeType: 'Full-time',
-        salary: '₹1,25,000 / month',
-        workShift: 'Morning (7:30 AM – 3:30 PM)',
-        assignedCampus: 'Main Campus',
-        managedStaff: 'Teachers, Co-ordinators, Admin Staff',
-        reportingTo: 'Director',
-    },
-    account: {
-        username: 'rajesh.kumar',
-        password: 'Principal@123',
-    },
-    documents: {
-        idProof: 'Aadhaar Card',
-        qualificationCertificate: 'M.Ed. & Ph.D. Certificates',
-        experienceCertificate: 'Experience Letter – DPS Chennai',
-    },
-}
-
-const ATTENDANCE_RECORDS = [
-    { date: '02-06-2025', day: 'Monday', checkIn: '07:45 AM', checkOut: '03:35 PM', status: 'Present', remarks: 'On time' },
-    { date: '03-06-2025', day: 'Tuesday', checkIn: '07:50 AM', checkOut: '03:30 PM', status: 'Present', remarks: 'Board meeting attended' },
-    { date: '04-06-2025', day: 'Wednesday', checkIn: '—', checkOut: '—', status: 'Leave', remarks: 'Personal leave' },
-    { date: '05-06-2025', day: 'Thursday', checkIn: '08:10 AM', checkOut: '03:40 PM', status: 'Present', remarks: 'Late by 10 minutes' },
-    { date: '06-06-2025', day: 'Friday', checkIn: '07:40 AM', checkOut: '01:00 PM', status: 'Half Day', remarks: 'Official visit' },
-    { date: '09-06-2025', day: 'Monday', checkIn: '07:42 AM', checkOut: '03:32 PM', status: 'Present', remarks: 'On time' },
-    { date: '10-06-2025', day: 'Tuesday', checkIn: '—', checkOut: '—', status: 'Absent', remarks: 'Uninformed absence' },
-]
-
-const attendanceBadgeColor = {
-    Present: 'bg-[#4CAF5033] text-[#4CAF50]',
-    Absent: 'bg-[#FF000033] text-[#FF0000]',
-    Leave: 'bg-[#FF980033] text-[#FF9800]',
-    'Half Day': 'bg-[#2196F333] text-[#2196F3]',
+const ROLE_ICONS = {
+    'jd-assistant': UserRoundCog,
+    'canteen-manager': UtensilsCrossed,
+    'store-manager': ShoppingCart,
+    'it-team-manager': Monitor,
+    'transport-manager': Bus,
+    'housekeeping-manager': Sparkles,
 }
 
 const ModernSection = ({ title, icon: Icon, children }) => (
@@ -99,54 +50,50 @@ const InfoCard = ({ label, value }) => (
     </div>
 )
 
-const ViewPrincipal = () => {
-    const navigate = useNavigate()
-    const principal = MOCK_PRINCIPAL
-    const addr = principal.address
-    const contact = principal.contact
-    const prof = principal.professionalInfo
-    const emp = principal.employmentInfo
-    const acct = principal.account
-    const docs = principal.documents
+const ViewEmployeeProfile = () => {
+    const { roleKey } = useParams()
+    const profile = EMPLOYEE_PROFILES[roleKey]
 
-    const displayName = [principal.firstName, principal.middleName, principal.lastName].join(' ')
-    const presentDays = ATTENDANCE_RECORDS.filter((r) => r.status === 'Present').length
-    const attendanceRate = Math.round((presentDays / ATTENDANCE_RECORDS.length) * 100)
+    if (!profile) {
+        return <Navigate to="/joint-director/employee-management/jd-assistant" replace />
+    }
+
+    const { employee, roleTitle, profileLabel, attendanceRecords, recentTasks } = profile
+    const HeaderIcon = ROLE_ICONS[roleKey] ?? Briefcase
+    const addr = employee.address
+    const contact = employee.contact
+    const prof = employee.professionalInfo
+    const emp = employee.employmentInfo
+    const acct = employee.account
+    const docs = employee.documents
+
+    const displayName = [employee.firstName, employee.middleName, employee.lastName].join(' ')
+    const presentDays = attendanceRecords.filter((r) => r.status === 'Present').length
+    const attendanceRate = Math.round((presentDays / attendanceRecords.length) * 100)
 
     return (
         <section className='space-y-6'>
-            {/* <div className='flex flex-wrap items-center gap-3'>
-                <button
-                    type='button'
-                    onClick={() => navigate('/director/broadcast')}
-                    className='inline-flex items-center gap-2 text-sm text-[#515DEF] border border-[#515DEF]/30 bg-white rounded-xl px-4 py-2.5 hover:bg-[#515DEF] hover:text-white transition-all cursor-pointer shadow-sm'
-                >
-                    <ArrowLeft size={18} />
-                    Back
-                </button>
-            </div> */}
-
             <div className='relative overflow-hidden rounded-2xl shadow-md bg-linear-to-br from-[#515DEF] via-[#6366F1] to-[#7C3AED] p-6 sm:p-8'>
                 <div className='absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3' />
                 <div className='absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/4' />
                 <div className='relative flex flex-col sm:flex-row sm:items-center gap-6'>
                     <div className='relative shrink-0'>
                         <img
-                            src={principal.profileImage || mo_user}
+                            src={employee.profileImage || mo_user}
                             alt=''
                             className='w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover ring-4 ring-white/30 shadow-lg'
                         />
                         <div className='absolute -bottom-2 -right-2 p-2 rounded-xl bg-white shadow-md'>
-                            <GraduationCap className='w-5 h-5 text-[#515DEF]' />
+                            <HeaderIcon className='w-5 h-5 text-[#515DEF]' />
                         </div>
                     </div>
                     <div className='flex-1 min-w-0'>
-                        <p className='text-white/70 text-sm font-medium uppercase tracking-wider'>Principal Profile</p>
+                        <p className='text-white/70 text-sm font-medium uppercase tracking-wider'>{profileLabel}</p>
                         <h1 className='text-2xl sm:text-3xl font-bold text-white mt-1'>{displayName}</h1>
                         <p className='text-white/80 text-sm mt-2'>
-                            Principal ID: <span className='font-semibold text-white'>{principal.principalId}</span>
+                            Employee ID: <span className='font-semibold text-white'>{employee.employeeId}</span>
                             {' · '}
-                            User ID: {principal.userId}
+                            User ID: {employee.userId}
                         </p>
                         <div className='flex flex-wrap gap-2 mt-4'>
                             <span className='px-3 py-1 rounded-full text-xs font-semibold bg-white/15 text-white backdrop-blur-sm'>
@@ -165,15 +112,15 @@ const ViewPrincipal = () => {
 
             <ModernSection title='Personal information' icon={User}>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
-                    <InfoCard label='First name' value={principal.firstName} />
-                    <InfoCard label='Middle name' value={principal.middleName} />
-                    <InfoCard label='Last name' value={principal.lastName} />
-                    <InfoCard label='Gender' value={principal.gender} />
-                    <InfoCard label='Date of birth' value={principal.dateOfBirth} />
-                    <InfoCard label='Blood group' value={principal.bloodGroup} />
-                    <InfoCard label='Height' value={principal.height} />
-                    <InfoCard label='Weight' value={principal.weight} />
-                    <InfoCard label='Medical history' value={principal.medicalHistory} />
+                    <InfoCard label='First name' value={employee.firstName} />
+                    <InfoCard label='Middle name' value={employee.middleName} />
+                    <InfoCard label='Last name' value={employee.lastName} />
+                    <InfoCard label='Gender' value={employee.gender} />
+                    <InfoCard label='Date of birth' value={employee.dateOfBirth} />
+                    <InfoCard label='Blood group' value={employee.bloodGroup} />
+                    <InfoCard label='Height' value={employee.height} />
+                    <InfoCard label='Weight' value={employee.weight} />
+                    <InfoCard label='Medical history' value={employee.medicalHistory} />
                     <div className='sm:col-span-2 lg:col-span-3'>
                         <InfoCard label='Street / full address' value={addr.address} />
                     </div>
@@ -204,7 +151,7 @@ const ViewPrincipal = () => {
                         <InfoCard label='Employee type' value={emp.employeeType} />
                         <InfoCard label='Salary' value={emp.salary} />
                         <InfoCard label='Work shift' value={emp.workShift} />
-                        <InfoCard label='Assigned campus' value={emp.assignedCampus} />
+                        <InfoCard label='Assigned campus / area' value={emp.assignedCampus} />
                         <InfoCard label='Managed staff' value={emp.managedStaff} />
                         <InfoCard label='Reporting to' value={emp.reportingTo} />
                     </div>
@@ -236,7 +183,7 @@ const ViewPrincipal = () => {
                         </div>
                         <div>
                             <h2 className='text-lg font-semibold text-[#0C1E5B]'>Attendance Record</h2>
-                            <p className='text-sm text-[#808080]'>Recent attendance history for this month</p>
+                            <p className='text-sm text-[#808080]'>Recent attendance history for {roleTitle}</p>
                         </div>
                     </div>
                     <div className='flex flex-wrap gap-3'>
@@ -250,7 +197,7 @@ const ViewPrincipal = () => {
                         </div>
                         <div className='rounded-xl border border-[#E8ECF4] bg-[#FAFBFD] px-4 py-2 text-center min-w-[100px]'>
                             <p className='text-xs text-[#808080] uppercase tracking-wide'>Total Days</p>
-                            <p className='text-lg font-bold text-[#0C1E5B]'>{ATTENDANCE_RECORDS.length}</p>
+                            <p className='text-lg font-bold text-[#0C1E5B]'>{attendanceRecords.length}</p>
                         </div>
                     </div>
                 </div>
@@ -269,7 +216,7 @@ const ViewPrincipal = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {ATTENDANCE_RECORDS.map((record) => (
+                                {attendanceRecords.map((record) => (
                                     <tr
                                         key={record.date}
                                         className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#FAFBFD] transition-colors'
@@ -291,8 +238,60 @@ const ViewPrincipal = () => {
                     </div>
                 </div>
             </div>
+
+            <div className='bg-white rounded-2xl shadow-sm border border-[#EEF0F6] overflow-hidden'>
+                <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-6 py-4 border-b border-[#EEF0F6] bg-linear-to-r from-[#F8F9FF] to-white'>
+                    <div className='flex items-center gap-3'>
+                        <div className='p-2.5 rounded-xl bg-[#515DEF]/10'>
+                            <ClipboardList className='w-5 h-5 text-[#515DEF]' />
+                        </div>
+                        <div>
+                            <h2 className='text-lg font-semibold text-[#0C1E5B]'>Recent Tasks</h2>
+                            <p className='text-sm text-[#808080]'>Latest tasks assigned to {roleTitle}</p>
+                        </div>
+                    </div>
+                    <div className='rounded-xl border border-[#E8ECF4] bg-[#FAFBFD] px-4 py-2 text-center min-w-[100px]'>
+                        <p className='text-xs text-[#808080] uppercase tracking-wide'>Active</p>
+                        <p className='text-lg font-bold text-[#515DEF]'>{recentTasks.length}</p>
+                    </div>
+                </div>
+
+                <div className='p-6'>
+                    <div className='relative overflow-x-auto rounded-xl border border-[#EEF0F6]'>
+                        <table className='w-full text-sm text-left rtl:text-right'>
+                            <thead className='text-xs bg-[#EDEEF5] whitespace-nowrap'>
+                                <tr>
+                                    <th className='px-4 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>Task ID</th>
+                                    <th className='px-4 py-3.5 text-[#0C1E5B] font-medium uppercase'>Title</th>
+                                    <th className='px-4 py-3.5 text-[#0C1E5B] font-medium uppercase'>Assigned Date</th>
+                                    <th className='px-4 py-3.5 text-[#0C1E5B] font-medium uppercase'>Due Date</th>
+                                    <th className='px-4 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {recentTasks.map((task) => (
+                                    <tr
+                                        key={task.taskId}
+                                        className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#FAFBFD] transition-colors'
+                                    >
+                                        <td className='px-4 py-4 font-medium text-[#1E1E1E] rounded-s-lg'>{task.taskId}</td>
+                                        <td className='px-4 py-4 max-w-[280px]'>{task.title}</td>
+                                        <td className='px-4 py-4'>{task.assignedDate}</td>
+                                        <td className='px-4 py-4'>{task.dueDate}</td>
+                                        <td className='px-4 py-4 rounded-e-lg'>
+                                            <span className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap ${taskStatusBadgeColor[task.status]}`}>
+                                                {task.status}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </section>
     )
 }
 
-export default ViewPrincipal
+export default ViewEmployeeProfile

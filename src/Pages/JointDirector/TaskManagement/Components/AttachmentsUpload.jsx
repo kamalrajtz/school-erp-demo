@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { FileUp } from 'lucide-react'
 
-const ProofUpload = () => {
+const AttachmentsUpload = () => {
     const [fileData, setFileData] = useState(null) // { name, size, ext, objectURL }
     const [isDragging, setIsDragging] = useState(false)
     const inputRef = useRef(null)
@@ -149,4 +149,4 @@ const ProofUpload = () => {
     )
 }
 
-export default ProofUpload
+export default AttachmentsUpload
