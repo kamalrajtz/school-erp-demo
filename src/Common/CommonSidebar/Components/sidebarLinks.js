@@ -733,6 +733,39 @@ export const jointDirectorAssistantSidebarLinks = [
     },
 ];
 
+export const jointDirectorAuditSidebarLinks = [
+    {
+        id: 1,
+        title: "Dashboard",
+        to: "/joint-director-audit/dashboard",
+        icon: LayoutDashboard,
+    },
+    {
+        id: 2,
+        title: "Audit Planning",
+        to: "/joint-director-audit/audit-planning",
+        icon: ClipboardPen,
+    },
+    {
+        id: 3,
+        title: "Audit Monitoring",
+        to: "/joint-director-audit/audit-monitoring",
+        icon: ListChecks,
+    },
+    {
+        id: 4,
+        title: "Findings & Compliance",
+        to: "/joint-director-audit/findings-compliance",
+        icon: ShieldCheck,
+    },
+    {
+        id: 5,
+        title: "Reports & Analytics",
+        to: "/joint-director-audit/reports-analytics",
+        icon: BarChart3,
+    },
+];
+
 export const directorSidebarLinks = [
     // {
     //     id: 1,
@@ -899,6 +932,7 @@ export const roleBasedSidebarLinks = {
     StationeryStoreManager: stationeryStoreManagerSidebarLinks,
     JointDirector: jointDirectorSidebarLinks,
     JointDirectorAssistant: jointDirectorAssistantSidebarLinks,
+    JointDirectorAudit: jointDirectorAuditSidebarLinks,
     Director: directorSidebarLinks,
     Principal: principalSidebarLinks,
 };

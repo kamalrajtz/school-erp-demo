@@ -275,6 +275,14 @@ export const singleTitleMapping = {
     "/joint-director-assistant/broadcast": "Broadcast",
     "/joint-director-assistant/broadcast/add-broadcast": "Add Broadcast",
 
+    // ── Joint Director Audit Role ───────────────────────────────────────────────
+    "/joint-director-audit/dashboard": "Dashboard",
+    "/joint-director-audit/audit-planning": "Audit Planning",
+    "/joint-director-audit/audit-planning/add-audit-plan": "Add Audit Plan",
+    "/joint-director-audit/audit-monitoring": "Audit Monitoring",
+    "/joint-director-audit/findings-compliance": "Findings & Compliance",
+    "/joint-director-audit/reports-analytics": "Reports & Analytics",
+
     // ── Principal Role ──────────────────────────────────────────────────────────
     "/principal/dashboard": "Dashboard",
     "/principal/documents": "Documents",
@@ -349,7 +357,10 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/admin\/activities\/view-competition\/[^/]+$/.test(p), title: 'Competition Activity Details' },
     { test: (p) => /^\/admin\/documents\/view-student-documents\/[^/]+$/.test(p), title: 'Student Document Details' },
     { test: (p) => /^\/joint-director\/employee-management\/drivers\/view\/[^/]+$/.test(p), title: 'View Driver Details' },
-    { test: (p) => /^\/joint-director-assistant\/employee-management\/drivers\/view\/[^/]+$/.test(p), title: 'View Driver Details' },
+    { test: (p) => /^\/joint-director-audit\/findings-compliance\/view\/[^/]+$/.test(p), title: 'Finding Details' },
+    { test: (p) => /^\/joint-director-audit\/audit-monitoring\/view\/[^/]+$/.test(p), title: 'Audit Monitoring Details' },
+    { test: (p) => /^\/joint-director-audit\/audit-planning\/view\/[^/]+$/.test(p), title: 'View Audit Plan' },
+    { test: (p) => /^\/joint-director-audit\/audit-planning\/edit\/[^/]+$/.test(p), title: 'Edit Audit Plan' },
     { test: (p) => /^\/joint-director-assistant\/escalations\/view-escalation\/[^/]+$/.test(p), title: 'View Escalation Details' },
     { test: (p) => /^\/joint-director-assistant\/assets-inventory\/view\/[^/]+$/.test(p), title: 'View Asset / Inventory Details' },
     { test: (p) => /^\/joint-director\/broadcast\/view-broadcast\/[^/]+$/.test(p), title: 'View Broadcast Details' },
