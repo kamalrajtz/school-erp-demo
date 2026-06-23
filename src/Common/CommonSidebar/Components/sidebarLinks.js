@@ -764,6 +764,49 @@ export const jointDirectorAuditSidebarLinks = [
         to: "/joint-director-audit/reports-analytics",
         icon: BarChart3,
     },
+    {
+        id: 6,
+        title: "Task Management",
+        to: "/joint-director-audit/task-management",
+        icon: ClipboardList,
+    },
+    {
+        id: 7,
+        title: "Employee Management",
+        to: "#0",
+        icon: UsersRound,
+        subLinks: [
+            { icon: Users, title: "HR Manager", to: "/joint-director-audit/employee-management/hr-manager" },
+            { icon: UserRound, title: "HR Executive", to: "/joint-director-audit/employee-management/hr-executive" },
+            { icon: ClipboardList, title: "Process Audit Manager", to: "/joint-director-audit/employee-management/process-audit-manager" },
+            { icon: ListChecks, title: "Process Audit Executive", to: "/joint-director-audit/employee-management/process-audit-executive" },
+            { icon: GraduationCap, title: "Quality Audit Principal", to: "/joint-director-audit/employee-management/quality-audit-principal" },
+        ],
+    },
+    {
+        id: 8,
+        title: "Request Approvals",
+        to: "/joint-director-audit/request-approvals",
+        icon: ClipboardCheck,
+    },
+    {
+        id: 9,
+        title: "Escalations",
+        to: "/joint-director-audit/escalations",
+        icon: ShieldAlert,
+    },
+    {
+        id: 10,
+        title: "Meetings & Calendar",
+        to: "/joint-director-audit/meetings-calendar",
+        icon: CalendarDays,
+    },
+    {
+        id: 11,
+        title: "Broadcast",
+        to: "/joint-director-audit/broadcast",
+        icon: Rss,
+    },
 ];
 
 export const directorSidebarLinks = [
