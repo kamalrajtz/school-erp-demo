@@ -639,6 +639,7 @@ export const jointDirectorSidebarLinks = [
             { icon: Monitor, title: "IT Team Manager", to: "/joint-director/employee-management/it-team-manager" },
             { icon: Bus, title: "Transport Manager", to: "/joint-director/employee-management/transport-manager" },
             { icon: Sparkles, title: "House Keeping Manager", to: "/joint-director/employee-management/housekeeping-manager" },
+            { icon: Car, title: "Drivers List", to: "/joint-director/employee-management/drivers" },
         ],
     },
     {
@@ -669,6 +670,65 @@ export const jointDirectorSidebarLinks = [
         id: 8,
         title: "Broadcast",
         to: "/joint-director/broadcast",
+        icon: Rss,
+    },
+];
+
+export const jointDirectorAssistantSidebarLinks = [
+    {
+        id: 1,
+        title: "Dashboard",
+        to: "/joint-director-assistant/dashboard",
+        icon: LayoutDashboard,
+    },
+    {
+        id: 2,
+        title: "Task Management",
+        to: "/joint-director-assistant/task-management",
+        icon: ClipboardList,
+    },
+    {
+        id: 3,
+        title: "Employee Management",
+        to: "#0",
+        icon: UsersRound,
+        subLinks: [
+            { icon: UtensilsCrossed, title: "Canteen Manager", to: "/joint-director-assistant/employee-management/canteen-manager" },
+            { icon: ShoppingCart, title: "Store Manager", to: "/joint-director-assistant/employee-management/store-manager" },
+            { icon: Monitor, title: "IT Team Manager", to: "/joint-director-assistant/employee-management/it-team-manager" },
+            { icon: Bus, title: "Transport Manager", to: "/joint-director-assistant/employee-management/transport-manager" },
+            { icon: Sparkles, title: "House Keeping Manager", to: "/joint-director-assistant/employee-management/housekeeping-manager" },
+            { icon: Car, title: "Drivers List", to: "/joint-director-assistant/employee-management/drivers" },
+        ],
+    },
+    {
+        id: 4,
+        title: "Request Approvals",
+        to: "/joint-director-assistant/request-approvals",
+        icon: ClipboardCheck,
+    },
+    {
+        id: 5,
+        title: "Escalations",
+        to: "/joint-director-assistant/escalations",
+        icon: ShieldAlert,
+    },
+    {
+        id: 6,
+        title: "Meetings & Calendar",
+        to: "/joint-director-assistant/meetings-calendar",
+        icon: CalendarDays,
+    },
+    {
+        id: 7,
+        title: "Assets & Inventory Overview",
+        to: "/joint-director-assistant/assets-inventory",
+        icon: Package,
+    },
+    {
+        id: 8,
+        title: "Broadcast",
+        to: "/joint-director-assistant/broadcast",
         icon: Rss,
     },
 ];
@@ -838,6 +898,7 @@ export const roleBasedSidebarLinks = {
     ITSupportManager: itSupportManagerSidebarLinks,
     StationeryStoreManager: stationeryStoreManagerSidebarLinks,
     JointDirector: jointDirectorSidebarLinks,
+    JointDirectorAssistant: jointDirectorAssistantSidebarLinks,
     Director: directorSidebarLinks,
     Principal: principalSidebarLinks,
 };

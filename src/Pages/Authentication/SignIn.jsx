@@ -18,6 +18,7 @@ const ROLE_LABELS = {
     [ROLES.STATIONERY_STORE_MANAGER]: 'Stationery Store Manager',
     [ROLES.HOUSEKEEPING_MANAGER]: 'Housekeeping Manager',
     [ROLES.JOINT_DIRECTOR]: 'Joint Director',
+    [ROLES.JOINT_DIRECTOR_ASSISTANT]: 'Joint Director Assistant',
 }
 
 const SignIn = () => {

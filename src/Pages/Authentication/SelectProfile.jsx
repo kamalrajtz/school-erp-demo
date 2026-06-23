@@ -34,6 +34,7 @@ const PROFILE_OPTIONS = [
     { role: ROLES.STATIONERY_STORE_MANAGER, label: 'Stationery Store Manager', image: librarian_profile, alt: 'stationery_store_manager_profile' },
     { role: ROLES.HOUSEKEEPING_MANAGER, label: 'Housekeeping Manager', image: admin_profile, alt: 'housekeeping_manager_profile' },
     { role: ROLES.JOINT_DIRECTOR, label: 'Joint Director', image: admin_profile, alt: 'joint_director_profile' },
+    { role: ROLES.JOINT_DIRECTOR_ASSISTANT, label: 'Joint Director Assistant', image: admin_profile, alt: 'joint_director_assistant_profile' },
 ]
 
 const SelectProfile = () => {

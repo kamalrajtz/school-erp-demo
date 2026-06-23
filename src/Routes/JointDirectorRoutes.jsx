@@ -4,6 +4,8 @@ import Dashboard from '../Pages/JointDirector/Dashboard/Dashboard'
 import TaskManagement from '../Pages/JointDirector/TaskManagement/TaskManagement'
 import AddTask from '../Pages/JointDirector/TaskManagement/AddTask'
 import ViewEmployeeProfile from '../Pages/JointDirector/EmployeeManagement/ViewEmployeeProfile'
+import DriversList from '../Pages/JointDirector/EmployeeManagement/DriversList'
+import ViewDriver from '../Pages/JointDirector/EmployeeManagement/ViewDriver'
 import RequestApprovals from '../Pages/JointDirector/RequestApprovals/RequestApprovals'
 import ViewRequestApproval from '../Pages/JointDirector/RequestApprovals/ViewRequestApproval'
 import Escalations from '../Pages/JointDirector/Escalations/Escalations'
@@ -21,6 +23,8 @@ const JointDirectorRoutes = () => {
             <Route path="/joint-director/dashboard" element={<Dashboard />} />
             <Route path="/joint-director/task-management" element={<TaskManagement />} />
             <Route path="/joint-director/task-management/add-task" element={<AddTask />} />
+            <Route path="/joint-director/employee-management/drivers" element={<DriversList />} />
+            <Route path="/joint-director/employee-management/drivers/view/:id" element={<ViewDriver />} />
             <Route path="/joint-director/employee-management/:roleKey" element={<ViewEmployeeProfile />} />
             <Route path="/joint-director/employee-management" element={<Navigate to="/joint-director/employee-management/jd-assistant" replace />} />
             <Route path="/joint-director/request-approvals" element={<RequestApprovals />} />

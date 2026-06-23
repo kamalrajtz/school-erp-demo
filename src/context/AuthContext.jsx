@@ -14,6 +14,7 @@ export const ROLES = {
     STATIONERY_STORE_MANAGER: 'stationerystoremanager',
     HOUSEKEEPING_MANAGER: 'housekeepingmanager',
     JOINT_DIRECTOR: 'jointdirector',
+    JOINT_DIRECTOR_ASSISTANT: 'jointdirectorassistant',
 }
 
 export const FAKE_CREDENTIALS = {
@@ -30,6 +31,7 @@ export const FAKE_CREDENTIALS = {
     [ROLES.STATIONERY_STORE_MANAGER]: { email: 'stationerystoremanager@school.com' },
     [ROLES.HOUSEKEEPING_MANAGER]: { email: 'housekeepingmanager@school.com' },
     [ROLES.JOINT_DIRECTOR]: { email: 'jointdirector@school.com' },
+    [ROLES.JOINT_DIRECTOR_ASSISTANT]: { email: 'jointdirectorassistant@school.com' },
 }
 
 export const ROLE_HOME_PATHS = {
@@ -46,6 +48,7 @@ export const ROLE_HOME_PATHS = {
     [ROLES.STATIONERY_STORE_MANAGER]: '/stationery-store-manager/dashboard',
     [ROLES.HOUSEKEEPING_MANAGER]: '/housekeeping-manager/dashboard',
     [ROLES.JOINT_DIRECTOR]: '/joint-director/dashboard',
+    [ROLES.JOINT_DIRECTOR_ASSISTANT]: '/joint-director-assistant/dashboard',
 }
 
 const STORAGE_KEY = 'schoolerp_auth'
