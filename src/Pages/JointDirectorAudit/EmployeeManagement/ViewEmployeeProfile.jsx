@@ -11,6 +11,7 @@ import {
     Users,
     UserRound,
     ListChecks,
+    BookOpenCheck,
 } from 'lucide-react'
 import mo_user from '../../../assets/images/no-profile.png'
 import {
@@ -25,6 +26,7 @@ const ROLE_ICONS = {
     'process-audit-manager': ClipboardList,
     'process-audit-executive': ListChecks,
     'quality-audit-principal': GraduationCap,
+    'quality-audit-executive': BookOpenCheck,
 }
 
 const ModernSection = ({ title, icon: Icon, children }) => (

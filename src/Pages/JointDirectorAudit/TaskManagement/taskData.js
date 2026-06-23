@@ -4,6 +4,7 @@ export const ASSIGNEE_OPTIONS = [
     { label: 'Process Audit Manager', department: 'Process Audit' },
     { label: 'Process Audit Executive', department: 'Process Audit' },
     { label: 'Quality Audit Principal', department: 'Quality Audit' },
+    { label: 'Quality Audit Executive', department: 'Quality Audit' },
 ]
 
 export const PRIORITY_OPTIONS = ['Low', 'Medium', 'High', 'Urgent']

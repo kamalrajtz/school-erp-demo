@@ -290,6 +290,7 @@ export const singleTitleMapping = {
     "/joint-director-audit/employee-management/process-audit-manager": "Process Audit Manager Profile",
     "/joint-director-audit/employee-management/process-audit-executive": "Process Audit Executive Profile",
     "/joint-director-audit/employee-management/quality-audit-principal": "Quality Audit Principal Profile",
+    "/joint-director-audit/employee-management/quality-audit-executive": "Quality Audit Executive Profile",
     "/joint-director-audit/request-approvals": "Request Approvals",
     "/joint-director-audit/request-approvals/view-request": "View Request Details",
     "/joint-director-audit/escalations": "Escalations",

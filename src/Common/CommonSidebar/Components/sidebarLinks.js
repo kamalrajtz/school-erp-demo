@@ -781,6 +781,7 @@ export const jointDirectorAuditSidebarLinks = [
             { icon: ClipboardList, title: "Process Audit Manager", to: "/joint-director-audit/employee-management/process-audit-manager" },
             { icon: ListChecks, title: "Process Audit Executive", to: "/joint-director-audit/employee-management/process-audit-executive" },
             { icon: GraduationCap, title: "Quality Audit Principal", to: "/joint-director-audit/employee-management/quality-audit-principal" },
+            { icon: BookOpenCheck, title: "Quality Audit Executive", to: "/joint-director-audit/employee-management/quality-audit-executive" },
         ],
     },
     {
