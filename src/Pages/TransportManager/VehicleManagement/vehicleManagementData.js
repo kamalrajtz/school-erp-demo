@@ -1,0 +1,66 @@
+export const VEHICLE_TYPES = [
+    'School Van (24 Seater)',
+    'School Van (32 Seater)',
+    'School Bus (45 Seater)',
+    'Mini Bus (18 Seater)',
+]
+
+export const VEHICLES = [
+    {
+        id: 'VEH-1001',
+        vehicleNumber: 'TN-09-AB-4521',
+        vehicleType: 'School Van (32 Seater)',
+        capacity: 32,
+        driverName: 'Sandy Selva',
+        driverContact: '9944076993',
+        insuranceExpiryDate: '15-03-2027',
+        lastServiceDate: '02-05-2026',
+        nextServiceDate: '02-08-2026',
+    },
+    {
+        id: 'VEH-1002',
+        vehicleNumber: 'TN-09-CD-8834',
+        vehicleType: 'School Bus (45 Seater)',
+        capacity: 45,
+        driverName: 'Rajesh K. Kumar',
+        driverContact: '9845012345',
+        insuranceExpiryDate: '22-11-2027',
+        lastServiceDate: '18-04-2026',
+        nextServiceDate: '18-07-2026',
+    },
+    {
+        id: 'VEH-1003',
+        vehicleNumber: 'TN-09-EF-2210',
+        vehicleType: 'School Van (24 Seater)',
+        capacity: 24,
+        driverName: 'Priya M. Venkatesh',
+        driverContact: '9789012345',
+        insuranceExpiryDate: '30-01-2029',
+        lastServiceDate: '25-05-2026',
+        nextServiceDate: '25-08-2026',
+    },
+    {
+        id: 'VEH-1004',
+        vehicleNumber: 'TN-09-GH-5567',
+        vehicleType: 'School Bus (45 Seater)',
+        capacity: 45,
+        driverName: 'Mohan R. Das',
+        driverContact: '9654321098',
+        insuranceExpiryDate: '10-05-2027',
+        lastServiceDate: '10-06-2026',
+        nextServiceDate: '10-09-2026',
+    },
+    {
+        id: 'VEH-1005',
+        vehicleNumber: 'TN-09-IJ-3344',
+        vehicleType: 'Mini Bus (18 Seater)',
+        capacity: 18,
+        driverName: 'Kumaravel S.',
+        driverContact: '9123456780',
+        insuranceExpiryDate: '08-12-2026',
+        lastServiceDate: '28-03-2026',
+        nextServiceDate: '28-06-2026',
+    },
+]
+
+export const getVehicleById = (id) => VEHICLES.find((vehicle) => vehicle.id === id) ?? null

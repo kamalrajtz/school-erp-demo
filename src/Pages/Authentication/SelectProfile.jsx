@@ -33,6 +33,7 @@ const PROFILE_OPTIONS = [
     { role: ROLES.IT_SUPPORT_MANAGER, label: 'IT Support Team Manager', image: admin_profile, alt: 'it_support_manager_profile' },
     { role: ROLES.STATIONERY_STORE_MANAGER, label: 'Stationery Store Manager', image: librarian_profile, alt: 'stationery_store_manager_profile' },
     { role: ROLES.HOUSEKEEPING_MANAGER, label: 'Housekeeping Manager', image: admin_profile, alt: 'housekeeping_manager_profile' },
+    { role: ROLES.TRANSPORT_MANAGER, label: 'Transport Manager', image: van_driver_profile, alt: 'transport_manager_profile' },
     { role: ROLES.JOINT_DIRECTOR, label: 'Joint Director', image: admin_profile, alt: 'joint_director_profile' },
     { role: ROLES.JOINT_DIRECTOR_ASSISTANT, label: 'Joint Director Assistant', image: admin_profile, alt: 'joint_director_assistant_profile' },
     { role: ROLES.JOINT_DIRECTOR_AUDIT, label: 'Joint Director - Audit', image: admin_profile, alt: 'joint_director_audit_profile' },

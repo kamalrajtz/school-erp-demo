@@ -10,6 +10,7 @@ import CanteenManagerLayout from "./Layout/CanteenManagerLayout";
 import ITSupportManagerLayout from "./Layout/ITSupportManagerLayout";
 import StationeryStoreManagerLayout from "./Layout/StationeryStoreManagerLayout";
 import HousekeepingManagerLayout from "./Layout/HousekeepingManagerLayout";
+import TransportManagerLayout from "./Layout/TransportManagerLayout";
 import JointDirectorLayout from "./Layout/JointDirectorLayout";
 import JointDirectorAssistantLayout from "./Layout/JointDirectorAssistantLayout";
 import JointDirectorAuditLayout from "./Layout/JointDirectorAuditLayout";
@@ -115,6 +116,13 @@ const App = () => {
     return <HousekeepingManagerLayout />;
   }
 
+  if (role === ROLES.TRANSPORT_MANAGER) {
+    if (!pathname.startsWith("/transport-manager")) {
+      return <Navigate to={ROLE_HOME_PATHS[ROLES.TRANSPORT_MANAGER]} replace />;
+    }
+    return <TransportManagerLayout />;
+  }
+
   if (role === ROLES.JOINT_DIRECTOR_AUDIT) {
     if (!pathname.startsWith("/joint-director-audit")) {
       return <Navigate to={ROLE_HOME_PATHS[ROLES.JOINT_DIRECTOR_AUDIT]} replace />;
@@ -152,6 +160,7 @@ const App = () => {
     pathname.startsWith("/it-support-manager") ||
     pathname.startsWith("/stationery-store-manager") ||
     pathname.startsWith("/housekeeping-manager") ||
+    pathname.startsWith("/transport-manager") ||
     pathname.startsWith("/joint-director-audit") ||
     pathname.startsWith("/joint-director-assistant") ||
     pathname.startsWith("/joint-director")

@@ -614,6 +614,75 @@ export const housekeepingManagerSidebarLinks = [
     },
 ];
 
+export const transportManagerSidebarLinks = [
+    {
+        id: 1,
+        title: "Dashboard",
+        to: "/transport-manager/dashboard",
+        icon: LayoutDashboard,
+    },
+    {
+        id: 2,
+        title: "Driver Management",
+        to: "/transport-manager/driver-management",
+        icon: Car,
+    },
+    {
+        id: 3,
+        title: "Vehicle Management",
+        to: "/transport-manager/vehicle-management",
+        icon: Bus,
+    },
+    {
+        id: 4,
+        title: "Route Management",
+        to: "/transport-manager/route-management",
+        icon: Route,
+    },
+    {
+        id: 5,
+        title: "Route Data",
+        to: "/transport-manager/route-data",
+        icon: MapPin,
+    },
+    {
+        id: 6,
+        title: "Student Transport",
+        to: "/transport-manager/student-transport",
+        icon: GraduationCap,
+    },
+    {
+        id: 7,
+        title: "Assign Duty",
+        to: "/transport-manager/assign-duty",
+        icon: ListChecks,
+    },
+    {
+        id: 8,
+        title: "Vehicle Maintenance",
+        to: "/transport-manager/vehicle-maintenance",
+        icon: Monitor,
+    },
+    {
+        id: 9,
+        title: "Request & Approvals",
+        to: "/transport-manager/request-approvals",
+        icon: ClipboardCheck,
+    },
+    {
+        id: 10,
+        title: "Transport Expenses",
+        to: "/transport-manager/transport-expenses",
+        icon: Wallet,
+    },
+    {
+        id: 11,
+        title: "Leave Request",
+        to: "/transport-manager/leave-request",
+        icon: FileX,
+    },
+];
+
 export const jointDirectorSidebarLinks = [
     {
         id: 1,
@@ -974,6 +1043,8 @@ export const roleBasedSidebarLinks = {
     CanteenManager: canteenManagerSidebarLinks,
     ITSupportManager: itSupportManagerSidebarLinks,
     StationeryStoreManager: stationeryStoreManagerSidebarLinks,
+    HousekeepingManager: housekeepingManagerSidebarLinks,
+    TransportManager: transportManagerSidebarLinks,
     JointDirector: jointDirectorSidebarLinks,
     JointDirectorAssistant: jointDirectorAssistantSidebarLinks,
     JointDirectorAudit: jointDirectorAuditSidebarLinks,
