@@ -11,6 +11,7 @@ import ITSupportManagerLayout from "./Layout/ITSupportManagerLayout";
 import StationeryStoreManagerLayout from "./Layout/StationeryStoreManagerLayout";
 import HousekeepingManagerLayout from "./Layout/HousekeepingManagerLayout";
 import TransportManagerLayout from "./Layout/TransportManagerLayout";
+import TeacherLayout from "./Layout/TeacherLayout";
 import JointDirectorLayout from "./Layout/JointDirectorLayout";
 import JointDirectorAssistantLayout from "./Layout/JointDirectorAssistantLayout";
 import JointDirectorAuditLayout from "./Layout/JointDirectorAuditLayout";
@@ -123,6 +124,13 @@ const App = () => {
     return <TransportManagerLayout />;
   }
 
+  if (role === ROLES.TEACHER) {
+    if (!pathname.startsWith("/teacher")) {
+      return <Navigate to={ROLE_HOME_PATHS[ROLES.TEACHER]} replace />;
+    }
+    return <TeacherLayout />;
+  }
+
   if (role === ROLES.JOINT_DIRECTOR_AUDIT) {
     if (!pathname.startsWith("/joint-director-audit")) {
       return <Navigate to={ROLE_HOME_PATHS[ROLES.JOINT_DIRECTOR_AUDIT]} replace />;
@@ -152,6 +160,7 @@ const App = () => {
     pathname.startsWith("/librarian") ||
     pathname.startsWith("/front-office") ||
     pathname.startsWith("/student") ||
+    pathname.startsWith("/teacher") ||
     pathname.startsWith("/gate-keeper") ||
     pathname.startsWith("/gatekeeper-manager") ||
     pathname.startsWith("/director") ||

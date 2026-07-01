@@ -56,6 +56,10 @@ import {
     Monitor,
     Ticket,
     Sparkles,
+    History,
+    CircleHelp,
+    Send,
+    DoorClosed,
 } from "lucide-react";
 
 export const adminSidebarLinks = [
@@ -614,6 +618,128 @@ export const housekeepingManagerSidebarLinks = [
     },
 ];
 
+export const teacherSidebarLinks = [
+    {
+        id: 1,
+        title: "Dashboard",
+        to: "/teacher/dashboard",
+        icon: LayoutDashboard,
+    },
+    {
+        id: 2,
+        title: "Attendance",
+        to: "/teacher/attendance",
+        icon: CalendarCheck,
+    },
+    {
+        id: 3,
+        title: "Attendance History",
+        to: "/teacher/attendance-history",
+        icon: History,
+    },
+    {
+        id: 4,
+        title: "Class",
+        to: "#0",
+        icon: School,
+        subLinks: [
+            { icon: ClipboardList, title: "Assigned Class", to: "/teacher/class/assigned-class" },
+            { icon: CalendarDays, title: "Class Routine", to: "/teacher/class/class-routine" },
+            { icon: UserPlus, title: "Extra Class", to: "/teacher/class/extra-class" },
+            { icon: MonitorPlay, title: "Online Class", to: "/teacher/class/online-class" },
+            { icon: FileX, title: "Leave Request", to: "/teacher/class/leave-request" },
+        ],
+    },
+    {
+        id: 5,
+        title: "Academics",
+        to: "#0",
+        icon: BookOpen,
+        subLinks: [
+            { icon: BookCopy, title: "Syllabus", to: "/teacher/academics/syllabus" },
+            { icon: BookOpenCheck, title: "Study Materials", to: "/teacher/academics/study-materials" },
+        ],
+    },
+    {
+        id: 6,
+        title: "User Management",
+        to: "#0",
+        icon: Users,
+        subLinks: [
+            { icon: GraduationCap, title: "Students List", to: "/teacher/user-management/students-list" },
+            { icon: UsersRound, title: "Parents List", to: "/teacher/user-management/parents-list" },
+        ],
+    },
+    {
+        id: 7,
+        title: "Assessment Management",
+        to: "#0",
+        icon: ClipboardList,
+        subLinks: [
+            { icon: ClipboardPen, title: "Assignments", to: "/teacher/assessment-management/assignments" },
+            { icon: Send, title: "Submissions", to: "/teacher/assessment-management/submissions" },
+        ],
+    },
+    {
+        id: 8,
+        title: "Library",
+        to: "#0",
+        icon: Library,
+        subLinks: [
+            { icon: BookMarked, title: "Books Borrowed", to: "/teacher/library/books-borrowed" },
+        ],
+    },
+    {
+        id: 9,
+        title: "Examination",
+        to: "#0",
+        icon: FileText,
+        subLinks: [
+            { icon: CalendarDays, title: "Create Schedule", to: "/teacher/examination/create-schedule" },
+            { icon: DoorClosed, title: "Exam Hall Duty", to: "/teacher/examination/exam-hall-duty" },
+        ],
+    },
+    {
+        id: 10,
+        title: "Student Evaluation",
+        to: "#0",
+        icon: Award,
+        subLinks: [
+            { icon: Star, title: "Star Ratings", to: "/teacher/student-evaluation/star-ratings" },
+            { icon: Trophy, title: "Star Of Month", to: "/teacher/student-evaluation/star-of-month" },
+            { icon: CircleHelp, title: "Questions Banks", to: "/teacher/student-evaluation/questions-banks" },
+            { icon: ArrowRightLeft, title: "Student Transfer", to: "/teacher/student-evaluation/student-transfer" },
+        ],
+    },
+    {
+        id: 11,
+        title: "Marks & Results",
+        to: "#0",
+        icon: BarChart3,
+        subLinks: [
+            { icon: NotebookPen, title: "Enter Marks", to: "/teacher/marks-results/enter-marks" },
+            { icon: BookUser, title: "Result Summary", to: "/teacher/marks-results/result-summary" },
+        ],
+    },
+    {
+        id: 12,
+        title: "Activities",
+        to: "#0",
+        icon: Trophy,
+        subLinks: [
+            { icon: Palette, title: "Cultural", to: "/teacher/activities/cultural" },
+            { icon: Dumbbell, title: "Sports", to: "/teacher/activities/sports" },
+            { icon: Award, title: "Competitions", to: "/teacher/activities/competitions" },
+        ],
+    },
+    {
+        id: 13,
+        title: "Notifications",
+        to: "/teacher/notifications",
+        icon: BellDot,
+    },
+];
+
 export const transportManagerSidebarLinks = [
     {
         id: 1,
@@ -1036,6 +1162,7 @@ export const principalSidebarLinks = [
 export const roleBasedSidebarLinks = {
     Administrator: adminSidebarLinks,
     Student: studentSidebarLinks,
+    Teacher: teacherSidebarLinks,
     Librarian: librarianSidebarLinks,
     PRM: prmSidebarLinks,
     GateKeeper: gateKeeperSidebarLinks,

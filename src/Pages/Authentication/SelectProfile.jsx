@@ -16,7 +16,7 @@ const ROLES_PER_PAGE = 9
 const PROFILE_OPTIONS = [
     { role: ROLES.ADMIN, label: 'Admin', image: admin_profile, alt: 'admin_profile' },
     { role: ROLES.STUDENT, label: 'Student', image: student_profile, alt: 'student_profile' },
-    { role: null, label: 'Teacher', image: teacher_profile, alt: 'teacher_profile', disabled: true },
+    { role: ROLES.TEACHER, label: 'Teacher', image: teacher_profile, alt: 'teacher_profile' },
     { role: null, label: 'Van Driver', image: van_driver_profile, alt: 'van_driver_profile', disabled: true },
     { role: ROLES.LIBRARIAN, label: 'Librarian', image: librarian_profile, alt: 'librarian_profile' },
     { role: ROLES.PRM, label: 'PRM', image: prm_profile, alt: 'prm_profile', imageClassName: 'rounded-full' },
