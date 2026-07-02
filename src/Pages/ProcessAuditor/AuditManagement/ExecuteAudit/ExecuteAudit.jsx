@@ -2,8 +2,6 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { updateAuditStatus } from '../MyAudits/myAuditsData'
 import AuditWorkspaceHeader from './Components/AuditWorkspaceHeader'
-import AuditStatusProgress from './Components/AuditStatusProgress'
-import PreviousAuditComparison from './Components/PreviousAuditComparison'
 import DepartmentInfoCard from './Components/DepartmentInfoCard'
 import ChecklistSection from './Components/ChecklistSection'
 import SectionNav from './Components/SectionNav'
@@ -24,6 +22,8 @@ import {
     emptyObservation,
     isNonCompliant,
     markTimelineStage,
+    generateObservationNumber,
+    formatAssignedDate,
 } from './executeAuditData'
 
 const AUTO_SAVE_INTERVAL_MS = 30000
@@ -93,9 +93,12 @@ const ExecuteAudit = () => {
     const handleParameterChange = (parameterId, value, parameter, sectionTitle) => {
         setDraft((prev) => {
             let observations = prev.observations
-            if (parameter && isNonCompliant(parameter.responseType, value.response)) {
+            if (parameter && isNonCompliant(null, value.response)) {
                 if (!observations.some((obs) => obs.parameterId === parameterId)) {
-                    observations = [...observations, emptyObservation(parameter, sectionTitle)]
+                    observations = [
+                        ...observations,
+                        emptyObservation(parameter, sectionTitle, prev.header.auditNumber),
+                    ]
                 }
             }
 
@@ -123,9 +126,37 @@ const ExecuteAudit = () => {
     const handleSaveObservation = (parameterId) => {
         persist({
             ...draftRef.current,
-            observations: draftRef.current.observations.map((obs) =>
-                obs.parameterId === parameterId ? { ...obs, saved: true } : obs,
-            ),
+            observations: draftRef.current.observations.map((obs) => {
+                if (obs.parameterId !== parameterId) return obs
+                return {
+                    ...obs,
+                    saved: true,
+                    status: 'Pending Assignment',
+                    observationNumber: obs.observationNumber || generateObservationNumber(),
+                    auditReference: obs.auditReference || draftRef.current.header.auditNumber,
+                }
+            }),
+        })
+    }
+
+    const handleSubmitObservation = (parameterId) => {
+        const target = draftRef.current.observations.find((obs) => obs.parameterId === parameterId)
+        if (!target?.title?.trim() || !target?.assignTo) return
+
+        persist({
+            ...draftRef.current,
+            observations: draftRef.current.observations.map((obs) => {
+                if (obs.parameterId !== parameterId) return obs
+                return {
+                    ...obs,
+                    saved: true,
+                    submitted: true,
+                    status: 'Assigned',
+                    assignedDate: formatAssignedDate(),
+                    observationNumber: obs.observationNumber || generateObservationNumber(),
+                    auditReference: obs.auditReference || draftRef.current.header.auditNumber,
+                }
+            }),
         })
     }
 
@@ -190,11 +221,6 @@ const ExecuteAudit = () => {
 
             <AuditProgressBar progress={progress} scores={scores} />
 
-            <div className='grid grid-cols-1 xl:grid-cols-2 gap-5'>
-                <PreviousAuditComparison department={draft.header.department} currentScore={scores.overallCompliance} />
-                <AuditStatusProgress status={draft.header.status} />
-            </div>
-
             <DepartmentInfoCard header={draft.header} />
 
             <div className='flex flex-col gap-4'>
@@ -219,9 +245,11 @@ const ExecuteAudit = () => {
                             expanded
                             responses={draft.responses}
                             observations={draft.observations}
+                            auditReference={draft.header.auditNumber}
                             onParameterChange={(id, next, param, title) => handleParameterChange(id, next, param, title)}
                             onObservationChange={handleObservationChange}
                             onSaveObservation={handleSaveObservation}
+                            onSubmitObservation={handleSubmitObservation}
                             onOpenSop={setSopCode}
                         />
                     )}
@@ -231,14 +259,7 @@ const ExecuteAudit = () => {
             <FindingsPanel findings={findings} />
 
             <StructuredRecommendations
-                recommendations={draft.recommendations}
                 generalRemarks={draft.generalRemarks}
-                onChange={(key, value) =>
-                    setDraft((prev) => ({
-                        ...prev,
-                        recommendations: { ...prev.recommendations, [key]: value },
-                    }))
-                }
                 onRemarksChange={(value) => setDraft((prev) => ({ ...prev, generalRemarks: value }))}
             />
 

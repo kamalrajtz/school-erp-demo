@@ -1,6 +1,6 @@
 import { addDays } from 'date-fns'
 import { generateId, toDateKey } from '../../../../Common/MeetingsCalendar/utils/dateHelpers'
-import { DEPARTMENTS, FREQUENCIES } from '../MyAudits/myAuditsData'
+import { DEPARTMENTS, FREQUENCIES, getMyAudits } from '../MyAudits/myAuditsData'
 
 export { DEPARTMENTS, FREQUENCIES }
 
@@ -23,6 +23,7 @@ export const parseDisplayDate = (value) => {
 
 const buildSchedule = ({
     scheduleId,
+    auditId,
     auditName,
     department,
     frequency,
@@ -36,6 +37,7 @@ const buildSchedule = ({
 }) => ({
     id: scheduleId,
     scheduleId,
+    auditId,
     auditName,
     department,
     frequency,
@@ -51,6 +53,7 @@ const buildSchedule = ({
 const DEFAULT_AUDIT_SCHEDULES = [
     buildSchedule({
         scheduleId: 'SCH-PA-2026-001',
+        auditId: 'AUD-PA-2026-041',
         auditName: 'Petty Cash & Voucher Compliance',
         department: 'Finance',
         frequency: 'Monthly',
@@ -64,6 +67,7 @@ const DEFAULT_AUDIT_SCHEDULES = [
     }),
     buildSchedule({
         scheduleId: 'SCH-PA-2026-002',
+        auditId: 'AUD-PA-2026-042',
         auditName: 'Employee Onboarding Process',
         department: 'HR',
         frequency: 'Quarterly',
@@ -77,6 +81,7 @@ const DEFAULT_AUDIT_SCHEDULES = [
     }),
     buildSchedule({
         scheduleId: 'SCH-PA-2026-003',
+        auditId: 'AUD-PA-2026-043',
         auditName: 'Food Safety & Kitchen Hygiene',
         department: 'Canteen',
         frequency: 'Monthly',
@@ -90,6 +95,7 @@ const DEFAULT_AUDIT_SCHEDULES = [
     }),
     buildSchedule({
         scheduleId: 'SCH-PA-2026-004',
+        auditId: 'AUD-PA-2026-044',
         auditName: 'Inventory Control & Stock Reconciliation',
         department: 'Store',
         frequency: 'Quarterly',
@@ -103,6 +109,7 @@ const DEFAULT_AUDIT_SCHEDULES = [
     }),
     buildSchedule({
         scheduleId: 'SCH-PA-2026-005',
+        auditId: 'AUD-PA-2026-038',
         auditName: 'Fleet Maintenance & Trip Logs',
         department: 'Transport',
         frequency: 'Monthly',
@@ -116,6 +123,7 @@ const DEFAULT_AUDIT_SCHEDULES = [
     }),
     buildSchedule({
         scheduleId: 'SCH-PA-2026-006',
+        auditId: 'AUD-PA-2026-039',
         auditName: 'Data Backup & Access Control Policy',
         department: 'IT Support',
         frequency: 'Quarterly',
@@ -129,6 +137,7 @@ const DEFAULT_AUDIT_SCHEDULES = [
     }),
     buildSchedule({
         scheduleId: 'SCH-PA-2026-007',
+        auditId: 'AUD-PA-2026-045',
         auditName: 'Classroom Safety & Housekeeping Standards',
         department: 'Housekeeping',
         frequency: 'Monthly',
@@ -142,6 +151,7 @@ const DEFAULT_AUDIT_SCHEDULES = [
     }),
     buildSchedule({
         scheduleId: 'SCH-PA-2026-008',
+        auditId: 'AUD-PA-2026-046',
         auditName: 'Examination Workflow Compliance',
         department: 'Academic',
         frequency: 'Ad-hoc',
@@ -155,6 +165,21 @@ const DEFAULT_AUDIT_SCHEDULES = [
     }),
 ]
 
+const auditIdByName = () =>
+    Object.fromEntries(getMyAudits().map((audit) => [audit.auditName, audit.auditId]))
+
+const defaultAuditIdByScheduleId = Object.fromEntries(
+    DEFAULT_AUDIT_SCHEDULES.map((item) => [item.scheduleId, item.auditId]),
+)
+
+export const migrateSchedules = (records) => {
+    const byName = auditIdByName()
+    return records.map((item) => ({
+        ...item,
+        auditId: item.auditId ?? byName[item.auditName] ?? defaultAuditIdByScheduleId[item.scheduleId] ?? '',
+    }))
+}
+
 export const saveAuditSchedules = (records) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(records))
 }
@@ -162,7 +187,7 @@ export const saveAuditSchedules = (records) => {
 export const getAuditSchedules = () => {
     try {
         const stored = localStorage.getItem(STORAGE_KEY)
-        if (stored) return JSON.parse(stored)
+        if (stored) return migrateSchedules(JSON.parse(stored))
     } catch {
         /* ignore */
     }
@@ -174,7 +199,7 @@ export const schedulesToCalendarEvents = (schedules) =>
     schedules.map((item) => ({
         id: item.id,
         title: item.auditName,
-        description: `${item.scheduleId} · ${item.department} · Due ${item.dueDate}`,
+        description: `${item.auditId} · ${item.scheduleId} · Due ${item.dueDate}`,
         date: toDateKey(parseDisplayDate(item.assignedDate)),
         startTime: item.startTime,
         endTime: item.endTime,

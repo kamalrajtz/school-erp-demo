@@ -2,90 +2,65 @@ import React, { useEffect, useState } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { Calendar, ChevronLeft, ChevronRight, Download, EllipsisIcon } from 'lucide-react'
-import Dropdown from '../../../../Common/CommonComponents/Dropdown'
-import ExportModal from '../../../../Common/CommonComponents/ExportModal'
+import { Calendar, ChevronLeft, ChevronRight, Download, EllipsisIcon, Plus } from 'lucide-react'
+import Dropdown from '../../../Common/CommonComponents/Dropdown'
+import ExportModal from '../../../Common/CommonComponents/ExportModal'
 import {
-    getMyAudits,
-    updateAuditStatus,
+    getObservations,
     DEPARTMENTS,
-    AUDIT_TYPES,
     PRIORITIES,
-    STATUSES,
-    FREQUENCIES,
+    CATEGORIES,
+    OPEN_STATUSES,
+    CLOSED_STATUSES,
+    statusBadgeColor,
     priorityBadgeColor,
-} from './myAuditsData'
+} from './observationsData'
 
-const MyAudits = () => {
+const ObservationsList = ({ variant = 'open' }) => {
     const location = useLocation()
     const navigate = useNavigate()
-    const [audits, setAudits] = useState(() => getMyAudits())
+    const statusFilter = variant === 'open' ? OPEN_STATUSES : CLOSED_STATUSES
+    const [records, setRecords] = useState(() =>
+        getObservations().filter((item) => statusFilter.includes(item.status)),
+    )
     const [fromDate, setFromDate] = useState(new Date())
     const [toDate, setToDate] = useState(new Date())
     const [exportModal, setExportModal] = useState(false)
 
     useEffect(() => {
-        setAudits(getMyAudits())
-    }, [location.pathname])
+        setRecords(getObservations().filter((item) => statusFilter.includes(item.status)))
+    }, [location.pathname, statusFilter])
 
-    const handleStartOrResume = (id) => {
-        const next = updateAuditStatus(id, 'In Progress')
-        setAudits(next)
-        navigate(`/process-auditor/audit-management/execute-audit?auditId=${id}`)
-    }
-
-    const getActions = (record) => {
-        const actions = []
-
-        if (record.status === 'Pending' || record.status === 'Overdue') {
-            actions.push({
-                key: 'start',
-                label: 'Start Audit',
-                onClick: () => handleStartOrResume(record.id),
-            })
-        }
-
-        if (record.status === 'In Progress') {
-            actions.push({
-                key: 'resume',
-                label: 'Resume',
-                onClick: () => handleStartOrResume(record.id),
-            })
-        }
-
-        actions.push({
-            key: 'view',
-            label: 'View',
-            to: `/process-auditor/audit-management/my-audits/view/${record.id}`,
-        })
-
-        actions.push({
-            key: 'download',
-            label: 'Download PDF',
-            onClick: () => setExportModal(true),
-        })
-
-        return actions
-    }
+    const title = variant === 'open' ? 'Open Observations' : 'Closed Observations'
+    const description = variant === 'open'
+        ? 'Observations raised from failed audit processes awaiting resolution.'
+        : 'Resolved and closed observations from completed audit cycles.'
 
     return (
         <section>
             <div className='bg-white rounded-2xl shadow-md p-4'>
-                <p className='text-sm text-[#667085] mb-4'>
-                    Shows audits assigned to the logged-in auditor.
-                </p>
+                <div className='flex flex-wrap items-center justify-between gap-4 mb-4'>
+                    <p className='text-sm text-[#667085]'>{description}</p>
+                    {variant === 'open' && (
+                        <button
+                            type='button'
+                            onClick={() => navigate('/process-auditor/observations/create')}
+                            className='inline-flex items-center gap-2 bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer'
+                        >
+                            <Plus size={16} />
+                            Create Observation
+                        </button>
+                    )}
+                </div>
                 <div className='flex justify-between md:items-center sm:items-stretch md:flex-row sm:flex-col flex-col gap-y-4'>
                     <button type='button' className='bg-[#515DEF] text-white uppercase text-sm px-6 py-1.5 border border-[#515DEF] rounded-lg hover:opacity-90 transition-all duration-200 cursor-pointer'>
                         Clear Filters
                     </button>
-                    <select className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full md:max-w-xs sm:max-w-full'>
-                        <option value=''>From Beginning</option>
-                    </select>
                 </div>
                 <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:mt-8 mt-2'>
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor='search' className='text-base font-medium text-[#808080]'>Search</label>
-                        <input type='text' id='search' placeholder='Audit ID, audit name...' className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full' />
+                        <input type='text' id='search' placeholder='Observation ID, title...' className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full' />
                     </div>
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor='department-filter' className='text-base font-medium text-[#808080]'>Department</label>
@@ -97,10 +72,10 @@ const MyAudits = () => {
                         </select>
                     </div>
                     <div className='flex flex-col gap-y-2'>
-                        <label htmlFor='audit-type-filter' className='text-base font-medium text-[#808080]'>Audit Type</label>
-                        <select id='audit-type-filter' className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full'>
+                        <label htmlFor='category-filter' className='text-base font-medium text-[#808080]'>Category</label>
+                        <select id='category-filter' className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full'>
                             <option value=''>All</option>
-                            {AUDIT_TYPES.map((item) => (
+                            {CATEGORIES.map((item) => (
                                 <option key={item} value={item}>{item}</option>
                             ))}
                         </select>
@@ -115,25 +90,7 @@ const MyAudits = () => {
                         </select>
                     </div>
                     <div className='flex flex-col gap-y-2'>
-                        <label htmlFor='status-filter' className='text-base font-medium text-[#808080]'>Status</label>
-                        <select id='status-filter' className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full'>
-                            <option value=''>All</option>
-                            {STATUSES.map((item) => (
-                                <option key={item} value={item}>{item}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className='flex flex-col gap-y-2'>
-                        <label htmlFor='frequency-filter' className='text-base font-medium text-[#808080]'>Frequency</label>
-                        <select id='frequency-filter' className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full'>
-                            <option value=''>All</option>
-                            {FREQUENCIES.map((item) => (
-                                <option key={item} value={item}>{item}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className='flex flex-col gap-y-2'>
-                        <label className='text-base font-medium text-[#808080]'>From</label>
+                        <label className='text-base font-medium text-[#808080]'>Date From</label>
                         <div className='relative w-full'>
                             <DatePicker
                                 selected={fromDate}
@@ -147,7 +104,7 @@ const MyAudits = () => {
                         </div>
                     </div>
                     <div className='flex flex-col gap-y-2'>
-                        <label className='text-base font-medium text-[#808080]'>To</label>
+                        <label className='text-base font-medium text-[#808080]'>Date To</label>
                         <div className='relative'>
                             <DatePicker
                                 selected={toDate}
@@ -165,7 +122,7 @@ const MyAudits = () => {
 
             <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
-                    <h2 className='text-xl font-medium text-black'>My Audits List</h2>
+                    <h2 className='text-xl font-medium text-black'>{title}</h2>
                     <button
                         type='button'
                         onClick={() => setExportModal(true)}
@@ -175,62 +132,46 @@ const MyAudits = () => {
                         Export
                     </button>
                 </div>
-                <div className='flex gap-x-2 items-center my-2'>
-                    <select className='px-2 py-1.5 bg-white text-[#515DEF] border border-[#515DEF] rounded-md'>
-                        <option value='10'>10</option>
-                        <option value='20'>20</option>
-                        <option value='30'>30</option>
-                    </select>
-                    <span className='text-sm font-normal text-[#515DEF]'>Entries Per Page</span>
-                </div>
                 <div className='relative overflow-x-auto'>
                     <table className='w-full text-sm text-left rtl:text-right'>
                         <thead className='text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg'>
-                            <tr className='rounded-lg'>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>Audit ID</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Audit Name</th>
+                            <tr>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>Observation ID</th>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Audit Reference</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Department</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Location</th>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Title</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Priority</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Created By</th>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Status</th>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Due Date</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {audits.map((record) => (
-                                <tr key={record.id} className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg'>
-                                    <td className='px-2 py-4 font-medium text-[#1E1E1E] rounded-s-lg'>{record.auditId}</td>
-                                    <td className='px-2 py-4 font-medium text-[#1E1E1E] max-w-[180px] truncate' title={record.auditName}>{record.auditName}</td>
+                            {records.map((record) => (
+                                <tr key={record.id} className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7]'>
+                                    <td className='px-2 py-4 font-medium text-[#515DEF] rounded-s-lg whitespace-nowrap'>{record.observationId}</td>
+                                    <td className='px-2 py-4 whitespace-nowrap'>{record.auditReference}</td>
                                     <td className='px-2 py-4'>{record.department}</td>
-                                    <td className='px-2 py-4 max-w-[160px] truncate' title={record.location}>{record.location}</td>
+                                    <td className='px-2 py-4 font-medium text-[#1E1E1E] max-w-[180px] truncate' title={record.title}>{record.title}</td>
                                     <td className='px-2 py-4'>
                                         <span className={`px-2 py-1 rounded-lg text-xs font-semibold whitespace-nowrap ${priorityBadgeColor[record.priority]}`}>
                                             {record.priority}
                                         </span>
                                     </td>
-                                    <td className='px-2 py-4'>{record.assignedBy}</td>
+                                    <td className='px-2 py-4'>
+                                        <span className={`px-2 py-1 rounded-lg text-xs font-semibold whitespace-nowrap ${statusBadgeColor[record.status]}`}>
+                                            {record.status}
+                                        </span>
+                                    </td>
+                                    <td className='px-2 py-4 whitespace-nowrap'>{record.dueDate}</td>
                                     <td className='px-2 py-4 text-center rounded-e-lg'>
                                         <Dropdown buttonContent={<EllipsisIcon size={16} className='text-black' />}>
-                                            {getActions(record).map((action) =>
-                                                action.to ? (
-                                                    <NavLink
-                                                        key={action.key}
-                                                        to={action.to}
-                                                        className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
-                                                    >
-                                                        {action.label}
-                                                    </NavLink>
-                                                ) : (
-                                                    <button
-                                                        key={action.key}
-                                                        type='button'
-                                                        onClick={action.onClick}
-                                                        className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
-                                                    >
-                                                        {action.label}
-                                                    </button>
-                                                ),
-                                            )}
+                                            <NavLink
+                                                to={`/process-auditor/observations/view/${record.id}`}
+                                                className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
+                                            >
+                                                View
+                                            </NavLink>
                                         </Dropdown>
                                     </td>
                                 </tr>
@@ -242,7 +183,7 @@ const MyAudits = () => {
 
             <div className='flex justify-between items-center px-4 mt-4'>
                 <p className='text-sm font-medium text-[#515DEF]'>
-                    Showing 1 to {audits.length} of {audits.length} entries
+                    Showing 1 to {records.length} of {records.length} entries
                 </p>
                 <div className='flex justify-center gap-x-2 flex-wrap'>
                     <button type='button' className='size-8 flex justify-center items-center p-2 bg-white text-[#515DEF] border border-[#E2E8F0] hover:bg-[#515DEF] hover:text-white rounded-full cursor-pointer'>
@@ -262,4 +203,4 @@ const MyAudits = () => {
     )
 }
 
-export default MyAudits
+export default ObservationsList

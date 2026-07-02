@@ -11,6 +11,7 @@ const STATUS_STYLES = {
     high: { dot: 'bg-[#FF9800]', ring: 'ring-[#FF980033]', label: 'High', emoji: '🟠' },
     medium: { dot: 'bg-[#FFC107]', ring: 'ring-[#FFC10733]', label: 'Medium', emoji: '🟡' },
     failed: { dot: 'bg-[#FF0000]', ring: 'ring-[#FF000033]', label: 'Failed', emoji: '🔴' },
+    error: { dot: 'bg-[#FF9800]', ring: 'ring-[#FF980033]', label: 'Error', emoji: '🟠' },
     partial: { dot: 'bg-[#FFC107]', ring: 'ring-[#FFC10733]', label: 'Partial', emoji: '🟡' },
     pending: { dot: 'bg-[#D9D9D9]', ring: 'ring-[#EDEEF5]', label: 'Pending', emoji: '⚪' },
 }
@@ -19,14 +20,18 @@ const ParameterCard = ({
     parameter,
     value,
     observation,
+    auditReference,
     onChange,
     onObservationChange,
     onSaveObservation,
+    onSubmitObservation,
     onOpenSop,
 }) => {
     const [showUrlInput, setShowUrlInput] = useState(!!value.evidence?.url)
-    const nonCompliant = isNonCompliant(parameter.responseType, value.response)
-    const visualStatus = getParameterVisualStatus(parameter, value, observation)
+    const nonCompliant = isNonCompliant(null, value.response)
+    const visualStatus = value.response === 'Error'
+        ? 'error'
+        : getParameterVisualStatus(parameter, value, observation)
     const styles = STATUS_STYLES[visualStatus] ?? STATUS_STYLES.pending
 
     const update = (field, fieldValue) => onChange({ ...value, [field]: fieldValue })
@@ -91,8 +96,10 @@ const ParameterCard = ({
                         <InlineObservationCard
                             parameter={parameter}
                             observation={observation}
+                            auditReference={auditReference}
                             onChange={onObservationChange}
                             onSave={onSaveObservation}
+                            onSubmit={onSubmitObservation}
                         />
                     )}
                 </div>

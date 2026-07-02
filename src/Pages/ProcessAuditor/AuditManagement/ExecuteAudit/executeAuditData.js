@@ -2,16 +2,71 @@ import { getAuditById } from '../MyAudits/myAuditsData'
 
 export const SEVERITIES = ['Low', 'Medium', 'High', 'Critical']
 
-export const OBSERVATION_PRIORITIES = ['Low', 'Medium', 'High', 'Critical']
+export const OBSERVATION_PRIORITIES = ['Critical', 'High', 'Medium', 'Low']
 
-export const ASSIGN_TO_OPTIONS = [
-    'Department Head',
-    'Process Audit Manager',
-    'Joint Director — Audit',
-    'Facility Manager',
-    'IT Administrator',
-    'Housekeeping Supervisor',
+export const ASSIGN_TO_EMPLOYEES = [
+    'Teacher - Grade 5',
+    'Coordinator - Primary',
+    'Library Manager',
+    'Gatekeeper',
+    'Transport Manager',
+    'HR Executive',
+    'Account Assistant',
 ]
+
+/** @deprecated use ASSIGN_TO_EMPLOYEES */
+export const ASSIGN_TO_OPTIONS = ASSIGN_TO_EMPLOYEES
+
+export const REPORT_TO_MAP = {
+    'Teacher - Grade 5': 'Director of Academics',
+    'Coordinator - Primary': 'Director of Academics',
+    'Library Manager': 'Principal',
+    Gatekeeper: 'Security Manager',
+    'Transport Manager': 'Director of Operations',
+    'HR Executive': 'HR Manager',
+    'Account Assistant': 'Finance Manager',
+}
+
+export const OBSERVATION_STATUSES = [
+    'Pending Assignment',
+    'Assigned',
+    'Action Pending',
+    'ATR Submitted',
+    'Under Review',
+    'Approved',
+    'Rejected',
+    'Closed',
+]
+
+export const observationStatusBadgeColor = {
+    'Pending Assignment': 'bg-[#FF980033] text-[#FF9800]',
+    Assigned: 'bg-[#2196F333] text-[#2196F3]',
+    'Action Pending': 'bg-[#515DEF33] text-[#515DEF]',
+    'ATR Submitted': 'bg-[#9C27B033] text-[#9C27B0]',
+    'Under Review': 'bg-[#FFC10733] text-[#FFC107]',
+    Approved: 'bg-[#4CAF5033] text-[#4CAF50]',
+    Rejected: 'bg-[#FF000033] text-[#FF0000]',
+    Closed: 'bg-[#66708533] text-[#667085]',
+}
+
+const OBS_NUMBER_COUNTER_KEY = 'process-auditor-inline-obs-counter'
+
+export const resolveReportTo = (assignTo) => REPORT_TO_MAP[assignTo] ?? ''
+
+export const generateObservationNumber = () => {
+    const year = new Date().getFullYear()
+    let counter = Number(localStorage.getItem(OBS_NUMBER_COUNTER_KEY) ?? 151)
+    counter += 1
+    localStorage.setItem(OBS_NUMBER_COUNTER_KEY, String(counter))
+    return `OBS-${year}-${String(counter).padStart(5, '0')}`
+}
+
+export const formatAssignedDate = (date = new Date()) => {
+    const d = date instanceof Date ? date : new Date(date)
+    return d
+        .toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+        .replace(/ /g, '-')
+}
 
 export const AUDIT_STATUS_STAGES = [
     'Draft',
@@ -24,6 +79,8 @@ export const AUDIT_STATUS_STAGES = [
 ]
 
 export const TIMELINE_STAGES = ['Assigned', 'Started', 'Saved Draft', 'Submitted', 'Verified', 'Closed']
+
+export const CHECKLIST_RESPONSE_OPTIONS = ['Yes', 'No', 'Error']
 
 export const RESPONSE_TYPE_LABELS = {
     yes_no: 'Yes / No',
@@ -375,12 +432,8 @@ const migrateRecommendations = (rec) => {
     return { ...emptyStructuredRecommendations(), ...rec }
 }
 
-export const isResponseAnswered = (responseType, value) => {
-    if (value === null || value === undefined) return false
-    if (responseType === 'checkbox') return value === true || value === 'true' || value === false || value === 'false'
-    if (typeof value === 'boolean') return true
-    return String(value).trim() !== ''
-}
+export const isResponseAnswered = (_responseType, value) =>
+    CHECKLIST_RESPONSE_OPTIONS.includes(value)
 
 export const computeProgress = (sections, responses) => {
     let total = 0
@@ -525,19 +578,36 @@ export const markTimelineStage = (timeline, stage) => {
     )
 }
 
-export const emptyObservation = (parameter, sectionTitle) => ({
+export const emptyObservation = (parameter, sectionTitle, auditReference = '') => ({
     id: `obs-${Date.now()}`,
     parameterId: parameter.id,
     parameterLabel: parameter.label,
     sectionTitle,
-    title: '',
+    title: parameter.label,
     description: '',
     priority: 'Medium',
     assignTo: '',
-    dueDate: '',
+    reportTo: '',
+    observationNumber: '',
+    auditReference,
+    assignedDate: '',
+    status: '',
     evidence: emptyEvidence(),
-    escalated: false,
+    saved: false,
+    submitted: false,
     createdAt: new Date().toISOString(),
+})
+
+export const migrateObservation = (obs, auditReference = '') => ({
+    ...emptyObservation(
+        { id: obs.parameterId, label: obs.parameterLabel ?? obs.title ?? '' },
+        obs.sectionTitle ?? '',
+        obs.auditReference || auditReference,
+    ),
+    ...obs,
+    title: obs.title || obs.parameterLabel || '',
+    reportTo: obs.reportTo || resolveReportTo(obs.assignTo),
+    auditReference: obs.auditReference || auditReference,
 })
 
 const migrateResponses = (responses, sections) => {
@@ -578,7 +648,9 @@ export const loadExecuteAuditDraft = (auditId) => {
                     header: { ...header, ...parsed.header, auditId: header.auditId },
                     responses: migrateResponses(parsed.responses, mergedSections),
                     timeline: parsed.timeline ?? buildDefaultTimeline(header.auditDate),
-                    observations: parsed.observations ?? [],
+                    observations: (parsed.observations ?? []).map((obs) =>
+                        migrateObservation(obs, header.auditNumber),
+                    ),
                     recommendations: migrateRecommendations(parsed.recommendations),
                     lastSavedAt: parsed.lastSavedAt ?? null,
                 }
@@ -606,38 +678,13 @@ export const saveExecuteAuditDraft = (draft) => {
     return payload
 }
 
-export const getScoreResult = (responseType, value) => {
-    if (value === '' || value === null || value === undefined) return 'na'
-
-    switch (responseType) {
-        case 'yes_no':
-            if (value === 'Yes') return 'pass'
-            if (value === 'No') return 'fail'
-            return 'na'
-        case 'pass_fail':
-            if (value === 'Pass') return 'pass'
-            if (value === 'Fail') return 'fail'
-            return 'na'
-        case 'scale':
-            if (value === '1') return 'pass'
-            if (value === '0.5') return 'partial'
-            if (value === '0') return 'fail'
-            return 'na'
-        case 'checkbox':
-            if (value === true || value === 'true') return 'pass'
-            if (value === false || value === 'false') return 'fail'
-            return 'na'
-        case 'dropdown':
-            if (value === 'Good' || value === 'Fair') return 'pass'
-            if (value === 'Poor') return 'fail'
-            if (value === 'Not Applicable') return 'na'
-            return 'na'
-        default:
-            return 'na'
-    }
+export const getScoreResult = (_responseType, value) => {
+    if (value === 'Yes') return 'pass'
+    if (value === 'No' || value === 'Error') return 'fail'
+    return 'na'
 }
 
-export const isNonCompliant = (responseType, value) => getScoreResult(responseType, value) === 'fail'
+export const isNonCompliant = (_responseType, value) => value === 'No' || value === 'Error'
 
 export const computeScores = (sections, responses) => {
     let passed = 0
@@ -668,32 +715,30 @@ export const computeScores = (sections, responses) => {
 export const computeFindings = (sections, responses, observations) => {
     const scores = computeScores(sections, responses)
 
-    const severityCounts = { Critical: 0, High: 0, Medium: 0, Low: 0 }
+    let yes = 0
+    let no = 0
+    let error = 0
 
     sections.forEach((section) => {
         section.parameters.forEach((param) => {
-            const value = responses[param.id]
-            if (isNonCompliant(param.responseType, value?.response) && value?.severity) {
-                severityCounts[value.severity] = (severityCounts[value.severity] ?? 0) + 1
-            }
+            const response = responses[param.id]?.response
+            if (response === 'Yes') yes += 1
+            else if (response === 'No') no += 1
+            else if (response === 'Error') error += 1
         })
     })
 
-    observations.forEach((obs) => {
-        if (obs.priority) {
-            severityCounts[obs.priority] = (severityCounts[obs.priority] ?? 0) + 1
-        }
-    })
+    const criticalAnswered = observations.filter(
+        (obs) => obs.priority === 'Critical' && (obs.submitted || (obs.saved && obs.title?.trim())),
+    ).length
 
     return {
         ...scores,
-        totalFindings: scores.failed + observations.length,
-        critical: severityCounts.Critical,
-        high: severityCounts.High,
-        medium: severityCounts.Medium,
-        low: severityCounts.Low,
+        totalFindings: no + error,
+        yes,
+        no,
+        criticalAnswered,
         observationsRaised: observations.length,
-        escalations: observations.filter((obs) => obs.escalated).length,
     }
 }
 

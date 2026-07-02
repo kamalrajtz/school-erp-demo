@@ -11,9 +11,11 @@ const ChecklistSection = ({
     tabMode = false,
     responses,
     observations,
+    auditReference,
     onParameterChange,
     onObservationChange,
     onSaveObservation,
+    onSubmitObservation,
     onOpenSop,
 }) => {
     const findingsCount = countSectionFindings(section, responses, observations)
@@ -33,9 +35,11 @@ const ChecklistSection = ({
                         parameter={parameter}
                         value={responses[parameter.id]}
                         observation={obs}
+                        auditReference={auditReference}
                         onChange={(next) => onParameterChange(parameter.id, next, parameter, section.title)}
                         onObservationChange={(next) => onObservationChange(parameter.id, next)}
                         onSaveObservation={() => onSaveObservation(parameter.id)}
+                        onSubmitObservation={() => onSubmitObservation(parameter.id)}
                         onOpenSop={onOpenSop}
                     />
                 )

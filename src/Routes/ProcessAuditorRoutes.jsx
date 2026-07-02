@@ -5,6 +5,18 @@ import MyAudits from '../Pages/ProcessAuditor/AuditManagement/MyAudits/MyAudits'
 import ViewMyAudit from '../Pages/ProcessAuditor/AuditManagement/MyAudits/ViewMyAudit'
 import AuditSchedule from '../Pages/ProcessAuditor/AuditManagement/AuditSchedule/AuditSchedule'
 import ExecuteAudit from '../Pages/ProcessAuditor/AuditManagement/ExecuteAudit/ExecuteAudit'
+import AuditHistory from '../Pages/ProcessAuditor/AuditManagement/AuditHistory/AuditHistory'
+import OpenObservations from '../Pages/ProcessAuditor/Observations/OpenObservations'
+import ClosedObservations from '../Pages/ProcessAuditor/Observations/ClosedObservations'
+import CreateObservation from '../Pages/ProcessAuditor/Observations/CreateObservation'
+import ViewObservation from '../Pages/ProcessAuditor/Observations/ViewObservation'
+import Escalations from '../Pages/ProcessAuditor/CorrectiveActions/Escalations/Escalations'
+import CreateEscalation from '../Pages/ProcessAuditor/CorrectiveActions/Escalations/CreateEscalation'
+import ViewEscalation from '../Pages/ProcessAuditor/CorrectiveActions/Escalations/ViewEscalation'
+import RootCauseAnalysis from '../Pages/ProcessAuditor/CorrectiveActions/RootCauseAnalysis/RootCauseAnalysis'
+import ViewRca from '../Pages/ProcessAuditor/CorrectiveActions/RootCauseAnalysis/ViewRca'
+import ActionTakenReports from '../Pages/ProcessAuditor/CorrectiveActions/ActionTakenReports/ActionTakenReports'
+import ViewAtr from '../Pages/ProcessAuditor/CorrectiveActions/ActionTakenReports/ViewAtr'
 
 const Placeholder = ({ title }) => (
     <div className='bg-white rounded-2xl shadow-md p-8 text-center'>
@@ -22,14 +34,20 @@ const ProcessAuditorRoutes = () => {
             <Route path="/process-auditor/audit-management/my-audits/view/:id" element={<ViewMyAudit />} />
             <Route path="/process-auditor/audit-management/audit-schedule" element={<AuditSchedule />} />
             <Route path="/process-auditor/audit-management/execute-audit" element={<ExecuteAudit />} />
-            <Route path="/process-auditor/audit-management/audit-history" element={<Placeholder title="Audit History" />} />
+            <Route path="/process-auditor/audit-management/audit-history" element={<AuditHistory />} />
 
-            <Route path="/process-auditor/observations/open" element={<Placeholder title="Open Observations" />} />
-            <Route path="/process-auditor/observations/closed" element={<Placeholder title="Closed Observations" />} />
+            <Route path="/process-auditor/observations/open" element={<OpenObservations />} />
+            <Route path="/process-auditor/observations/closed" element={<ClosedObservations />} />
+            <Route path="/process-auditor/observations/create" element={<CreateObservation />} />
+            <Route path="/process-auditor/observations/view/:id" element={<ViewObservation />} />
 
-            <Route path="/process-auditor/corrective-actions/escalations" element={<Placeholder title="Escalations" />} />
-            <Route path="/process-auditor/corrective-actions/root-cause-analysis" element={<Placeholder title="Root Cause Analysis" />} />
-            <Route path="/process-auditor/corrective-actions/action-taken-reports" element={<Placeholder title="Action Taken Reports" />} />
+            <Route path="/process-auditor/corrective-actions/escalations" element={<Escalations />} />
+            <Route path="/process-auditor/corrective-actions/escalations/create" element={<CreateEscalation />} />
+            <Route path="/process-auditor/corrective-actions/escalations/view/:id" element={<ViewEscalation />} />
+            <Route path="/process-auditor/corrective-actions/root-cause-analysis" element={<RootCauseAnalysis />} />
+            <Route path="/process-auditor/corrective-actions/root-cause-analysis/view/:id" element={<ViewRca />} />
+            <Route path="/process-auditor/corrective-actions/action-taken-reports" element={<ActionTakenReports />} />
+            <Route path="/process-auditor/corrective-actions/action-taken-reports/view/:id" element={<ViewAtr />} />
 
             <Route path="/process-auditor/reports" element={<Placeholder title="Reports" />} />
             <Route path="/process-auditor/communication" element={<Placeholder title="Communication" />} />

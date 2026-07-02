@@ -73,7 +73,7 @@ const ViewMyAudit = () => {
                     <Field label='Due Date' value={record.dueDate} />
                     <Field label='Priority' value={record.priority} />
                     <Field label='Status' value={record.status} />
-                    <Field label='Assigned By' value={record.assignedBy} />
+                    <Field label='Created By' value={record.assignedBy} />
                     <Field label='Frequency' value={record.frequency} />
                 </div>
             </div>

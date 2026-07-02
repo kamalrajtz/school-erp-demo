@@ -4,7 +4,7 @@ import { CheckCircle2, Circle } from 'lucide-react'
 const AuditTimeline = ({ timeline, layout = 'vertical' }) => {
     if (layout === 'horizontal') {
         return (
-            <div className='pt-4 border-t border-white/20'>
+            <div className='pt-4 border-t border-white/20 mt-5'>
                 <p className='text-[10px] font-semibold text-white/70 uppercase tracking-widest mb-3'>Audit Timeline</p>
                 <div className='flex items-start gap-0 overflow-x-auto pb-1'>
                     {timeline.map((item, index) => (
