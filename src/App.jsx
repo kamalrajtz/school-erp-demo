@@ -15,6 +15,7 @@ import TeacherLayout from "./Layout/TeacherLayout";
 import JointDirectorLayout from "./Layout/JointDirectorLayout";
 import JointDirectorAssistantLayout from "./Layout/JointDirectorAssistantLayout";
 import JointDirectorAuditLayout from "./Layout/JointDirectorAuditLayout";
+import ProcessAuditorLayout from "./Layout/ProcessAuditorLayout";
 import PRMLayout from "./Layout/PRMLayout";
 import StudentLayout from "./Layout/StudentLayout";
 import { ROLE_HOME_PATHS, ROLES, useAuth } from "./context/AuthContext";
@@ -131,6 +132,13 @@ const App = () => {
     return <TeacherLayout />;
   }
 
+  if (role === ROLES.PROCESS_AUDITOR) {
+    if (!pathname.startsWith("/process-auditor")) {
+      return <Navigate to={ROLE_HOME_PATHS[ROLES.PROCESS_AUDITOR]} replace />;
+    }
+    return <ProcessAuditorLayout />;
+  }
+
   if (role === ROLES.JOINT_DIRECTOR_AUDIT) {
     if (!pathname.startsWith("/joint-director-audit")) {
       return <Navigate to={ROLE_HOME_PATHS[ROLES.JOINT_DIRECTOR_AUDIT]} replace />;
@@ -170,6 +178,7 @@ const App = () => {
     pathname.startsWith("/stationery-store-manager") ||
     pathname.startsWith("/housekeeping-manager") ||
     pathname.startsWith("/transport-manager") ||
+    pathname.startsWith("/process-auditor") ||
     pathname.startsWith("/joint-director-audit") ||
     pathname.startsWith("/joint-director-assistant") ||
     pathname.startsWith("/joint-director")

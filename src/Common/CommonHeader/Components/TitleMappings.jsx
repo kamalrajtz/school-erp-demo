@@ -356,6 +356,21 @@ export const singleTitleMapping = {
     "/joint-director-audit/broadcast": "Broadcast",
     "/joint-director-audit/broadcast/add-broadcast": "Add Broadcast",
 
+    // ── Process Auditor Role ────────────────────────────────────────────────────
+    "/process-auditor/dashboard": "Dashboard",
+    "/process-auditor/audit-management/my-audits": "My Audits",
+    "/process-auditor/audit-management/audit-schedule": "Audit Schedule",
+    "/process-auditor/audit-management/execute-audit": "Execute Audit",
+    "/process-auditor/audit-management/audit-history": "Audit History",
+    "/process-auditor/observations/open": "Open Observations",
+    "/process-auditor/observations/closed": "Closed Observations",
+    "/process-auditor/corrective-actions/escalations": "Escalations",
+    "/process-auditor/corrective-actions/root-cause-analysis": "Root Cause Analysis",
+    "/process-auditor/corrective-actions/action-taken-reports": "Action Taken Reports",
+    "/process-auditor/reports": "Reports",
+    "/process-auditor/communication": "Communication",
+    "/process-auditor/profile": "Profile",
+
     // ── Principal Role ──────────────────────────────────────────────────────────
     "/principal/dashboard": "Dashboard",
     "/principal/documents": "Documents",
@@ -448,7 +463,7 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/teacher\/student-evaluation\/star-ratings\/view\/[^/]+$/.test(p), title: 'View Star Rating Details' },
     { test: (p) => /^\/teacher\/student-evaluation\/questions-banks\/view\/[^/]+$/.test(p), title: 'View Question Bank Details' },
     { test: (p) => /^\/teacher\/student-evaluation\/student-transfer\/view\/[^/]+$/.test(p), title: 'View Student Transfer Details' },
-    { test: (p) => /^\/teacher\/marks-results\/enter-marks\/view\/[^/]+$/.test(p), title: 'View Marks Entry Details' },
+    { test: (p) => /^\/process-auditor\/audit-management\/my-audits\/view\/[^/]+$/.test(p), title: 'View Audit Details' },
     { test: (p) => /^\/canteen-manager\/menu-management\/view-menu\/[^/]+$/.test(p), title: 'View Menu Item Details' },
     { test: (p) => /^\/canteen-manager\/orders\/view-order\/[^/]+$/.test(p), title: 'View Order Details' },
     { test: (p) => /^\/canteen-manager\/requests-approvals\/view-request\/[^/]+$/.test(p), title: 'View Request Details' },

@@ -8,7 +8,12 @@ import WeekView from "./Components/WeekView";
 import DayView from "./Components/DayView";
 import Sidebar from "./Components/Sidebar";
 
-export default function MeetingsCalendar({ seedEvents = [] }) {
+export default function MeetingsCalendar({
+    seedEvents = [],
+    embedded = false,
+    title = 'Meetings',
+    showCreateButton = true,
+}) {
     const { view, setView, currentDate, setCurrentDate, navigate, goToday, goToDay, headerLabel } =
         useCalendarState("week");
 
@@ -80,7 +85,7 @@ export default function MeetingsCalendar({ seedEvents = [] }) {
     }, [goToDay, setCurrentDate]);
 
     return (
-        <div className="flex flex-col h-screen bg-slate-50 font-inter select-none rounded-2xl shadow-lg">
+        <div className={`flex flex-col bg-slate-50 font-inter select-none rounded-2xl shadow-lg ${embedded ? 'h-[680px]' : 'h-screen'}`}>
             {/* ── Top bar ── */}
             <header className="flex items-center gap-3 px-4 py-3 border-b border-slate-200 bg-white flex-none rounded-t-2xl">
                 {/* Hamburger for sidebar */}
@@ -104,7 +109,7 @@ export default function MeetingsCalendar({ seedEvents = [] }) {
                             <line x1="3" y1="10" x2="21" y2="10" />
                         </svg>
                     </div>
-                    <span className="text-sm font-semibold text-slate-800 hidden sm:block">Meetings</span>
+                    <span className="text-sm font-semibold text-slate-800 hidden sm:block">{title}</span>
                 </div>
 
                 {/* Nav */}
@@ -172,6 +177,7 @@ export default function MeetingsCalendar({ seedEvents = [] }) {
                 </div>
 
                 {/* New meeting */}
+                {showCreateButton && (
                 <button
                     onClick={() => openCreateModal(currentDate)}
                     className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium rounded-lg transition cursor-pointer"
@@ -181,6 +187,7 @@ export default function MeetingsCalendar({ seedEvents = [] }) {
                     </svg>
                     <span className="hidden sm:inline">New meeting</span>
                 </button>
+                )}
             </header>
 
             {/* ── Body ── */}

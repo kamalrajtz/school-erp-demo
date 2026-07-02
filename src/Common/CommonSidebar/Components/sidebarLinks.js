@@ -45,6 +45,7 @@ import {
     DoorOpen,
     ShieldCheck,
     ShieldAlert,
+    AlertTriangle,
     Star,
     UserRoundCog,
     Rss,
@@ -1002,6 +1003,66 @@ export const jointDirectorAuditSidebarLinks = [
         title: "Broadcast",
         to: "/joint-director-audit/broadcast",
         icon: Rss,
+    },
+];
+
+export const processAuditorSidebarLinks = [
+    {
+        id: 1,
+        title: "Dashboard",
+        to: "/process-auditor/dashboard",
+        icon: LayoutDashboard,
+    },
+    {
+        id: 2,
+        title: "Audit Management",
+        to: "#0",
+        icon: ClipboardPen,
+        subLinks: [
+            { icon: ClipboardList, title: "My Audits", to: "/process-auditor/audit-management/my-audits" },
+            { icon: CalendarDays, title: "Audit Schedule", to: "/process-auditor/audit-management/audit-schedule" },
+            { icon: ClipboardCheck, title: "Execute Audit", to: "/process-auditor/audit-management/execute-audit" },
+            { icon: History, title: "Audit History", to: "/process-auditor/audit-management/audit-history" },
+        ],
+    },
+    {
+        id: 3,
+        title: "Observations",
+        to: "#0",
+        icon: ShieldAlert,
+        subLinks: [
+            { icon: AlertTriangle, title: "Open Observations", to: "/process-auditor/observations/open" },
+            { icon: ShieldCheck, title: "Closed Observations", to: "/process-auditor/observations/closed" },
+        ],
+    },
+    {
+        id: 4,
+        title: "Corrective Actions",
+        to: "#0",
+        icon: ShieldCheck,
+        subLinks: [
+            { icon: ShieldAlert, title: "Escalations", to: "/process-auditor/corrective-actions/escalations" },
+            { icon: CircleHelp, title: "Root Cause Analysis", to: "/process-auditor/corrective-actions/root-cause-analysis" },
+            { icon: FileText, title: "Action Taken Reports", to: "/process-auditor/corrective-actions/action-taken-reports" },
+        ],
+    },
+    {
+        id: 5,
+        title: "Reports",
+        to: "/process-auditor/reports",
+        icon: BarChart3,
+    },
+    {
+        id: 6,
+        title: "Communication",
+        to: "/process-auditor/communication",
+        icon: MessageCircle,
+    },
+    {
+        id: 7,
+        title: "Profile",
+        to: "/process-auditor/profile",
+        icon: UserRound,
     },
 ];
 
