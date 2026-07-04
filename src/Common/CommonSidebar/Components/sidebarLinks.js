@@ -1049,20 +1049,21 @@ export const processAuditorSidebarLinks = [
     {
         id: 5,
         title: "Reports",
-        to: "/process-auditor/reports",
+        to: "#0",
         icon: BarChart3,
+        subLinks: [
+            { icon: FileText, title: "Audit Reports", to: "/process-auditor/reports/audit-reports" },
+            { icon: ShieldAlert, title: "Observation Reports", to: "/process-auditor/reports/observation-reports" },
+            { icon: BarChart3, title: "Compliance Reports", to: "/process-auditor/reports/compliance-reports" },
+            { icon: AlertTriangle, title: "Pending Actions", to: "/process-auditor/reports/pending-actions" },
+            { icon: ShieldCheck, title: "Closed Actions", to: "/process-auditor/reports/closed-actions" },
+        ],
     },
     {
         id: 6,
         title: "Communication",
         to: "/process-auditor/communication",
         icon: MessageCircle,
-    },
-    {
-        id: 7,
-        title: "Profile",
-        to: "/process-auditor/profile",
-        icon: UserRound,
     },
 ];
 

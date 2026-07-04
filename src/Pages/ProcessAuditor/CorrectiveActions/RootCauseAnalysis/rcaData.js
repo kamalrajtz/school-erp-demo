@@ -334,3 +334,6 @@ export const getRcaRecords = () => {
 
 export const getRcaById = (id) =>
     getRcaRecords().find((item) => item.id === id || item.observationId === id) ?? null
+
+export const getRcaByObservationId = (observationId) =>
+    getRcaRecords().find((item) => item.observationId === observationId) ?? null

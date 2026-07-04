@@ -370,8 +370,12 @@ export const singleTitleMapping = {
     "/process-auditor/corrective-actions/root-cause-analysis": "Root Cause Analysis",
     "/process-auditor/corrective-actions/action-taken-reports": "Action Taken Reports",
     "/process-auditor/reports": "Reports",
+    "/process-auditor/reports/audit-reports": "Audit Reports",
+    "/process-auditor/reports/observation-reports": "Observation Reports",
+    "/process-auditor/reports/compliance-reports": "Compliance Reports",
+    "/process-auditor/reports/pending-actions": "Pending Actions",
+    "/process-auditor/reports/closed-actions": "Closed Actions",
     "/process-auditor/communication": "Communication",
-    "/process-auditor/profile": "Profile",
 
     // ── Principal Role ──────────────────────────────────────────────────────────
     "/principal/dashboard": "Dashboard",
@@ -470,6 +474,8 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/process-auditor\/corrective-actions\/escalations\/view\/[^/]+$/.test(p), title: 'View Escalation' },
     { test: (p) => /^\/process-auditor\/corrective-actions\/root-cause-analysis\/view\/[^/]+$/.test(p), title: 'View Root Cause Analysis' },
     { test: (p) => /^\/process-auditor\/corrective-actions\/action-taken-reports\/view\/[^/]+$/.test(p), title: 'View Action Taken Report' },
+    { test: (p) => /^\/process-auditor\/reports\/audit-reports\/view\/[^/]+$/.test(p), title: 'Audit Report View' },
+    { test: (p) => /^\/process-auditor\/reports\/observation-reports\/view\/[^/]+$/.test(p), title: 'Observation Report View' },
     { test: (p) => /^\/canteen-manager\/menu-management\/view-menu\/[^/]+$/.test(p), title: 'View Menu Item Details' },
     { test: (p) => /^\/canteen-manager\/orders\/view-order\/[^/]+$/.test(p), title: 'View Order Details' },
     { test: (p) => /^\/canteen-manager\/requests-approvals\/view-request\/[^/]+$/.test(p), title: 'View Request Details' },

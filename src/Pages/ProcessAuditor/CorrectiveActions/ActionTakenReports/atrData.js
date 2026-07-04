@@ -313,3 +313,6 @@ export const getAtrRecords = () => {
 
 export const getAtrById = (id) =>
     getAtrRecords().find((item) => item.id === id || item.atrNumber === id) ?? null
+
+export const getAtrByObservationId = (observationId) =>
+    getAtrRecords().find((item) => item.observationId === observationId) ?? null

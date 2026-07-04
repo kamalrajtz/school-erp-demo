@@ -17,6 +17,13 @@ import RootCauseAnalysis from '../Pages/ProcessAuditor/CorrectiveActions/RootCau
 import ViewRca from '../Pages/ProcessAuditor/CorrectiveActions/RootCauseAnalysis/ViewRca'
 import ActionTakenReports from '../Pages/ProcessAuditor/CorrectiveActions/ActionTakenReports/ActionTakenReports'
 import ViewAtr from '../Pages/ProcessAuditor/CorrectiveActions/ActionTakenReports/ViewAtr'
+import AuditReports from '../Pages/ProcessAuditor/Reports/AuditReports/AuditReports'
+import ViewAuditReport from '../Pages/ProcessAuditor/Reports/AuditReports/ViewAuditReport'
+import ObservationReports from '../Pages/ProcessAuditor/Reports/ObservationReports/ObservationReports'
+import ViewObservationReport from '../Pages/ProcessAuditor/Reports/ObservationReports/ViewObservationReport'
+import ComplianceReports from '../Pages/ProcessAuditor/Reports/ComplianceReports/ComplianceReports'
+import PendingActionsReport from '../Pages/ProcessAuditor/Reports/ActionsReports/PendingActionsReport'
+import ClosedActionsReport from '../Pages/ProcessAuditor/Reports/ActionsReports/ClosedActionsReport'
 
 const Placeholder = ({ title }) => (
     <div className='bg-white rounded-2xl shadow-md p-8 text-center'>
@@ -49,9 +56,15 @@ const ProcessAuditorRoutes = () => {
             <Route path="/process-auditor/corrective-actions/action-taken-reports" element={<ActionTakenReports />} />
             <Route path="/process-auditor/corrective-actions/action-taken-reports/view/:id" element={<ViewAtr />} />
 
-            <Route path="/process-auditor/reports" element={<Placeholder title="Reports" />} />
+            <Route path="/process-auditor/reports/audit-reports" element={<AuditReports />} />
+            <Route path="/process-auditor/reports/audit-reports/view/:id" element={<ViewAuditReport />} />
+            <Route path="/process-auditor/reports/observation-reports" element={<ObservationReports />} />
+            <Route path="/process-auditor/reports/observation-reports/view/:id" element={<ViewObservationReport />} />
+            <Route path="/process-auditor/reports/compliance-reports" element={<ComplianceReports />} />
+            <Route path="/process-auditor/reports/pending-actions" element={<PendingActionsReport />} />
+            <Route path="/process-auditor/reports/closed-actions" element={<ClosedActionsReport />} />
+            <Route path="/process-auditor/reports" element={<Navigate to="/process-auditor/reports/audit-reports" replace />} />
             <Route path="/process-auditor/communication" element={<Placeholder title="Communication" />} />
-            <Route path="/process-auditor/profile" element={<Placeholder title="Profile" />} />
 
             <Route path="*" element={<Navigate to="/process-auditor/dashboard" replace />} />
         </ReactRoutes>
