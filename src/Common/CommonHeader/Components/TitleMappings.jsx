@@ -398,6 +398,23 @@ export const singleTitleMapping = {
     "/quality-auditor/reports/closed-actions": "Closed Actions",
     "/quality-auditor/communication": "Communication",
 
+    // ── HR Role ─────────────────────────────────────────────────────────────────
+    "/hr/dashboard": "Dashboard",
+    "/hr/employee-management": "Employee Management",
+    "/hr/employee-management/employees": "Employees",
+    "/hr/employee-management/employee-profile": "Employee Profile",
+    "/hr/employee-management/documents": "Documents",
+    "/hr/recruitment": "Recruitment",
+    "/hr/recruitment/job-openings": "Job Openings",
+    "/hr/recruitment/candidates": "Candidates",
+    "/hr/recruitment/interviews": "Interviews",
+    "/hr/onboarding": "Onboarding",
+    "/hr/attendance": "Attendance",
+    "/hr/leave-management": "Leave Management",
+    "/hr/training": "Training",
+    "/hr/performance": "Performance",
+    "/hr/reports": "Reports",
+
     // ── Principal Role ──────────────────────────────────────────────────────────
     "/principal/dashboard": "Dashboard",
     "/principal/documents": "Documents",
@@ -490,6 +507,7 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/teacher\/student-evaluation\/star-ratings\/view\/[^/]+$/.test(p), title: 'View Star Rating Details' },
     { test: (p) => /^\/teacher\/student-evaluation\/questions-banks\/view\/[^/]+$/.test(p), title: 'View Question Bank Details' },
     { test: (p) => /^\/teacher\/student-evaluation\/student-transfer\/view\/[^/]+$/.test(p), title: 'View Student Transfer Details' },
+    { test: (p) => /^\/hr\/employee-management\/employee-profile\/[^/]+$/.test(p), title: 'Employee Profile' },
     { test: (p) => /^\/process-auditor\/audit-management\/my-audits\/view\/[^/]+$/.test(p), title: 'View Audit Details' },
     { test: (p) => /^\/process-auditor\/observations\/view\/[^/]+$/.test(p), title: 'View Observation' },
     { test: (p) => /^\/process-auditor\/corrective-actions\/escalations\/view\/[^/]+$/.test(p), title: 'View Escalation' },

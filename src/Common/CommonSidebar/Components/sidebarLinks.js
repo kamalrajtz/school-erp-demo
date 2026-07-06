@@ -1128,6 +1128,72 @@ export const qualityAuditorSidebarLinks = [
     },
 ];
 
+export const hrSidebarLinks = [
+    {
+        id: 1,
+        title: "Dashboard",
+        to: "/hr/dashboard",
+        icon: LayoutDashboard,
+    },
+    {
+        id: 2,
+        title: "Employee Management",
+        to: "#0",
+        icon: UsersRound,
+        subLinks: [
+            { icon: Users, title: "Employees", to: "/hr/employee-management/employees" },
+            { icon: FileText, title: "Documents", to: "/hr/employee-management/documents" },
+        ],
+    },
+    {
+        id: 3,
+        title: "Recruitment",
+        to: "#0",
+        icon: Briefcase,
+        subLinks: [
+            { icon: ClipboardList, title: "Job Openings", to: "/hr/recruitment/job-openings" },
+            { icon: UserRoundSearch, title: "Candidates", to: "/hr/recruitment/candidates" },
+            { icon: CalendarCheck, title: "Interviews", to: "/hr/recruitment/interviews" },
+        ],
+    },
+    {
+        id: 4,
+        title: "Onboarding",
+        to: "/hr/onboarding",
+        icon: UserPlus,
+    },
+    {
+        id: 5,
+        title: "Attendance",
+        to: "/hr/attendance",
+        icon: CalendarCheck,
+    },
+    {
+        id: 6,
+        title: "Leave Management",
+        to: "/hr/leave-management",
+        icon: CalendarOff,
+    },
+    {
+        id: 7,
+        title: "Training",
+        to: "/hr/training",
+        icon: GraduationCap,
+    },
+    {
+        id: 8,
+        title: "Performance",
+        to: "/hr/performance",
+        icon: Star,
+    },
+    {
+        id: 9,
+        title: "Reports",
+        to: "/hr/reports",
+        icon: BarChart3,
+    },
+];
+
 export const directorSidebarLinks = [
     // {
     //     id: 1,
@@ -1300,6 +1366,7 @@ export const roleBasedSidebarLinks = {
     JointDirectorAudit: jointDirectorAuditSidebarLinks,
     ProcessAuditor: processAuditorSidebarLinks,
     QualityAuditor: qualityAuditorSidebarLinks,
+    HR: hrSidebarLinks,
     Director: directorSidebarLinks,
     Principal: principalSidebarLinks,
 };
