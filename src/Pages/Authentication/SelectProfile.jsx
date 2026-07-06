@@ -38,6 +38,7 @@ const PROFILE_OPTIONS = [
     { role: ROLES.JOINT_DIRECTOR_ASSISTANT, label: 'Joint Director Assistant', image: admin_profile, alt: 'joint_director_assistant_profile' },
     { role: ROLES.JOINT_DIRECTOR_AUDIT, label: 'Joint Director - Audit', image: admin_profile, alt: 'joint_director_audit_profile' },
     { role: ROLES.PROCESS_AUDITOR, label: 'Process Auditor', image: admin_profile, alt: 'process_auditor_profile' },
+    { role: ROLES.QUALITY_AUDITOR, label: 'Quality Auditor', image: admin_profile, alt: 'quality_auditor_profile' },
 ]
 
 const SelectProfile = () => {

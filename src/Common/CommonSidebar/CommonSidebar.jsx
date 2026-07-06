@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { ChevronLeft, ChevronDown } from "lucide-react"
 import logo from "../../assets/images/demo-logo.svg"
 import logoMini from "../../assets/images/demo-logo-mini.svg"
-import { adminSidebarLinks, canteenManagerSidebarLinks, gateKeeperManagerSidebarLinks, gateKeeperSidebarLinks, directorSidebarLinks, principalSidebarLinks, librarianSidebarLinks, prmSidebarLinks, studentSidebarLinks, teacherSidebarLinks, itSupportManagerSidebarLinks, stationeryStoreManagerSidebarLinks, housekeepingManagerSidebarLinks, transportManagerSidebarLinks, jointDirectorSidebarLinks, jointDirectorAssistantSidebarLinks, jointDirectorAuditSidebarLinks, processAuditorSidebarLinks } from './Components/sidebarLinks'
+import { adminSidebarLinks, canteenManagerSidebarLinks, gateKeeperManagerSidebarLinks, gateKeeperSidebarLinks, directorSidebarLinks, principalSidebarLinks, librarianSidebarLinks, prmSidebarLinks, studentSidebarLinks, teacherSidebarLinks, itSupportManagerSidebarLinks, stationeryStoreManagerSidebarLinks, housekeepingManagerSidebarLinks, transportManagerSidebarLinks, jointDirectorSidebarLinks, jointDirectorAssistantSidebarLinks, jointDirectorAuditSidebarLinks, processAuditorSidebarLinks, qualityAuditorSidebarLinks } from './Components/sidebarLinks'
 
 const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
 
@@ -29,6 +29,7 @@ const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
         if (location.pathname.startsWith('/housekeeping-manager')) return housekeepingManagerSidebarLinks
         if (location.pathname.startsWith('/transport-manager')) return transportManagerSidebarLinks
         if (location.pathname.startsWith('/process-auditor')) return processAuditorSidebarLinks
+        if (location.pathname.startsWith('/quality-auditor')) return qualityAuditorSidebarLinks
         if (location.pathname.startsWith('/joint-director-audit')) return jointDirectorAuditSidebarLinks
         if (location.pathname.startsWith('/joint-director-assistant')) return jointDirectorAssistantSidebarLinks
         if (location.pathname.startsWith('/joint-director')) return jointDirectorSidebarLinks

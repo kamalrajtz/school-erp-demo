@@ -1067,6 +1067,67 @@ export const processAuditorSidebarLinks = [
     },
 ];
 
+export const qualityAuditorSidebarLinks = [
+    {
+        id: 1,
+        title: "Dashboard",
+        to: "/quality-auditor/dashboard",
+        icon: LayoutDashboard,
+    },
+    {
+        id: 2,
+        title: "Audit Management",
+        to: "#0",
+        icon: ClipboardPen,
+        subLinks: [
+            { icon: ClipboardList, title: "My Audits", to: "/quality-auditor/audit-management/my-audits" },
+            { icon: CalendarDays, title: "Audit Schedule", to: "/quality-auditor/audit-management/audit-schedule" },
+            { icon: ClipboardCheck, title: "Execute Audit", to: "/quality-auditor/audit-management/execute-audit" },
+            { icon: History, title: "Audit History", to: "/quality-auditor/audit-management/audit-history" },
+        ],
+    },
+    {
+        id: 3,
+        title: "Observations",
+        to: "#0",
+        icon: ShieldAlert,
+        subLinks: [
+            { icon: AlertTriangle, title: "Open Observations", to: "/quality-auditor/observations/open" },
+            { icon: ShieldCheck, title: "Closed Observations", to: "/quality-auditor/observations/closed" },
+        ],
+    },
+    {
+        id: 4,
+        title: "Corrective Actions",
+        to: "#0",
+        icon: ShieldCheck,
+        subLinks: [
+            { icon: ShieldAlert, title: "Escalations", to: "/quality-auditor/corrective-actions/escalations" },
+            { icon: CircleHelp, title: "Root Cause Analysis", to: "/quality-auditor/corrective-actions/root-cause-analysis" },
+            { icon: FileText, title: "Action Taken Reports", to: "/quality-auditor/corrective-actions/action-taken-reports" },
+        ],
+    },
+    {
+        id: 5,
+        title: "Reports",
+        to: "#0",
+        icon: BarChart3,
+        subLinks: [
+            { icon: FileText, title: "Audit Reports", to: "/quality-auditor/reports/audit-reports" },
+            { icon: ShieldAlert, title: "Observation Reports", to: "/quality-auditor/reports/observation-reports" },
+            { icon: BarChart3, title: "Compliance Reports", to: "/quality-auditor/reports/compliance-reports" },
+            { icon: AlertTriangle, title: "Pending Actions", to: "/quality-auditor/reports/pending-actions" },
+            { icon: ShieldCheck, title: "Closed Actions", to: "/quality-auditor/reports/closed-actions" },
+        ],
+    },
+    {
+        id: 6,
+        title: "Communication",
+        to: "/quality-auditor/communication",
+        icon: MessageCircle,
+    },
+];
+
 export const directorSidebarLinks = [
     // {
     //     id: 1,
@@ -1237,6 +1298,8 @@ export const roleBasedSidebarLinks = {
     JointDirector: jointDirectorSidebarLinks,
     JointDirectorAssistant: jointDirectorAssistantSidebarLinks,
     JointDirectorAudit: jointDirectorAuditSidebarLinks,
+    ProcessAuditor: processAuditorSidebarLinks,
+    QualityAuditor: qualityAuditorSidebarLinks,
     Director: directorSidebarLinks,
     Principal: principalSidebarLinks,
 };
