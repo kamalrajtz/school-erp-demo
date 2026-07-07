@@ -61,6 +61,9 @@ import {
     CircleHelp,
     Send,
     DoorClosed,
+    Settings,
+    Landmark,
+    Receipt,
 } from "lucide-react";
 
 export const adminSidebarLinks = [
@@ -1194,6 +1197,63 @@ export const hrSidebarLinks = [
     },
 ];
 
+export const accountHeadSidebarLinks = [
+    {
+        id: 1,
+        title: "Dashboard",
+        to: "/account-head/dashboard",
+        icon: LayoutDashboard,
+    },
+    {
+        id: 2,
+        title: "Fees Management",
+        to: "/account-head/fees-management",
+        icon: BadgeDollarSign,
+    },
+    {
+        id: 3,
+        title: "Transport Finance",
+        to: "/account-head/transport-finance",
+        icon: Bus,
+    },
+    {
+        id: 4,
+        title: "Collections",
+        to: "/account-head/collections",
+        icon: Receipt,
+    },
+    {
+        id: 5,
+        title: "Wallet Management",
+        to: "/account-head/wallet-management",
+        icon: Wallet,
+    },
+    {
+        id: 6,
+        title: "Accounting",
+        to: "/account-head/accounting",
+        icon: Landmark,
+    },
+    {
+        id: 7,
+        title: "Approvals",
+        to: "/account-head/approvals",
+        icon: ClipboardCheck,
+    },
+    {
+        id: 8,
+        title: "Reports & Analytics",
+        to: "/account-head/reports-analytics",
+        icon: BarChart3,
+    },
+    {
+        id: 9,
+        title: "Settings",
+        to: "/account-head/settings",
+        icon: Settings,
+    },
+];
+
 export const directorSidebarLinks = [
     // {
     //     id: 1,
@@ -1367,6 +1427,7 @@ export const roleBasedSidebarLinks = {
     ProcessAuditor: processAuditorSidebarLinks,
     QualityAuditor: qualityAuditorSidebarLinks,
     HR: hrSidebarLinks,
+    AccountHead: accountHeadSidebarLinks,
     Director: directorSidebarLinks,
     Principal: principalSidebarLinks,
 };

@@ -415,6 +415,17 @@ export const singleTitleMapping = {
     "/hr/performance": "Performance",
     "/hr/reports": "Reports",
 
+    // ── Account Head Role ───────────────────────────────────────────────────────
+    "/account-head/dashboard": "Finance Dashboard",
+    "/account-head/fees-management": "Fees Management",
+    "/account-head/transport-finance": "Transport Finance",
+    "/account-head/collections": "Collections",
+    "/account-head/wallet-management": "Wallet Management",
+    "/account-head/accounting": "Accounting",
+    "/account-head/approvals": "Approvals",
+    "/account-head/reports-analytics": "Reports & Analytics",
+    "/account-head/settings": "Settings",
+
     // ── Principal Role ──────────────────────────────────────────────────────────
     "/principal/dashboard": "Dashboard",
     "/principal/documents": "Documents",

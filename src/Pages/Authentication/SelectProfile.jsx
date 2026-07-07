@@ -40,6 +40,7 @@ const PROFILE_OPTIONS = [
     { role: ROLES.PROCESS_AUDITOR, label: 'Process Auditor', image: admin_profile, alt: 'process_auditor_profile' },
     { role: ROLES.QUALITY_AUDITOR, label: 'Quality Auditor', image: admin_profile, alt: 'quality_auditor_profile' },
     { role: ROLES.HR, label: 'HR', image: admin_profile, alt: 'hr_profile' },
+    { role: ROLES.ACCOUNT_HEAD, label: 'Account Head', image: admin_profile, alt: 'account_head_profile' },
 ]
 
 const SelectProfile = () => {

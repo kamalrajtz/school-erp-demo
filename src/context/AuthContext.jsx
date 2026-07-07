@@ -21,6 +21,7 @@ export const ROLES = {
     PROCESS_AUDITOR: 'processauditor',
     QUALITY_AUDITOR: 'qualityauditor',
     HR: 'hr',
+    ACCOUNT_HEAD: 'accounthead',
 }
 
 export const FAKE_CREDENTIALS = {
@@ -44,6 +45,7 @@ export const FAKE_CREDENTIALS = {
     [ROLES.PROCESS_AUDITOR]: { email: 'processauditor@school.com' },
     [ROLES.QUALITY_AUDITOR]: { email: 'qualityauditor@school.com' },
     [ROLES.HR]: { email: 'hr@school.com' },
+    [ROLES.ACCOUNT_HEAD]: { email: 'accounthead@school.com' },
 }
 
 export const ROLE_HOME_PATHS = {
@@ -67,6 +69,7 @@ export const ROLE_HOME_PATHS = {
     [ROLES.PROCESS_AUDITOR]: '/process-auditor/dashboard',
     [ROLES.QUALITY_AUDITOR]: '/quality-auditor/dashboard',
     [ROLES.HR]: '/hr/dashboard',
+    [ROLES.ACCOUNT_HEAD]: '/account-head/dashboard',
 }
 
 const STORAGE_KEY = 'schoolerp_auth'
