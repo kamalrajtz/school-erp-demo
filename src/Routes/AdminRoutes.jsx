@@ -1,4 +1,4 @@
-import React from 'react'
+﻿import React from 'react'
 import { Route, Routes as ReactRoutes } from 'react-router-dom'
 import AdmissionList from '../Pages/Admin/FrontOffice/AdminssionList/AdminssionList'
 import AddAdmission from '../Pages/Admin/FrontOffice/AdminssionList/AddAdmission'
@@ -6,8 +6,8 @@ import TeachersList from '../Pages/Admin/FrontOffice/TeachersList/TeachersList'
 import AddTeacher from '../Pages/Admin/FrontOffice/TeachersList/AddTeacher'
 import LibrarianList from '../Pages/Admin/FrontOffice/LibrarianList/LibrarianList'
 import AddLibrarian from '../Pages/Admin/FrontOffice/LibrarianList/AddLibrarian'
-import VanDriverList from '../Pages/Admin/FrontOffice/VanDriverList/VanDriverList'
-import AddVanDriverList from '../Pages/Admin/FrontOffice/VanDriverList/AddVanDriverList'
+import DriverList from '../Pages/Admin/FrontOffice/DriverList/DriverList'
+import AddDriverList from '../Pages/Admin/FrontOffice/DriverList/AddDriverList'
 import StudentsList from '../Pages/Admin/Attendance/Students/StudentsList'
 import EmployeesList from '../Pages/Admin/Attendance/Employees/EmployeesList'
 import LeaveRequest from '../Pages/Admin/Attendance/LeaveRequest/LeaveRequest'
@@ -79,8 +79,8 @@ const AdminRoutes = () => {
             <Route path="/admin/front-office/add-teacher" element={<AddTeacher />} />
             <Route path="/admin/front-office/librarian-list" element={<LibrarianList />} />
             <Route path="/admin/front-office/add-librarian" element={<AddLibrarian />} />
-            <Route path="/admin/front-office/van-driver-list" element={<VanDriverList />} />
-            <Route path="/admin/front-office/add-van-driver" element={<AddVanDriverList />} />
+            <Route path="/admin/front-office/driver-list" element={<DriverList />} />
+            <Route path="/admin/front-office/add-driver" element={<AddDriverList />} />
 
             {/* Attendance */}
 

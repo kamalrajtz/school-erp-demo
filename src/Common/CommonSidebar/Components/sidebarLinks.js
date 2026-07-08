@@ -1,4 +1,4 @@
-import {
+﻿import {
     LayoutDashboard,
     BrickWallShield,
     Users,
@@ -64,6 +64,9 @@ import {
     Settings,
     Landmark,
     Receipt,
+    HeartPulse,
+    Droplet,
+    Wrench,
 } from "lucide-react";
 
 export const adminSidebarLinks = [
@@ -83,7 +86,7 @@ export const adminSidebarLinks = [
             { icon: FileText, title: "Admission List", to: "/admin/front-office/admission-list" },
             { icon: Users, title: "Teachers List", to: "/admin/front-office/teachers-list" },
             { icon: BookOpen, title: "Librarian List", to: "/admin/front-office/librarian-list" },
-            { icon: Car, title: "Van Driver List", to: "/admin/front-office/van-driver-list" },
+            { icon: Car, title: "Driver List", to: "/admin/front-office/driver-list" },
         ],
     },
     {
@@ -1242,6 +1245,66 @@ export const accountHeadSidebarLinks = [
     },
 ];
 
+export const driverSidebarLinks = [
+    // {
+    //     id: 1,
+    //     title: "Dashboard",
+    //     to: "/driver/dashboard",
+    //     icon: LayoutDashboard,
+    // },
+    {
+        id: 2,
+        title: "Vehicle Management",
+        to: "#0",
+        icon: Bus,
+        subLinks: [
+            { icon: Car, title: "Vehicle Details", to: "/driver/vehicle-management/vehicle-details" },
+            { icon: FileText, title: "Vehicle Documents", to: "/driver/vehicle-management/vehicle-documents" },
+            { icon: HeartPulse, title: "Vehicle Health Status", to: "/driver/vehicle-management/vehicle-health-status" },
+        ],
+    },
+    {
+        id: 3,
+        title: "My Duty",
+        to: "/driver/my-duty",
+        icon: ShieldCheck,
+    },
+    {
+        id: 4,
+        title: "My Route",
+        to: "#0",
+        icon: Route,
+        subLinks: [
+            { icon: MapPin, title: "Route Details", to: "/driver/my-route/route-details" },
+            { icon: ListChecks, title: "Route Stops", to: "/driver/my-route/route-stops" },
+        ],
+    },
+    {
+        id: 5,
+        title: "Student Transport",
+        to: "/driver/student-transport",
+        icon: GraduationCap,
+    },
+    {
+        id: 6,
+        title: "Fuel Request",
+        to: "/driver/fuel-request",
+        icon: Droplet,
+    },
+    {
+        id: 7,
+        title: "Maintenance Request",
+        to: "/driver/maintenance-request",
+        icon: Wrench,
+    },
+    {
+        id: 8,
+        title: "Leave Request",
+        to: "/driver/leave-request",
+        icon: FileX,
+    },
+];
+
 export const directorSidebarLinks = [
     // {
     //     id: 1,
@@ -1416,6 +1479,7 @@ export const roleBasedSidebarLinks = {
     QualityAuditor: qualityAuditorSidebarLinks,
     HR: hrSidebarLinks,
     AccountHead: accountHeadSidebarLinks,
+    Driver: driverSidebarLinks,
     Director: directorSidebarLinks,
     Principal: principalSidebarLinks,
 };

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+﻿import React, { useMemo, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import logo from '../../assets/images/demo-logo2.svg'
 import select_profile_img from '../../assets/images/select-profile-img.png'
@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import admin_profile from '../../assets/images/admin-icon.png'
 import student_profile from '../../assets/images/student-icon.png'
 import teacher_profile from '../../assets/images/teacher-icon.png'
-import van_driver_profile from '../../assets/images/van-driver-icon.png'
+import driver_profile from '../../assets/images/van-driver-icon.png'
 import librarian_profile from '../../assets/images/librarian-icon.png'
 import prm_profile from '../../assets/images/prm-icon.jpg'
 import { ROLES, useAuth } from '../../context/AuthContext'
@@ -17,14 +17,14 @@ const PROFILE_OPTIONS = [
     { role: ROLES.ADMIN, label: 'Admin', image: admin_profile, alt: 'admin_profile' },
     { role: ROLES.STUDENT, label: 'Student', image: student_profile, alt: 'student_profile' },
     { role: ROLES.TEACHER, label: 'Teacher', image: teacher_profile, alt: 'teacher_profile' },
-    { role: null, label: 'Van Driver', image: van_driver_profile, alt: 'van_driver_profile', disabled: true },
+    { role: ROLES.DRIVER, label: 'Driver', image: driver_profile, alt: 'driver_profile' },
     { role: ROLES.LIBRARIAN, label: 'Librarian', image: librarian_profile, alt: 'librarian_profile' },
     { role: ROLES.PRM, label: 'PRM', image: prm_profile, alt: 'prm_profile', imageClassName: 'rounded-full' },
-    { role: ROLES.GATEKEEPER, label: 'Gate Keeper', image: van_driver_profile, alt: 'gatekeeper_profile' },
+    { role: ROLES.GATEKEEPER, label: 'Gate Keeper', image: driver_profile, alt: 'gatekeeper_profile' },
     {
         role: ROLES.GATEKEEPER_MANAGER,
         label: 'Gate Keeper Manager',
-        image: van_driver_profile,
+        image: driver_profile,
         alt: 'gatekeeper_manager_profile',
     },
     { role: ROLES.DIRECTOR, label: 'Director', image: admin_profile, alt: 'director_profile' },
@@ -33,7 +33,7 @@ const PROFILE_OPTIONS = [
     { role: ROLES.IT_SUPPORT_MANAGER, label: 'IT Support Team Manager', image: admin_profile, alt: 'it_support_manager_profile' },
     { role: ROLES.STATIONERY_STORE_MANAGER, label: 'Stationery Store Manager', image: librarian_profile, alt: 'stationery_store_manager_profile' },
     { role: ROLES.HOUSEKEEPING_MANAGER, label: 'Housekeeping Manager', image: admin_profile, alt: 'housekeeping_manager_profile' },
-    { role: ROLES.TRANSPORT_MANAGER, label: 'Transport Manager', image: van_driver_profile, alt: 'transport_manager_profile' },
+    { role: ROLES.TRANSPORT_MANAGER, label: 'Transport Manager', image: driver_profile, alt: 'transport_manager_profile' },
     { role: ROLES.JOINT_DIRECTOR, label: 'Joint Director', image: admin_profile, alt: 'joint_director_profile' },
     { role: ROLES.JOINT_DIRECTOR_ASSISTANT, label: 'Joint Director Assistant', image: admin_profile, alt: 'joint_director_assistant_profile' },
     { role: ROLES.JOINT_DIRECTOR_AUDIT, label: 'Joint Director - Audit', image: admin_profile, alt: 'joint_director_audit_profile' },

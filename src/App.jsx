@@ -1,4 +1,4 @@
-import { Navigate, useLocation } from "react-router-dom";
+﻿import { Navigate, useLocation } from "react-router-dom";
 import AuthLayout from "./Layout/AuthLayout";
 import AdminLayout from "./Layout/AdminLayout";
 import LibrarianLayout from "./Layout/LibrarianLayout";
@@ -19,6 +19,7 @@ import ProcessAuditorLayout from "./Layout/ProcessAuditorLayout";
 import QualityAuditorLayout from "./Layout/QualityAuditorLayout";
 import HRLayout from "./Layout/HRLayout";
 import AccountHeadLayout from "./Layout/AccountHeadLayout";
+import DriverLayout from "./Layout/DriverLayout";
 import PRMLayout from "./Layout/PRMLayout";
 import StudentLayout from "./Layout/StudentLayout";
 import { ROLE_HOME_PATHS, ROLES, useAuth } from "./context/AuthContext";
@@ -42,6 +43,22 @@ const App = () => {
 
   if (!isAuthenticated) {
     return <Navigate to="/select-profile" replace />;
+  }
+
+  if (pathname.startsWith("/van-driver")) {
+    return <Navigate to={`${pathname.replace("/van-driver", "/driver")}${location.search}`} replace />;
+  }
+
+  if (pathname.startsWith("/admin/front-office/van-driver-list")) {
+    return <Navigate to="/admin/front-office/driver-list" replace />;
+  }
+
+  if (pathname.startsWith("/admin/front-office/add-van-driver")) {
+    return <Navigate to="/admin/front-office/add-driver" replace />;
+  }
+
+  if (pathname.startsWith("/admin/front-office/view-van-driver")) {
+    return <Navigate to={`${pathname.replace("/admin/front-office/view-van-driver", "/admin/front-office/view-driver")}${location.search}`} replace />;
   }
 
   if (role === ROLES.STUDENT) {
@@ -163,6 +180,13 @@ const App = () => {
     return <AccountHeadLayout />;
   }
 
+  if (role === ROLES.DRIVER) {
+    if (!pathname.startsWith("/driver")) {
+      return <Navigate to={ROLE_HOME_PATHS[ROLES.DRIVER]} replace />;
+    }
+    return <DriverLayout />;
+  }
+
   if (role === ROLES.JOINT_DIRECTOR_AUDIT) {
     if (!pathname.startsWith("/joint-director-audit")) {
       return <Navigate to={ROLE_HOME_PATHS[ROLES.JOINT_DIRECTOR_AUDIT]} replace />;
@@ -206,6 +230,7 @@ const App = () => {
     pathname.startsWith("/quality-auditor") ||
     pathname.startsWith("/hr") ||
     pathname.startsWith("/account-head") ||
+    pathname.startsWith("/driver") ||
     pathname.startsWith("/joint-director-audit") ||
     pathname.startsWith("/joint-director-assistant") ||
     pathname.startsWith("/joint-director")

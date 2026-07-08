@@ -1,4 +1,4 @@
-import React from 'react'
+﻿import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import mo_user from '../../../assets/images/no-profile.png'
@@ -57,7 +57,7 @@ const ViewDriver = () => {
 
                     <Section title='Personal Information'>
                         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
-                            <Field label='Van Driver ID' value={driver.id} />
+                            <Field label='Driver ID' value={driver.id} />
                             <Field label='First Name' value={driver.firstName} />
                             <Field label='Middle Name' value={driver.middleName} />
                             <Field label='Last Name' value={driver.lastName} />

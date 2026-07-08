@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react'
+﻿import React, { useState, useEffect, useRef, useMemo } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { ChevronLeft, ChevronDown } from "lucide-react"
 import logo from "../../assets/images/demo-logo.svg"
 import logoMini from "../../assets/images/demo-logo-mini.svg"
-import { adminSidebarLinks, canteenManagerSidebarLinks, gateKeeperManagerSidebarLinks, gateKeeperSidebarLinks, directorSidebarLinks, principalSidebarLinks, librarianSidebarLinks, prmSidebarLinks, studentSidebarLinks, teacherSidebarLinks, itSupportManagerSidebarLinks, stationeryStoreManagerSidebarLinks, housekeepingManagerSidebarLinks, transportManagerSidebarLinks, jointDirectorSidebarLinks, jointDirectorAssistantSidebarLinks, jointDirectorAuditSidebarLinks, processAuditorSidebarLinks, qualityAuditorSidebarLinks, hrSidebarLinks, accountHeadSidebarLinks } from './Components/sidebarLinks'
+import { adminSidebarLinks, canteenManagerSidebarLinks, gateKeeperManagerSidebarLinks, gateKeeperSidebarLinks, directorSidebarLinks, principalSidebarLinks, librarianSidebarLinks, prmSidebarLinks, studentSidebarLinks, teacherSidebarLinks, itSupportManagerSidebarLinks, stationeryStoreManagerSidebarLinks, housekeepingManagerSidebarLinks, transportManagerSidebarLinks, jointDirectorSidebarLinks, jointDirectorAssistantSidebarLinks, jointDirectorAuditSidebarLinks, processAuditorSidebarLinks, qualityAuditorSidebarLinks, hrSidebarLinks, accountHeadSidebarLinks, driverSidebarLinks } from './Components/sidebarLinks'
 
 const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
 
@@ -32,6 +32,7 @@ const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
         if (location.pathname.startsWith('/quality-auditor')) return qualityAuditorSidebarLinks
         if (location.pathname.startsWith('/hr')) return hrSidebarLinks
         if (location.pathname.startsWith('/account-head')) return accountHeadSidebarLinks
+        if (location.pathname.startsWith('/driver')) return driverSidebarLinks
         if (location.pathname.startsWith('/joint-director-audit')) return jointDirectorAuditSidebarLinks
         if (location.pathname.startsWith('/joint-director-assistant')) return jointDirectorAssistantSidebarLinks
         if (location.pathname.startsWith('/joint-director')) return jointDirectorSidebarLinks

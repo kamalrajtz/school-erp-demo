@@ -1,4 +1,4 @@
-import React from 'react'
+﻿import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, User, Car, Briefcase, FileText, Bus } from 'lucide-react'
 import mo_user from '../../assets/images/no-profile.png'
@@ -73,7 +73,7 @@ const ViewDriver = ({ basePath }) => {
                         </div>
                     </div>
                     <div className='flex-1 min-w-0'>
-                        <p className='text-white/70 text-sm font-medium uppercase tracking-wider'>Van Driver Profile</p>
+                        <p className='text-white/70 text-sm font-medium uppercase tracking-wider'>Driver Profile</p>
                         <h1 className='text-2xl sm:text-3xl font-bold text-white mt-1'>{displayName}</h1>
                         <p className='text-white/80 text-sm mt-2'>
                             Driver ID: <span className='font-semibold text-white'>{driver.id}</span>

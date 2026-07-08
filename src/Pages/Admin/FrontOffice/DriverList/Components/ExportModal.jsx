@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+﻿import React, { useState } from 'react'
 import { X } from 'lucide-react'
 
 const ExportModal = ({ exportModal, setExportModal }) => {
@@ -21,7 +21,7 @@ const ExportModal = ({ exportModal, setExportModal }) => {
                             </button>
                         </div>
                         <div className='pt-4'>
-                            <p className='text-sm font-normal'>You are exporting 05 Van Driver(s) details <span className='text-[#515DEF]'>( Filtered: Due in 7 Days )</span></p>
+                            <p className='text-sm font-normal'>You are exporting 05 Driver(s) details <span className='text-[#515DEF]'>( Filtered: Due in 7 Days )</span></p>
 
                             <div className='flex flex-col gap-x-2'>
                                 <label htmlFor="" className='text-base font-medium text-[#1E1E1E] my-4'>Choose Format</label>

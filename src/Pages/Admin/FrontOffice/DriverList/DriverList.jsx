@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+﻿import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,7 +8,7 @@ import Dropdown from '../../../../Common/CommonComponents/Dropdown';
 import ExportModal from '../../../../Common/CommonComponents/ExportModal';
 import EditRequestModal from '../../../../Common/CommonComponents/EditRequestModal';
 
-const VanDriverList = () => {
+const DriverList = () => {
 
     const [fromDate, setFromDate] = useState(new Date());
     const [toDate, setToDate] = useState(new Date());
@@ -80,9 +80,9 @@ const VanDriverList = () => {
 
             <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
-                    <h2 className='text-xl font-medium text-black'>Van Driver's List</h2>
+                    <h2 className='text-xl font-medium text-black'>Driver's List</h2>
                     <div className='flex gap-x-2'>
-                        <NavLink to="/admin/front-office/add-van-driver" className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'>
+                        <NavLink to="/admin/front-office/add-driver" className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'>
                             <Plus size={16} />
                             Add New Driver
                         </NavLink>
@@ -107,8 +107,8 @@ const VanDriverList = () => {
                         <thead className="text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg">
                             <tr className='rounded-lg'>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg">Profile</th>
-                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Van Driver Name</th>
-                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Van Driver's ID</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Driver Name</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Driver's ID</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Email ID</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Gender</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Mobile Number</th>
@@ -187,4 +187,4 @@ const VanDriverList = () => {
     )
 }
 
-export default VanDriverList
+export default DriverList

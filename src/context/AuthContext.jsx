@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
+﻿import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
 
 export const ROLES = {
     ADMIN: 'admin',
@@ -22,6 +22,7 @@ export const ROLES = {
     QUALITY_AUDITOR: 'qualityauditor',
     HR: 'hr',
     ACCOUNT_HEAD: 'accounthead',
+    DRIVER: 'driver',
 }
 
 export const FAKE_CREDENTIALS = {
@@ -46,6 +47,7 @@ export const FAKE_CREDENTIALS = {
     [ROLES.QUALITY_AUDITOR]: { email: 'qualityauditor@school.com' },
     [ROLES.HR]: { email: 'hr@school.com' },
     [ROLES.ACCOUNT_HEAD]: { email: 'accounthead@school.com' },
+    [ROLES.DRIVER]: { email: 'driver@school.com' },
 }
 
 export const ROLE_HOME_PATHS = {
@@ -70,6 +72,7 @@ export const ROLE_HOME_PATHS = {
     [ROLES.QUALITY_AUDITOR]: '/quality-auditor/dashboard',
     [ROLES.HR]: '/hr/dashboard',
     [ROLES.ACCOUNT_HEAD]: '/account-head/dashboard',
+    [ROLES.DRIVER]: '/driver/dashboard',
 }
 
 const STORAGE_KEY = 'schoolerp_auth'
@@ -80,7 +83,8 @@ const readStoredAuth = () => {
         if (!raw) return { isAuthenticated: false, role: null }
         const parsed = JSON.parse(raw)
         if (parsed?.isAuthenticated && parsed?.role) {
-            return { isAuthenticated: true, role: parsed.role }
+            const role = parsed.role === 'vandriver' ? ROLES.DRIVER : parsed.role
+            return { isAuthenticated: true, role }
         }
     } catch {
         // ignore invalid storage

@@ -1,4 +1,4 @@
-export const singleTitleMapping = {
+﻿export const singleTitleMapping = {
     "/dashboard": "Dashboard",
     "/admin/dashboard": "Dashboard",
 
@@ -12,8 +12,8 @@ export const singleTitleMapping = {
     "/admin/front-office/add-teacher": "Add Teacher",
     "/admin/front-office/librarian-list": "Librarian List",
     "/admin/front-office/add-librarian": "Add Librarian",
-    "/admin/front-office/van-driver-list": "Van Driver List",
-    "/admin/front-office/add-van-driver": "Add Van Driver",
+    "/admin/front-office/driver-list": "Driver List",
+    "/admin/front-office/add-driver": "Add Driver",
 
 
     // Attendance
@@ -426,6 +426,23 @@ export const singleTitleMapping = {
     "/account-head/reports-analytics": "Reports & Analytics",
     "/account-head/settings": "Settings",
 
+    // Driver
+    "/driver/dashboard": "Dashboard",
+    "/driver/vehicle-management/vehicle-details": "Vehicle Details List",
+    "/driver/vehicle-management/vehicle-documents": "Vehicle Documents List",
+    "/driver/vehicle-management/vehicle-health-status": "Vehicle Health Status List",
+    "/driver/vehicle-management/vehicle-health-status/add": "Add Vehicle Health Status",
+    "/driver/my-duty": "My Duty List",
+    "/driver/my-route/route-details": "Route Details",
+    "/driver/my-route/route-stops": "Route Stops List",
+    "/driver/student-transport": "Student Transport List",
+    "/driver/fuel-request": "Fuel Request List",
+    "/driver/fuel-request/add": "Add Fuel Request",
+    "/driver/maintenance-request": "Maintenance Request List",
+    "/driver/maintenance-request/add": "Add Maintenance Request",
+    "/driver/leave-request": "Leave Request List",
+    "/driver/leave-request/add": "Add Leave Request",
+
     // ── Principal Role ──────────────────────────────────────────────────────────
     "/principal/dashboard": "Dashboard",
     "/principal/documents": "Documents",
@@ -487,7 +504,7 @@ export const singleTitleMapping = {
 const dynamicTitleMatchers = [
     { test: (p) => /^\/admin\/front-office\/view-teacher\/[^/]+$/.test(p), title: 'Teacher Details' },
     { test: (p) => /^\/admin\/front-office\/view-librarian\/[^/]+$/.test(p), title: 'Librarian Details' },
-    { test: (p) => /^\/admin\/front-office\/view-van-driver\/[^/]+$/.test(p), title: 'Van Driver Details' },
+    { test: (p) => /^\/admin\/front-office\/view-driver\/[^/]+$/.test(p), title: 'Driver Details' },
     { test: (p) => /^\/admin\/front-office\/view-admission\/[^/]+$/.test(p), title: 'Admission Details' },
     { test: (p) => /^\/admin\/front-office\/view-admission-enquiry\/[^/]+$/.test(p), title: 'Admission Enquiry Details' },
     { test: (p) => /^\/admin\/student\/view-student-details\/[^/]+$/.test(p), title: 'View Student Details' },
@@ -564,6 +581,14 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/teacher\/academics\/study-materials\/view\/[^/]+$/.test(p), title: 'View Study Material' },
     { test: (p) => /^\/teacher\/user-management\/students-list\/view\/[^/]+$/.test(p), title: 'View Student Profile' },
     { test: (p) => /^\/teacher\/user-management\/students-list\/view\/[^/]+\/full$/.test(p), title: 'View Student Details' },
+    { test: (p) => /^\/driver\/leave-request\/view\/[^/]+$/.test(p), title: 'View Leave Request' },
+    { test: (p) => /^\/driver\/leave-request\/edit\/[^/]+$/.test(p), title: 'Edit Leave Request' },
+    { test: (p) => /^\/driver\/maintenance-request\/view\/[^/]+$/.test(p), title: 'View Maintenance Request' },
+    { test: (p) => /^\/driver\/maintenance-request\/edit\/[^/]+$/.test(p), title: 'Edit Maintenance Request' },
+    { test: (p) => /^\/driver\/fuel-request\/view\/[^/]+$/.test(p), title: 'View Fuel Request' },
+    { test: (p) => /^\/driver\/fuel-request\/edit\/[^/]+$/.test(p), title: 'Edit Fuel Request' },
+    { test: (p) => /^\/driver\/vehicle-management\/vehicle-health-status\/view\/[^/]+$/.test(p), title: 'View Vehicle Health Status' },
+    { test: (p) => /^\/driver\/vehicle-management\/vehicle-health-status\/edit\/[^/]+$/.test(p), title: 'Edit Vehicle Health Status' },
     { test: (p) => /^\/housekeeping-manager\/inventory\/view-item\/[^/]+$/.test(p), title: 'View Inventory Item' },
     { test: (p) => /^\/housekeeping-manager\/requests-approvals\/view-request\/[^/]+$/.test(p), title: 'View Request Details' },
     { test: (p) => /^\/housekeeping-manager\/broadcast\/view-broadcast\/[^/]+$/.test(p), title: 'View Broadcast Details' },

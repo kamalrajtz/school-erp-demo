@@ -1,4 +1,4 @@
-import React from 'react'
+﻿import React from 'react'
 import PersonalInfo from './Components/PersonalInfo'
 import DrivingInfo from './Components/DrivingInfo'
 import EmploymentInfo from './Components/EmploymentInfo'
@@ -6,7 +6,7 @@ import AccountInfo from './Components/AccountInfo'
 import UploadDocuments from './Components/UploadDocuments'
 import VehicleAssignment from './Components/VehicleAssignment'
 
-const AddVanDriverList = () => {
+const AddDriverList = () => {
     return (
         <div>
             <div className='bg-white rounded-2xl shadow-md p-4'>
@@ -51,4 +51,4 @@ const AddVanDriverList = () => {
     )
 }
 
-export default AddVanDriverList
+export default AddDriverList
