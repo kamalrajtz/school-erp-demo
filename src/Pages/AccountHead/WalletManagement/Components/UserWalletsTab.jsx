@@ -15,7 +15,7 @@ import {
     thClass,
 } from './WalletShared'
 
-const UserWalletsTab = () => (
+const UserWalletsTab = ({ userWallets = USER_WALLETS }) => (
     <div className='space-y-6'>
         <SummaryCards cards={USER_WALLETS_SUMMARY} />
 
@@ -60,7 +60,7 @@ const UserWalletsTab = () => (
                     </tr>
                 </thead>
                 <tbody>
-                    {USER_WALLETS.map((row) => (
+                    {userWallets.map((row) => (
                         <tr key={row.id} className='border-b border-[#f2f4f7] hover:bg-[#f2f4f7]'>
                             <td className={`${tdClass} rounded-s-lg`}>
                                 <UserAvatar initials={row.initials} name={row.name} />

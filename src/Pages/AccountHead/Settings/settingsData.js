@@ -1,9 +1,6 @@
 export const SETTINGS_TABS = [
     { id: 'general', label: 'General' },
     { id: 'payment-configuration', label: 'Payment Configuration' },
-    { id: 'roles-permissions', label: 'Roles & Permissions' },
-    { id: 'notifications', label: 'Notifications' },
-    { id: 'integrations', label: 'Integrations' },
 ]
 
 export const GENERAL_SETTINGS = {

@@ -15,7 +15,7 @@ import {
     thClass,
 } from './WalletShared'
 
-const RechargeRecordsTab = () => (
+const RechargeRecordsTab = ({ rechargeRecords = RECHARGE_RECORDS }) => (
     <div className='space-y-6'>
         <SummaryCards cards={RECHARGE_SUMMARY} />
 
@@ -61,7 +61,7 @@ const RechargeRecordsTab = () => (
                     </tr>
                 </thead>
                 <tbody>
-                    {RECHARGE_RECORDS.map((row) => (
+                    {rechargeRecords.map((row) => (
                         <tr key={row.id} className='border-b border-[#f2f4f7] hover:bg-[#f2f4f7]'>
                             <td className={`${tdClass} rounded-s-lg font-mono text-xs text-[#1E1E1E]`}>{row.id}</td>
                             <td className={tdClass}>

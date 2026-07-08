@@ -1217,22 +1217,10 @@ export const accountHeadSidebarLinks = [
         icon: Bus,
     },
     {
-        id: 4,
-        title: "Collections",
-        to: "/account-head/collections",
-        icon: Receipt,
-    },
-    {
         id: 5,
         title: "Wallet Management",
         to: "/account-head/wallet-management",
         icon: Wallet,
-    },
-    {
-        id: 6,
-        title: "Accounting",
-        to: "/account-head/accounting",
-        icon: Landmark,
     },
     {
         id: 7,

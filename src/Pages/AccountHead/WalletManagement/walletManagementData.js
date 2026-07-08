@@ -1,3 +1,16 @@
+export const PAYMENT_GATEWAY_URL = 'https://razorpay.com/payment-gateway/'
+
+export const parseRupeeAmount = (value) => Number(String(value).replace(/[₹,\s]/g, '')) || 0
+
+export const formatRupeeAmount = (amount) => `₹${amount.toLocaleString('en-IN')}`
+
+export const getInitials = (name) => name
+    .split(/\s+/)
+    .map((part) => part[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase()
+
 export const WALLET_TABS = [
     { id: 'wallet-overview', label: 'Wallet Overview' },
     { id: 'user-wallets', label: 'User Wallets' },
@@ -39,6 +52,7 @@ export const USER_WALLETS = [
     {
         id: 'UW-001',
         name: 'Arun Raj',
+        email: 'arun.raj@student.school.com',
         initials: 'AR',
         role: 'Student',
         walletId: 'WLT-10482',
@@ -49,6 +63,7 @@ export const USER_WALLETS = [
     {
         id: 'UW-002',
         name: 'Priya M.',
+        email: 'priya.m@student.school.com',
         initials: 'PM',
         role: 'Student',
         walletId: 'WLT-10391',
@@ -59,6 +74,7 @@ export const USER_WALLETS = [
     {
         id: 'UW-003',
         name: 'R. Balakrishnan',
+        email: 'balakrishnan.r@staff.school.com',
         initials: 'RB',
         role: 'Staff',
         walletId: 'WLT-00112',
@@ -69,6 +85,7 @@ export const USER_WALLETS = [
     {
         id: 'UW-004',
         name: 'Vignesh S.',
+        email: 'vignesh.s@student.school.com',
         initials: 'VS',
         role: 'Student',
         walletId: 'WLT-10477',

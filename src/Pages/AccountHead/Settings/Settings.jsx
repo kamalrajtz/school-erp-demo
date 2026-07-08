@@ -2,9 +2,6 @@ import React, { useState } from 'react'
 import { Check } from 'lucide-react'
 import GeneralTab from './Components/GeneralTab'
 import PaymentConfigurationTab from './Components/PaymentConfigurationTab'
-import RolesPermissionsTab from './Components/RolesPermissionsTab'
-import NotificationsTab from './Components/NotificationsTab'
-import IntegrationsTab from './Components/IntegrationsTab'
 import { SETTINGS_TABS } from './settingsData'
 
 const Settings = () => {
@@ -47,9 +44,6 @@ const Settings = () => {
 
             {activeTab === 'general' && <GeneralTab />}
             {activeTab === 'payment-configuration' && <PaymentConfigurationTab />}
-            {activeTab === 'roles-permissions' && <RolesPermissionsTab />}
-            {activeTab === 'notifications' && <NotificationsTab />}
-            {activeTab === 'integrations' && <IntegrationsTab />}
         </section>
     )
 }
