@@ -10,7 +10,8 @@ import ViewVehicleHealthStatus from '../Pages/Driver/VehicleManagement/VehicleHe
 import MyDuty from '../Pages/Driver/MyDuty/MyDuty'
 import RouteDetails from '../Pages/Driver/MyRoute/RouteDetails'
 import RouteStops from '../Pages/Driver/MyRoute/RouteStops'
-import StudentTransport from '../Pages/Driver/MyRoute/StudentTransport'
+import StudentAttendance from '../Pages/Driver/StudentAttendance/StudentAttendance'
+import AttendanceHistory from '../Pages/Driver/StudentAttendance/AttendanceHistory'
 import FuelRequest from '../Pages/Driver/FuelRequest/FuelRequest'
 import AddFuelRequest from '../Pages/Driver/FuelRequest/AddFuelRequest'
 import EditFuelRequest from '../Pages/Driver/FuelRequest/EditFuelRequest'
@@ -63,10 +64,19 @@ const DriverRoutes = () => {
             <Route path='/driver/my-duty' element={<MyDuty />} />
             <Route path='/driver/my-route/route-details' element={<RouteDetails />} />
             <Route path='/driver/my-route/route-stops' element={<RouteStops />} />
-            <Route path='/driver/student-transport' element={<StudentTransport />} />
+            <Route path='/driver/attendance-management/student-attendance' element={<StudentAttendance />} />
+            <Route path='/driver/attendance-management/attendance-history' element={<AttendanceHistory />} />
+            <Route
+                path='/driver/student-attendance'
+                element={<Navigate to='/driver/attendance-management/student-attendance' replace />}
+            />
+            <Route
+                path='/driver/student-transport'
+                element={<Navigate to='/driver/attendance-management/student-attendance' replace />}
+            />
             <Route
                 path='/driver/my-route/student-transport'
-                element={<Navigate to='/driver/student-transport' replace />}
+                element={<Navigate to='/driver/attendance-management/student-attendance' replace />}
             />
             <Route path='/driver/fuel-request' element={<FuelRequest />} />
             <Route path='/driver/fuel-request/add' element={<AddFuelRequest />} />

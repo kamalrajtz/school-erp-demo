@@ -1263,46 +1263,50 @@ export const driverSidebarLinks = [
             { icon: HeartPulse, title: "Vehicle Health Status", to: "/driver/vehicle-management/vehicle-health-status" },
         ],
     },
-    {
-        id: 3,
-        title: "My Duty",
-        to: "/driver/my-duty",
-        icon: ShieldCheck,
-    },
-    {
-        id: 4,
-        title: "My Route",
-        to: "#0",
-        icon: Route,
-        subLinks: [
-            { icon: MapPin, title: "Route Details", to: "/driver/my-route/route-details" },
-            { icon: ListChecks, title: "Route Stops", to: "/driver/my-route/route-stops" },
-        ],
-    },
+    // {
+    //     id: 3,
+    //     title: "My Duty",
+    //     to: "/driver/my-duty",
+    //     icon: ShieldCheck,
+    // },
+    // {
+    //     id: 4,
+    //     title: "My Route",
+    //     to: "#0",
+    //     icon: Route,
+    //     subLinks: [
+    //         { icon: MapPin, title: "Route Details", to: "/driver/my-route/route-details" },
+    //         { icon: ListChecks, title: "Route Stops", to: "/driver/my-route/route-stops" },
+    //     ],
+    // },
     {
         id: 5,
-        title: "Student Transport",
-        to: "/driver/student-transport",
-        icon: GraduationCap,
+        title: "Attendance Management",
+        to: "#0",
+        icon: ClipboardCheck,
+        subLinks: [
+            { icon: ClipboardCheck, title: "Student Attendance", to: "/driver/attendance-management/student-attendance" },
+            { icon: History, title: "Attendance History", to: "/driver/attendance-management/attendance-history" },
+        ],
     },
-    {
-        id: 6,
-        title: "Fuel Request",
-        to: "/driver/fuel-request",
-        icon: Droplet,
-    },
-    {
-        id: 7,
-        title: "Maintenance Request",
-        to: "/driver/maintenance-request",
-        icon: Wrench,
-    },
-    {
-        id: 8,
-        title: "Leave Request",
-        to: "/driver/leave-request",
-        icon: FileX,
-    },
+    // {
+    //     id: 6,
+    //     title: "Fuel Request",
+    //     to: "/driver/fuel-request",
+    //     icon: Droplet,
+    // },
+    // {
+    //     id: 7,
+    //     title: "Maintenance Request",
+    //     to: "/driver/maintenance-request",
+    //     icon: Wrench,
+    // },
+    // {
+    //     id: 8,
+    //     title: "Leave Request",
+    //     to: "/driver/leave-request",
+    //     icon: FileX,
+    // },
 ];
 
 export const directorSidebarLinks = [
