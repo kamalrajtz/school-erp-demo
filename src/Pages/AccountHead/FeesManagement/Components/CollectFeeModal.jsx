@@ -5,6 +5,8 @@ import {
     COLLECT_FEE_MODES,
     COLLECT_FEE_PAID_STATUSES,
     DEFAULT_COLLECT_FEE_FORM,
+    MODAL_GRADES,
+    MODAL_TERMS,
 } from '../feesManagementData'
 
 const inputClass =
@@ -81,6 +83,34 @@ const CollectFeeModal = ({ isOpen, onClose }) => {
                             />
                         </div>
                         <div className='flex flex-col gap-y-2'>
+                            <label htmlFor='collect-fee-class' className='text-sm font-medium text-[#808080]'>Class</label>
+                            <select
+                                id='collect-fee-class'
+                                value={form.class}
+                                onChange={(event) => updateField('class', event.target.value)}
+                                className={selectClass}
+                            >
+                                <option value=''>Select class</option>
+                                {MODAL_GRADES.map((grade) => (
+                                    <option key={grade} value={grade}>{grade}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className='flex flex-col gap-y-2'>
+                            <label htmlFor='collect-fee-term' className='text-sm font-medium text-[#808080]'>Term</label>
+                            <select
+                                id='collect-fee-term'
+                                value={form.term}
+                                onChange={(event) => updateField('term', event.target.value)}
+                                className={selectClass}
+                            >
+                                <option value=''>Select term</option>
+                                {MODAL_TERMS.map((term) => (
+                                    <option key={term} value={term}>{term}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className='flex flex-col gap-y-2'>
                             <label htmlFor='collect-fee-fees' className='text-sm font-medium text-[#808080]'>Fees</label>
                             <select
                                 id='collect-fee-fees'
@@ -88,7 +118,7 @@ const CollectFeeModal = ({ isOpen, onClose }) => {
                                 onChange={(event) => updateField('fees', event.target.value)}
                                 className={selectClass}
                             >
-                                <option value=''>Select fee head</option>
+                                <option value=''>Select fee type</option>
                                 {COLLECT_FEE_HEADS.map((fee) => (
                                     <option key={fee} value={fee}>{fee}</option>
                                 ))}

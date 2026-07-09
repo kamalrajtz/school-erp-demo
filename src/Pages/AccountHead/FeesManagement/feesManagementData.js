@@ -188,7 +188,7 @@ export const FEE_TRANSACTIONS = [
 
 export const FEE_COLLECTION_STATUSES = ['All Statuses', 'PAID', 'PARTIAL', 'OVERDUE', 'PENDING']
 
-export const COLLECT_FEE_HEADS = ['Tuition', 'Exam', 'Lab', 'Transport', 'Hostel Fee', 'Activity', 'Miscellaneous']
+export const COLLECT_FEE_HEADS = ['Academics', 'Hostel', 'Transport']
 
 export const COLLECT_FEE_MODES = ['UPI', 'Cash', 'Cheque/DD', 'Bank Transfer', 'Card']
 
@@ -198,6 +198,8 @@ export const DEFAULT_COLLECT_FEE_FORM = {
     name: '',
     email: '',
     rollNumber: '',
+    class: '',
+    term: '',
     fees: '',
     amount: '',
     modeOfPayment: '',
