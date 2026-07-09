@@ -19,6 +19,7 @@ import {
 import ExportModal from '../../../Common/CommonComponents/ExportModal'
 import DefineFeeStructureModal from './Components/DefineFeeStructureModal'
 import ConfigureFeeStructureModal from './Components/ConfigureFeeStructureModal'
+import CollectFeeModal from './Components/CollectFeeModal'
 import FeeCollectionTab from './Components/FeeCollectionTab'
 import ConcessionsWaiversTab from './Components/ConcessionsWaiversTab'
 import DefaultersTab from './Components/DefaultersTab'
@@ -246,6 +247,7 @@ const FeesManagement = () => {
     const [exportModal, setExportModal] = useState(false)
     const [defineFeeModal, setDefineFeeModal] = useState(false)
     const [configureFeeModal, setConfigureFeeModal] = useState(false)
+    const [collectFeeModal, setCollectFeeModal] = useState(false)
 
     const activeTabLabel = activeTab === 'defaulters'
         ? 'Defaulters Management'
@@ -302,6 +304,7 @@ const FeesManagement = () => {
                             </button>
                             <button
                                 type='button'
+                                onClick={() => setCollectFeeModal(true)}
                                 className='inline-flex items-center gap-2 bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all cursor-pointer'
                             >
                                 <Plus size={16} />
@@ -424,6 +427,10 @@ const FeesManagement = () => {
             <ConfigureFeeStructureModal
                 isOpen={configureFeeModal}
                 onClose={() => setConfigureFeeModal(false)}
+            />
+            <CollectFeeModal
+                isOpen={collectFeeModal}
+                onClose={() => setCollectFeeModal(false)}
             />
         </section>
     )

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import ReactECharts from 'echarts-for-react'
 import {
     AlertCircle,
@@ -9,10 +9,12 @@ import {
     FileText,
     Filter,
     MoreVertical,
+    Plus,
     TrendingUp,
     Wallet,
 } from 'lucide-react'
 import ExportModal from '../../../../Common/CommonComponents/ExportModal'
+import CollectFeeModal from './CollectFeeModal'
 import {
     COLLECTION_BY_CLASS,
     FEE_COLLECTION_STATUSES,
@@ -49,6 +51,8 @@ const Panel = ({ title, action, children }) => (
 )
 
 const FeeCollectionTab = ({ exportModal, setExportModal }) => {
+    const [collectFeeModal, setCollectFeeModal] = useState(false)
+
     const paymentMethodOption = useMemo(() => ({
         tooltip: { trigger: 'item', formatter: '{b}: {d}%' },
         series: [{
@@ -212,6 +216,14 @@ const FeeCollectionTab = ({ exportModal, setExportModal }) => {
                         </button>
                         <button
                             type='button'
+                            onClick={() => setCollectFeeModal(true)}
+                            className='inline-flex items-center justify-center gap-2 bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all cursor-pointer'
+                        >
+                            <Plus size={14} />
+                            Collect Fee
+                        </button>
+                        <button
+                            type='button'
                             className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all cursor-pointer'
                         >
                             Bulk Actions
@@ -302,6 +314,10 @@ const FeeCollectionTab = ({ exportModal, setExportModal }) => {
             </div>
 
             <ExportModal exportModal={exportModal} setExportModal={setExportModal} />
+            <CollectFeeModal
+                isOpen={collectFeeModal}
+                onClose={() => setCollectFeeModal(false)}
+            />
         </div>
     )
 }

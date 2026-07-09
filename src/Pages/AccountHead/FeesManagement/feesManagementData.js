@@ -188,6 +188,22 @@ export const FEE_TRANSACTIONS = [
 
 export const FEE_COLLECTION_STATUSES = ['All Statuses', 'PAID', 'PARTIAL', 'OVERDUE', 'PENDING']
 
+export const COLLECT_FEE_HEADS = ['Tuition', 'Exam', 'Lab', 'Transport', 'Hostel Fee', 'Activity', 'Miscellaneous']
+
+export const COLLECT_FEE_MODES = ['UPI', 'Cash', 'Cheque/DD', 'Bank Transfer', 'Card']
+
+export const COLLECT_FEE_PAID_STATUSES = ['PAID', 'PARTIAL', 'PENDING', 'OVERDUE']
+
+export const DEFAULT_COLLECT_FEE_FORM = {
+    name: '',
+    email: '',
+    rollNumber: '',
+    fees: '',
+    amount: '',
+    modeOfPayment: '',
+    paidStatus: 'PAID',
+}
+
 export const feeCollectionStatusBadgeColor = {
     PAID: 'bg-[#4CAF5033] text-[#4CAF50]',
     PARTIAL: 'bg-[#2196F333] text-[#2196F3]',
