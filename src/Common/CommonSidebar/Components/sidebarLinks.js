@@ -1226,6 +1226,23 @@ export const accountHeadSidebarLinks = [
         icon: Wallet,
     },
     {
+        id: 6,
+        title: "Accounting",
+        to: "#0",
+        icon: BookCopy,
+        subLinks: [
+            { icon: BookOpen, title: "Day Book", to: "/account-head/accounting/day-book" },
+            { icon: Monitor, title: "Online Book", to: "/account-head/accounting/online-book" },
+            { icon: BookCopy, title: "General Ledger", to: "/account-head/accounting/general-ledger" },
+            { icon: Wallet, title: "Cash Book", to: "/account-head/accounting/cash-book" },
+            { icon: Landmark, title: "Bank Book", to: "/account-head/accounting/bank-book" },
+            { icon: BookMarked, title: "Chart of Accounts", to: "/account-head/accounting/chart-of-accounts" },
+            { icon: Receipt, title: "Journal Vouchers", to: "/account-head/accounting/journal-vouchers" },
+            { icon: ArrowRightLeft, title: "Bank Reconciliation", to: "/account-head/accounting/bank-reconciliation" },
+            { icon: FileText, title: "Financial Statements", to: "/account-head/accounting/financial-statements" },
+        ],
+    },
+    {
         id: 7,
         title: "Approvals",
         to: "/account-head/approvals",

@@ -18,7 +18,8 @@ const AccountHeadRoutes = () => {
             <Route path="/account-head/transport-finance" element={<TransportFinance />} />
             <Route path="/account-head/collections" element={<Collections />} />
             <Route path="/account-head/wallet-management" element={<WalletManagement />} />
-            <Route path="/account-head/accounting" element={<Accounting />} />
+            <Route path="/account-head/accounting" element={<Navigate to="/account-head/accounting/day-book" replace />} />
+            <Route path="/account-head/accounting/:section" element={<Accounting />} />
             <Route path="/account-head/approvals" element={<Approvals />} />
             <Route path="/account-head/reports-analytics" element={<ReportsAnalytics />} />
             <Route path="/account-head/settings" element={<Settings />} />
