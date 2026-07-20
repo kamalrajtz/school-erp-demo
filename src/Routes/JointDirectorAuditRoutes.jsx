@@ -21,11 +21,42 @@ import MeetingsCalendar from '../Pages/JointDirectorAudit/MeetingsCalendar/Meeti
 import BroadcastList from '../Pages/JointDirectorAudit/Broadcast/BroadcastList'
 import AddBroadcast from '../Pages/JointDirectorAudit/Broadcast/AddBroadcast'
 import ViewBroadcast from '../Pages/JointDirectorAudit/Broadcast/ViewBroadcast'
+import AssignAudits from '../Pages/JointDirectorAudit/AuditAssignment/AssignAudits'
+import AssignmentHistory from '../Pages/JointDirectorAudit/AuditAssignment/AssignmentHistory'
+import WorkloadOverview from '../Pages/JointDirectorAudit/AuditAssignment/WorkloadOverview'
+import ReassignAudit from '../Pages/JointDirectorAudit/AuditAssignment/ReassignAudit'
+import AuditConfigurationPage from '../Pages/JointDirectorAudit/AuditConfiguration/AuditConfigurationPage'
+import AuditTemplatesList from '../Pages/JointDirectorAudit/AuditConfiguration/AuditTemplates/AuditTemplatesList'
+import ChecklistSectionsList from '../Pages/JointDirectorAudit/AuditConfiguration/ChecklistSections/ChecklistSectionsList'
+import QuestionBankList from '../Pages/JointDirectorAudit/AuditConfiguration/QuestionBank/QuestionBankList'
+import ResponseTypesList from '../Pages/JointDirectorAudit/AuditConfiguration/ResponseTypes/ResponseTypesList'
+import ScoringRulesList from '../Pages/JointDirectorAudit/AuditConfiguration/ScoringRules/ScoringRulesList'
+import WorkflowRulesList from '../Pages/JointDirectorAudit/AuditConfiguration/WorkflowRules/WorkflowRulesList'
+import VisibilityRulesList from '../Pages/JointDirectorAudit/AuditConfiguration/VisibilityRules/VisibilityRulesList'
+import TemplateVersioningList from '../Pages/JointDirectorAudit/AuditConfiguration/TemplateVersioning/TemplateVersioningList'
+import PublishTemplatesList from '../Pages/JointDirectorAudit/AuditConfiguration/PublishTemplates/PublishTemplatesList'
+import { DEFAULT_AUDIT_CONFIG_PAGE } from '../Pages/JointDirectorAudit/AuditConfiguration/auditConfigurationData'
 
 const JointDirectorAuditRoutes = () => {
     return (
         <ReactRoutes>
             <Route path="/joint-director-audit/dashboard" element={<Dashboard />} />
+            <Route path="/joint-director-audit/audit-configuration/audit-templates" element={<AuditTemplatesList />} />
+            <Route path="/joint-director-audit/audit-configuration/checklist-sections" element={<ChecklistSectionsList />} />
+            <Route path="/joint-director-audit/audit-configuration/question-bank" element={<QuestionBankList />} />
+            <Route path="/joint-director-audit/audit-configuration/response-types" element={<ResponseTypesList />} />
+            <Route path="/joint-director-audit/audit-configuration/scoring-rules" element={<ScoringRulesList />} />
+            <Route path="/joint-director-audit/audit-configuration/workflow-rules" element={<WorkflowRulesList />} />
+            <Route path="/joint-director-audit/audit-configuration/visibility-rules" element={<VisibilityRulesList />} />
+            <Route path="/joint-director-audit/audit-configuration/template-versioning" element={<TemplateVersioningList />} />
+            <Route path="/joint-director-audit/audit-configuration/publish-templates" element={<PublishTemplatesList />} />
+            <Route path="/joint-director-audit/audit-configuration/:pageKey" element={<AuditConfigurationPage />} />
+            <Route path="/joint-director-audit/audit-configuration" element={<Navigate to={`/joint-director-audit/audit-configuration/${DEFAULT_AUDIT_CONFIG_PAGE}`} replace />} />
+            <Route path="/joint-director-audit/audit-assignment/assign-audits" element={<AssignAudits />} />
+            <Route path="/joint-director-audit/audit-assignment/assignment-history" element={<AssignmentHistory />} />
+            <Route path="/joint-director-audit/audit-assignment/workload-overview" element={<WorkloadOverview />} />
+            <Route path="/joint-director-audit/audit-assignment/reassign-audit" element={<ReassignAudit />} />
+            <Route path="/joint-director-audit/audit-assignment" element={<Navigate to="/joint-director-audit/audit-assignment/assign-audits" replace />} />
             <Route path="/joint-director-audit/audit-planning" element={<AuditPlanningList />} />
             <Route path="/joint-director-audit/audit-planning/add-audit-plan" element={<AddAuditPlan />} />
             <Route path="/joint-director-audit/audit-planning/view/:id" element={<ViewAuditPlan />} />
