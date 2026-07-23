@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
-import { PURCHASE_REQUESTS, statusBadgeColor, formatAmount, BUDGET_THRESHOLD } from './requestApprovalData'
+import { PURCHASE_REQUESTS, getApprovalStatusLabel, statusBadgeColor, formatAmount, BUDGET_THRESHOLD } from './requestApprovalData'
 
 const Section = ({ title, children }) => (
     <div className='bg-white rounded-2xl shadow-md p-4'>
@@ -55,15 +55,17 @@ const ViewRequestApproval = () => {
                         {request.status}
                     </span>
                 </div>
+                <p className='text-xs text-[#808080] mt-3'>
+                    {getApprovalStatusLabel(request.requestedAmount)} for {formatAmount(request.requestedAmount)} request
+                </p>
             </div>
 
             <Section title='Request information'>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
                     <Field label='Request ID' value={request.requestId} />
                     <Field label='Request date' value={request.requestDate} />
-                    <Field label='Status' value={request.status} />
+                    <Field label={getApprovalStatusLabel(request.requestedAmount)} value={request.status} />
                     <Field label='Requested by' value={request.requestedBy} />
-                    <Field label='Department' value={request.department} />
                     <Field label='Requested amount' value={formatAmount(request.requestedAmount)} />
                     <div className='lg:col-span-3'>
                         <Field label='Purpose' value={request.purpose} />

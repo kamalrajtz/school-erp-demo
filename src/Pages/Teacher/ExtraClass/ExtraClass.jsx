@@ -30,7 +30,7 @@ const ExtraClass = () => {
                 <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:mt-8 mt-2'>
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor='search' className='text-base font-medium text-[#808080]'>Search</label>
-                        <input type='text' id='search' placeholder='Extra class ID, topic...' className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full' />
+                        <input type='text' id='search' placeholder='Extended class ID, topic...' className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full' />
                     </div>
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor='subject-filter' className='text-base font-medium text-[#808080]'>Subject</label>
@@ -92,14 +92,14 @@ const ExtraClass = () => {
 
             <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
-                    <h2 className='text-xl font-medium text-black'>Extra Class List</h2>
+                    <h2 className='text-xl font-medium text-black'>Extended Class List</h2>
                     <div className='flex gap-x-2'>
                         <NavLink
                             to='/teacher/class/extra-class/add'
                             className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
                         >
                             <Plus size={16} />
-                            Add Extra Class
+                            Add Extended Class
                         </NavLink>
                         <button
                             type='button'
@@ -125,7 +125,7 @@ const ExtraClass = () => {
                     <table className='w-full text-sm text-left rtl:text-right'>
                         <thead className='text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg'>
                             <tr className='rounded-lg'>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>Extra Class ID</th>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>Extended Class ID</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Subject</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Class & Section</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Topic</th>

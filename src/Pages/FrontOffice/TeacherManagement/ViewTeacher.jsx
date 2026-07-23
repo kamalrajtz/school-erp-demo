@@ -84,7 +84,7 @@ const ViewTeacher = () => {
             <div className='flex flex-wrap items-center gap-3'>
                 <button
                     type='button'
-                    onClick={() => navigate('/director/teachers/teacher-details-list')}
+                    onClick={() => navigate('/front-office/teacher-management')}
                     className='inline-flex items-center gap-2 text-sm text-[#515DEF] border border-[#515DEF] rounded-md px-4 py-2 hover:bg-[#515DEF] hover:text-white transition-colors cursor-pointer'
                 >
                     <ArrowLeft size={18} />

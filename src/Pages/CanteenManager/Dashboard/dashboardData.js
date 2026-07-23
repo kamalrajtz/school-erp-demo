@@ -4,7 +4,7 @@ export const SUMMARY_CARDS = [
     { label: 'Inventory Items', value: '245', sub: 'Across 8 categories', trend: 'neutral' },
     { label: 'Low Stock Alerts', value: '12', sub: 'Needs restock', trend: 'down' },
     { label: 'Pending Approvals', value: '5', sub: 'Awaiting review', trend: 'neutral' },
-    { label: 'Active Broadcasts', value: '3 Active', sub: '2 scheduled', trend: 'neutral' },
+    { label: 'Active Announcements', value: '3 Active', sub: '2 scheduled', trend: 'neutral' },
 ]
 
 export const SALES_CHART_7_DAYS = {
@@ -64,7 +64,7 @@ export const ORDER_DISTRIBUTION = [
     { name: 'Events', value: 5, color: '#FF9800' },
 ]
 
-export const RECENT_BROADCASTS = [
+export const RECENT_ANNOUNCEMENTS = [
     { title: 'New Healthy Meal Combo Available', audience: 'Students', date: 'Today' },
     { title: 'Canteen Closed for Maintenance', audience: 'All', date: 'Yesterday' },
     { title: 'Grade 10-A — Special Lunch Menu', audience: 'Students', date: '2 days ago' },
@@ -74,7 +74,7 @@ export const QUICK_ACTIONS = [
     { label: 'New Order', to: '/canteen-manager/orders/add-order' },
     { label: 'Add Inventory', to: '/canteen-manager/inventory' },
     { label: 'Create Request', to: '/canteen-manager/requests-approvals/add-request' },
-    { label: 'Send Broadcast', to: '/canteen-manager/broadcast/add-broadcast' },
+    { label: 'Send Announcement', to: '/canteen-manager/broadcast/add-broadcast' },
     { label: 'View Reports', to: '/canteen-manager/reports' },
 ]
 

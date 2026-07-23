@@ -17,7 +17,7 @@ The **Joint Director — Audit** portal is the oversight layer for a school ERP 
 | **Process Audit** | Process Audit Manager, Process Audit Executive |
 | **Quality Audit** | Quality Audit Principal, Quality Audit Executive |
 
-The Joint Director Audit user **plans audits**, **monitors execution**, **tracks findings and compliance**, **reviews reports**, **assigns tasks**, **approves team requests**, **handles escalations**, and **communicates** via broadcasts and calendar.
+The Joint Director Audit user **plans audits**, **monitors execution**, **tracks findings and compliance**, **reviews reports**, **assigns tasks**, **approves team requests**, **handles escalations**, and **communicates** via announcements and calendar.
 
 This is currently a **frontend demo** — all pages use mock data from local `*Data.js` files (no live API integration yet).
 
@@ -45,7 +45,7 @@ All sidebar links are defined in `src/Common/CommonSidebar/Components/sidebarLin
 | 8 | Request Approvals | `/joint-director-audit/request-approvals` | ClipboardCheck |
 | 9 | Escalations | `/joint-director-audit/escalations` | ShieldAlert |
 | 10 | Meetings & Calendar | `/joint-director-audit/meetings-calendar` | CalendarDays |
-| 11 | Broadcast | `/joint-director-audit/broadcast` | Rss |
+| 11 | Announcement | `/joint-director-audit/announcement` | Rss |
 
 ---
 
@@ -74,9 +74,9 @@ Defined in `src/Routes/JointDirectorAuditRoutes.jsx`.
 | `/joint-director-audit/escalations` | `Escalations` | Escalations |
 | `/joint-director-audit/escalations/view-escalation/:id` | `ViewEscalation` | View Escalation Details |
 | `/joint-director-audit/meetings-calendar` | `MeetingsCalendar` | Meetings & Calendar |
-| `/joint-director-audit/broadcast` | `BroadcastList` | Broadcast |
-| `/joint-director-audit/broadcast/add-broadcast` | `AddBroadcast` | Add Broadcast |
-| `/joint-director-audit/broadcast/view-broadcast/:id` | `ViewBroadcast` | View Broadcast Details |
+| `/joint-director-audit/announcement` | `AnnouncementList` | Announcement |
+| `/joint-director-audit/announcement/add-announcement` | `AddAnnouncement` | Add Announcement |
+| `/joint-director-audit/announcement/view-announcement/:id` | `ViewAnnouncement` | View Announcement Details |
 | `*` (fallback) | Redirect → dashboard | — |
 
 ---
@@ -322,21 +322,21 @@ Audit Executive → Audit Manager → Joint Director Audit → Admin (optional)
 
 ---
 
-### 4.11 Broadcast
-**Paths:** `Broadcast/` · **Data:** `broadcastData.js`
+### 4.11 Announcement
+**Paths:** `Announcement/` · **Data:** `announcementData.js`
 
 | Screen | File | What it does |
 |--------|------|--------------|
-| List | `BroadcastList.jsx` | All sent announcements |
-| Add | `AddBroadcast.jsx` | Compose new broadcast with attachment |
-| View | `ViewBroadcast.jsx` | Read broadcast detail |
+| List | `AnnouncementList.jsx` | All sent announcements |
+| Add | `AddAnnouncement.jsx` | Compose new announcement with attachment |
+| View | `ViewAnnouncement.jsx` | Read announcement detail |
 | Upload | `Components/AttachmentUpload.jsx` | PDF attachment helper |
 
 **Categories:** Audit Operations, Policy Update, Audit Team Notice, Compliance Alert, General Announcement
 
 **Visible-to options:** All Audit Team, HR/Process/Quality Audit Team, individual role targets
 
-**List columns:** Broadcast ID, Title, Category, Message preview, Sent By, Date, Attachment, Actions (View / Edit / Delete)
+**List columns:** Announcement ID, Title, Category, Message preview, Sent By, Date, Attachment, Actions (View / Edit / Delete)
 
 **Concept:** One-to-many communication from Joint Director Audit to audit sub-teams — schedules, policy changes, compliance alerts.
 
@@ -378,7 +378,7 @@ Admin
 
 - **Request Approvals** — teams request resources/permissions upward
 - **Escalations** — teams escalate blockers upward
-- **Broadcast** — Joint Director pushes directives downward
+- **Announcement** — Joint Director pushes directives downward
 - **Task Management** — Joint Director assigns work across teams
 - **Employee Management** — visibility into team member profiles
 
@@ -398,7 +398,7 @@ Each feature area has a dedicated data file with mock records and helper functio
 | `requestApprovalData.js` | REQUESTS, REQUEST_TYPES, BUDGET_THRESHOLD |
 | `escalationData.js` | ESCALATIONS, sourceTypeLabel |
 | `meetingEventData.js` | SEED_EVENTS |
-| `broadcastData.js` | MOCK_BROADCASTS, getBroadcastById() |
+| `announcementData.js` | MOCK_ANNOUNCEMENTS, getAnnouncementById() |
 
 ### 5.4 Shared UI Patterns
 
@@ -464,11 +464,11 @@ src/Pages/JointDirectorAudit/
 ├── MeetingsCalendar/
 │   ├── MeetingsCalendar.jsx
 │   └── meetingEventData.js
-└── Broadcast/
-    ├── BroadcastList.jsx
-    ├── AddBroadcast.jsx
-    ├── ViewBroadcast.jsx
-    ├── broadcastData.js
+└── Announcement/
+    ├── AnnouncementList.jsx
+    ├── AddAnnouncement.jsx
+    ├── ViewAnnouncement.jsx
+    ├── announcementData.js
     └── Components/
         └── AttachmentUpload.jsx
 ```
@@ -496,7 +496,7 @@ src/Pages/JointDirectorAudit/
 | Request Approvals | ✅ | — | ✅ | — | Approve/Reject UI |
 | Escalations | ✅ | — | ✅ | — | Escalate to Admin UI |
 | Meetings & Calendar | ✅ | — | — | — | Shared calendar component |
-| Broadcast | ✅ | ✅ | ✅ | ⚠️ | Edit via modal on list |
+| Announcement | ✅ | ✅ | ✅ | ⚠️ | Edit via modal on list |
 
 **Legend:** ✅ Built · ⚠️ Partial · — Not applicable
 
@@ -512,7 +512,7 @@ src/Pages/JointDirectorAudit/
 | Finding | `FND-2026-XXX` | FND-2026-041 |
 | Request | `AUD-REQ-2026-XXX` | AUD-REQ-2026-001 |
 | Escalation | `ESC-AUD-2026-XXX` | ESC-AUD-2026-008 |
-| Broadcast | `JDAUDXXX` | JDAUD001 |
+| Announcement | `JDAUDXXX` | JDAUD001 |
 | Task | `TASK-XXXX` | (from taskData.js) |
 
 ---

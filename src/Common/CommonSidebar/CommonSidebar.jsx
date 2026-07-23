@@ -60,7 +60,11 @@ const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
         const newOpenMenus = {};
         sidebarLinks.forEach((link) => {
             if (link.subLinks) {
-                const isActive = link.subLinks.some((sub) => location.pathname === sub.to);
+                const isActive = link.subLinks.some(
+                    (sub) =>
+                        location.pathname === sub.to ||
+                        location.pathname.startsWith(`${sub.to}/`)
+                );
                 if (isActive) {
                     newOpenMenus[link.id] = true;
                 }
@@ -123,7 +127,13 @@ const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
                     {sidebarLinks.map((item) => {
                         const hasSubLinks = item.subLinks && item.subLinks.length > 0;
                         const isOpen = !!openMenus[item.id];
-                        const isChildActive = hasSubLinks && item.subLinks.some(sub => location.pathname === sub.to);
+                        const isChildActive =
+                            hasSubLinks &&
+                            item.subLinks.some(
+                                (sub) =>
+                                    location.pathname === sub.to ||
+                                    location.pathname.startsWith(`${sub.to}/`)
+                            );
 
                         const commonClasses = (active) => `flex items-center gap-x-4 py-3.5 px-3 text-base font-medium rounded-md transition-all duration-300 group cursor-pointer ${active
                             ? "text-[#3a46d1] bg-white"

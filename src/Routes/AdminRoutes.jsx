@@ -1,5 +1,5 @@
 ﻿import React from 'react'
-import { Route, Routes as ReactRoutes } from 'react-router-dom'
+import { Navigate, Route, Routes as ReactRoutes } from 'react-router-dom'
 import AdmissionList from '../Pages/Admin/FrontOffice/AdminssionList/AdminssionList'
 import AddAdmission from '../Pages/Admin/FrontOffice/AdminssionList/AddAdmission'
 import TeachersList from '../Pages/Admin/FrontOffice/TeachersList/TeachersList'
@@ -10,14 +10,12 @@ import DriverList from '../Pages/Admin/FrontOffice/DriverList/DriverList'
 import AddDriverList from '../Pages/Admin/FrontOffice/DriverList/AddDriverList'
 import StudentsList from '../Pages/Admin/Attendance/Students/StudentsList'
 import EmployeesList from '../Pages/Admin/Attendance/Employees/EmployeesList'
-import LeaveRequest from '../Pages/Admin/Attendance/LeaveRequest/LeaveRequest'
-import LeaveInfo from '../Pages/Admin/Attendance/LeaveRequest/LeaveInfo'
 import ClassDetails from '../Pages/Admin/Class/ClassDetails/ClassDetails'
 import AddClassDetails from '../Pages/Admin/Class/ClassDetails/AddClassDetails'
 import OnlineClass from '../Pages/Admin/Class/OnlineClass/OnlineClass'
 import AddOnlineClass from '../Pages/Admin/Class/OnlineClass/AddOnlineClass'
-import ExtraClass from '../Pages/Admin/Class/ExtraClass/ExtraClass'
-import AddExtraClass from '../Pages/Admin/Class/ExtraClass/AddExtraClass'
+import ExtendedClass from '../Pages/Admin/Class/ExtendedClass/ExtendedClass'
+import AddExtendedClass from '../Pages/Admin/Class/ExtendedClass/AddExtendedClass'
 import TimeTable from '../Pages/Admin/Class/Timetable/TimeTable'
 import AddTimeTable from '../Pages/Admin/Class/Timetable/AddTimeTable'
 import Subjects from '../Pages/Admin/Subjects/Subjects'
@@ -30,14 +28,6 @@ import StudentDetails from '../Pages/Admin/Students/StudentDetails/StudentDetail
 import ClassFeeDetails from '../Pages/Admin/Students/ClassFeeDetails/ClassFeeDetails'
 import AddClassFeeDetails from '../Pages/Admin/Students/ClassFeeDetails/AddClassFeeDetails'
 import ParentDetails from '../Pages/Admin/Students/ParentDetails/ParentDetails'
-import StudentTransfer from '../Pages/Admin/Students/StudentTransfer/StudentTransfer'
-import AddStudentTransfer from '../Pages/Admin/Students/StudentTransfer/AddStudentTransfer'
-import CulturalList from '../Pages/Admin/Activities/Cultural/CulturalList'
-import AddCultural from '../Pages/Admin/Activities/Cultural/AddCultural'
-import SportsList from '../Pages/Admin/Activities/Sports/SportsList'
-import AddSports from '../Pages/Admin/Activities/Sports/AddSports'
-import Competitions from '../Pages/Admin/Activities/Competitions/Competitions'
-import AddCompetition from '../Pages/Admin/Activities/Competitions/AddCompetition'
 import StudentDocuments from '../Pages/Admin/Documents/StudentDocuments/StudentDocuments'
 import AddStudentDocuments from '../Pages/Admin/Documents/StudentDocuments/AddStudentDocuments'
 import VehicleDetailsList from '../Pages/Admin/Transport/VehicleDetails/VehicleDetailsList'
@@ -59,8 +49,24 @@ import LibraryExpensesList from '../Pages/Admin/Expenses/Library/LibraryExpenses
 import AddLibraryExpenses from '../Pages/Admin/Expenses/Library/AddLibraryExpenses'
 import OtherExpensesList from '../Pages/Admin/Expenses/Others/OtherExpensesList'
 import AddOtherExpensesList from '../Pages/Admin/Expenses/Others/AddOtherExpensesList'
-import ExamList from '../Pages/Admin/Notification/ExamList'
-import EventList from '../Pages/Admin/Notification/EventList'
+import Notifications from '../Pages/Admin/Notification/Notifications'
+import AnnouncementList from '../Pages/Admin/Announcement/AnnouncementList'
+import AddAnnouncement from '../Pages/Admin/Announcement/AddAnnouncement'
+import ViewAnnouncement from '../Pages/Admin/Announcement/ViewAnnouncement'
+import AssignTasks from '../Pages/Admin/TaskManagement/AssignTasks'
+import AddAssignTask from '../Pages/Admin/TaskManagement/AddAssignTask'
+import AssignedTasks from '../Pages/Admin/TaskManagement/AssignedTasks'
+import MyLeaveRequests from '../Pages/Admin/LeaveRequest/MyLeaveRequests'
+import AddLeaveRequest from '../Pages/Admin/LeaveRequest/AddLeaveRequest'
+import ViewMyLeaveRequest from '../Pages/Admin/LeaveRequest/ViewMyLeaveRequest'
+import ReceivedLeaveRequests from '../Pages/Admin/LeaveRequest/ReceivedLeaveRequests'
+import ViewReceivedLeaveRequest from '../Pages/Admin/LeaveRequest/ViewReceivedLeaveRequest'
+import EscalationList from '../Pages/Admin/EscalationManagement/EscalationList'
+import AddEscalation from '../Pages/Admin/EscalationManagement/AddEscalation'
+import ViewEscalation from '../Pages/Admin/EscalationManagement/ViewEscalation'
+import CommunicationInbox from '../Pages/Admin/Communication/Inbox'
+import CommunicationDirectMessages from '../Pages/Admin/Communication/DirectMessages'
+import AcademicCalendar from '../Pages/Admin/AcademicCalendar/AcademicCalendar'
 
 // import Dashboard from '../Pages/Dashboard/Dashboard'
 
@@ -86,8 +92,8 @@ const AdminRoutes = () => {
 
             <Route path="/admin/attendance/students-list" element={<StudentsList />} />
             <Route path="/admin/attendance/employees-list" element={<EmployeesList />} />
-            <Route path="/admin/attendance/leave-request-list" element={<LeaveRequest />} />
-            <Route path="/admin/attendance/leave-request" element={<LeaveInfo />} />
+            <Route path="/admin/attendance/leave-request-list" element={<Navigate to='/admin/leave-request/my-requests' replace />} />
+            <Route path="/admin/attendance/leave-request" element={<Navigate to='/admin/leave-request/my-requests' replace />} />
 
             {/* Class */}
 
@@ -95,8 +101,8 @@ const AdminRoutes = () => {
             <Route path="/admin/class/add-class-details" element={<AddClassDetails />} />
             <Route path="/admin/class/online-class" element={<OnlineClass />} />
             <Route path="/admin/class/add-online-class" element={<AddOnlineClass />} />
-            <Route path="/admin/class/extra-class" element={<ExtraClass />} />
-            <Route path="/admin/class/add-extra-class" element={<AddExtraClass />} />
+            <Route path="/admin/class/extended-class" element={<ExtendedClass />} />
+            <Route path="/admin/class/add-extended-class" element={<AddExtendedClass />} />
             <Route path="/admin/class/timetable-list" element={<TimeTable />} />
             <Route path="/admin/class/add-timetable" element={<AddTimeTable />} />
             <Route path="/admin/class/subjects" element={<Subjects />} />
@@ -115,17 +121,17 @@ const AdminRoutes = () => {
             <Route path="/admin/student/class-fee-details" element={<ClassFeeDetails />} />
             <Route path="/admin/student/add-class-fee-details" element={<AddClassFeeDetails />} />
             <Route path="/admin/student/parent-details" element={<ParentDetails />} />
-            <Route path="/admin/student/student-transfer" element={<StudentTransfer />} />
-            <Route path="/admin/student/add-student-transfer" element={<AddStudentTransfer />} />
+            <Route path="/admin/student/student-transfer" element={<Navigate to='/front-office/student-transfer' replace />} />
+            <Route path="/admin/student/add-student-transfer" element={<Navigate to='/front-office/student-transfer/add' replace />} />
             {/* <Route path="/admin/student/leave-request" element={< />} /> */}
 
-            {/* Activities */}
-            <Route path="/admin/activities/cultural-list" element={<CulturalList />} />
-            <Route path="/admin/activities/add-cultural" element={<AddCultural />} />
-            <Route path="/admin/activities/sports-list" element={<SportsList />} />
-            <Route path="/admin/activities/add-sports" element={<AddSports />} />
-            <Route path="/admin/activities/competitions-list" element={<Competitions />} />
-            <Route path="/admin/activities/add-competition" element={<AddCompetition />} />
+            {/* Activities (moved to Director) */}
+            <Route path="/admin/activities/cultural-list" element={<Navigate to='/director/activities/cultural-list' replace />} />
+            <Route path="/admin/activities/add-cultural" element={<Navigate to='/director/activities/add-cultural' replace />} />
+            <Route path="/admin/activities/sports-list" element={<Navigate to='/director/activities/sports-list' replace />} />
+            <Route path="/admin/activities/add-sports" element={<Navigate to='/director/activities/add-sports' replace />} />
+            <Route path="/admin/activities/competitions-list" element={<Navigate to='/director/activities/competitions-list' replace />} />
+            <Route path="/admin/activities/add-competition" element={<Navigate to='/director/activities/add-competition' replace />} />
 
             {/* Documents */}
             <Route path="/admin/documents/student-documents" element={<StudentDocuments />} />
@@ -156,9 +162,41 @@ const AdminRoutes = () => {
             <Route path='/admin/expenses/others-list' element={<OtherExpensesList />} />
             <Route path='/admin/expenses/add-others-exp' element={<AddOtherExpensesList />} />
 
-            {/* Notification */}
-            <Route path='/admin/notification/exam-list' element={<ExamList />} />
-            <Route path='/admin/notification/event-list' element={<EventList />} />
+            {/* Notifications */}
+            <Route path='/admin/notifications' element={<Notifications />} />
+            <Route path='/admin/notification/exam-list' element={<Navigate to='/admin/notifications' replace />} />
+            <Route path='/admin/notification/event-list' element={<Navigate to='/admin/notifications' replace />} />
+
+            {/* Announcement */}
+            <Route path='/admin/announcement' element={<AnnouncementList />} />
+            <Route path='/admin/announcement/add' element={<AddAnnouncement />} />
+            <Route path='/admin/announcement/view/:id' element={<ViewAnnouncement />} />
+
+            {/* Task Management */}
+            <Route path='/admin/task-management/assign-tasks' element={<AssignTasks />} />
+            <Route path='/admin/task-management/assign-tasks/add' element={<AddAssignTask />} />
+            <Route path='/admin/task-management/assigned-tasks' element={<AssignedTasks />} />
+
+            {/* Leave Request */}
+            <Route path='/admin/leave-request/my-requests' element={<MyLeaveRequests />} />
+            <Route path='/admin/leave-request/my-requests/add' element={<AddLeaveRequest />} />
+            <Route path='/admin/leave-request/my-requests/view/:id' element={<ViewMyLeaveRequest />} />
+            <Route path='/admin/leave-request/received' element={<ReceivedLeaveRequests />} />
+            <Route path='/admin/leave-request/received/view/:id' element={<ViewReceivedLeaveRequest />} />
+
+            {/* Academic Calendar */}
+            <Route path='/admin/academic-calendar' element={<AcademicCalendar />} />
+
+            {/* Communication */}
+            <Route path='/admin/communication' element={<Navigate to='/admin/communication/inbox' replace />} />
+            <Route path='/admin/communication/inbox' element={<CommunicationInbox />} />
+            <Route path='/admin/communication/direct-messages' element={<CommunicationDirectMessages />} />
+            <Route path='/admin/communication/direct-messages/:conversationId' element={<CommunicationDirectMessages />} />
+
+            {/* Escalation Management */}
+            <Route path='/admin/escalation-management' element={<EscalationList />} />
+            <Route path='/admin/escalation-management/add-escalation' element={<AddEscalation />} />
+            <Route path='/admin/escalation-management/view/:id' element={<ViewEscalation />} />
         </ReactRoutes>
     )
 }

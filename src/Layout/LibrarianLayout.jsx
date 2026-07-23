@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import CommonHeader from '../Common/CommonHeader/CommonHeader'
 import CommonSidebar from '../Common/CommonSidebar/CommonSidebar'
+import CommonBreadcrumb from '../Common/CommonBreadcrumb/CommonBreadcrumb'
 import LibrarianRoutes from '../Routes/LibrarianRoutes'
 
 const LibrarianLayout = () => {
@@ -47,6 +48,7 @@ const LibrarianLayout = () => {
                 className={`transition-all ease-in-out duration-200 bg-[#f9f9f9] min-h-screen pt-18 ml-0 ${sidebarHidden ? "lg:ml-[90px]" : "lg:ml-[280px]"}`}
             >
                 <div className="p-3 font-inter">
+                    <CommonBreadcrumb />
                     <LibrarianRoutes />
                 </div>
             </main>

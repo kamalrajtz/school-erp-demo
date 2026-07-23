@@ -14,7 +14,7 @@ import {
     RECENT_TASKS,
     LOW_STOCK_ITEMS,
     PENDING_REQUESTS,
-    RECENT_BROADCASTS,
+    RECENT_ANNOUNCEMENTS,
     taskStatusBadgeColor,
     requestStatusBadgeColor,
 } from './dashboardData'
@@ -148,7 +148,7 @@ const Dashboard = () => {
                     </table>
                 </Widget>
 
-                <Widget title="Recent Broadcasts">
+                <Widget title="Recent Announcements">
                     <table className="w-full text-sm text-left">
                         <thead className="text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg">
                             <tr>
@@ -157,7 +157,7 @@ const Dashboard = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {RECENT_BROADCASTS.map((row) => (
+                            {RECENT_ANNOUNCEMENTS.map((row) => (
                                 <tr key={row.title} className="border-b border-[#f2f4f7] hover:bg-[#f2f4f7]">
                                     <td className={`${tdClass} font-medium text-[#1E1E1E] max-w-[220px] truncate`} title={row.title}>{row.title}</td>
                                     <td className={tdClass}>{row.date}</td>

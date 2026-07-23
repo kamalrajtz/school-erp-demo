@@ -13,9 +13,9 @@ import ViewEscalation from '../Pages/JointDirector/Escalations/ViewEscalation'
 import MeetingsCalendar from '../Pages/JointDirector/MeetingsCalendar/MeetingsCalendar'
 import AssetsInventoryOverview from '../Pages/JointDirector/AssetsInventory/AssetsInventoryOverview'
 import ViewAssetInventoryItem from '../Pages/JointDirector/AssetsInventory/ViewAssetInventoryItem'
-import BroadcastList from '../Pages/JointDirector/Broadcast/BroadcastList'
-import AddBroadcast from '../Pages/JointDirector/Broadcast/AddBroadcast'
-import ViewBroadcast from '../Pages/JointDirector/Broadcast/ViewBroadcast'
+import AnnouncementList from '../Pages/JointDirector/Announcement/AnnouncementList'
+import AddAnnouncement from '../Pages/JointDirector/Announcement/AddAnnouncement'
+import ViewAnnouncement from '../Pages/JointDirector/Announcement/ViewAnnouncement'
 
 const JointDirectorRoutes = () => {
     return (
@@ -34,9 +34,9 @@ const JointDirectorRoutes = () => {
             <Route path="/joint-director/meetings-calendar" element={<MeetingsCalendar />} />
             <Route path="/joint-director/assets-inventory" element={<AssetsInventoryOverview />} />
             <Route path="/joint-director/assets-inventory/view/:id" element={<ViewAssetInventoryItem />} />
-            <Route path="/joint-director/broadcast" element={<BroadcastList />} />
-            <Route path="/joint-director/broadcast/add-broadcast" element={<AddBroadcast />} />
-            <Route path="/joint-director/broadcast/view-broadcast/:id" element={<ViewBroadcast />} />
+            <Route path="/joint-director/broadcast" element={<AnnouncementList />} />
+            <Route path="/joint-director/broadcast/add-broadcast" element={<AddAnnouncement />} />
+            <Route path="/joint-director/broadcast/view-broadcast/:id" element={<ViewAnnouncement />} />
             <Route path="*" element={<Navigate to="/joint-director/dashboard" replace />} />
         </ReactRoutes>
     )

@@ -37,7 +37,7 @@ const KPI_ICONS = {
     'Pending Approvals': ClipboardCheck,
     'Open Escalations': ShieldAlert,
     'Pending Tasks': ClipboardList,
-    'Active Broadcasts': Rss,
+    'Active Announcements': Rss,
     'Critical Inventory Alerts': AlertTriangle,
     'Critical IT Issues': Monitor,
     'Vehicle Maintenance Due': Bus,

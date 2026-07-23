@@ -39,7 +39,7 @@ const ViewExtraClass = () => {
 
             {!record ? (
                 <div className='bg-white rounded-2xl shadow-md p-8 text-center text-[#667085]'>
-                    Extra class record not found or could not be loaded.
+                    Extended class record not found or could not be loaded.
                 </div>
             ) : (
                 <>
@@ -54,7 +54,7 @@ const ViewExtraClass = () => {
                         </p>
                     </div>
 
-                    <Section title='Extra Class Information'>
+                    <Section title='Extended Class Information'>
                         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
                             <Field label='Subject' value={record.subject} />
                             <Field label='Class' value={record.className} />

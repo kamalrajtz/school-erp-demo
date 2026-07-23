@@ -31,7 +31,7 @@ const AdmissionModal = ({ admissionModal, setAdmissionModal }) => {
                                 <button onClick={() => setAdmissionModal(false)} className='bg-white text-[#77767A] text-sm text-center px-4 py-2.5 rounded-md border border-[#77767A] hover:bg-[#515DEF] hover:text-white hover:border-[#515DEF] transition-all duration-200 cursor-pointer w-full'>
                                     Cancel
                                 </button>
-                                <NavLink to="/admin/front-office/add-admission" className='bg-[#515DEF] text-white text-sm text-center px-4 py-2.5 rounded-md border border-[#515DEF] hover:opacity-90 transition-all duration-200 cursor-pointer w-full'>
+                                <NavLink to="/front-office/add-admission" className='bg-[#515DEF] text-white text-sm text-center px-4 py-2.5 rounded-md border border-[#515DEF] hover:opacity-90 transition-all duration-200 cursor-pointer w-full'>
                                     Continue
                                 </NavLink>
                             </div>

@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import { Calendar, ChevronLeft, ChevronRight, EllipsisIcon, IndianRupee } from "lucide-react"
 import Dropdown from '../../../Common/CommonComponents/Dropdown'
-import { PURCHASE_REQUESTS, statusBadgeColor } from './requestApprovalData'
+import { PURCHASE_REQUESTS, requiresMdApproval, statusBadgeColor } from './requestApprovalData'
 
 const RequestApprovals = () => {
     const [fromDate, setFromDate] = useState(new Date())
@@ -87,8 +87,8 @@ const RequestApprovals = () => {
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Purpose</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Requested Amount</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Requested By</th>
-                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Department</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Status</th>
+                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">MD Approval Status</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg">Actions</th>
                             </tr>
                         </thead>
@@ -111,11 +111,23 @@ const RequestApprovals = () => {
                                         )}
                                     </td>
                                     <td className="px-2 py-4">{request.requestedBy}</td>
-                                    <td className="px-2 py-4">{request.department}</td>
                                     <td className="px-2 py-4">
-                                        <span className={`px-2 py-1 rounded-lg text-xs font-semibold whitespace-nowrap ${statusBadgeColor[request.status]}`}>
-                                            {request.status}
-                                        </span>
+                                        {!requiresMdApproval(request.requestedAmount) ? (
+                                            <span className={`px-2 py-1 rounded-lg text-xs font-semibold whitespace-nowrap ${statusBadgeColor[request.status]}`}>
+                                                {request.status}
+                                            </span>
+                                        ) : (
+                                            <span className='text-[#808080]'>—</span>
+                                        )}
+                                    </td>
+                                    <td className="px-2 py-4">
+                                        {requiresMdApproval(request.requestedAmount) ? (
+                                            <span className={`px-2 py-1 rounded-lg text-xs font-semibold whitespace-nowrap ${statusBadgeColor[request.status]}`}>
+                                                {request.status}
+                                            </span>
+                                        ) : (
+                                            <span className='text-[#808080]'>—</span>
+                                        )}
                                     </td>
                                     <td className="px-2 py-4 text-center rounded-e-lg">
                                         <Dropdown buttonContent={<EllipsisIcon size={16} className='text-black' />}>

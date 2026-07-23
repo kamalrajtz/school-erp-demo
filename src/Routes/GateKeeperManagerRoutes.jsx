@@ -5,8 +5,14 @@ import AssignDutyList from '../Pages/GateKeeperManager/AssignDuty/AssignDutyList
 import AssignDuty from '../Pages/GateKeeperManager/AssignDuty/AssignDuty'
 import LeaveApprovalList from '../Pages/GateKeeperManager/LeaveApproval/LeaveApprovalList'
 import IncidentsList from '../Pages/GateKeeperManager/IncidentManagement/IncidentsList'
-import GatekeeperBroadcastList from '../Pages/GateKeeperManager/GatekeeperBroadcast/GatekeeperBroadcastList'
-import AddGatekeeperBroadcast from '../Pages/GateKeeperManager/GatekeeperBroadcast/AddGatekeeperBroadcast'
+import GatekeeperAnnouncementList from '../Pages/GateKeeperManager/GatekeeperAnnouncement/GatekeeperAnnouncementList'
+import AddGatekeeperAnnouncement from '../Pages/GateKeeperManager/GatekeeperAnnouncement/AddGatekeeperAnnouncement'
+import EscalationList from '../Pages/GateKeeperManager/EscalationManagement/EscalationList'
+import AddEscalation from '../Pages/GateKeeperManager/EscalationManagement/AddEscalation'
+import ViewEscalation from '../Pages/GateKeeperManager/EscalationManagement/ViewEscalation'
+import CommunicationInbox from '../Pages/GateKeeperManager/Communication/Inbox'
+import CommunicationDirectMessages from '../Pages/GateKeeperManager/Communication/DirectMessages'
+import AcademicCalendar from '../Pages/GateKeeperManager/AcademicCalendar/AcademicCalendar'
 
 const GateKeeperManagerRoutes = () => {
     return (
@@ -16,8 +22,16 @@ const GateKeeperManagerRoutes = () => {
             <Route path="/gatekeeper-manager/assign-duty" element={<AssignDuty />} />
             <Route path="/gatekeeper-manager/leave-approval-list" element={<LeaveApprovalList />} />
             <Route path="/gatekeeper-manager/incidents-list" element={<IncidentsList />} />
-            <Route path="/gatekeeper-manager/gatekeeper-broadcast-list" element={<GatekeeperBroadcastList />} />
-            <Route path="/gatekeeper-manager/add-gatekeeper-broadcast" element={<AddGatekeeperBroadcast />} />
+            <Route path="/gatekeeper-manager/gatekeeper-broadcast-list" element={<GatekeeperAnnouncementList />} />
+            <Route path="/gatekeeper-manager/add-gatekeeper-broadcast" element={<AddGatekeeperAnnouncement />} />
+            <Route path="/gatekeeper-manager/academic-calendar" element={<AcademicCalendar />} />
+            <Route path="/gatekeeper-manager/communication" element={<Navigate to="/gatekeeper-manager/communication/inbox" replace />} />
+            <Route path="/gatekeeper-manager/communication/inbox" element={<CommunicationInbox />} />
+            <Route path="/gatekeeper-manager/communication/direct-messages" element={<CommunicationDirectMessages />} />
+            <Route path="/gatekeeper-manager/communication/direct-messages/:conversationId" element={<CommunicationDirectMessages />} />
+            <Route path="/gatekeeper-manager/escalation-management" element={<EscalationList />} />
+            <Route path="/gatekeeper-manager/escalation-management/add-escalation" element={<AddEscalation />} />
+            <Route path="/gatekeeper-manager/escalation-management/view/:id" element={<ViewEscalation />} />
             <Route path="*" element={<Navigate to="/gatekeeper-manager/dashboard" replace />} />
         </ReactRoutes>
     )

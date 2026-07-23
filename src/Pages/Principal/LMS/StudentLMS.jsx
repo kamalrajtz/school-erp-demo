@@ -103,7 +103,7 @@ const StudentLMS = () => {
 
             <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
-                    <h2 className='text-xl font-medium text-black'>Student LMS List</h2>
+                    <h2 className='text-xl font-medium text-black'>Student Home Fun List</h2>
                 </div>
                 <div className='flex gap-x-2 items-center my-2'>
                     <select className='px-2 py-1.5 bg-white text-[#515DEF] border border-[#515DEF] rounded-md'>

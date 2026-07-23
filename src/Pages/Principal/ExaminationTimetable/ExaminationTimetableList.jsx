@@ -94,7 +94,12 @@ const ExaminationTimetableList = () => {
 
             <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
-                    <h2 className='text-xl font-medium text-black'>Examination Timetable List</h2>
+                    <div>
+                        <h2 className='text-xl font-medium text-black'>Examination Timetable List</h2>
+                        <p className='text-sm text-[#667085] mt-1'>
+                            Create examination timetables for Director approval.
+                        </p>
+                    </div>
                     <div className='flex gap-x-2'>
                         <NavLink
                             to='/principal/create-examination-timetable'
@@ -141,9 +146,6 @@ const ExaminationTimetableList = () => {
                                     End Date
                                 </th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>
-                                    Teacher Name
-                                </th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>
                                     Created Date
                                 </th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>
@@ -167,7 +169,6 @@ const ExaminationTimetableList = () => {
                                 <td className='px-2 py-4'>Grade 9 - A</td>
                                 <td className='px-2 py-4'>15-09-2025</td>
                                 <td className='px-2 py-4'>20-09-2025</td>
-                                <td className='px-2 py-4'>Mr. Ravi</td>
                                 <td className='px-2 py-4'>01-09-2025</td>
                                 <td className='px-2 py-4'>
                                     <span className='text-sm font-medium text-[#4CAF50] border border-[#4CAF5033] rounded-md px-2 py-1'>

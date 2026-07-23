@@ -26,6 +26,12 @@ import EventNotification from '../Pages/Student/Notifications/EventNotification'
 import HolidayNotification from '../Pages/Student/Notifications/HolidayNotification'
 import PaymentNotification from '../Pages/Student/Notifications/PaymentNotification'
 import ViewRatings from '../Pages/Student/StarRatings/ViewRatings'
+import EscalationList from '../Pages/Student/EscalationManagement/EscalationList'
+import AddEscalation from '../Pages/Student/EscalationManagement/AddEscalation'
+import ViewEscalation from '../Pages/Student/EscalationManagement/ViewEscalation'
+import CommunicationInbox from '../Pages/Student/Communication/Inbox'
+import CommunicationDirectMessages from '../Pages/Student/Communication/DirectMessages'
+import AcademicCalendar from '../Pages/Student/AcademicCalendar/AcademicCalendar'
 
 const StudentRoutes = () => {
     return (
@@ -63,6 +69,20 @@ const StudentRoutes = () => {
 
             {/* Star Ratings */}
             <Route path="/student/star-ratings/view-ratings" element={<ViewRatings />} />
+
+            {/* Academic Calendar */}
+            <Route path="/student/academic-calendar" element={<AcademicCalendar />} />
+
+            {/* Communication */}
+            <Route path="/student/communication" element={<Navigate to="/student/communication/inbox" replace />} />
+            <Route path="/student/communication/inbox" element={<CommunicationInbox />} />
+            <Route path="/student/communication/direct-messages" element={<CommunicationDirectMessages />} />
+            <Route path="/student/communication/direct-messages/:conversationId" element={<CommunicationDirectMessages />} />
+
+            {/* Escalation Management */}
+            <Route path="/student/escalation-management" element={<EscalationList />} />
+            <Route path="/student/escalation-management/add-escalation" element={<AddEscalation />} />
+            <Route path="/student/escalation-management/view/:id" element={<ViewEscalation />} />
 
         </ReactRoutes>
     )

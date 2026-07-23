@@ -31,7 +31,11 @@ import TeacherLMS from '../Pages/Principal/LMS/TeacherLMS'
 import ViewStudentLMS from '../Pages/Principal/LMS/ViewStudentLMS'
 import ViewTeacherLMS from '../Pages/Principal/LMS/ViewTeacherLMS'
 import EscalationList from '../Pages/Principal/EscalationManagement/EscalationList'
+import AddEscalation from '../Pages/Principal/EscalationManagement/AddEscalation'
 import ViewEscalation from '../Pages/Principal/EscalationManagement/ViewEscalation'
+import CommunicationInbox from '../Pages/Principal/Communication/Inbox'
+import CommunicationDirectMessages from '../Pages/Principal/Communication/DirectMessages'
+import AcademicCalendar from '../Pages/Principal/AcademicCalendar/AcademicCalendar'
 
 const PrincipalRoutes = () => {
     return (
@@ -66,8 +70,14 @@ const PrincipalRoutes = () => {
             <Route path="/principal/lms/view-student-lms" element={<ViewStudentLMS />} />
             <Route path="/principal/lms/teacher-lms" element={<TeacherLMS />} />
             <Route path="/principal/lms/view-teacher-lms" element={<ViewTeacherLMS />} />
+            <Route path="/principal/academic-calendar" element={<AcademicCalendar />} />
+            <Route path="/principal/communication" element={<Navigate to="/principal/communication/inbox" replace />} />
+            <Route path="/principal/communication/inbox" element={<CommunicationInbox />} />
+            <Route path="/principal/communication/direct-messages" element={<CommunicationDirectMessages />} />
+            <Route path="/principal/communication/direct-messages/:conversationId" element={<CommunicationDirectMessages />} />
             <Route path="/principal/escalation-management" element={<EscalationList />} />
-            <Route path="/principal/escalation-management/view-escalation/:id" element={<ViewEscalation />} />
+            <Route path="/principal/escalation-management/add-escalation" element={<AddEscalation />} />
+            <Route path="/principal/escalation-management/view/:id" element={<ViewEscalation />} />
             <Route path="*" element={<Navigate to="/principal/dashboard" replace />} />
         </ReactRoutes>
     )

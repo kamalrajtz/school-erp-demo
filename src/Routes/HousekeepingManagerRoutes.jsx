@@ -10,8 +10,8 @@ import RequestsApprovalsList from '../Pages/HousekeepingManager/RequestsApproval
 import AddRequest from '../Pages/HousekeepingManager/RequestsApprovals/AddRequest'
 import ViewRequest from '../Pages/HousekeepingManager/RequestsApprovals/ViewRequest'
 import Reports from '../Pages/HousekeepingManager/Reports/Reports'
-import BroadcastList from '../Pages/HousekeepingManager/Broadcast/BroadcastList'
-import ViewBroadcast from '../Pages/HousekeepingManager/Broadcast/ViewBroadcast'
+import AnnouncementList from '../Pages/HousekeepingManager/Announcement/AnnouncementList'
+import ViewAnnouncement from '../Pages/HousekeepingManager/Announcement/ViewAnnouncement'
 
 const HousekeepingManagerRoutes = () => {
     return (
@@ -26,8 +26,8 @@ const HousekeepingManagerRoutes = () => {
             <Route path="/housekeeping-manager/requests-approvals/add-request" element={<AddRequest />} />
             <Route path="/housekeeping-manager/requests-approvals/view-request/:id" element={<ViewRequest />} />
             <Route path="/housekeeping-manager/reports" element={<Reports />} />
-            <Route path="/housekeeping-manager/broadcast" element={<BroadcastList />} />
-            <Route path="/housekeeping-manager/broadcast/view-broadcast/:id" element={<ViewBroadcast />} />
+            <Route path="/housekeeping-manager/broadcast" element={<AnnouncementList />} />
+            <Route path="/housekeeping-manager/broadcast/view-broadcast/:id" element={<ViewAnnouncement />} />
             <Route path="*" element={<Navigate to="/housekeeping-manager/dashboard" replace />} />
         </ReactRoutes>
     )

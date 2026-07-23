@@ -88,7 +88,7 @@ const ExtraClassForm = ({ record }) => {
             </div>
             <div className='flex flex-col gap-y-2 sm:col-span-2 lg:col-span-3'>
                 <label htmlFor='reason' className='text-base font-medium text-[#1E1E1E]'>Reason:</label>
-                <textarea id='reason' defaultValue={record?.reason ?? ''} placeholder='Reason for scheduling extra class...' className={textareaClass} />
+                <textarea id='reason' defaultValue={record?.reason ?? ''} placeholder='Reason for scheduling extended class...' className={textareaClass} />
             </div>
         </div>
     )

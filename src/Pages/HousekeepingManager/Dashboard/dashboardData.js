@@ -28,7 +28,7 @@ export const PENDING_REQUESTS = [
     { requestId: 'REQ-HK-2026-003', type: 'Vendor Bill', status: 'Pending' },
 ]
 
-export const RECENT_BROADCASTS = [
+export const RECENT_ANNOUNCEMENTS = [
     { title: 'Deep cleaning schedule — exam week', date: '10-06-2026' },
     { title: 'New disinfectant protocol for restrooms', date: '08-06-2026' },
     { title: 'Staff shift change effective Monday', date: '05-06-2026' },

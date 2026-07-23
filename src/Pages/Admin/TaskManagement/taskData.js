@@ -1,0 +1,92 @@
+export const TASK_STATUSES = ['Completed', 'In Progress', 'Incomplete']
+export const TASK_PRIORITIES = ['High', 'Medium', 'Low']
+
+export const statusBadgeColor = {
+    Completed: 'bg-[#4CAF5033] text-[#4CAF50]',
+    'In Progress': 'bg-[#FF980033] text-[#FF9800]',
+    Incomplete: 'bg-[#FF000033] text-[#FF0000]',
+}
+
+export const ASSIGNED_TASKS = [
+    {
+        id: 'ADM-TASK-001',
+        taskId: 'ADM-TASK-001',
+        title: 'Prepare Term 2 Fee Report',
+        description: 'Compile and submit the Term 2 fee collection summary for all departments.',
+        assignedTo: 'Accounts Team',
+        department: 'Accounts',
+        priority: 'High',
+        assignedDate: '10-03-2026',
+        dueDate: '18-03-2026',
+        status: 'In Progress',
+        assignedBy: 'Admin',
+    },
+    {
+        id: 'ADM-TASK-002',
+        taskId: 'ADM-TASK-002',
+        title: 'Update Student Transport Register',
+        description: 'Verify and update the student transport register before route reallocation.',
+        assignedTo: 'Transport Coordinator',
+        department: 'Transport',
+        priority: 'Medium',
+        assignedDate: '08-03-2026',
+        dueDate: '15-03-2026',
+        status: 'Incomplete',
+        assignedBy: 'Admin',
+    },
+    {
+        id: 'ADM-TASK-003',
+        taskId: 'ADM-TASK-003',
+        title: 'Library Inventory Audit',
+        description: 'Conduct a full inventory audit of library assets and submit discrepancy report.',
+        assignedTo: 'Librarian',
+        department: 'Library',
+        priority: 'Medium',
+        assignedDate: '05-03-2026',
+        dueDate: '20-03-2026',
+        status: 'Completed',
+        assignedBy: 'Admin',
+    },
+]
+
+export const RECEIVED_TASKS = [
+    {
+        id: 'ADM-RCV-001',
+        taskId: 'DIR-TASK-014',
+        title: 'Submit Annual Compliance Report',
+        description: 'Director of Academics requires the annual compliance report by end of month.',
+        assignedTo: 'Admin',
+        assignedBy: 'Director of Academics',
+        department: 'Administration',
+        priority: 'High',
+        assignedDate: '12-03-2026',
+        dueDate: '25-03-2026',
+        status: 'In Progress',
+    },
+    {
+        id: 'ADM-RCV-002',
+        taskId: 'SA-TASK-003',
+        title: 'Approve Infrastructure Budget',
+        description: 'Super Admin assigned review and approval of Q2 infrastructure budget allocation.',
+        assignedTo: 'Admin',
+        assignedBy: 'Super Admin',
+        department: 'Administration',
+        priority: 'High',
+        assignedDate: '14-03-2026',
+        dueDate: '22-03-2026',
+        status: 'Incomplete',
+    },
+    {
+        id: 'ADM-RCV-003',
+        taskId: 'PRIN-TASK-008',
+        title: 'Coordinate Board Exam Logistics',
+        description: 'Principal assigned coordination of exam hall setup and invigilation roster.',
+        assignedTo: 'Admin',
+        assignedBy: 'Principal',
+        department: 'Examination',
+        priority: 'Medium',
+        assignedDate: '09-03-2026',
+        dueDate: '19-03-2026',
+        status: 'Completed',
+    },
+]

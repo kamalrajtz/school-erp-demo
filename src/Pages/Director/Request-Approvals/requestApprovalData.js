@@ -1,4 +1,5 @@
 export const BUDGET_THRESHOLD = 100000
+export const MD_APPROVAL_THRESHOLD = 20000
 
 export const PURCHASE_REQUESTS = [
     {
@@ -7,7 +8,6 @@ export const PURCHASE_REQUESTS = [
         purpose: 'Science lab equipment – microscopes',
         requestedAmount: 45000,
         requestedBy: 'John Milton',
-        department: 'Science',
         status: 'Pending',
         description: 'Replacement of 5 classroom microscopes for Class 9 & 10 lab sessions.',
         exceedsBudget: false,
@@ -20,7 +20,6 @@ export const PURCHASE_REQUESTS = [
         purpose: 'Stationery and printing supplies',
         requestedAmount: 28000,
         requestedBy: 'Anita Verma',
-        department: 'Administration',
         status: 'Pending',
         description: 'Quarterly stationery, printer cartridges, and exam paper printing.',
         exceedsBudget: false,
@@ -33,7 +32,6 @@ export const PURCHASE_REQUESTS = [
         purpose: 'Smart classroom AV setup – Block B',
         requestedAmount: 250000,
         requestedBy: 'Rajesh Kumar',
-        department: 'IT & Infrastructure',
         status: 'Pending',
         description: 'Interactive panels and audio systems for 4 classrooms in Block B.',
         exceedsBudget: true,
@@ -46,7 +44,6 @@ export const PURCHASE_REQUESTS = [
         purpose: 'Sports day event materials',
         requestedAmount: 35000,
         requestedBy: 'Sandy Selva',
-        department: 'Sports',
         status: 'Approved',
         description: 'Medals, banners, and equipment rental for annual sports day.',
         exceedsBudget: false,
@@ -59,7 +56,6 @@ export const PURCHASE_REQUESTS = [
         purpose: 'Additional transport vehicle maintenance',
         requestedAmount: 180000,
         requestedBy: 'David Wilson',
-        department: 'Transport',
         status: 'Rejected',
         description: 'Major bus engine overhaul for Route 7 vehicle.',
         exceedsBudget: true,
@@ -72,12 +68,23 @@ export const PURCHASE_REQUESTS = [
         purpose: 'Library book procurement',
         requestedAmount: 62000,
         requestedBy: 'Sarah Thomas',
-        department: 'Library',
         status: 'Pending',
         description: 'New reference books and competitive exam guides for senior classes.',
         exceedsBudget: false,
         items: 'Reference books (120 titles), NEET/JEE guide sets',
         remarks: 'Requested for Class 11 & 12 students.',
+    },
+    {
+        requestId: 'REQ-2026-007',
+        requestDate: '11-03-2026',
+        purpose: 'Classroom whiteboard markers',
+        requestedAmount: 8500,
+        requestedBy: 'Meera Iyer',
+        status: 'Approved',
+        description: 'Restock whiteboard markers for junior classrooms.',
+        exceedsBudget: false,
+        items: 'Whiteboard markers (assorted colours)',
+        remarks: 'Routine classroom supply request.',
     },
 ]
 
@@ -88,3 +95,8 @@ export const statusBadgeColor = {
 }
 
 export const formatAmount = (amount) => `₹${amount.toLocaleString('en-IN')}`
+
+export const requiresMdApproval = (requestedAmount) => requestedAmount > MD_APPROVAL_THRESHOLD
+
+export const getApprovalStatusLabel = (requestedAmount) =>
+    requiresMdApproval(requestedAmount) ? 'MD Approval Status' : 'Status'

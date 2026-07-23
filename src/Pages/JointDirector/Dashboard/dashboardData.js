@@ -4,7 +4,7 @@ export const KPI_CARDS = [
     { label: 'Pending Approvals', value: '14', sub: 'Awaiting review' },
     { label: 'Open Escalations', value: '5', sub: 'Requires attention' },
     { label: 'Pending Tasks', value: '32', sub: 'Assigned & in progress' },
-    { label: 'Active Broadcasts', value: '8', sub: 'Live announcements' },
+    { label: 'Active Announcements', value: '8', sub: 'Live announcements' },
     { label: 'Critical Inventory Alerts', value: '11', sub: 'Low or out of stock' },
     { label: 'Critical IT Issues', value: '3', sub: 'High priority tickets' },
     { label: 'Vehicle Maintenance Due', value: '4', sub: 'Within 7 days' },

@@ -10,8 +10,8 @@ import RequestsApprovalsList from '../Pages/ITSupportManager/RequestsApprovals/R
 import AddRequest from '../Pages/ITSupportManager/RequestsApprovals/AddRequest'
 import ViewRequest from '../Pages/ITSupportManager/RequestsApprovals/ViewRequest'
 import Reports from '../Pages/ITSupportManager/Reports/Reports'
-import BroadcastList from '../Pages/ITSupportManager/Broadcast/BroadcastList'
-import ViewBroadcast from '../Pages/ITSupportManager/Broadcast/ViewBroadcast'
+import AnnouncementList from '../Pages/ITSupportManager/Announcement/AnnouncementList'
+import ViewAnnouncement from '../Pages/ITSupportManager/Announcement/ViewAnnouncement'
 
 const ITSupportManagerRoutes = () => {
     return (
@@ -26,8 +26,8 @@ const ITSupportManagerRoutes = () => {
             <Route path="/it-support-manager/requests-approvals/add-request" element={<AddRequest />} />
             <Route path="/it-support-manager/requests-approvals/view-request/:id" element={<ViewRequest />} />
             <Route path="/it-support-manager/reports" element={<Reports />} />
-            <Route path="/it-support-manager/broadcast" element={<BroadcastList />} />
-            <Route path="/it-support-manager/broadcast/view-broadcast/:id" element={<ViewBroadcast />} />
+            <Route path="/it-support-manager/broadcast" element={<AnnouncementList />} />
+            <Route path="/it-support-manager/broadcast/view-broadcast/:id" element={<ViewAnnouncement />} />
             <Route path="*" element={<Navigate to="/it-support-manager/dashboard" replace />} />
         </ReactRoutes>
     )

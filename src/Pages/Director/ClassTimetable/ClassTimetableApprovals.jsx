@@ -1,55 +1,116 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Calendar, ChevronRight, Download, Eye } from 'lucide-react'
 import ExportModal from '../../../Common/CommonComponents/ExportModal'
 import ClassTimeTableModal from './Components/ClassTimeTableModal'
+import DenyTimetableModal from '../Components/DenyTimetableModal'
+import {
+    APPROVAL_STATUSES,
+    CLASS_TIMETABLE_APPROVALS,
+    approvalStatusColor,
+} from '../timetableApprovalsData'
 
 const ClassTimetableApprovals = () => {
     const [fromDate, setFromDate] = useState(new Date())
     const [toDate, setToDate] = useState(new Date())
     const [exportModal, setExportModal] = useState(false)
     const [timeTableModal, setTimeTableModal] = useState(false)
-    const [approvalStatus, setApprovalStatus] = useState('Pending')
+    const [modalTitle, setModalTitle] = useState('Class Timetable')
+    const [denyModal, setDenyModal] = useState(false)
+    const [selectedEntry, setSelectedEntry] = useState(null)
+    const [search, setSearch] = useState('')
+    const [statusFilter, setStatusFilter] = useState('')
+    const [approvals, setApprovals] = useState(() => [...CLASS_TIMETABLE_APPROVALS])
 
-    const approvalStatusColor = {
-        Approved: 'text-[#4CAF50] border-[#4CAF5033]',
-        Pending: 'text-[#FF0000] border-[#FF000033]',
-        Rejected: 'text-[#980E0F] border-[#980E0F33]',
+    const filteredApprovals = useMemo(() => {
+        const query = search.trim().toLowerCase()
+        return approvals.filter((item) => {
+            const matchesStatus = !statusFilter || item.approvalStatus === statusFilter
+            const matchesSearch = !query
+                || item.id.toLowerCase().includes(query)
+                || item.classSection.toLowerCase().includes(query)
+            return matchesStatus && matchesSearch
+        })
+    }, [approvals, search, statusFilter])
+
+    const handleApprove = (id) => {
+        setApprovals((prev) =>
+            prev.map((item) =>
+                item.id === id
+                    ? { ...item, approvalStatus: 'Approved', rejectionReason: '' }
+                    : item,
+            ),
+        )
     }
 
-    const approvalStatusOptions = [
-        { value: 'Pending', label: 'Pending' },
-        { value: 'Approved', label: 'Approved' },
-        { value: 'Rejected', label: 'Rejected' },
-    ]
+    const openDenyModal = (entry) => {
+        setSelectedEntry(entry)
+        setDenyModal(true)
+    }
+
+    const handleDenyConfirm = (reason) => {
+        if (!selectedEntry) return
+        setApprovals((prev) =>
+            prev.map((item) =>
+                item.id === selectedEntry.id
+                    ? { ...item, approvalStatus: 'Denied', rejectionReason: reason }
+                    : item,
+            ),
+        )
+        setDenyModal(false)
+        setSelectedEntry(null)
+    }
+
+    const clearFilters = () => {
+        setSearch('')
+        setStatusFilter('')
+    }
+
+    const openTimetableModal = (entry) => {
+        setModalTitle(entry.modalTitle)
+        setTimeTableModal(true)
+    }
 
     return (
         <section>
             <div className='bg-white rounded-2xl shadow-md p-4'>
+                <div className='flex justify-between md:items-center sm:items-stretch md:flex-row sm:flex-col flex-col gap-y-4 mb-4'>
+                    <button
+                        type='button'
+                        onClick={clearFilters}
+                        className='bg-[#515DEF] text-white uppercase text-sm px-6 py-1.5 border border-[#515DEF] rounded-lg hover:opacity-90 transition-all duration-200 cursor-pointer'
+                    >
+                        Clear Filters
+                    </button>
+                    <p className='text-sm text-[#667085]'>
+                        Class timetables submitted by the Principal for Director approval.
+                    </p>
+                </div>
                 <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
                     <div className='flex flex-col gap-y-2'>
-                        <label htmlFor='search' className='text-base font-medium text-[#808080]'>
-                            Search
-                        </label>
+                        <label htmlFor='search' className='text-base font-medium text-[#808080]'>Search</label>
                         <input
-                            type='text'
                             id='search'
+                            type='text'
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            placeholder='Timetable ID, class...'
                             className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full'
                         />
                     </div>
                     <div className='flex flex-col gap-y-2'>
-                        <label htmlFor='status' className='text-base font-medium text-[#808080]'>
-                            Approval Status
-                        </label>
+                        <label htmlFor='status' className='text-base font-medium text-[#808080]'>Approval Status</label>
                         <select
                             id='status'
-                            className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full'
+                            value={statusFilter}
+                            onChange={(e) => setStatusFilter(e.target.value)}
+                            className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full bg-white'
                         >
                             <option value=''>All</option>
-                            <option value='pending'>Pending</option>
-                            <option value='approved'>Approved</option>
-                            <option value='rejected'>Rejected</option>
+                            {APPROVAL_STATUSES.map((status) => (
+                                <option key={status} value={status}>{status}</option>
+                            ))}
                         </select>
                     </div>
                     <div className='flex flex-col gap-y-2'>
@@ -63,10 +124,7 @@ const ClassTimetableApprovals = () => {
                                 scrollableMonthYearDropdown
                                 className='w-full text-sm text-[#808080] border border-[#D9D9D9] rounded-md px-3 py-2 pr-10 focus:outline-none'
                             />
-                            <Calendar
-                                size={16}
-                                className='absolute right-3 top-1/2 -translate-y-1/2 text-[#808080] pointer-events-none'
-                            />
+                            <Calendar size={16} className='absolute right-3 top-1/2 -translate-y-1/2 text-[#808080] pointer-events-none' />
                         </div>
                     </div>
                     <div className='flex flex-col gap-y-2'>
@@ -80,10 +138,7 @@ const ClassTimetableApprovals = () => {
                                 scrollableMonthYearDropdown
                                 className='w-full text-sm text-[#808080] border border-[#D9D9D9] rounded-md px-3 py-2 pr-10 focus:outline-none'
                             />
-                            <Calendar
-                                size={16}
-                                className='absolute right-3 top-1/2 -translate-y-1/2 text-[#808080] pointer-events-none'
-                            />
+                            <Calendar size={16} className='absolute right-3 top-1/2 -translate-y-1/2 text-[#808080] pointer-events-none' />
                         </div>
                     </div>
                 </div>
@@ -106,75 +161,85 @@ const ClassTimetableApprovals = () => {
                     <table className='w-full text-sm text-left rtl:text-right'>
                         <thead className='text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg'>
                             <tr>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>
-                                    Timetable ID
-                                </th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>
-                                    Class & Section
-                                </th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>
-                                    Academic Year
-                                </th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>
-                                    Effective From
-                                </th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>
-                                    Effective To
-                                </th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>
-                                    Submitted By
-                                </th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>
-                                    Submitted Date
-                                </th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>
-                                    Approval Status
-                                </th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>
-                                    View Timetable
-                                </th>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>Timetable ID</th>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Class & Section</th>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Academic Year</th>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Submitted By</th>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Submitted Date</th>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Approval Status</th>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>View Timetable</th>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7]'>
-                                <td className='px-2 py-4 rounded-s-lg'>CTT001</td>
-                                <td className='px-2 py-4'>Grade 9 - A</td>
-                                <td className='px-2 py-4'>2025-2026</td>
-                                <td className='px-2 py-4'>01-06-2025</td>
-                                <td className='px-2 py-4'>31-03-2026</td>
-                                <td className='px-2 py-4'>Principal</td>
-                                <td className='px-2 py-4'>15-05-2025</td>
-                                <td className='px-2 py-4'>
-                                    <select
-                                        value={approvalStatus}
-                                        onChange={(e) => setApprovalStatus(e.target.value)}
-                                        className={`text-sm font-medium border rounded-md px-2 py-1 w-full ${approvalStatusColor[approvalStatus]}`}
-                                    >
-                                        {approvalStatusOptions.map((option) => (
-                                            <option key={option.value} value={option.value}>
-                                                {option.label}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </td>
-                                <td className='px-2 py-4 rounded-e-lg'>
-                                    <button
-                                        type='button'
-                                        onClick={() => setTimeTableModal(true)}
-                                        className='bg-[#515DEF] text-white text-sm px-2 py-1.5 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
-                                    >
-                                        <Eye size={16} />
-                                        View Timetable
-                                    </button>
-                                </td>
-                            </tr>
+                            {filteredApprovals.length === 0 ? (
+                                <tr>
+                                    <td colSpan={8} className='px-2 py-8 text-center text-[#667085]'>
+                                        No class timetable approvals found.
+                                    </td>
+                                </tr>
+                            ) : (
+                                filteredApprovals.map((entry) => (
+                                    <tr key={entry.id} className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7]'>
+                                        <td className='px-2 py-4 rounded-s-lg font-medium text-[#1E1E1E]'>{entry.id}</td>
+                                        <td className='px-2 py-4'>{entry.classSection}</td>
+                                        <td className='px-2 py-4'>{entry.academicYear}</td>
+                                        <td className='px-2 py-4'>{entry.submittedBy}</td>
+                                        <td className='px-2 py-4'>{entry.submittedDate}</td>
+                                        <td className='px-2 py-4'>
+                                            <span className={`inline-block text-sm font-medium border rounded-md px-2 py-1 whitespace-nowrap ${approvalStatusColor[entry.approvalStatus]}`}>
+                                                {entry.approvalStatus}
+                                            </span>
+                                            {entry.approvalStatus === 'Denied' && entry.rejectionReason && (
+                                                <p className='text-xs text-[#980E0F] mt-1 max-w-[200px]' title={entry.rejectionReason}>
+                                                    {entry.rejectionReason}
+                                                </p>
+                                            )}
+                                        </td>
+                                        <td className='px-2 py-4'>
+                                            <button
+                                                type='button'
+                                                onClick={() => openTimetableModal(entry)}
+                                                className='bg-[#515DEF] text-white text-sm px-2 py-1.5 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
+                                            >
+                                                <Eye size={16} />
+                                                View Timetable
+                                            </button>
+                                        </td>
+                                        <td className='px-2 py-4 rounded-e-lg'>
+                                            {entry.approvalStatus === 'Pending' ? (
+                                                <div className='flex flex-wrap gap-2'>
+                                                    <button
+                                                        type='button'
+                                                        onClick={() => handleApprove(entry.id)}
+                                                        className='bg-[#4CAF50] text-white text-xs px-3 py-1.5 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer'
+                                                    >
+                                                        Approve
+                                                    </button>
+                                                    <button
+                                                        type='button'
+                                                        onClick={() => openDenyModal(entry)}
+                                                        className='bg-[#980E0F] text-white text-xs px-3 py-1.5 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer'
+                                                    >
+                                                        Deny
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <span className='text-xs text-[#808080]'>—</span>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
                         </tbody>
                     </table>
                 </div>
             </div>
 
             <div className='flex justify-between items-center px-4 mt-4'>
-                <p className='text-sm font-medium text-[#515DEF]'>Showing 1 to 1 of 1 entries</p>
+                <p className='text-sm font-medium text-[#515DEF]'>
+                    Showing {filteredApprovals.length} of {approvals.length} entries
+                </p>
                 <div className='flex justify-center gap-x-2'>
                     <button type='button' className='size-8 flex justify-center items-center p-2 bg-[#EDEDF5] text-[#515DEF] rounded-full cursor-pointer'>
                         1
@@ -189,7 +254,17 @@ const ClassTimetableApprovals = () => {
             <ClassTimeTableModal
                 open={timeTableModal}
                 onClose={() => setTimeTableModal(false)}
-                title='Grade 9 - A Timetable'
+                title={modalTitle}
+            />
+            <DenyTimetableModal
+                open={denyModal}
+                onClose={() => {
+                    setDenyModal(false)
+                    setSelectedEntry(null)
+                }}
+                onConfirm={handleDenyConfirm}
+                title='Deny Class Timetable'
+                itemLabel={selectedEntry ? `${selectedEntry.classSection} (${selectedEntry.id})` : ''}
             />
         </section>
     )

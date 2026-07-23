@@ -11,8 +11,8 @@ import RequestsApprovalsList from '../Pages/StationeryStoreManager/RequestsAppro
 import AddRequest from '../Pages/StationeryStoreManager/RequestsApprovals/AddRequest'
 import ViewRequest from '../Pages/StationeryStoreManager/RequestsApprovals/ViewRequest'
 import Reports from '../Pages/StationeryStoreManager/Reports/Reports'
-import BroadcastList from '../Pages/StationeryStoreManager/Broadcast/BroadcastList'
-import ViewBroadcast from '../Pages/StationeryStoreManager/Broadcast/ViewBroadcast'
+import AnnouncementList from '../Pages/StationeryStoreManager/Announcement/AnnouncementList'
+import ViewAnnouncement from '../Pages/StationeryStoreManager/Announcement/ViewAnnouncement'
 
 const StationeryStoreManagerRoutes = () => {
     return (
@@ -28,8 +28,8 @@ const StationeryStoreManagerRoutes = () => {
             <Route path="/stationery-store-manager/requests-approvals/add-request" element={<AddRequest />} />
             <Route path="/stationery-store-manager/requests-approvals/view-request/:id" element={<ViewRequest />} />
             <Route path="/stationery-store-manager/reports" element={<Reports />} />
-            <Route path="/stationery-store-manager/broadcast" element={<BroadcastList />} />
-            <Route path="/stationery-store-manager/broadcast/view-broadcast/:id" element={<ViewBroadcast />} />
+            <Route path="/stationery-store-manager/broadcast" element={<AnnouncementList />} />
+            <Route path="/stationery-store-manager/broadcast/view-broadcast/:id" element={<ViewAnnouncement />} />
             <Route path="*" element={<Navigate to="/stationery-store-manager/dashboard" replace />} />
         </ReactRoutes>
     )

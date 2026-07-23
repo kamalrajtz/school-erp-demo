@@ -21,7 +21,7 @@ import {
     PENDING_REQUESTS,
     INVENTORY_SUMMARY,
     ORDER_DISTRIBUTION,
-    RECENT_BROADCASTS,
+    RECENT_ANNOUNCEMENTS,
     QUICK_ACTIONS,
     orderStatusBadgeColor,
     requestStatusBadgeColor,
@@ -33,7 +33,7 @@ const CARD_ICONS = {
     'Inventory Items': Package,
     'Low Stock Alerts': AlertTriangle,
     'Pending Approvals': ClipboardCheck,
-    'Active Broadcasts': Rss,
+    'Active Announcements': Rss,
 }
 
 const Panel = ({ title, children, action }) => (
@@ -337,7 +337,7 @@ const Dashboard = () => {
                     <ReactECharts option={orderDistributionOption} style={{ height: 220 }} opts={{ renderer: 'svg' }} />
                 </Panel>
 
-                <Panel title="Recent Broadcasts">
+                <Panel title="Recent Announcements">
                     <TableWrapper>
                         <table className="w-full text-sm text-left">
                             <thead className="text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg">
@@ -348,7 +348,7 @@ const Dashboard = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {RECENT_BROADCASTS.map((row) => (
+                                {RECENT_ANNOUNCEMENTS.map((row) => (
                                     <tr key={row.title} className="border-b border-[#f2f4f7] hover:bg-[#f2f4f7]">
                                         <td className={`${tdClass} font-medium text-[#1E1E1E] max-w-[180px] truncate`} title={row.title}>{row.title}</td>
                                         <td className={tdClass}>{row.audience}</td>

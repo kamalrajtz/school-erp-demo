@@ -40,6 +40,8 @@
     PartyPopper,
     CalendarOff,
     MessageCircle,
+    Inbox,
+    MessagesSquare,
     ClipboardPen,
     BookUser,
     DoorOpen,
@@ -78,16 +80,9 @@ export const adminSidebarLinks = [
     // },
     {
         id: 2,
-        title: "Front Office",
-        to: "#0",
-        icon: BrickWallShield,
-        subLinks: [
-            // { icon: FileText, title: "Admission Enquiry", to: "/front-office/admission-enquiry" },
-            { icon: FileText, title: "Admission List", to: "/admin/front-office/admission-list" },
-            { icon: Users, title: "Teachers List", to: "/admin/front-office/teachers-list" },
-            { icon: BookOpen, title: "Librarian List", to: "/admin/front-office/librarian-list" },
-            { icon: Car, title: "Driver List", to: "/admin/front-office/driver-list" },
-        ],
+        title: "Admissions",
+        to: "/admin/front-office/admission-list",
+        icon: FileText,
     },
     {
         id: 3,
@@ -97,43 +92,22 @@ export const adminSidebarLinks = [
         subLinks: [
             { icon: GraduationCap, title: "Students", to: "/admin/attendance/students-list" },
             { icon: Briefcase, title: "Employees", to: "/admin/attendance/employees-list" },
-            { icon: FileX, title: "Leave Request", to: "/admin/attendance/leave-request-list" },
         ],
     },
     {
         id: 4,
-        title: "Class",
-        to: "#0",
-        icon: School,
-        subLinks: [
-            { icon: ClipboardList, title: "Class Details", to: "/admin/class/class-details" },
-            { icon: MonitorPlay, title: "Online Class", to: "/admin/class/online-class" },
-            { icon: UserPlus, title: "Extra Class", to: "/admin/class/extra-class" },
-            { icon: CalendarDays, title: "Timetable", to: "/admin/class/timetable-list" },
-            { icon: BookCopy, title: "Subjects", to: "/admin/class/subjects" },
-        ],
+        title: "Class Details",
+        to: "/admin/class/class-details",
+        icon: ClipboardList,
     },
     {
         id: 5,
-        title: "Student",
+        title: "User Management",
         to: "#0",
         icon: UserRound,
         subLinks: [
             { icon: UserRoundSearch, title: "Student Details", to: "/admin/student/student-details" },
-            { icon: BadgeDollarSign, title: "Class Fee Details", to: "/admin/student/class-fee-details" },
             { icon: UsersRound, title: "Parent Details", to: "/admin/student/parent-details" },
-            { icon: ArrowRightLeft, title: "Student Transfer", to: "/admin/student/student-transfer" },
-        ],
-    },
-    {
-        id: 6,
-        title: "Activities",
-        to: "#0",
-        icon: Trophy,
-        subLinks: [
-            { icon: Palette, title: "Cultural", to: "/admin/activities/cultural-list" },
-            { icon: Dumbbell, title: "Sports", to: "/admin/activities/sports-list" },
-            { icon: Award, title: "Competitions", to: "/admin/activities/competitions-list" },
         ],
     },
     {
@@ -145,45 +119,57 @@ export const adminSidebarLinks = [
     },
     {
         id: 8,
-        title: "Transport",
-        to: "#0",
-        icon: Van,
-        subLinks: [
-            { icon: Bus, title: "Vehicle Details", to: "/admin/transport/vehicle-details" },
-            { icon: MapPin, title: "Route Details", to: "/admin/transport/route-details" },
-            // { icon: Route, title: "Route Data", to: "/admin/transport/route-data-list" },
-            { icon: ListChecks, title: "Assigned Route List", to: "/admin/transport/assigned-route-list" },
-        ],
+        title: "Notifications",
+        to: "/admin/notifications",
+        icon: BellDot,
     },
     {
         id: 9,
-        title: "Exam Details",
-        to: "/admin/exam-details/exam-details-list",
-        icon: NotebookPen,
+        title: "Calendar",
+        to: "/admin/academic-calendar",
+        icon: CalendarDays,
     },
     {
         id: 10,
-        title: "Expenses",
+        title: "Communication",
         to: "#0",
-        icon: Wallet,
+        icon: MessageCircle,
         subLinks: [
-            { icon: BadgeDollarSign, title: "Salaries", to: "/admin/expenses/salaries-list" },
-            { icon: Bed, title: "Hostel", to: "/admin/expenses/hostel-list" },
-            { icon: Bus, title: "Transport", to: "/admin/expenses/transport-list" },
-            { icon: Library, title: "Library", to: "/admin/expenses/library-list" },
-            { icon: FileText, title: "Others", to: "/admin/expenses/others-list" },
+            { icon: Inbox, title: "Inbox", to: "/admin/communication/inbox" },
+            { icon: MessagesSquare, title: "Direct Messages", to: "/admin/communication/direct-messages" },
         ],
     },
     {
         id: 11,
-        title: "Notification",
+        title: "Announcement",
+        to: "/admin/announcement",
+        icon: Rss,
+    },
+    {
+        id: 12,
+        title: "Task Management",
         to: "#0",
-        icon: BellDot,
+        icon: ClipboardList,
         subLinks: [
-            { icon: NotebookPen, title: "Exams", to: "/admin/notification/exam-list" },
-            { icon: PartyPopper, title: "Events", to: "/admin/notification/event-list" },
-            // { icon: CalendarOff, title: "Holidays", to: "/admin/notification/holiday-list" },
+            { icon: UserPlus, title: "Assign Tasks", to: "/admin/task-management/assign-tasks" },
+            { icon: ListChecks, title: "Assigned Tasks", to: "/admin/task-management/assigned-tasks" },
         ],
+    },
+    {
+        id: 14,
+        title: "Leave Request",
+        to: "#0",
+        icon: FileX,
+        subLinks: [
+            { icon: FileText, title: "My Leave Requests", to: "/admin/leave-request/my-requests" },
+            { icon: ListChecks, title: "Received Leave Requests", to: "/admin/leave-request/received" },
+        ],
+    },
+    {
+        id: 13,
+        title: "Escalation Management",
+        to: "/admin/escalation-management",
+        icon: ShieldAlert,
     },
 ];
 
@@ -305,6 +291,28 @@ export const studentSidebarLinks = [
             { icon: BadgeDollarSign, title: "Payment Notification", to: "/student/notification/payment-notification" },
         ],
     },
+    {
+        id: 14,
+        title: "Academic Calendar",
+        to: "/student/academic-calendar",
+        icon: CalendarDays,
+    },
+    {
+        id: 15,
+        title: "Communication",
+        to: "#0",
+        icon: MessageCircle,
+        subLinks: [
+            { icon: Inbox, title: "Inbox", to: "/student/communication/inbox" },
+            { icon: MessagesSquare, title: "Direct Messages", to: "/student/communication/direct-messages" },
+        ],
+    },
+    {
+        id: 16,
+        title: "Escalation Management",
+        to: "/student/escalation-management",
+        icon: ShieldAlert,
+    },
 ];
 
 export const prmSidebarLinks = [
@@ -316,39 +324,61 @@ export const prmSidebarLinks = [
     // },
     {
         id: 2,
-        title: "Front Office",
-        to: "#0",
-        icon: BrickWallShield,
-        subLinks: [
-            { icon: FileText, title: "Admission Enquiry", to: "/front-office/admission-enquiry" },
-        ],
+        title: "Admission Enquiry",
+        to: "/front-office/admission-enquiry",
+        icon: FileText,
+    },
+    {
+        id: 10,
+        title: "Admission List",
+        to: "/front-office/admission-list",
+        icon: FileText,
     },
     {
         id: 3,
-        title: "Common Enquiry",
-        to: "#0",
-        icon: MessageCircle,
-        subLinks: [
-            { icon: FileText, title: "Enquiry List", to: "/front-office/enquiry-list" },
-        ],
-    },
-    {
-        id: 4,
-        title: "Student Management",
+        title: "Student Database",
         to: "/front-office/student-management",
         icon: UserRound,
     },
     {
-        id: 5,
-        title: "Teacher Management",
+        id: 4,
+        title: "Teacher Database",
         to: "/front-office/teacher-management",
         icon: UserRoundCog,
     },
     {
-        id: 6,
+        id: 9,
+        title: "Student Transfer",
+        to: "/front-office/student-transfer",
+        icon: UsersRound,
+    },
+    {
+        id: 5,
         title: "Gate Pass",
         to: "/front-office/gate-pass-list",
         icon: ArrowRightLeft,
+    },
+    {
+        id: 6,
+        title: "Academic Calendar",
+        to: "/front-office/academic-calendar",
+        icon: CalendarDays,
+    },
+    {
+        id: 7,
+        title: "Communication",
+        to: "#0",
+        icon: MessageCircle,
+        subLinks: [
+            { icon: Inbox, title: "Inbox", to: "/front-office/communication/inbox" },
+            { icon: MessagesSquare, title: "Direct Messages", to: "/front-office/communication/direct-messages" },
+        ],
+    },
+    {
+        id: 8,
+        title: "Escalation Management",
+        to: "/front-office/escalation-management",
+        icon: ShieldAlert,
     },
 ];
 
@@ -381,13 +411,35 @@ export const librarianSidebarLinks = [
         icon: UsersRound,
     },
     {
-        id: 5,
+        id: 6,
         title: "Notification",
         to: "#0",
         icon: BellDot,
         subLinks: [
             { icon: BellDot, title: "Reminder", to: "/librarian/notification/reminder-list" }
         ],
+    },
+    {
+        id: 7,
+        title: "Academic Calendar",
+        to: "/librarian/academic-calendar",
+        icon: CalendarDays,
+    },
+    {
+        id: 8,
+        title: "Communication",
+        to: "#0",
+        icon: MessageCircle,
+        subLinks: [
+            { icon: Inbox, title: "Inbox", to: "/librarian/communication/inbox" },
+            { icon: MessagesSquare, title: "Direct Messages", to: "/librarian/communication/direct-messages" },
+        ],
+    },
+    {
+        id: 9,
+        title: "Escalation Management",
+        to: "/librarian/escalation-management",
+        icon: ShieldAlert,
     },
 ];
 
@@ -423,10 +475,32 @@ export const gateKeeperSidebarLinks = [
         icon: ArrowRightLeft,
     },
     {
-        id: 6,
-        title: "Broadcast",
+        id: 7,
+        title: "Announcement",
         to: "/gate-keeper/broadcast-list",
         icon: Rss,
+    },
+    {
+        id: 8,
+        title: "Academic Calendar",
+        to: "/gate-keeper/academic-calendar",
+        icon: CalendarDays,
+    },
+    {
+        id: 9,
+        title: "Communication",
+        to: "#0",
+        icon: MessageCircle,
+        subLinks: [
+            { icon: Inbox, title: "Inbox", to: "/gate-keeper/communication/inbox" },
+            { icon: MessagesSquare, title: "Direct Messages", to: "/gate-keeper/communication/direct-messages" },
+        ],
+    },
+    {
+        id: 10,
+        title: "Escalation Management",
+        to: "/gate-keeper/escalation-management",
+        icon: ShieldAlert,
     },
 ];
 
@@ -456,10 +530,32 @@ export const gateKeeperManagerSidebarLinks = [
         icon: ShieldAlert,
     },
     {
-        id: 5,
-        title: "Gatekeeper Broadcast",
+        id: 6,
+        title: "Gatekeeper Announcement",
         to: "/gatekeeper-manager/gatekeeper-broadcast-list",
         icon: Rss,
+    },
+    {
+        id: 7,
+        title: "Academic Calendar",
+        to: "/gatekeeper-manager/academic-calendar",
+        icon: CalendarDays,
+    },
+    {
+        id: 8,
+        title: "Communication",
+        to: "#0",
+        icon: MessageCircle,
+        subLinks: [
+            { icon: Inbox, title: "Inbox", to: "/gatekeeper-manager/communication/inbox" },
+            { icon: MessagesSquare, title: "Direct Messages", to: "/gatekeeper-manager/communication/direct-messages" },
+        ],
+    },
+    {
+        id: 9,
+        title: "Escalation Management",
+        to: "/gatekeeper-manager/escalation-management",
+        icon: ShieldAlert,
     },
 ];
 
@@ -502,7 +598,7 @@ export const canteenManagerSidebarLinks = [
     },
     {
         id: 7,
-        title: "Broadcast",
+        title: "Announcement",
         to: "/canteen-manager/broadcast",
         icon: Rss,
     },
@@ -541,7 +637,7 @@ export const itSupportManagerSidebarLinks = [
     },
     {
         id: 6,
-        title: "Broadcast",
+        title: "Announcement",
         to: "/it-support-manager/broadcast",
         icon: Rss,
     },
@@ -580,7 +676,7 @@ export const stationeryStoreManagerSidebarLinks = [
     },
     {
         id: 6,
-        title: "Broadcast",
+        title: "Announcement",
         to: "/stationery-store-manager/broadcast",
         icon: Rss,
     },
@@ -619,7 +715,7 @@ export const housekeepingManagerSidebarLinks = [
     },
     {
         id: 6,
-        title: "Broadcast",
+        title: "Announcement",
         to: "/housekeeping-manager/broadcast",
         icon: Rss,
     },
@@ -652,9 +748,18 @@ export const teacherSidebarLinks = [
         subLinks: [
             { icon: ClipboardList, title: "Assigned Class", to: "/teacher/class/assigned-class" },
             { icon: CalendarDays, title: "Class Routine", to: "/teacher/class/class-routine" },
-            { icon: UserPlus, title: "Extra Class", to: "/teacher/class/extra-class" },
+            { icon: UserPlus, title: "Extended Class", to: "/teacher/class/extra-class" },
             { icon: MonitorPlay, title: "Online Class", to: "/teacher/class/online-class" },
-            { icon: FileX, title: "Leave Request", to: "/teacher/class/leave-request" },
+        ],
+    },
+    {
+        id: 14,
+        title: "Leave Request",
+        to: "#0",
+        icon: FileX,
+        subLinks: [
+            { icon: FileText, title: "My Leave Requests", to: "/teacher/leave-request/my-requests" },
+            { icon: ListChecks, title: "Received Leave Requests", to: "/teacher/leave-request/received" },
         ],
     },
     {
@@ -668,23 +773,30 @@ export const teacherSidebarLinks = [
         ],
     },
     {
+        id: 13,
+        title: "Lesson Plan Approval",
+        to: "/teacher/lesson-plan-approval",
+        icon: NotebookPen,
+    },
+    {
         id: 6,
+        title: "Student Deliverables",
+        to: "#0",
+        icon: Package,
+        subLinks: [
+            { icon: Sparkles, title: "Home Fun", to: "/teacher/student-deliverables/home-fun" },
+            { icon: BookOpenCheck, title: "Study Materials", to: "/teacher/student-deliverables/study-materials" },
+            { icon: CircleHelp, title: "Sample Questions", to: "/teacher/student-deliverables/sample-questions" },
+        ],
+    },
+    {
+        id: 7,
         title: "User Management",
         to: "#0",
         icon: Users,
         subLinks: [
             { icon: GraduationCap, title: "Students List", to: "/teacher/user-management/students-list" },
             { icon: UsersRound, title: "Parents List", to: "/teacher/user-management/parents-list" },
-        ],
-    },
-    {
-        id: 7,
-        title: "Assessment Management",
-        to: "#0",
-        icon: ClipboardList,
-        subLinks: [
-            { icon: ClipboardPen, title: "Assignments", to: "/teacher/assessment-management/assignments" },
-            { icon: Send, title: "Submissions", to: "/teacher/assessment-management/submissions" },
         ],
     },
     {
@@ -712,10 +824,12 @@ export const teacherSidebarLinks = [
         to: "#0",
         icon: Award,
         subLinks: [
-            { icon: Star, title: "Star Ratings", to: "/teacher/student-evaluation/star-ratings" },
-            { icon: Trophy, title: "Star Of Month", to: "/teacher/student-evaluation/star-of-month" },
-            { icon: CircleHelp, title: "Questions Banks", to: "/teacher/student-evaluation/questions-banks" },
-            { icon: ArrowRightLeft, title: "Student Transfer", to: "/teacher/student-evaluation/student-transfer" },
+            // { icon: Star, title: "Star Ratings", to: "/teacher/student-evaluation/star-ratings" },
+            // { icon: Trophy, title: "Star Of Month", to: "/teacher/student-evaluation/star-of-month" },
+            // { icon: CircleHelp, title: "Questions Banks", to: "/teacher/student-evaluation/questions-banks" },
+            // { icon: ArrowRightLeft, title: "Student Transfer", to: "/teacher/student-evaluation/student-transfer" },
+            { icon: NotebookPen, title: "Exam Mark", to: "/teacher/student-evaluation/exam-mark" },
+            { icon: CalendarDays, title: "Exam Schedule", to: "/teacher/student-evaluation/exam-schedule" },
         ],
     },
     {
@@ -740,10 +854,38 @@ export const teacherSidebarLinks = [
         ],
     },
     {
-        id: 13,
+        id: 14,
         title: "Notifications",
         to: "/teacher/notifications",
         icon: BellDot,
+    },
+    {
+        id: 18,
+        title: "Announcement",
+        to: "/teacher/announcement",
+        icon: Rss,
+    },
+    {
+        id: 15,
+        title: "Calendar",
+        to: "/teacher/academic-calendar",
+        icon: CalendarDays,
+    },
+    {
+        id: 16,
+        title: "Communication",
+        to: "#0",
+        icon: MessageCircle,
+        subLinks: [
+            { icon: Inbox, title: "Inbox", to: "/teacher/communication/inbox" },
+            { icon: MessagesSquare, title: "Direct Messages", to: "/teacher/communication/direct-messages" },
+        ],
+    },
+    {
+        id: 17,
+        title: "Escalation Management",
+        to: "/teacher/escalation-management",
+        icon: ShieldAlert,
     },
 ];
 
@@ -870,7 +1012,7 @@ export const jointDirectorSidebarLinks = [
     },
     {
         id: 8,
-        title: "Broadcast",
+        title: "Announcement",
         to: "/joint-director/broadcast",
         icon: Rss,
     },
@@ -929,7 +1071,7 @@ export const jointDirectorAssistantSidebarLinks = [
     },
     {
         id: 8,
-        title: "Broadcast",
+        title: "Announcement",
         to: "/joint-director-assistant/broadcast",
         icon: Rss,
     },
@@ -1035,7 +1177,7 @@ export const jointDirectorAuditSidebarLinks = [
     },
     {
         id: 13,
-        title: "Broadcast",
+        title: "Announcement",
         to: "/joint-director-audit/broadcast",
         icon: Rss,
     },
@@ -1363,74 +1505,117 @@ export const directorSidebarLinks = [
     //     icon: LayoutDashboard,
     // },
     {
-        id: 3,
+        id: 2,
         title: "Task Management",
         to: "/director/task-management",
         icon: ClipboardList,
     },
     {
-        id: 4,
+        id: 3,
         title: "Star Ratings",
-        to: "/director/star-ratings-list",
-        icon: Star,
-    },
-    {
-        id: 5,
-        title: "Examination Approvals",
-        to: "/director/examination-approvals",
-        icon: CalendarCheck,
-    },
-    {
-        id: 12,
-        title: "Class Timetable Approvals",
-        to: "/director/class-timetable-approvals",
-        icon: CalendarDays,
-    },
-    {
-        id: 6,
-        title: "Student Management",
-        to: "/director/students/student-details-list",
-        icon: UserRound,
-    },
-    {
-        id: 7,
-        title: "Teacher Management",
-        to: "/director/teachers/teacher-details-list",
-        icon: UserRoundCog,
-    },
-    {
-        id: 8,
-        title: "Co-ordinator Management",
-        to: "/director/co-ordinator-management",
-        icon: UsersRound,
-    },
-    {
-        id: 9,
-        title: "Principal Management",
-        to: "/director/principal/view-principal",
-        icon: GraduationCap,
-    },
-    {
-        id: 10,
-        title: "LMS & E-Learning",
         to: "#0",
-        icon: BookOpen,
+        icon: Star,
         subLinks: [
-            { icon: BookOpenCheck, title: "Student LMS", to: "/director/lms/student-lms" },
-            { icon: BookOpenCheck, title: "Teacher LMS", to: "/director/lms/teacher-lms" },
+            { icon: Star, title: "Star of the Month", to: "/director/star-ratings/star-of-month" },
+            { icon: Trophy, title: "Star of the Year", to: "/director/star-ratings/star-of-year" },
         ],
     },
     {
-        id: 11,
+        id: 4,
+        title: "Timetable Approvals",
+        to: "#0",
+        icon: CalendarCheck,
+        subLinks: [
+            { icon: CalendarCheck, title: "Exam Timetable", to: "/director/examination-approvals" },
+            { icon: CalendarDays, title: "Class Timetable", to: "/director/class-timetable-approvals" },
+        ],
+    },
+    {
+        id: 5,
+        title: "Student Allocation",
+        to: "/director/student-allocation",
+        icon: UserPlus,
+    },
+    {
+        id: 6,
+        title: "User Management",
+        to: "#0",
+        icon: Users,
+        subLinks: [
+            { icon: UserRound, title: "Student Database", to: "/director/user-management/student-database" },
+            { icon: UserRoundCog, title: "Employee Database", to: "/director/user-management/employee-database" },
+        ],
+    },
+    {
+        id: 14,
+        title: "Activities",
+        to: "#0",
+        icon: Trophy,
+        subLinks: [
+            { icon: Palette, title: "Cultural", to: "/director/activities/cultural-list" },
+            { icon: Dumbbell, title: "Sports", to: "/director/activities/sports-list" },
+            { icon: Award, title: "Competitions", to: "/director/activities/competitions-list" },
+        ],
+    },
+    {
+        id: 15,
+        title: "Lesson Plan Approval",
+        to: "/director/lesson-plan-approval",
+        icon: NotebookPen,
+    },
+    {
+        id: 7,
+        title: "Home Fun",
+        to: "#0",
+        icon: BookOpen,
+        subLinks: [
+            { icon: BookOpenCheck, title: "Student Home Fun", to: "/director/lms/student-lms" },
+            { icon: BookOpenCheck, title: "Teacher Home Fun", to: "/director/lms/teacher-lms" },
+        ],
+    },
+    {
+        id: 8,
         title: "Request Approvals",
         to: "/director/request-approvals",
         icon: ClipboardList,
     },
     {
-        id: 13,
-        title: "Broadcast",
+        id: 9,
+        title: "Announcement",
         to: "/director/broadcast",
         icon: Rss,
+    },
+    {
+        id: 10,
+        title: "Academic Calendar",
+        to: "/director/academic-calendar",
+        icon: CalendarDays,
+    },
+    {
+        id: 11,
+        title: "Communication",
+        to: "#0",
+        icon: MessageCircle,
+        subLinks: [
+            { icon: Inbox, title: "Inbox", to: "/director/communication/inbox" },
+            { icon: MessagesSquare, title: "Direct Messages", to: "/director/communication/direct-messages" },
+        ],
+    },
+    {
+        id: 13,
+        title: "Leave Request",
+        to: "#0",
+        icon: FileX,
+        subLinks: [
+            { icon: FileText, title: "My Leave Requests", to: "/director/leave-request/my-requests" },
+            { icon: ListChecks, title: "Received Leave Requests", to: "/director/leave-request/received" },
+        ],
+    },
+    {
+        id: 12,
+        title: "Escalation Management",
+        to: "/director/escalation-management",
+        icon: ShieldAlert,
     },
 ];
 
@@ -1493,16 +1678,32 @@ export const principalSidebarLinks = [
     },
     {
         id: 9,
-        title: "LMS & E-Learning",
+        title: "Home Fun",
         to: "#0",
         icon: BookOpen,
         subLinks: [
-            { icon: BookOpenCheck, title: "Student LMS", to: "/principal/lms/student-lms" },
-            { icon: BookOpenCheck, title: "Teacher LMS", to: "/principal/lms/teacher-lms" },
+            { icon: BookOpenCheck, title: "Student Home Fun", to: "/principal/lms/student-lms" },
+            { icon: BookOpenCheck, title: "Teacher Home Fun", to: "/principal/lms/teacher-lms" },
         ],
     },
     {
         id: 10,
+        title: "Academic Calendar",
+        to: "/principal/academic-calendar",
+        icon: CalendarDays,
+    },
+    {
+        id: 11,
+        title: "Communication",
+        to: "#0",
+        icon: MessageCircle,
+        subLinks: [
+            { icon: Inbox, title: "Inbox", to: "/principal/communication/inbox" },
+            { icon: MessagesSquare, title: "Direct Messages", to: "/principal/communication/direct-messages" },
+        ],
+    },
+    {
+        id: 12,
         title: "Escalation Management",
         to: "/principal/escalation-management",
         icon: ShieldAlert,

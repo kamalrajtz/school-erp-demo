@@ -1,34 +1,6 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import StudyMaterialForm from './Components/StudyMaterialForm'
+import AddStudyMaterialPage from '../StudentDeliverables/StudyMaterials/AddStudyMaterial'
+import { ACADEMICS_ROUTE_BASE } from '../StudentDeliverables/StudyMaterials/studyMaterialsData'
 
-const AddStudyMaterial = () => {
-    const navigate = useNavigate()
-
-    return (
-        <section>
-            <div className='bg-white rounded-2xl shadow-md p-4'>
-                <h2 className='text-xl font-semibold text-black'>Study Materials Information</h2>
-                <StudyMaterialForm />
-            </div>
-
-            <div className='flex sm:justify-end justify-center gap-x-4 mt-6'>
-                <button
-                    type='button'
-                    onClick={() => navigate('/teacher/academics/study-materials')}
-                    className='bg-white text-[#515DEF] text-sm text-center px-12 py-2 rounded-md border border-[#515DEF] hover:bg-[#515DEF] hover:text-white hover:border-[#515DEF] transition-all duration-200 cursor-pointer md:w-auto w-full'
-                >
-                    Discard Changes
-                </button>
-                <button
-                    type='button'
-                    className='bg-[#515DEF] text-white text-sm text-center px-12 py-2 rounded-md border border-[#515DEF] hover:opacity-90 transition-all duration-200 cursor-pointer md:w-auto w-full'
-                >
-                    Save Changes
-                </button>
-            </div>
-        </section>
-    )
-}
+const AddStudyMaterial = () => <AddStudyMaterialPage routeBase={ACADEMICS_ROUTE_BASE} />
 
 export default AddStudyMaterial

@@ -13,9 +13,9 @@ import ViewEscalation from '../Pages/JointDirectorAssistant/Escalations/ViewEsca
 import MeetingsCalendar from '../Pages/JointDirectorAssistant/MeetingsCalendar/MeetingsCalendar'
 import AssetsInventoryOverview from '../Pages/JointDirectorAssistant/AssetsInventory/AssetsInventoryOverview'
 import ViewAssetInventoryItem from '../Pages/JointDirectorAssistant/AssetsInventory/ViewAssetInventoryItem'
-import BroadcastList from '../Pages/JointDirectorAssistant/Broadcast/BroadcastList'
-import AddBroadcast from '../Pages/JointDirectorAssistant/Broadcast/AddBroadcast'
-import ViewBroadcast from '../Pages/JointDirectorAssistant/Broadcast/ViewBroadcast'
+import AnnouncementList from '../Pages/JointDirectorAssistant/Announcement/AnnouncementList'
+import AddAnnouncement from '../Pages/JointDirectorAssistant/Announcement/AddAnnouncement'
+import ViewAnnouncement from '../Pages/JointDirectorAssistant/Announcement/ViewAnnouncement'
 
 const JointDirectorAssistantRoutes = () => {
     return (
@@ -34,9 +34,9 @@ const JointDirectorAssistantRoutes = () => {
             <Route path="/joint-director-assistant/meetings-calendar" element={<MeetingsCalendar />} />
             <Route path="/joint-director-assistant/assets-inventory" element={<AssetsInventoryOverview />} />
             <Route path="/joint-director-assistant/assets-inventory/view/:id" element={<ViewAssetInventoryItem />} />
-            <Route path="/joint-director-assistant/broadcast" element={<BroadcastList />} />
-            <Route path="/joint-director-assistant/broadcast/add-broadcast" element={<AddBroadcast />} />
-            <Route path="/joint-director-assistant/broadcast/view-broadcast/:id" element={<ViewBroadcast />} />
+            <Route path="/joint-director-assistant/broadcast" element={<AnnouncementList />} />
+            <Route path="/joint-director-assistant/broadcast/add-broadcast" element={<AddAnnouncement />} />
+            <Route path="/joint-director-assistant/broadcast/view-broadcast/:id" element={<ViewAnnouncement />} />
             <Route path="*" element={<Navigate to="/joint-director-assistant/dashboard" replace />} />
         </ReactRoutes>
     )

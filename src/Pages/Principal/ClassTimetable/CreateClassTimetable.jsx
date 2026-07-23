@@ -1,16 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-import { Calendar } from 'lucide-react'
 
 const inputClass =
     'text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full'
 
 const CreateClassTimetable = () => {
     const navigate = useNavigate()
-    const [effectiveFrom, setEffectiveFrom] = useState(new Date())
-    const [effectiveTo, setEffectiveTo] = useState(new Date())
 
     return (
         <section>
@@ -118,44 +113,6 @@ const CreateClassTimetable = () => {
                             End Time:
                         </label>
                         <input type='time' id='end-time' className={inputClass} />
-                    </div>
-                    <div className='flex flex-col gap-y-2'>
-                        <label htmlFor='effective-from' className='text-base font-medium text-[#1E1E1E]'>
-                            Effective From:
-                        </label>
-                        <div className='relative w-full'>
-                            <DatePicker
-                                id='effective-from'
-                                selected={effectiveFrom}
-                                onChange={(date) => setEffectiveFrom(date)}
-                                isClearable
-                                dateFormat='dd/MM/yyyy'
-                                className='w-full text-sm text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-3 py-3 pr-10 focus:outline-none'
-                            />
-                            <Calendar
-                                size={16}
-                                className='absolute right-3 top-1/2 -translate-y-1/2 text-[#808080] pointer-events-none'
-                            />
-                        </div>
-                    </div>
-                    <div className='flex flex-col gap-y-2'>
-                        <label htmlFor='effective-to' className='text-base font-medium text-[#1E1E1E]'>
-                            Effective To:
-                        </label>
-                        <div className='relative w-full'>
-                            <DatePicker
-                                id='effective-to'
-                                selected={effectiveTo}
-                                onChange={(date) => setEffectiveTo(date)}
-                                isClearable
-                                dateFormat='dd/MM/yyyy'
-                                className='w-full text-sm text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-3 py-3 pr-10 focus:outline-none'
-                            />
-                            <Calendar
-                                size={16}
-                                className='absolute right-3 top-1/2 -translate-y-1/2 text-[#808080] pointer-events-none'
-                            />
-                        </div>
                     </div>
                     <div className='flex flex-col gap-y-2 lg:col-span-3'>
                         <label htmlFor='notes' className='text-base font-medium text-[#1E1E1E]'>

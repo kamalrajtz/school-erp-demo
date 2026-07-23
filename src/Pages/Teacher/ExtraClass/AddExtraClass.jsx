@@ -8,7 +8,7 @@ const AddExtraClass = () => {
     return (
         <section>
             <div className='bg-white rounded-2xl shadow-md p-4'>
-                <h2 className='text-xl font-semibold text-black'>Extra Class Information</h2>
+                <h2 className='text-xl font-semibold text-black'>Extended Class Information</h2>
                 <ExtraClassForm />
             </div>
 

@@ -97,6 +97,15 @@ const AdmissionEnquiryInfo = () => {
                 </select>
             </div>
             <div className='flex flex-col gap-y-2'>
+                <label htmlFor="academic-year" className='text-base font-medium text-[#1E1E1E]'>Academic Year:</label>
+                <select id="academic-year" name="academicYear" className='text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full'>
+                    <option value="">--Select--</option>
+                    <option value="2025-26">2025-26</option>
+                    <option value="2024-25">2024-25</option>
+                    <option value="2023-24">2023-24</option>
+                </select>
+            </div>
+            <div className='flex flex-col gap-y-2'>
                 <label htmlFor="" className='text-base font-medium text-[#1E1E1E]'>Class:</label>
                 <input type='text' name="" id="" className='text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full' />
             </div>

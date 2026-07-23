@@ -18,9 +18,9 @@ import ViewRequestApproval from '../Pages/JointDirectorAudit/RequestApprovals/Vi
 import Escalations from '../Pages/JointDirectorAudit/Escalations/Escalations'
 import ViewEscalation from '../Pages/JointDirectorAudit/Escalations/ViewEscalation'
 import MeetingsCalendar from '../Pages/JointDirectorAudit/MeetingsCalendar/MeetingsCalendar'
-import BroadcastList from '../Pages/JointDirectorAudit/Broadcast/BroadcastList'
-import AddBroadcast from '../Pages/JointDirectorAudit/Broadcast/AddBroadcast'
-import ViewBroadcast from '../Pages/JointDirectorAudit/Broadcast/ViewBroadcast'
+import AnnouncementList from '../Pages/JointDirectorAudit/Announcement/AnnouncementList'
+import AddAnnouncement from '../Pages/JointDirectorAudit/Announcement/AddAnnouncement'
+import ViewAnnouncement from '../Pages/JointDirectorAudit/Announcement/ViewAnnouncement'
 import AssignAudits from '../Pages/JointDirectorAudit/AuditAssignment/AssignAudits'
 import AssignmentHistory from '../Pages/JointDirectorAudit/AuditAssignment/AssignmentHistory'
 import WorkloadOverview from '../Pages/JointDirectorAudit/AuditAssignment/WorkloadOverview'
@@ -75,9 +75,9 @@ const JointDirectorAuditRoutes = () => {
             <Route path="/joint-director-audit/escalations" element={<Escalations />} />
             <Route path="/joint-director-audit/escalations/view-escalation/:id" element={<ViewEscalation />} />
             <Route path="/joint-director-audit/meetings-calendar" element={<MeetingsCalendar />} />
-            <Route path="/joint-director-audit/broadcast" element={<BroadcastList />} />
-            <Route path="/joint-director-audit/broadcast/add-broadcast" element={<AddBroadcast />} />
-            <Route path="/joint-director-audit/broadcast/view-broadcast/:id" element={<ViewBroadcast />} />
+            <Route path="/joint-director-audit/broadcast" element={<AnnouncementList />} />
+            <Route path="/joint-director-audit/broadcast/add-broadcast" element={<AddAnnouncement />} />
+            <Route path="/joint-director-audit/broadcast/view-broadcast/:id" element={<ViewAnnouncement />} />
             <Route path="*" element={<Navigate to="/joint-director-audit/dashboard" replace />} />
         </ReactRoutes>
     )

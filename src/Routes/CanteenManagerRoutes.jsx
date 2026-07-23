@@ -12,9 +12,9 @@ import RequestsApprovalsList from '../Pages/CanteenManager/RequestsApprovals/Req
 import AddRequest from '../Pages/CanteenManager/RequestsApprovals/AddRequest'
 import ViewRequest from '../Pages/CanteenManager/RequestsApprovals/ViewRequest'
 import Reports from '../Pages/CanteenManager/Reports/Reports'
-import BroadcastList from '../Pages/CanteenManager/Broadcast/BroadcastList'
-import AddBroadcast from '../Pages/CanteenManager/Broadcast/AddBroadcast'
-import ViewBroadcast from '../Pages/CanteenManager/Broadcast/ViewBroadcast'
+import AnnouncementList from '../Pages/CanteenManager/Announcement/AnnouncementList'
+import AddAnnouncement from '../Pages/CanteenManager/Announcement/AddAnnouncement'
+import ViewAnnouncement from '../Pages/CanteenManager/Announcement/ViewAnnouncement'
 
 const CanteenManagerRoutes = () => {
     return (
@@ -31,9 +31,9 @@ const CanteenManagerRoutes = () => {
             <Route path="/canteen-manager/requests-approvals/add-request" element={<AddRequest />} />
             <Route path="/canteen-manager/requests-approvals/view-request/:id" element={<ViewRequest />} />
             <Route path="/canteen-manager/reports" element={<Reports />} />
-            <Route path="/canteen-manager/broadcast" element={<BroadcastList />} />
-            <Route path="/canteen-manager/broadcast/add-broadcast" element={<AddBroadcast />} />
-            <Route path="/canteen-manager/broadcast/view-broadcast/:id" element={<ViewBroadcast />} />
+            <Route path="/canteen-manager/broadcast" element={<AnnouncementList />} />
+            <Route path="/canteen-manager/broadcast/add-broadcast" element={<AddAnnouncement />} />
+            <Route path="/canteen-manager/broadcast/view-broadcast/:id" element={<ViewAnnouncement />} />
             <Route path="*" element={<Navigate to="/canteen-manager/dashboard" replace />} />
         </ReactRoutes>
     )

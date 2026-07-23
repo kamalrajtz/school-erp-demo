@@ -12,7 +12,7 @@ const CommonHeader = ({ toggleSidebar, sidebarHidden }) => {
     return (
         <header className="fixed top-0 w-full z-200 antialiased bg-white border-b border-[#e4e7ec] font-inter">
             <nav className="bg-white shadow-sm px-4 lg:px-6 py-4">
-                <div className={`flex flex-wrap justify-between items-center gap-x-8 transition-all duration-300 ml-0 ${sidebarHidden ? "lg:ml-[90px]" : "lg:ml-68"}`}>
+                <div className={`flex flex-wrap justify-between items-center gap-x-8 transition-all duration-300 ml-0 ${sidebarHidden ? "lg:ml-22.5" : "lg:ml-68"}`}>
                     <div className="flex justify-between items-center gap-x-3 lg:gap-x-16">
                         <button
                             onClick={toggleSidebar}
@@ -20,7 +20,7 @@ const CommonHeader = ({ toggleSidebar, sidebarHidden }) => {
                         >
                             <TextAlignJustify />
                         </button>
-                        <h1 className='text-2xl font-bold'>{pageTitle}</h1>
+                        <h1 className='text-2xl font-bold hidden md:block'>{pageTitle}</h1>
                     </div>
                     <div className="flex items-center gap-x-3 lg:order-2">
                         <UserNotifications />

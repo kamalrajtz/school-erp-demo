@@ -57,7 +57,12 @@ const ClassTimetableList = () => {
 
             <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
-                    <h2 className='text-xl font-medium text-black'>Class Timetable List</h2>
+                    <div>
+                        <h2 className='text-xl font-medium text-black'>Class Timetable List</h2>
+                        <p className='text-sm text-[#667085] mt-1'>
+                            Create class timetables for Director approval.
+                        </p>
+                    </div>
                     <div className='flex gap-x-2'>
                         <NavLink
                             to='/principal/create-class-timetable'
@@ -102,12 +107,6 @@ const ClassTimetableList = () => {
                                     Academic Year
                                 </th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>
-                                    Effective From
-                                </th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>
-                                    Effective To
-                                </th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>
                                     Submitted Date
                                 </th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>
@@ -123,8 +122,6 @@ const ClassTimetableList = () => {
                                 <td className='px-2 py-4 rounded-s-lg'>CTT001</td>
                                 <td className='px-2 py-4'>Grade 9 - A</td>
                                 <td className='px-2 py-4'>2025-2026</td>
-                                <td className='px-2 py-4'>01-06-2025</td>
-                                <td className='px-2 py-4'>31-03-2026</td>
                                 <td className='px-2 py-4'>15-05-2025</td>
                                 <td className='px-2 py-4'>
                                     <span className='text-sm font-medium text-[#FF0000] border border-[#FF000033] rounded-md px-2 py-1'>
@@ -146,8 +143,6 @@ const ClassTimetableList = () => {
                                 <td className='px-2 py-4 rounded-s-lg'>CTT002</td>
                                 <td className='px-2 py-4'>Grade 10 - B</td>
                                 <td className='px-2 py-4'>2025-2026</td>
-                                <td className='px-2 py-4'>01-06-2025</td>
-                                <td className='px-2 py-4'>31-03-2026</td>
                                 <td className='px-2 py-4'>20-05-2025</td>
                                 <td className='px-2 py-4'>
                                     <span className='text-sm font-medium text-[#4CAF50] border border-[#4CAF5033] rounded-md px-2 py-1'>
