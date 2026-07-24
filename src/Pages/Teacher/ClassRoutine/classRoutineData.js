@@ -1,45 +1,8 @@
-export const DAILY_ROUTINE = [
-    {
-        id: 'DR-1',
-        period: 1,
-        subject: 'Mathematics',
-        className: '10-A',
-        startTime: '09:00 AM',
-        endTime: '09:45 AM',
-    },
-    {
-        id: 'DR-2',
-        period: 2,
-        subject: 'Mathematics',
-        className: '10-B',
-        startTime: '09:45 AM',
-        endTime: '10:30 AM',
-    },
-    {
-        id: 'DR-3',
-        period: 3,
-        subject: 'Mathematics',
-        className: '9-A',
-        startTime: '10:45 AM',
-        endTime: '11:30 AM',
-    },
-    {
-        id: 'DR-4',
-        period: 4,
-        subject: 'Mathematics',
-        className: '10-A',
-        startTime: '11:30 AM',
-        endTime: '12:15 PM',
-    },
-    {
-        id: 'DR-5',
-        period: 5,
-        subject: 'Mathematics',
-        className: '11-A',
-        startTime: '01:15 PM',
-        endTime: '02:00 PM',
-    },
-]
+export const TEACHER_TIMETABLE_INFO = {
+    employeeId: 'TEA-1001',
+    teacherName: 'Anita Verma',
+    subject: 'Mathematics',
+}
 
 export const WEEKLY_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 

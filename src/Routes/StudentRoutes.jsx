@@ -30,7 +30,7 @@ import EscalationList from '../Pages/Student/EscalationManagement/EscalationList
 import AddEscalation from '../Pages/Student/EscalationManagement/AddEscalation'
 import ViewEscalation from '../Pages/Student/EscalationManagement/ViewEscalation'
 import CommunicationInbox from '../Pages/Student/Communication/Inbox'
-import CommunicationDirectMessages from '../Pages/Student/Communication/DirectMessages'
+import RedirectLegacyDirectMessages from '../Common/Communication/RedirectLegacyDirectMessages'
 import AcademicCalendar from '../Pages/Student/AcademicCalendar/AcademicCalendar'
 
 const StudentRoutes = () => {
@@ -76,8 +76,9 @@ const StudentRoutes = () => {
             {/* Communication */}
             <Route path="/student/communication" element={<Navigate to="/student/communication/inbox" replace />} />
             <Route path="/student/communication/inbox" element={<CommunicationInbox />} />
-            <Route path="/student/communication/direct-messages" element={<CommunicationDirectMessages />} />
-            <Route path="/student/communication/direct-messages/:conversationId" element={<CommunicationDirectMessages />} />
+            <Route path="/student/communication/inbox/:conversationId" element={<CommunicationInbox />} />
+            <Route path="/student/communication/direct-messages" element={<RedirectLegacyDirectMessages inboxBase="/student/communication/inbox" />} />
+            <Route path="/student/communication/direct-messages/:conversationId" element={<RedirectLegacyDirectMessages inboxBase="/student/communication/inbox" />} />
 
             {/* Escalation Management */}
             <Route path="/student/escalation-management" element={<EscalationList />} />

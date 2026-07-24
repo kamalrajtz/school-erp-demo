@@ -165,7 +165,7 @@ export const ACADEMIC_CALENDAR_ITEMS = [
 export const ACADEMIC_CALENDAR_ROLE_CONFIG = {
     admin: { roleLabel: 'Admin', routeBase: '/admin/academic-calendar' },
     director: { roleLabel: 'Director', routeBase: '/director/academic-calendar' },
-    prm: { roleLabel: 'Front Office', routeBase: '/front-office/academic-calendar' },
+    prm: { roleLabel: 'Front Office', routeBase: '/front-office/academic-calendar', pageTitle: 'Calendar' },
     gateKeeper: { roleLabel: 'Gate Keeper', routeBase: '/gate-keeper/academic-calendar' },
     gateKeeperManager: { roleLabel: 'Gate Keeper Manager', routeBase: '/gatekeeper-manager/academic-calendar' },
     librarian: { roleLabel: 'Librarian', routeBase: '/librarian/academic-calendar' },

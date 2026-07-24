@@ -12,7 +12,7 @@ const AddGatePass = () => {
     return (
         <section>
             <div className='bg-white rounded-2xl shadow-md p-4'>
-                <h2 className='text-xl font-semibold text-black'>Gate Pass Information</h2>
+                <h2 className='text-xl font-semibold text-black'>Student Gate Pass Information</h2>
 
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 lg:mt-8 mt-2'>
                     <div className='flex flex-col gap-y-2'>

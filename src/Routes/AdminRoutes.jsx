@@ -65,7 +65,7 @@ import EscalationList from '../Pages/Admin/EscalationManagement/EscalationList'
 import AddEscalation from '../Pages/Admin/EscalationManagement/AddEscalation'
 import ViewEscalation from '../Pages/Admin/EscalationManagement/ViewEscalation'
 import CommunicationInbox from '../Pages/Admin/Communication/Inbox'
-import CommunicationDirectMessages from '../Pages/Admin/Communication/DirectMessages'
+import RedirectLegacyDirectMessages from '../Common/Communication/RedirectLegacyDirectMessages'
 import AcademicCalendar from '../Pages/Admin/AcademicCalendar/AcademicCalendar'
 
 // import Dashboard from '../Pages/Dashboard/Dashboard'
@@ -190,8 +190,9 @@ const AdminRoutes = () => {
             {/* Communication */}
             <Route path='/admin/communication' element={<Navigate to='/admin/communication/inbox' replace />} />
             <Route path='/admin/communication/inbox' element={<CommunicationInbox />} />
-            <Route path='/admin/communication/direct-messages' element={<CommunicationDirectMessages />} />
-            <Route path='/admin/communication/direct-messages/:conversationId' element={<CommunicationDirectMessages />} />
+            <Route path='/admin/communication/inbox/:conversationId' element={<CommunicationInbox />} />
+            <Route path='/admin/communication/direct-messages' element={<RedirectLegacyDirectMessages inboxBase='/admin/communication/inbox' />} />
+            <Route path='/admin/communication/direct-messages/:conversationId' element={<RedirectLegacyDirectMessages inboxBase='/admin/communication/inbox' />} />
 
             {/* Escalation Management */}
             <Route path='/admin/escalation-management' element={<EscalationList />} />

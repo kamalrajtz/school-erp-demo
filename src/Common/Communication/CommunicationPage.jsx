@@ -12,7 +12,7 @@ import InboxPanel from './Components/InboxPanel'
 import ChatPanel from './Components/ChatPanel'
 import NewMessageModal from './Components/NewMessageModal'
 
-const CommunicationPage = ({ roleKey, mode = 'inbox' }) => {
+const CommunicationPage = ({ roleKey }) => {
     const roleConfig = getCommunicationRoleConfig(roleKey)
     const navigate = useNavigate()
     const { conversationId } = useParams()
@@ -83,33 +83,10 @@ const CommunicationPage = ({ roleKey, mode = 'inbox' }) => {
                     : conv
             )
         )
-        navigate(`${roleConfig.routeBase}/direct-messages/${id}`)
+        navigate(`${roleConfig.routeBase}/inbox/${id}`)
     }
 
     const goToInbox = () => navigate(`${roleConfig.routeBase}/inbox`)
-
-    const markAsRead = (id) => {
-        persist(
-            conversations.map((conv) =>
-                conv.id === id
-                    ? {
-                          ...conv,
-                          unreadCount: 0,
-                          messages: conv.messages.map((msg) =>
-                              msg.senderId !== currentUser.id ? { ...msg, status: 'read' } : msg
-                          ),
-                      }
-                    : conv
-            )
-        )
-        toast.success('Conversation marked as read')
-    }
-
-    const archiveConversation = (id) => {
-        persist(conversations.map((conv) => (conv.id === id ? { ...conv, archived: true } : conv)))
-        if (selectedId === id) goToInbox()
-        toast.success('Conversation archived')
-    }
 
     const deleteConversation = (id) => {
         persist(conversations.map((conv) => (conv.id === id ? { ...conv, deleted: true } : conv)))
@@ -149,7 +126,7 @@ const CommunicationPage = ({ roleKey, mode = 'inbox' }) => {
 
         const next = [newConversation, ...conversations]
         persist(next)
-        navigate(`${roleConfig.routeBase}/direct-messages/${newConversation.id}`)
+        navigate(`${roleConfig.routeBase}/inbox/${newConversation.id}`)
         toast.success(`Started conversation with ${contact.name}`)
     }
 
@@ -255,7 +232,7 @@ const CommunicationPage = ({ roleKey, mode = 'inbox' }) => {
         }, 1600)
     }
 
-    const showChatOnMobile = mode === 'direct' || Boolean(selectedId)
+    const showChatOnMobile = Boolean(selectedId)
 
     if (!roleConfig) {
         return (
@@ -280,8 +257,6 @@ const CommunicationPage = ({ roleKey, mode = 'inbox' }) => {
                         onRefresh={() => loadConversations(true)}
                         onNewMessage={() => setShowNewMessage(true)}
                         onOpenConversation={openConversation}
-                        onMarkAsRead={markAsRead}
-                        onArchive={archiveConversation}
                         onDelete={deleteConversation}
                     />
                 </div>

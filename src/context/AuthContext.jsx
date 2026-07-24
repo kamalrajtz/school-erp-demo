@@ -58,7 +58,7 @@ export const ROLE_HOME_PATHS = {
     [ROLES.GATEKEEPER]: '/gate-keeper/dashboard',
     [ROLES.GATEKEEPER_MANAGER]: '/gatekeeper-manager/assign-duty-list',
     [ROLES.DIRECTOR]: '/director/broadcast',
-    [ROLES.PRINCIPAL]: '/principal/documents',
+    [ROLES.PRINCIPAL]: '/principal/task-management',
     [ROLES.CANTEEN_MANAGER]: '/canteen-manager/dashboard',
     [ROLES.IT_SUPPORT_MANAGER]: '/it-support-manager/dashboard',
     [ROLES.STATIONERY_STORE_MANAGER]: '/stationery-store-manager/dashboard',

@@ -96,10 +96,7 @@ const StudentTransfer = () => {
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Class</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Reason</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Requested On</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Librarian Approval</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Teacher Approval</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>HR Approval</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Admin Approval</th>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>MD Approval Status</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Status</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>Actions</th>
                             </tr>
@@ -112,9 +109,6 @@ const StudentTransfer = () => {
                                 <td className='px-2 py-4'>Class-12</td>
                                 <td className='px-2 py-4'>Parent Job Transfer</td>
                                 <td className='px-2 py-4'>02-07-2025</td>
-                                <td className='px-2 py-4'><span className={statusColor.Approved}>Approved</span></td>
-                                <td className='px-2 py-4'><span className={statusColor.Approved}>Approved</span></td>
-                                <td className='px-2 py-4'><span className={statusColor.Pending}>Pending</span></td>
                                 <td className='px-2 py-4'><span className={statusColor.Pending}>Pending</span></td>
                                 <td className='px-2 py-4'>
                                     <span className={`px-2 py-1 rounded-lg text-xs font-semibold whitespace-nowrap ${bagdeColor['In Progress']}`}>In Progress</span>
@@ -134,9 +128,6 @@ const StudentTransfer = () => {
                                 <td className='px-2 py-4'>Class-12</td>
                                 <td className='px-2 py-4'>Parent Job Transfer</td>
                                 <td className='px-2 py-4'>02-07-2025</td>
-                                <td className='px-2 py-4'><span className={statusColor.Approved}>Approved</span></td>
-                                <td className='px-2 py-4'><span className={statusColor.Approved}>Approved</span></td>
-                                <td className='px-2 py-4'><span className={statusColor.Approved}>Approved</span></td>
                                 <td className='px-2 py-4'><span className={statusColor.Approved}>Approved</span></td>
                                 <td className='px-2 py-4'>
                                     <span className={`px-2 py-1 rounded-lg text-xs font-semibold whitespace-nowrap ${bagdeColor.Completed}`}>Completed</span>

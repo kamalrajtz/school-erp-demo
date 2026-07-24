@@ -6,12 +6,14 @@ import { Calendar, EllipsisIcon, ChevronLeft, ChevronRight, Download } from "luc
 import mo_user from "../../../assets/images/no-profile.png"
 import Dropdown from '../../../Common/CommonComponents/Dropdown';
 import ExportModal from '../../../Common/CommonComponents/ExportModal';
+import EditRequestModal from '../../../Common/CommonComponents/EditRequestModal';
 
 const StudentsList = () => {
 
     const [fromDate, setFromDate] = useState(new Date());
     const [toDate, setToDate] = useState(new Date());
     const [exportModal, setExportModal] = useState(false);
+    const [editRequestModal, setEditRequestModal] = useState(false);
 
     return (
         <section>
@@ -135,6 +137,9 @@ const StudentsList = () => {
                                         <NavLink to="/front-office/view-student" className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
                                             View
                                         </NavLink>
+                                        <button type="button" onClick={() => setEditRequestModal(true)} className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
+                                            Edit
+                                        </button>
                                     </Dropdown>
 
                                 </td>
@@ -159,6 +164,9 @@ const StudentsList = () => {
                                         <NavLink to="/front-office/view-student" className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
                                             View
                                         </NavLink>
+                                        <button type="button" onClick={() => setEditRequestModal(true)} className="w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer">
+                                            Edit
+                                        </button>
                                     </Dropdown>
 
                                 </td>
@@ -192,6 +200,7 @@ const StudentsList = () => {
             </div>
 
             <ExportModal exportModal={exportModal} setExportModal={setExportModal} />
+            <EditRequestModal editRequestModal={editRequestModal} setEditRequestModal={setEditRequestModal} />
 
         </section>
     )

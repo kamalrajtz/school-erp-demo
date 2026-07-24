@@ -13,7 +13,7 @@ import EscalationList from '../Pages/Gatekeeper/EscalationManagement/EscalationL
 import AddEscalation from '../Pages/Gatekeeper/EscalationManagement/AddEscalation'
 import ViewEscalation from '../Pages/Gatekeeper/EscalationManagement/ViewEscalation'
 import CommunicationInbox from '../Pages/Gatekeeper/Communication/Inbox'
-import CommunicationDirectMessages from '../Pages/Gatekeeper/Communication/DirectMessages'
+import RedirectLegacyDirectMessages from '../Common/Communication/RedirectLegacyDirectMessages'
 import AcademicCalendar from '../Pages/Gatekeeper/AcademicCalendar/AcademicCalendar'
 
 const GateKeeperRoutes = () => {
@@ -31,8 +31,9 @@ const GateKeeperRoutes = () => {
             <Route path="/gate-keeper/academic-calendar" element={<AcademicCalendar />} />
             <Route path="/gate-keeper/communication" element={<Navigate to="/gate-keeper/communication/inbox" replace />} />
             <Route path="/gate-keeper/communication/inbox" element={<CommunicationInbox />} />
-            <Route path="/gate-keeper/communication/direct-messages" element={<CommunicationDirectMessages />} />
-            <Route path="/gate-keeper/communication/direct-messages/:conversationId" element={<CommunicationDirectMessages />} />
+            <Route path="/gate-keeper/communication/inbox/:conversationId" element={<CommunicationInbox />} />
+            <Route path="/gate-keeper/communication/direct-messages" element={<RedirectLegacyDirectMessages inboxBase="/gate-keeper/communication/inbox" />} />
+            <Route path="/gate-keeper/communication/direct-messages/:conversationId" element={<RedirectLegacyDirectMessages inboxBase="/gate-keeper/communication/inbox" />} />
             <Route path="/gate-keeper/escalation-management" element={<EscalationList />} />
             <Route path="/gate-keeper/escalation-management/add-escalation" element={<AddEscalation />} />
             <Route path="/gate-keeper/escalation-management/view/:id" element={<ViewEscalation />} />

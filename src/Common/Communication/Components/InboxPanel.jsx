@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
-    Archive,
-    CheckCheck,
     EllipsisVertical,
     MessageSquarePlus,
     RefreshCw,
@@ -28,8 +26,6 @@ const InboxPanel = ({
     onRefresh,
     onNewMessage,
     onOpenConversation,
-    onMarkAsRead,
-    onArchive,
     onDelete,
 }) => {
     const [menuOpenId, setMenuOpenId] = useState(null)
@@ -236,26 +232,6 @@ const InboxPanel = ({
                                                 }}
                                             >
                                                 Open Conversation
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-[#344054] hover:bg-[#F9FAFB]"
-                                                onClick={() => {
-                                                    onMarkAsRead(conv.id)
-                                                    setMenuOpenId(null)
-                                                }}
-                                            >
-                                                <CheckCheck size={14} /> Mark as Read
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-[#344054] hover:bg-[#F9FAFB]"
-                                                onClick={() => {
-                                                    onArchive(conv.id)
-                                                    setMenuOpenId(null)
-                                                }}
-                                            >
-                                                <Archive size={14} /> Archive Conversation
                                             </button>
                                             <button
                                                 type="button"

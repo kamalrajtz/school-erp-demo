@@ -24,7 +24,7 @@ import EscalationList from '../Pages/Director/EscalationManagement/EscalationLis
 import AddEscalation from '../Pages/Director/EscalationManagement/AddEscalation'
 import ViewEscalation from '../Pages/Director/EscalationManagement/ViewEscalation'
 import CommunicationInbox from '../Pages/Director/Communication/Inbox'
-import CommunicationDirectMessages from '../Pages/Director/Communication/DirectMessages'
+import RedirectLegacyDirectMessages from '../Common/Communication/RedirectLegacyDirectMessages'
 import AcademicCalendar from '../Pages/Director/AcademicCalendar/AcademicCalendar'
 import CulturalList from '../Pages/Director/Activities/Cultural/CulturalList'
 import AddCultural from '../Pages/Director/Activities/Cultural/AddCultural'
@@ -77,8 +77,9 @@ const DirectorRoutes = () => {
             <Route path="/director/academic-calendar" element={<AcademicCalendar />} />
             <Route path="/director/communication" element={<Navigate to="/director/communication/inbox" replace />} />
             <Route path="/director/communication/inbox" element={<CommunicationInbox />} />
-            <Route path="/director/communication/direct-messages" element={<CommunicationDirectMessages />} />
-            <Route path="/director/communication/direct-messages/:conversationId" element={<CommunicationDirectMessages />} />
+            <Route path="/director/communication/inbox/:conversationId" element={<CommunicationInbox />} />
+            <Route path="/director/communication/direct-messages" element={<RedirectLegacyDirectMessages inboxBase="/director/communication/inbox" />} />
+            <Route path="/director/communication/direct-messages/:conversationId" element={<RedirectLegacyDirectMessages inboxBase="/director/communication/inbox" />} />
             <Route path="/director/escalation-management" element={<EscalationList />} />
             <Route path="/director/escalation-management/add-escalation" element={<AddEscalation />} />
             <Route path="/director/escalation-management/view/:id" element={<ViewEscalation />} />

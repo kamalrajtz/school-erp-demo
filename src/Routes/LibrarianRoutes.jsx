@@ -10,7 +10,7 @@ import EscalationList from '../Pages/Librarian/EscalationManagement/EscalationLi
 import AddEscalation from '../Pages/Librarian/EscalationManagement/AddEscalation'
 import ViewEscalation from '../Pages/Librarian/EscalationManagement/ViewEscalation'
 import CommunicationInbox from '../Pages/Librarian/Communication/Inbox'
-import CommunicationDirectMessages from '../Pages/Librarian/Communication/DirectMessages'
+import RedirectLegacyDirectMessages from '../Common/Communication/RedirectLegacyDirectMessages'
 import AcademicCalendar from '../Pages/Librarian/AcademicCalendar/AcademicCalendar'
 
 const LibrarianRoutes = () => {
@@ -38,8 +38,9 @@ const LibrarianRoutes = () => {
             {/* Communication */}
             <Route path="/librarian/communication" element={<Navigate to="/librarian/communication/inbox" replace />} />
             <Route path="/librarian/communication/inbox" element={<CommunicationInbox />} />
-            <Route path="/librarian/communication/direct-messages" element={<CommunicationDirectMessages />} />
-            <Route path="/librarian/communication/direct-messages/:conversationId" element={<CommunicationDirectMessages />} />
+            <Route path="/librarian/communication/inbox/:conversationId" element={<CommunicationInbox />} />
+            <Route path="/librarian/communication/direct-messages" element={<RedirectLegacyDirectMessages inboxBase="/librarian/communication/inbox" />} />
+            <Route path="/librarian/communication/direct-messages/:conversationId" element={<RedirectLegacyDirectMessages inboxBase="/librarian/communication/inbox" />} />
 
             {/* Escalation Management */}
             <Route path="/librarian/escalation-management" element={<EscalationList />} />

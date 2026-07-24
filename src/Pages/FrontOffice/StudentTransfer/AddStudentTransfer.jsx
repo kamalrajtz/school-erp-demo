@@ -48,31 +48,7 @@ const AddStudentTransfer = () => {
                         </div>
                     </div>
                     <div className='flex flex-col gap-y-2'>
-                        <label className='text-base font-medium text-[#1E1E1E]'>Librarian Approval:</label>
-                        <select className='text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full'>
-                            <option value=''>Pending</option>
-                            <option value=''>Approved</option>
-                            <option value=''>Rejected</option>
-                        </select>
-                    </div>
-                    <div className='flex flex-col gap-y-2'>
-                        <label className='text-base font-medium text-[#1E1E1E]'>Teacher Approval:</label>
-                        <select className='text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full'>
-                            <option value=''>Pending</option>
-                            <option value=''>Approved</option>
-                            <option value=''>Rejected</option>
-                        </select>
-                    </div>
-                    <div className='flex flex-col gap-y-2'>
-                        <label className='text-base font-medium text-[#1E1E1E]'>HR Approval:</label>
-                        <select className='text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full'>
-                            <option value=''>Pending</option>
-                            <option value=''>Approved</option>
-                            <option value=''>Rejected</option>
-                        </select>
-                    </div>
-                    <div className='lg:col-span-3 flex flex-col gap-y-2'>
-                        <label className='text-base font-medium text-[#1E1E1E]'>Admin Approval:</label>
+                        <label className='text-base font-medium text-[#1E1E1E]'>MD Approval Status:</label>
                         <select className='text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full'>
                             <option value=''>Pending</option>
                             <option value=''>Approved</option>

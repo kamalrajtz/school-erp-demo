@@ -1,13 +1,10 @@
 import React from 'react'
 import { Route, Routes as ReactRoutes, Navigate } from 'react-router-dom'
 import Dashboard from '../Pages/Principal/Dashboard/Dashboard'
-import Documents from '../Pages/Principal/Documents/Documents'
 import StarRatings from '../Pages/Principal/StarRatings/StarRatings'
 import TaskManagement from '../Pages/Principal/TaskManagement/TaskManagement'
-import AddDocuments from '../Pages/Principal/Documents/AddDocuments'
 import AddTask from '../Pages/Principal/TaskManagement/AddTask'
 import AddRatings from '../Pages/Principal/StarRatings/AddRatings'
-import ViewRatings from '../Pages/Principal/StarRatings/ViewRatings'
 import ExaminationTimetableList from '../Pages/Principal/ExaminationTimetable/ExaminationTimetableList'
 import CreateExaminationTimetable from '../Pages/Principal/ExaminationTimetable/CreateExaminationTimetable'
 import ClassTimetableList from '../Pages/Principal/ClassTimetable/ClassTimetableList'
@@ -34,20 +31,23 @@ import EscalationList from '../Pages/Principal/EscalationManagement/EscalationLi
 import AddEscalation from '../Pages/Principal/EscalationManagement/AddEscalation'
 import ViewEscalation from '../Pages/Principal/EscalationManagement/ViewEscalation'
 import CommunicationInbox from '../Pages/Principal/Communication/Inbox'
-import CommunicationDirectMessages from '../Pages/Principal/Communication/DirectMessages'
+import RedirectLegacyDirectMessages from '../Common/Communication/RedirectLegacyDirectMessages'
 import AcademicCalendar from '../Pages/Principal/AcademicCalendar/AcademicCalendar'
+import TeacherAllocationList from '../Pages/Principal/TeacherAllocation/TeacherAllocationList'
+import AllocateTeacher from '../Pages/Principal/TeacherAllocation/AllocateTeacher'
+import ViewTeacherAllocation from '../Pages/Principal/TeacherAllocation/ViewTeacherAllocation'
+import EditTeacherAllocation from '../Pages/Principal/TeacherAllocation/EditTeacherAllocation'
 
 const PrincipalRoutes = () => {
     return (
         <ReactRoutes>
             <Route path="/principal/dashboard" element={<Dashboard />} />
-            <Route path="/principal/documents" element={<Documents />} />
-            <Route path="/principal/documents/add-documents" element={<AddDocuments />} />
             <Route path="/principal/task-management" element={<TaskManagement />} />
             <Route path="/principal/task-management/add-task" element={<AddTask />} />
-            <Route path="/principal/star-ratings-list" element={<StarRatings />} />
+            <Route path="/principal/star-ratings/star-of-month" element={<StarRatings view="som" />} />
+            <Route path="/principal/star-ratings/star-of-year" element={<StarRatings view="soy" />} />
             <Route path="/principal/star-ratings/add-ratings" element={<AddRatings />} />
-            <Route path="/principal/star-ratings/view-ratings/:id" element={<ViewRatings />} />
+            <Route path="/principal/star-ratings-list" element={<Navigate to="/principal/star-ratings/star-of-month" replace />} />
             <Route path="/principal/examination-timetable" element={<ExaminationTimetableList />} />
             <Route path="/principal/create-examination-timetable" element={<CreateExaminationTimetable />} />
             <Route path="/principal/class-timetable" element={<ClassTimetableList />} />
@@ -71,10 +71,15 @@ const PrincipalRoutes = () => {
             <Route path="/principal/lms/teacher-lms" element={<TeacherLMS />} />
             <Route path="/principal/lms/view-teacher-lms" element={<ViewTeacherLMS />} />
             <Route path="/principal/academic-calendar" element={<AcademicCalendar />} />
+            <Route path="/principal/academic/teacher-allocation" element={<TeacherAllocationList />} />
+            <Route path="/principal/academic/teacher-allocation/allocate/:employeeId" element={<AllocateTeacher />} />
+            <Route path="/principal/academic/teacher-allocation/view/:employeeId" element={<ViewTeacherAllocation />} />
+            <Route path="/principal/academic/teacher-allocation/edit/:employeeId" element={<EditTeacherAllocation />} />
             <Route path="/principal/communication" element={<Navigate to="/principal/communication/inbox" replace />} />
             <Route path="/principal/communication/inbox" element={<CommunicationInbox />} />
-            <Route path="/principal/communication/direct-messages" element={<CommunicationDirectMessages />} />
-            <Route path="/principal/communication/direct-messages/:conversationId" element={<CommunicationDirectMessages />} />
+            <Route path="/principal/communication/inbox/:conversationId" element={<CommunicationInbox />} />
+            <Route path="/principal/communication/direct-messages" element={<RedirectLegacyDirectMessages inboxBase="/principal/communication/inbox" />} />
+            <Route path="/principal/communication/direct-messages/:conversationId" element={<RedirectLegacyDirectMessages inboxBase="/principal/communication/inbox" />} />
             <Route path="/principal/escalation-management" element={<EscalationList />} />
             <Route path="/principal/escalation-management/add-escalation" element={<AddEscalation />} />
             <Route path="/principal/escalation-management/view/:id" element={<ViewEscalation />} />

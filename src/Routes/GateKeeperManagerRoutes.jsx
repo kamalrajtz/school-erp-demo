@@ -11,7 +11,7 @@ import EscalationList from '../Pages/GateKeeperManager/EscalationManagement/Esca
 import AddEscalation from '../Pages/GateKeeperManager/EscalationManagement/AddEscalation'
 import ViewEscalation from '../Pages/GateKeeperManager/EscalationManagement/ViewEscalation'
 import CommunicationInbox from '../Pages/GateKeeperManager/Communication/Inbox'
-import CommunicationDirectMessages from '../Pages/GateKeeperManager/Communication/DirectMessages'
+import RedirectLegacyDirectMessages from '../Common/Communication/RedirectLegacyDirectMessages'
 import AcademicCalendar from '../Pages/GateKeeperManager/AcademicCalendar/AcademicCalendar'
 
 const GateKeeperManagerRoutes = () => {
@@ -27,8 +27,9 @@ const GateKeeperManagerRoutes = () => {
             <Route path="/gatekeeper-manager/academic-calendar" element={<AcademicCalendar />} />
             <Route path="/gatekeeper-manager/communication" element={<Navigate to="/gatekeeper-manager/communication/inbox" replace />} />
             <Route path="/gatekeeper-manager/communication/inbox" element={<CommunicationInbox />} />
-            <Route path="/gatekeeper-manager/communication/direct-messages" element={<CommunicationDirectMessages />} />
-            <Route path="/gatekeeper-manager/communication/direct-messages/:conversationId" element={<CommunicationDirectMessages />} />
+            <Route path="/gatekeeper-manager/communication/inbox/:conversationId" element={<CommunicationInbox />} />
+            <Route path="/gatekeeper-manager/communication/direct-messages" element={<RedirectLegacyDirectMessages inboxBase="/gatekeeper-manager/communication/inbox" />} />
+            <Route path="/gatekeeper-manager/communication/direct-messages/:conversationId" element={<RedirectLegacyDirectMessages inboxBase="/gatekeeper-manager/communication/inbox" />} />
             <Route path="/gatekeeper-manager/escalation-management" element={<EscalationList />} />
             <Route path="/gatekeeper-manager/escalation-management/add-escalation" element={<AddEscalation />} />
             <Route path="/gatekeeper-manager/escalation-management/view/:id" element={<ViewEscalation />} />

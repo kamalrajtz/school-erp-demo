@@ -33,6 +33,7 @@ const DEFAULT_LESSON_PLANS = [
         submittedAt: '18-03-2026 10:30 AM',
         approvalStatus: 'Pending',
         trackStatus: 'On Track',
+        markAsDone: false,
         attachment: 'quadratic-equations-plan.pdf',
     },
     {
@@ -48,6 +49,7 @@ const DEFAULT_LESSON_PLANS = [
         submittedAt: '17-03-2026 03:15 PM',
         approvalStatus: 'Pending',
         trackStatus: 'Behind Schedule',
+        markAsDone: false,
         attachment: 'poetry-unit-plan.docx',
     },
     {
@@ -63,6 +65,7 @@ const DEFAULT_LESSON_PLANS = [
         submittedAt: '16-03-2026 11:00 AM',
         approvalStatus: 'Approved',
         trackStatus: 'Completed',
+        markAsDone: false,
         attachment: 'photosynthesis-lab.pdf',
     },
     {
@@ -78,6 +81,7 @@ const DEFAULT_LESSON_PLANS = [
         submittedAt: '15-03-2026 09:45 AM',
         approvalStatus: 'Pending',
         trackStatus: 'On Track',
+        markAsDone: false,
         attachment: 'independence-movement.pptx',
     },
     {
@@ -93,7 +97,40 @@ const DEFAULT_LESSON_PLANS = [
         submittedAt: '14-03-2026 02:20 PM',
         approvalStatus: 'Rejected',
         trackStatus: 'Behind Schedule',
+        markAsDone: false,
         attachment: 'python-functions.pdf',
+    },
+    {
+        id: 'LP-006',
+        subject: 'Mathematics',
+        submitterName: TEACHER_NAME,
+        submitterRole: TEACHER_ROLE,
+        className: 'Grade 10',
+        section: 'A',
+        description: 'Linear equations in two variables with graphing exercises and word problems.',
+        fromDate: '01-04-2026',
+        toDate: '05-04-2026',
+        submittedAt: '20-03-2026 09:30 AM',
+        approvalStatus: 'Approved',
+        trackStatus: 'On Track',
+        markAsDone: false,
+        attachment: 'linear-equations-plan.pdf',
+    },
+    {
+        id: 'LP-007',
+        subject: 'Physics',
+        submitterName: TEACHER_NAME,
+        submitterRole: TEACHER_ROLE,
+        className: 'Grade 11',
+        section: 'B',
+        description: 'Light reflection and refraction — theory, diagrams, and numerical problems.',
+        fromDate: '15-03-2026',
+        toDate: '19-03-2026',
+        submittedAt: '10-03-2026 11:45 AM',
+        approvalStatus: 'Approved',
+        trackStatus: 'Completed',
+        markAsDone: true,
+        attachment: 'light-reflection-plan.pdf',
     },
 ]
 
@@ -144,6 +181,7 @@ const buildLessonPlanRecord = (plans, payload, submittedAt) => {
         submittedAt,
         approvalStatus: 'Pending',
         trackStatus: 'On Track',
+        markAsDone: false,
         attachment: payload.attachment || 'lesson-plan.pdf',
     }
 }
@@ -197,6 +235,22 @@ export const getSummaryCounts = (plans) => ({
 
 export const getLessonPlansBySubmitter = (submitterName) =>
     getLessonPlans().filter((item) => item.submitterName === submitterName)
+
+export const getApprovedLessonPlansBySubmitter = (submitterName) =>
+    getLessonPlans().filter(
+        (item) => item.submitterName === submitterName && item.approvalStatus === 'Approved'
+    )
+
+export const markLessonPlanAsDone = (id) => {
+    const plans = getLessonPlans()
+    const updated = plans.map((item) =>
+        item.id === id
+            ? { ...item, markAsDone: true, trackStatus: 'Completed' }
+            : item
+    )
+    saveLessonPlans(updated)
+    return updated
+}
 
 export const emptyLessonPlanFilters = {
     search: '',

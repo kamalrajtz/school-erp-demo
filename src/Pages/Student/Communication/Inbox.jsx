@@ -1,5 +1,5 @@
-﻿import CommunicationPage from '../../../Common/Communication/CommunicationPage'
+import CommunicationPage from '../../../Common/Communication/CommunicationPage'
 
-const Inbox = () => <CommunicationPage roleKey='student' mode='inbox' />
+const Inbox = () => <CommunicationPage roleKey='student' />
 
 export default Inbox
