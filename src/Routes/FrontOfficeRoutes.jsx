@@ -28,6 +28,10 @@ import RedirectLegacyDirectMessages from '../Common/Communication/RedirectLegacy
 import AcademicCalendar from '../Pages/FrontOffice/AcademicCalendar/AcademicCalendar'
 import StudentTransfer from '../Pages/FrontOffice/StudentTransfer/StudentTransfer'
 import AddStudentTransfer from '../Pages/FrontOffice/StudentTransfer/AddStudentTransfer'
+import StudentReEnrollmentList from '../Pages/FrontOffice/StudentReEnrollment/StudentReEnrollmentList'
+import AddStudentReEnrollment from '../Pages/FrontOffice/StudentReEnrollment/AddStudentReEnrollment'
+import ViewStudentReEnrollment from '../Pages/FrontOffice/StudentReEnrollment/ViewStudentReEnrollment'
+import EditStudentReEnrollment from '../Pages/FrontOffice/StudentReEnrollment/EditStudentReEnrollment'
 import MyLeaveRequests from '../Pages/FrontOffice/LeaveRequest/MyLeaveRequests'
 import AddLeaveRequest from '../Pages/FrontOffice/LeaveRequest/AddLeaveRequest'
 import ViewMyLeaveRequest from '../Pages/FrontOffice/LeaveRequest/ViewMyLeaveRequest'
@@ -50,6 +54,10 @@ const FrontOfficeRoutes = () => {
             <Route path="/front-office/view-parent" element={<ViewParent />} />
             <Route path="/front-office/student-transfer" element={<StudentTransfer />} />
             <Route path="/front-office/student-transfer/add" element={<AddStudentTransfer />} />
+            <Route path="/front-office/student-re-enrollment" element={<StudentReEnrollmentList />} />
+            <Route path="/front-office/student-re-enrollment/add" element={<AddStudentReEnrollment />} />
+            <Route path="/front-office/student-re-enrollment/view/:id" element={<ViewStudentReEnrollment />} />
+            <Route path="/front-office/student-re-enrollment/edit/:id" element={<EditStudentReEnrollment />} />
             <Route path="/front-office/gate-pass-list" element={<GatePassList />} />
             <Route path="/front-office/add-gate-pass" element={<AddGatePass />} />
             <Route path="/front-office/material-gate-pass-list" element={<MaterialGatePassList />} />

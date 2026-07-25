@@ -9,20 +9,10 @@ import ExaminationTimetableList from '../Pages/Principal/ExaminationTimetable/Ex
 import CreateExaminationTimetable from '../Pages/Principal/ExaminationTimetable/CreateExaminationTimetable'
 import ClassTimetableList from '../Pages/Principal/ClassTimetable/ClassTimetableList'
 import CreateClassTimetable from '../Pages/Principal/ClassTimetable/CreateClassTimetable'
-import StudentsList from '../Pages/Principal/Students/StudentsList'
-import ViewStudent from '../Pages/Principal/Students/ViewStudent'
-import TeachersList from '../Pages/Principal/EmployeesManagement/Teachers/TeachersList'
-import ViewTeacher from '../Pages/Principal/EmployeesManagement/Teachers/ViewTeacher'
-import CoordinatorsList from '../Pages/Principal/EmployeesManagement/Coordinators/CoordinatorsList'
-import ViewCoordinator from '../Pages/Principal/EmployeesManagement/Coordinators/ViewCoordinator'
-import FrontOfficeList from '../Pages/Principal/EmployeesManagement/FrontOffice/FrontOfficeList'
-import ViewFrontOffice from '../Pages/Principal/EmployeesManagement/FrontOffice/ViewFrontOffice'
-import LibrariansList from '../Pages/Principal/EmployeesManagement/Librarians/LibrariansList'
-import ViewLibrarian from '../Pages/Principal/EmployeesManagement/Librarians/ViewLibrarian'
-import GateKeeperManagerList from '../Pages/Principal/EmployeesManagement/GateKeeperManager/GateKeeperManagerList'
-import ViewGateKeeperManager from '../Pages/Principal/EmployeesManagement/GateKeeperManager/ViewGateKeeperManager'
-import GateKeepersList from '../Pages/Principal/EmployeesManagement/GateKeepers/GateKeepersList'
-import ViewGateKeeper from '../Pages/Principal/EmployeesManagement/GateKeepers/ViewGateKeeper'
+import StudentDatabaseList from '../Pages/Principal/UserManagement/StudentDatabase/StudentsList'
+import ViewStudentDatabase from '../Pages/Principal/UserManagement/StudentDatabase/ViewStudent'
+import EmployeeDatabaseList from '../Pages/Principal/UserManagement/EmployeeDatabase/EmployeesList'
+import ViewEmployeeDatabase from '../Pages/Principal/UserManagement/EmployeeDatabase/ViewEmployee'
 import StudentLMS from '../Pages/Principal/LMS/StudentLMS'
 import TeacherLMS from '../Pages/Principal/LMS/TeacherLMS'
 import ViewStudentLMS from '../Pages/Principal/LMS/ViewStudentLMS'
@@ -52,20 +42,24 @@ const PrincipalRoutes = () => {
             <Route path="/principal/create-examination-timetable" element={<CreateExaminationTimetable />} />
             <Route path="/principal/class-timetable" element={<ClassTimetableList />} />
             <Route path="/principal/create-class-timetable" element={<CreateClassTimetable />} />
-            <Route path="/principal/students/student-details-list" element={<StudentsList />} />
-            <Route path="/principal/students/view-student" element={<ViewStudent />} />
-            <Route path="/principal/employees-management/teachers" element={<TeachersList />} />
-            <Route path="/principal/employees-management/view-teacher" element={<ViewTeacher />} />
-            <Route path="/principal/employees-management/coordinators" element={<CoordinatorsList />} />
-            <Route path="/principal/employees-management/view-coordinator" element={<ViewCoordinator />} />
-            <Route path="/principal/employees-management/front-office" element={<FrontOfficeList />} />
-            <Route path="/principal/employees-management/view-front-office" element={<ViewFrontOffice />} />
-            <Route path="/principal/employees-management/librarians" element={<LibrariansList />} />
-            <Route path="/principal/employees-management/view-librarian" element={<ViewLibrarian />} />
-            <Route path="/principal/employees-management/gatekeeper-manager" element={<GateKeeperManagerList />} />
-            <Route path="/principal/employees-management/view-gatekeeper-manager" element={<ViewGateKeeperManager />} />
-            <Route path="/principal/employees-management/gatekeepers" element={<GateKeepersList />} />
-            <Route path="/principal/employees-management/view-gatekeeper" element={<ViewGateKeeper />} />
+            <Route path="/principal/user-management/student-database" element={<StudentDatabaseList />} />
+            <Route path="/principal/user-management/student-database/view/:id" element={<ViewStudentDatabase />} />
+            <Route path="/principal/user-management/employee-database" element={<EmployeeDatabaseList />} />
+            <Route path="/principal/user-management/employee-database/view/:id" element={<ViewEmployeeDatabase />} />
+            <Route path="/principal/students/student-details-list" element={<Navigate to="/principal/user-management/student-database" replace />} />
+            <Route path="/principal/students/view-student" element={<Navigate to="/principal/user-management/student-database" replace />} />
+            <Route path="/principal/employees-management/teachers" element={<Navigate to="/principal/user-management/employee-database" replace />} />
+            <Route path="/principal/employees-management/view-teacher" element={<Navigate to="/principal/user-management/employee-database" replace />} />
+            <Route path="/principal/employees-management/coordinators" element={<Navigate to="/principal/user-management/employee-database" replace />} />
+            <Route path="/principal/employees-management/view-coordinator" element={<Navigate to="/principal/user-management/employee-database" replace />} />
+            <Route path="/principal/employees-management/front-office" element={<Navigate to="/principal/user-management/employee-database" replace />} />
+            <Route path="/principal/employees-management/view-front-office" element={<Navigate to="/principal/user-management/employee-database" replace />} />
+            <Route path="/principal/employees-management/librarians" element={<Navigate to="/principal/user-management/employee-database" replace />} />
+            <Route path="/principal/employees-management/view-librarian" element={<Navigate to="/principal/user-management/employee-database" replace />} />
+            <Route path="/principal/employees-management/gatekeeper-manager" element={<Navigate to="/principal/user-management/employee-database" replace />} />
+            <Route path="/principal/employees-management/view-gatekeeper-manager" element={<Navigate to="/principal/user-management/employee-database" replace />} />
+            <Route path="/principal/employees-management/gatekeepers" element={<Navigate to="/principal/user-management/employee-database" replace />} />
+            <Route path="/principal/employees-management/view-gatekeeper" element={<Navigate to="/principal/user-management/employee-database" replace />} />
             <Route path="/principal/lms/student-lms" element={<StudentLMS />} />
             <Route path="/principal/lms/view-student-lms" element={<ViewStudentLMS />} />
             <Route path="/principal/lms/teacher-lms" element={<TeacherLMS />} />

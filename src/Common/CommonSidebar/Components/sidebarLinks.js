@@ -342,6 +342,12 @@ export const prmSidebarLinks = [
         icon: UsersRound,
     },
     {
+        id: 14,
+        title: "Student Re-Enrollment",
+        to: "/front-office/student-re-enrollment",
+        icon: UserPlus,
+    },
+    {
         id: 5,
         title: "Gate Pass",
         to: "#0",
@@ -1588,22 +1594,12 @@ export const principalSidebarLinks = [
     },
     {
         id: 6,
-        title: "Student Management",
-        to: "/principal/students/student-details-list",
-        icon: UserRound,
-    },
-    {
-        id: 7,
-        title: "Employees Management",
+        title: "User Management",
         to: "#0",
-        icon: UsersRound,
+        icon: Users,
         subLinks: [
-            { icon: UserRoundCog, title: "Teachers", to: "/principal/employees-management/teachers" },
-            { icon: UsersRound, title: "Coordinators", to: "/principal/employees-management/coordinators" },
-            { icon: Briefcase, title: "Front Office", to: "/principal/employees-management/front-office" },
-            { icon: Library, title: "Librarians", to: "/principal/employees-management/librarians" },
-            { icon: BrickWallShield, title: "Gate Keeper Manager", to: "/principal/employees-management/gatekeeper-manager" },
-            { icon: BrickWallShield, title: "Gate Keepers", to: "/principal/employees-management/gatekeepers" },
+            { icon: UserRound, title: "Student Database", to: "/principal/user-management/student-database" },
+            { icon: UserRoundCog, title: "Employee Database", to: "/principal/user-management/employee-database" },
         ],
     },
     {
@@ -1618,7 +1614,7 @@ export const principalSidebarLinks = [
     },
     {
         id: 10,
-        title: "Academic Calendar",
+        title: "Calendar",
         to: "/principal/academic-calendar",
         icon: CalendarDays,
     },
