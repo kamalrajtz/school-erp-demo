@@ -147,7 +147,6 @@ const StudentReEnrollmentList = () => {
                                             <Dropdown buttonContent={<EllipsisIcon size={16} className='text-black' />}>
                                                 <NavLink to={`${ROUTE_BASE}/view/${record.id}`} className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'>View</NavLink>
                                                 <NavLink to={`${ROUTE_BASE}/edit/${record.id}`} className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'>Edit</NavLink>
-                                                <NavLink to={`${ROUTE_BASE}/view/${record.id}?print=1`} className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'>Print Acknowledgement</NavLink>
                                                 <button type='button' onClick={() => setDeleteRequestModal(true)} className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'>Delete</button>
                                             </Dropdown>
                                         </td>
