@@ -28,6 +28,11 @@ import AllocateTeacher from '../Pages/Principal/TeacherAllocation/AllocateTeache
 import ViewTeacherAllocation from '../Pages/Principal/TeacherAllocation/ViewTeacherAllocation'
 import EditTeacherAllocation from '../Pages/Principal/TeacherAllocation/EditTeacherAllocation'
 import Notifications from '../Pages/Principal/Notifications/Notifications'
+import MyLeaveRequests from '../Pages/Principal/LeaveRequest/MyLeaveRequests'
+import AddLeaveRequest from '../Pages/Principal/LeaveRequest/AddLeaveRequest'
+import ViewMyLeaveRequest from '../Pages/Principal/LeaveRequest/ViewMyLeaveRequest'
+import ReceivedLeaveRequests from '../Pages/Principal/LeaveRequest/ReceivedLeaveRequests'
+import ViewReceivedLeaveRequest from '../Pages/Principal/LeaveRequest/ViewReceivedLeaveRequest'
 
 const PrincipalRoutes = () => {
     return (
@@ -79,6 +84,11 @@ const PrincipalRoutes = () => {
             <Route path="/principal/escalation-management" element={<EscalationList />} />
             <Route path="/principal/escalation-management/add-escalation" element={<AddEscalation />} />
             <Route path="/principal/escalation-management/view/:id" element={<ViewEscalation />} />
+            <Route path="/principal/leave-request/my-requests" element={<MyLeaveRequests />} />
+            <Route path="/principal/leave-request/my-requests/add" element={<AddLeaveRequest />} />
+            <Route path="/principal/leave-request/my-requests/view/:id" element={<ViewMyLeaveRequest />} />
+            <Route path="/principal/leave-request/received" element={<ReceivedLeaveRequests />} />
+            <Route path="/principal/leave-request/received/view/:id" element={<ViewReceivedLeaveRequest />} />
             <Route path="*" element={<Navigate to="/principal/dashboard" replace />} />
         </ReactRoutes>
     )

@@ -1724,6 +1724,16 @@ export const principalSidebarLinks = [
         ],
     },
     {
+        id: 15,
+        title: "Leave Request",
+        to: "#0",
+        icon: FileX,
+        subLinks: [
+            { icon: FileText, title: "My Leave Requests", to: "/principal/leave-request/my-requests" },
+            { icon: ListChecks, title: "Received Leave Requests", to: "/principal/leave-request/received" },
+        ],
+    },
+    {
         id: 10,
         title: "Calendar",
         to: "/principal/academic-calendar",

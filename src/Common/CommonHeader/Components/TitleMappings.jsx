@@ -569,6 +569,9 @@
     "/principal/academic/teacher-allocation/view": "View Teacher Allocation",
     "/principal/academic/teacher-allocation/edit": "Edit Teacher Allocation",
     "/principal/communication/inbox": "Communication Inbox",
+    "/principal/leave-request/my-requests": "My Leave Requests",
+    "/principal/leave-request/my-requests/add": "Apply Leave",
+    "/principal/leave-request/received": "Received Leave Requests",
 
     // ── Director Role ─────────────────────────────────────────────────────────
     "/director/dashboard": "Dashboard",
@@ -645,6 +648,8 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/admin\/leave-request\/received\/view\/[^/]+$/.test(p), title: 'View Received Leave Request' },
     { test: (p) => /^\/director\/leave-request\/my-requests\/view\/[^/]+$/.test(p), title: 'View Leave Request Details' },
     { test: (p) => /^\/director\/leave-request\/received\/view\/[^/]+$/.test(p), title: 'View Received Leave Request' },
+    { test: (p) => /^\/principal\/leave-request\/my-requests\/view\/[^/]+$/.test(p), title: 'View Leave Request Details' },
+    { test: (p) => /^\/principal\/leave-request\/received\/view\/[^/]+$/.test(p), title: 'View Received Leave Request' },
     { test: (p) => /^\/teacher\/leave-request\/my-requests\/view\/[^/]+$/.test(p), title: 'View Leave Request Details' },
     { test: (p) => /^\/teacher\/leave-request\/received\/view\/[^/]+$/.test(p), title: 'View Received Leave Request' },
     { test: (p) => /^\/joint-director\/employee-management\/drivers\/view\/[^/]+$/.test(p), title: 'View Driver Details' },
