@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react'
 import { addDays, addWeeks, format, isToday, startOfWeek, subWeeks } from 'date-fns'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { WEEKLY_DAYS, TIME_SLOTS, WEEKLY_SCHEDULE, SUBJECT_COLORS } from '../classRoutineData'
+import { WEEKLY_DAYS, TIME_SLOTS, WEEKLY_SCHEDULE, SUBJECT_COLORS, TEACHER_TIMETABLE_INFO } from '../classRoutineData'
+import TimetablePeriodCell from '../../../../Common/ClassTimetable/TimetablePeriodCell'
 
 const TeacherWeeklyTimetable = ({ weekDate = new Date() }) => {
     const [hoveredCell, setHoveredCell] = useState(null)
@@ -88,6 +89,7 @@ const TeacherWeeklyTimetable = ({ weekDate = new Date() }) => {
                                 </td>
                                 {WEEKLY_DAYS.map((day, colIdx) => {
                                     const entry = WEEKLY_SCHEDULE[slot.label]?.[day]
+                                    const cellDate = dayDates[colIdx]
                                     const cellKey = `${rowIdx}-${colIdx}`
                                     const isHovered = hoveredCell === cellKey
 
@@ -99,18 +101,12 @@ const TeacherWeeklyTimetable = ({ weekDate = new Date() }) => {
                                             onMouseLeave={() => setHoveredCell(null)}
                                         >
                                             {entry ? (
-                                                <div
-                                                    className={`
-                                                        inline-flex flex-col items-center justify-center gap-0.5
-                                                        w-full py-3 px-2 rounded-lg text-sm font-medium
-                                                        transition-all duration-200
-                                                        ${getSubjectStyle(entry.subject)}
-                                                        ${isHovered ? 'shadow-sm scale-[1.03]' : ''}
-                                                    `}
-                                                >
-                                                    <span>{entry.subject}</span>
-                                                    <span className='text-xs opacity-80'>Class {entry.className}</span>
-                                                </div>
+                                                <TimetablePeriodCell
+                                                    subject={entry.subject}
+                                                    date={cellDate}
+                                                    teacher={entry.teacher || TEACHER_TIMETABLE_INFO.teacherName}
+                                                    className={`transition-all duration-200 ${getSubjectStyle(entry.subject)} ${isHovered ? 'shadow-sm scale-[1.03]' : ''}`}
+                                                />
                                             ) : (
                                                 <span className='text-slate-300 text-xs'>—</span>
                                             )}

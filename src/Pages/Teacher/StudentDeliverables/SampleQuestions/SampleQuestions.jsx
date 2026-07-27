@@ -9,9 +9,9 @@ import pdf_icon from '../../../../assets/images/pdf-icon.png'
 import noAssign from '../../../../assets/images/no-assign.png'
 import {
     CLASSES,
+    DEFAULT_ROUTE_BASE,
     filterSampleQuestions,
     getSampleQuestions,
-    ROUTE_BASE,
     SECTIONS,
     SUBJECTS,
 } from './sampleQuestionsData'
@@ -23,7 +23,10 @@ const emptyFilters = {
     section: '',
 }
 
-const SampleQuestionsEmpty = () => (
+const SampleQuestionsEmpty = ({ routeBase, viewMode }) => {
+    const isStudent = viewMode === 'student'
+
+    return (
     <div className='bg-white rounded-2xl shadow-md p-8 sm:p-12 min-h-[420px] flex items-center justify-center'>
         <div className='flex flex-col items-center text-center max-w-md mx-auto'>
             <img src={noAssign} alt='No sample questions found' className='w-72 h-72 object-contain' />
@@ -31,20 +34,26 @@ const SampleQuestionsEmpty = () => (
                 No Sample Questions Found!
             </h2>
             <p className='text-sm sm:text-base text-[#667085] mt-2'>
-                It looks like you haven&apos;t added any sample questions yet.
+                {isStudent
+                    ? 'There are no sample questions available for you at the moment.'
+                    : 'It looks like you haven&apos;t added any sample questions yet.'}
             </p>
-            <NavLink
-                to={`${ROUTE_BASE}/add`}
-                className='bg-[#515DEF] text-white text-sm text-center px-12 py-2 rounded-md border border-[#515DEF] hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2 mt-8'
-            >
-                <Plus size={16} />
-                Add Sample Questions
-            </NavLink>
+            {!isStudent && (
+                <NavLink
+                    to={`${routeBase}/add`}
+                    className='bg-[#515DEF] text-white text-sm text-center px-12 py-2 rounded-md border border-[#515DEF] hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2 mt-8'
+                >
+                    <Plus size={16} />
+                    Add Sample Questions
+                </NavLink>
+            )}
         </div>
     </div>
-)
+    )
+}
 
-const SampleQuestionsList = ({ items }) => {
+const SampleQuestionsList = ({ items, routeBase, viewMode }) => {
+    const isStudent = viewMode === 'student'
     const [filters, setFilters] = useState(emptyFilters)
     const [exportModal, setExportModal] = useState(false)
     const [editRequestModal, setEditRequestModal] = useState(false)
@@ -134,23 +143,25 @@ const SampleQuestionsList = ({ items }) => {
             <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
                     <h2 className='text-xl font-medium text-black'>Sample Questions List</h2>
-                    <div className='flex gap-x-2'>
-                        <NavLink
-                            to={`${ROUTE_BASE}/add`}
-                            className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
-                        >
-                            <Plus size={16} />
-                            Add Sample Questions
-                        </NavLink>
-                        <button
-                            type='button'
-                            onClick={() => setExportModal(true)}
-                            className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
-                        >
-                            <Download size={16} />
-                            Export
-                        </button>
-                    </div>
+                    {!isStudent && (
+                        <div className='flex gap-x-2'>
+                            <NavLink
+                                to={`${routeBase}/add`}
+                                className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
+                            >
+                                <Plus size={16} />
+                                Add Sample Questions
+                            </NavLink>
+                            <button
+                                type='button'
+                                onClick={() => setExportModal(true)}
+                                className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
+                            >
+                                <Download size={16} />
+                                Export
+                            </button>
+                        </div>
+                    )}
                 </div>
                 <div className='flex gap-x-2 items-center my-2'>
                     <select
@@ -198,25 +209,29 @@ const SampleQuestionsList = ({ items }) => {
                                     <td className='px-2 py-4 text-center rounded-e-lg'>
                                         <Dropdown buttonContent={<EllipsisIcon size={16} className='text-black' />}>
                                             <NavLink
-                                                to={`${ROUTE_BASE}/view/${record.id}`}
+                                                to={`${routeBase}/view/${record.id}`}
                                                 className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
                                             >
                                                 View
                                             </NavLink>
-                                            <button
-                                                type='button'
-                                                onClick={() => setEditRequestModal(true)}
-                                                className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
-                                            >
-                                                Edit
-                                            </button>
-                                            <button
-                                                type='button'
-                                                onClick={() => setDeleteRequestModal(true)}
-                                                className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
-                                            >
-                                                Delete
-                                            </button>
+                                            {!isStudent && (
+                                                <>
+                                                    <button
+                                                        type='button'
+                                                        onClick={() => setEditRequestModal(true)}
+                                                        className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                    <button
+                                                        type='button'
+                                                        onClick={() => setDeleteRequestModal(true)}
+                                                        className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </>
+                                            )}
                                         </Dropdown>
                                     </td>
                                 </tr>
@@ -250,7 +265,7 @@ const SampleQuestionsList = ({ items }) => {
     )
 }
 
-const SampleQuestions = () => {
+const SampleQuestions = ({ routeBase = DEFAULT_ROUTE_BASE, viewMode = 'teacher' }) => {
     const location = useLocation()
     const [items, setItems] = useState(() => getSampleQuestions())
 
@@ -261,14 +276,14 @@ const SampleQuestions = () => {
     if (items.length === 0) {
         return (
             <section>
-                <SampleQuestionsEmpty />
+                <SampleQuestionsEmpty routeBase={routeBase} viewMode={viewMode} />
             </section>
         )
     }
 
     return (
         <section>
-            <SampleQuestionsList items={items} />
+            <SampleQuestionsList items={items} routeBase={routeBase} viewMode={viewMode} />
         </section>
     )
 }

@@ -1,10 +1,13 @@
 import React from 'react'
 import BusTrackingMap from './Components/BusTrackingMap'
+import BusRouteCard from './Components/BusRouteCard'
 
-const TrackBus = () => {
+const TrackBus = ({ showRouteDetails = false }) => {
     return (
         <section>
-            <div className='bg-white rounded-2xl shadow-md p-4'>
+            {showRouteDetails && <BusRouteCard title="Bus Route Details" />}
+
+            <div className={`bg-white rounded-2xl shadow-md p-4 ${showRouteDetails ? 'mt-8' : ''}`}>
                 <h2 className='text-xl font-medium text-black'>Track Bus Location</h2>
             </div>
 

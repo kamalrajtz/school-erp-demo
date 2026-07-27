@@ -9,6 +9,12 @@ export const SUBJECT_OPTIONS = SUBJECTS
 export const CLASS_OPTIONS = CLASSES.map((item) => `Grade ${item}`)
 export const SECTION_OPTIONS = SECTIONS
 
+export const ACADEMIC_YEAR_OPTIONS = ['2024-2025', '2025-2026', '2026-2027']
+export const MONTH_OPTIONS = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December',
+]
+
 export const APPROVAL_STATUSES = ['Pending', 'Approved', 'Rejected']
 export const TRACK_STATUSES = ['On Track', 'Behind Schedule', 'Completed']
 export const SUBMITTER_ROLES = ['Teacher', 'Co-ordinator']
@@ -175,6 +181,9 @@ const buildLessonPlanRecord = (plans, payload, submittedAt) => {
         submitterRole: payload.submitterRole,
         className: payload.className,
         section: payload.section,
+        title: payload.title?.trim() ?? '',
+        academicYear: payload.academicYear ?? '',
+        month: payload.month ?? '',
         description: payload.description.trim(),
         fromDate: payload.fromDate,
         toDate: payload.toDate,
@@ -286,7 +295,7 @@ export const filterLessonPlans = (plans, filters) => {
         if (filters.submitterRole && record.submitterRole !== filters.submitterRole) return false
 
         if (search) {
-            const haystack = `${record.id} ${record.subject} ${record.submitterName} ${record.description} ${record.className} ${record.section} ${record.fromDate ?? ''} ${record.toDate ?? ''}`.toLowerCase()
+            const haystack = `${record.id} ${record.subject} ${record.submitterName} ${record.title ?? ''} ${record.description} ${record.className} ${record.section} ${record.fromDate ?? ''} ${record.toDate ?? ''}`.toLowerCase()
             if (!haystack.includes(search)) return false
         }
 

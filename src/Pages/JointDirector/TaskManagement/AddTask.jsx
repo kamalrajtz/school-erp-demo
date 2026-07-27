@@ -17,13 +17,9 @@ const AddTask = () => {
     const [assignedDate, setAssignedDate] = useState(new Date())
     const [dueDate, setDueDate] = useState(new Date())
     const [selectedAssignee, setSelectedAssignee] = useState('')
-    const [department, setDepartment] = useState('')
 
     const handleAssigneeChange = (e) => {
-        const label = e.target.value
-        setSelectedAssignee(label)
-        const match = ASSIGNEE_OPTIONS.find((option) => option.label === label)
-        setDepartment(match?.department ?? '')
+        setSelectedAssignee(e.target.value)
     }
 
     return (
@@ -53,21 +49,10 @@ const AddTask = () => {
                             onChange={handleAssigneeChange}
                         >
                             <option value="" disabled>Select assignee</option>
-                            {ASSIGNEE_OPTIONS.map((option) => (
-                                <option key={option.label} value={option.label}>{option.label}</option>
+                            {ASSIGNEE_OPTIONS.map((label) => (
+                                <option key={label} value={label}>{label}</option>
                             ))}
                         </select>
-                    </div>
-                    <div className='flex flex-col gap-y-2'>
-                        <label htmlFor="department" className='text-base font-medium text-[#1E1E1E]'>Department</label>
-                        <input
-                            type="text"
-                            id="department"
-                            readOnly
-                            value={department}
-                            placeholder="Auto-filled from assignee"
-                            className={`${inputClass} bg-[#F9F9F9]`}
-                        />
                     </div>
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor="priority" className='text-base font-medium text-[#1E1E1E]'>Priority</label>

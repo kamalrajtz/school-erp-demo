@@ -24,10 +24,8 @@ import BookList from '../Pages/Admin/LibraryDetails/BookList/BookList'
 import AddBooks from '../Pages/Admin/LibraryDetails/BookList/AddBooks'
 import IssuedBooks from '../Pages/Admin/LibraryDetails/IssuedBooks/IssuedBooks'
 import AddIssueBook from '../Pages/Admin/LibraryDetails/IssuedBooks/AddIssueBook'
-import StudentDetails from '../Pages/Admin/Students/StudentDetails/StudentDetails'
 import ClassFeeDetails from '../Pages/Admin/Students/ClassFeeDetails/ClassFeeDetails'
 import AddClassFeeDetails from '../Pages/Admin/Students/ClassFeeDetails/AddClassFeeDetails'
-import ParentDetails from '../Pages/Admin/Students/ParentDetails/ParentDetails'
 import StudentDocuments from '../Pages/Admin/Documents/StudentDocuments/StudentDocuments'
 import AddStudentDocuments from '../Pages/Admin/Documents/StudentDocuments/AddStudentDocuments'
 import VehicleDetailsList from '../Pages/Admin/Transport/VehicleDetails/VehicleDetailsList'
@@ -67,6 +65,12 @@ import ViewEscalation from '../Pages/Admin/EscalationManagement/ViewEscalation'
 import CommunicationInbox from '../Pages/Admin/Communication/Inbox'
 import RedirectLegacyDirectMessages from '../Common/Communication/RedirectLegacyDirectMessages'
 import AcademicCalendar from '../Pages/Admin/AcademicCalendar/AcademicCalendar'
+import ActivityListView from '../Common/Activities/ActivityListView'
+import AddActivityForm from '../Common/Activities/AddActivityForm'
+import AdminStudentDatabaseList from '../Pages/Admin/UserManagement/StudentDatabase/StudentsList'
+import AdminViewStudentDatabase from '../Pages/Admin/UserManagement/StudentDatabase/ViewStudent'
+import AdminEmployeeDatabaseList from '../Pages/Admin/UserManagement/EmployeeDatabase/EmployeesList'
+import AdminViewEmployeeDatabase from '../Pages/Admin/UserManagement/EmployeeDatabase/ViewEmployee'
 
 // import Dashboard from '../Pages/Dashboard/Dashboard'
 
@@ -117,21 +121,25 @@ const AdminRoutes = () => {
 
             {/* Student */}
 
-            <Route path="/admin/student/student-details" element={<StudentDetails />} />
+            <Route path="/admin/user-management/student-database" element={<AdminStudentDatabaseList />} />
+            <Route path="/admin/user-management/student-database/view/:id" element={<AdminViewStudentDatabase />} />
+            <Route path="/admin/user-management/employee-database" element={<AdminEmployeeDatabaseList />} />
+            <Route path="/admin/user-management/employee-database/view/:id" element={<AdminViewEmployeeDatabase />} />
+            <Route path="/admin/student/student-details" element={<Navigate to="/admin/user-management/student-database" replace />} />
             <Route path="/admin/student/class-fee-details" element={<ClassFeeDetails />} />
             <Route path="/admin/student/add-class-fee-details" element={<AddClassFeeDetails />} />
-            <Route path="/admin/student/parent-details" element={<ParentDetails />} />
+            <Route path="/admin/student/parent-details" element={<Navigate to="/admin/user-management/student-database" replace />} />
             <Route path="/admin/student/student-transfer" element={<Navigate to='/front-office/student-transfer' replace />} />
             <Route path="/admin/student/add-student-transfer" element={<Navigate to='/front-office/student-transfer/add' replace />} />
             {/* <Route path="/admin/student/leave-request" element={< />} /> */}
 
-            {/* Activities (moved to Director) */}
-            <Route path="/admin/activities/cultural-list" element={<Navigate to='/director/activities/cultural-list' replace />} />
-            <Route path="/admin/activities/add-cultural" element={<Navigate to='/director/activities/add-cultural' replace />} />
-            <Route path="/admin/activities/sports-list" element={<Navigate to='/director/activities/sports-list' replace />} />
-            <Route path="/admin/activities/add-sports" element={<Navigate to='/director/activities/add-sports' replace />} />
-            <Route path="/admin/activities/competitions-list" element={<Navigate to='/director/activities/competitions-list' replace />} />
-            <Route path="/admin/activities/add-competition" element={<Navigate to='/director/activities/add-competition' replace />} />
+            {/* Activities */}
+            <Route path="/admin/activities/cultural-list" element={<ActivityListView roleKey="admin" activityType="cultural" />} />
+            <Route path="/admin/activities/add-cultural" element={<AddActivityForm roleKey="admin" activityType="cultural" />} />
+            <Route path="/admin/activities/sports-list" element={<ActivityListView roleKey="admin" activityType="sports" />} />
+            <Route path="/admin/activities/add-sports" element={<AddActivityForm roleKey="admin" activityType="sports" />} />
+            <Route path="/admin/activities/competitions-list" element={<ActivityListView roleKey="admin" activityType="competition" />} />
+            <Route path="/admin/activities/add-competition" element={<AddActivityForm roleKey="admin" activityType="competition" />} />
 
             {/* Documents */}
             <Route path="/admin/documents/student-documents" element={<StudentDocuments />} />

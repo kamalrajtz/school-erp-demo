@@ -31,7 +31,10 @@ const fileIcon = (fileType) => {
     return pdf_icon
 }
 
-const StudyMaterialsEmpty = ({ routeBase }) => (
+const StudyMaterialsEmpty = ({ routeBase, viewMode }) => {
+    const isStudent = viewMode === 'student'
+
+    return (
     <div className='bg-white rounded-2xl shadow-md p-8 sm:p-12 min-h-[420px] flex items-center justify-center'>
         <div className='flex flex-col items-center text-center max-w-md mx-auto'>
             <img src={noAssign} alt='No study materials found' className='w-72 h-72 object-contain' />
@@ -39,20 +42,26 @@ const StudyMaterialsEmpty = ({ routeBase }) => (
                 No Study Materials Found!
             </h2>
             <p className='text-sm sm:text-base text-[#667085] mt-2'>
-                It looks like you haven&apos;t added any study materials yet.
+                {isStudent
+                    ? 'There are no study materials available for you at the moment.'
+                    : 'It looks like you haven&apos;t added any study materials yet.'}
             </p>
-            <NavLink
-                to={`${routeBase}/add`}
-                className='bg-[#515DEF] text-white text-sm text-center px-12 py-2 rounded-md border border-[#515DEF] hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2 mt-8'
-            >
-                <Plus size={16} />
-                Add Study Material
-            </NavLink>
+            {!isStudent && (
+                <NavLink
+                    to={`${routeBase}/add`}
+                    className='bg-[#515DEF] text-white text-sm text-center px-12 py-2 rounded-md border border-[#515DEF] hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2 mt-8'
+                >
+                    <Plus size={16} />
+                    Add Study Material
+                </NavLink>
+            )}
         </div>
     </div>
-)
+    )
+}
 
-const StudyMaterialsList = ({ items, routeBase }) => {
+const StudyMaterialsList = ({ items, routeBase, viewMode }) => {
+    const isStudent = viewMode === 'student'
     const [filters, setFilters] = useState(emptyFilters)
     const [exportModal, setExportModal] = useState(false)
     const [editRequestModal, setEditRequestModal] = useState(false)
@@ -142,23 +151,25 @@ const StudyMaterialsList = ({ items, routeBase }) => {
             <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
                     <h2 className='text-xl font-medium text-black'>Study Materials List</h2>
-                    <div className='flex gap-x-2'>
-                        <NavLink
-                            to={`${routeBase}/add`}
-                            className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
-                        >
-                            <Plus size={16} />
-                            Add Study Material
-                        </NavLink>
-                        <button
-                            type='button'
-                            onClick={() => setExportModal(true)}
-                            className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
-                        >
-                            <Download size={16} />
-                            Export
-                        </button>
-                    </div>
+                    {!isStudent && (
+                        <div className='flex gap-x-2'>
+                            <NavLink
+                                to={`${routeBase}/add`}
+                                className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
+                            >
+                                <Plus size={16} />
+                                Add Study Material
+                            </NavLink>
+                            <button
+                                type='button'
+                                onClick={() => setExportModal(true)}
+                                className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
+                            >
+                                <Download size={16} />
+                                Export
+                            </button>
+                        </div>
+                    )}
                 </div>
                 <div className='flex gap-x-2 items-center my-2'>
                     <select
@@ -211,20 +222,24 @@ const StudyMaterialsList = ({ items, routeBase }) => {
                                             >
                                                 View
                                             </NavLink>
-                                            <button
-                                                type='button'
-                                                onClick={() => setEditRequestModal(true)}
-                                                className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
-                                            >
-                                                Edit
-                                            </button>
-                                            <button
-                                                type='button'
-                                                onClick={() => setDeleteRequestModal(true)}
-                                                className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
-                                            >
-                                                Delete
-                                            </button>
+                                            {!isStudent && (
+                                                <>
+                                                    <button
+                                                        type='button'
+                                                        onClick={() => setEditRequestModal(true)}
+                                                        className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                    <button
+                                                        type='button'
+                                                        onClick={() => setDeleteRequestModal(true)}
+                                                        className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </>
+                                            )}
                                         </Dropdown>
                                     </td>
                                 </tr>
@@ -258,7 +273,7 @@ const StudyMaterialsList = ({ items, routeBase }) => {
     )
 }
 
-const StudyMaterials = ({ routeBase = DEFAULT_ROUTE_BASE }) => {
+const StudyMaterials = ({ routeBase = DEFAULT_ROUTE_BASE, viewMode = 'teacher' }) => {
     const location = useLocation()
     const [items, setItems] = useState(() => getStudyMaterials())
 
@@ -269,14 +284,14 @@ const StudyMaterials = ({ routeBase = DEFAULT_ROUTE_BASE }) => {
     if (items.length === 0) {
         return (
             <section>
-                <StudyMaterialsEmpty routeBase={routeBase} />
+                <StudyMaterialsEmpty routeBase={routeBase} viewMode={viewMode} />
             </section>
         )
     }
 
     return (
         <section>
-            <StudyMaterialsList items={items} routeBase={routeBase} />
+            <StudyMaterialsList items={items} routeBase={routeBase} viewMode={viewMode} />
         </section>
     )
 }

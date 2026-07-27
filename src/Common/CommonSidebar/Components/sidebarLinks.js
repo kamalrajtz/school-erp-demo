@@ -100,12 +100,23 @@ export const adminSidebarLinks = [
     },
     {
         id: 5,
-        title: "User Management",
+        title: "User Database",
         to: "#0",
         icon: UserRound,
         subLinks: [
-            { icon: UserRoundSearch, title: "Student Details", to: "/admin/student/student-details" },
-            { icon: UsersRound, title: "Parent Details", to: "/admin/student/parent-details" },
+            { icon: UserRound, title: "Student Database", to: "/admin/user-management/student-database" },
+            { icon: UserRoundCog, title: "Employee Database", to: "/admin/user-management/employee-database" },
+        ],
+    },
+    {
+        id: 6,
+        title: "Activities",
+        to: "#0",
+        icon: Trophy,
+        subLinks: [
+            { icon: Palette, title: "Cultural", to: "/admin/activities/cultural-list" },
+            { icon: Dumbbell, title: "Sports", to: "/admin/activities/sports-list" },
+            { icon: Award, title: "Competitions", to: "/admin/activities/competitions-list" },
         ],
     },
     {
@@ -181,19 +192,9 @@ export const studentSidebarLinks = [
         icon: School,
         subLinks: [
             { icon: MonitorPlay, title: "Online Class", to: "/student/class/online-class" },
-            { icon: UserPlus, title: "Extra Class", to: "/student/class/extra-class" },
+            { icon: UserPlus, title: "Extended Class", to: "/student/class/extra-class" },
             { icon: CalendarDays, title: "Timetable", to: "/student/class/timetable-list" },
             { icon: UsersRound, title: "Attendance List", to: "/student/class/attendance-list" },
-        ],
-    },
-    {
-        id: 3,
-        title: "Studies",
-        to: "#0",
-        icon: BookOpen,
-        subLinks: [
-            { icon: BookCopy, title: "Study Material List", to: "/student/studies/study-material-list" },
-            { icon: ListChecks, title: "Sample Questions List", to: "/student/studies/sample-questions-list" },
         ],
     },
     {
@@ -202,33 +203,19 @@ export const studentSidebarLinks = [
         to: "#0",
         icon: Award,
         subLinks: [
-            { icon: NotebookPen, title: "Exam Details", to: "/student/student-evaluation/exam-details" },
+            { icon: ClipboardCheck, title: "Exam Result", to: "/student/student-evaluation/exam-result" },
+            { icon: CalendarDays, title: "Exam Schedule", to: "/student/student-evaluation/exam-schedule" },
         ],
     },
     {
-        id: 5,
-        title: "Assessment List",
+        id: 3,
+        title: "Student Deliverables",
         to: "#0",
-        icon: ClipboardList,
+        icon: Package,
         subLinks: [
-            { icon: ClipboardPen, title: "Assignment List", to: "/student/assessment/assignment-list" },
-        ],
-    },
-    {
-        id: 6,
-        title: "Result Details",
-        to: "/student/result-details",
-        icon: BookUser,
-    },
-    {
-        id: 7,
-        title: "Activities",
-        to: "#0",
-        icon: Trophy,
-        subLinks: [
-            { icon: Palette, title: "Cultural", to: "/student/activities/cultural-list" },
-            { icon: Dumbbell, title: "Sports", to: "/student/activities/sports-list" },
-            { icon: Award, title: "Competitions", to: "/student/activities/competitions-list" },
+            { icon: Sparkles, title: "Home Fun", to: "/student/student-deliverables/home-fun" },
+            { icon: BookOpenCheck, title: "Study Materials", to: "/student/student-deliverables/study-materials" },
+            { icon: CircleHelp, title: "Sample Questions", to: "/student/student-deliverables/sample-questions" },
         ],
     },
     {
@@ -276,18 +263,12 @@ export const studentSidebarLinks = [
     {
         id: 13,
         title: "Notification",
-        to: "#0",
+        to: "/student/notifications",
         icon: BellDot,
-        subLinks: [
-            { icon: NotebookPen, title: "Exams", to: "/student/notification/exam-notification" },
-            { icon: PartyPopper, title: "Events", to: "/student/notification/event-notification" },
-            { icon: CalendarOff, title: "Holidays", to: "/student/notification/holiday-notification" },
-            { icon: BadgeDollarSign, title: "Payment Notification", to: "/student/notification/payment-notification" },
-        ],
     },
     {
         id: 14,
-        title: "Academic Calendar",
+        title: "Calendar",
         to: "/student/academic-calendar",
         icon: CalendarDays,
     },
@@ -301,6 +282,107 @@ export const studentSidebarLinks = [
         id: 16,
         title: "Escalation Management",
         to: "/student/escalation-management",
+        icon: ShieldAlert,
+    },
+];
+
+export const parentSidebarLinks = [
+    {
+        id: 1,
+        title: "Dashboard",
+        to: "/parent/dashboard",
+        icon: LayoutDashboard,
+    },
+    {
+        id: 2,
+        title: "Class",
+        to: "#0",
+        icon: School,
+        subLinks: [
+            { icon: MonitorPlay, title: "Online Class", to: "/parent/class/online-class" },
+            { icon: UserPlus, title: "Extended Class", to: "/parent/class/extra-class" },
+            { icon: CalendarDays, title: "Timetable", to: "/parent/class/timetable-list" },
+            { icon: UsersRound, title: "Attendance List", to: "/parent/class/attendance-list" },
+        ],
+    },
+    {
+        id: 3,
+        title: "Student Evaluation",
+        to: "#0",
+        icon: Award,
+        subLinks: [
+            { icon: ClipboardCheck, title: "Exam Result", to: "/parent/student-evaluation/exam-result" },
+            { icon: CalendarDays, title: "Exam Schedule", to: "/parent/student-evaluation/exam-schedule" },
+        ],
+    },
+    {
+        id: 4,
+        title: "Student Deliverables",
+        to: "#0",
+        icon: Package,
+        subLinks: [
+            { icon: Sparkles, title: "Home Fun", to: "/parent/student-deliverables/home-fun" },
+            { icon: BookOpenCheck, title: "Study Materials", to: "/parent/student-deliverables/study-materials" },
+            { icon: CircleHelp, title: "Sample Questions", to: "/parent/student-deliverables/sample-questions" },
+        ],
+    },
+    {
+        id: 5,
+        title: "Library",
+        to: "#0",
+        icon: Library,
+        subLinks: [
+            { icon: BookMarked, title: "Borrowed Books", to: "/parent/library/borrowed-books-list" },
+        ],
+    },
+    {
+        id: 6,
+        title: "Transport",
+        to: "#0",
+        icon: Van,
+        subLinks: [
+            { icon: MapPin, title: "Track Bus", to: "/parent/transport/track-bus" },
+        ],
+    },
+    {
+        id: 7,
+        title: "Hostel Details",
+        to: "/parent/hostel/hostel-details",
+        icon: Bed,
+    },
+    {
+        id: 8,
+        title: "Fees Payment",
+        to: "#0",
+        icon: Wallet,
+        subLinks: [
+            { icon: BadgeDollarSign, title: "Academic Payment", to: "/parent/payment/fees-payment" },
+            { icon: Bed, title: "Hostel Payment", to: "/parent/payment/hostel-payment" },
+            { icon: Bus, title: "Transport Payment", to: "/parent/payment/transport-payment" },
+        ],
+    },
+    {
+        id: 9,
+        title: "Notification",
+        to: "/parent/notifications",
+        icon: BellDot,
+    },
+    {
+        id: 10,
+        title: "Calendar",
+        to: "/parent/academic-calendar",
+        icon: CalendarDays,
+    },
+    {
+        id: 11,
+        title: "Communication",
+        to: "/parent/communication/inbox",
+        icon: MessageCircle,
+    },
+    {
+        id: 12,
+        title: "Escalation Management",
+        to: "/parent/escalation-management",
         icon: ShieldAlert,
     },
 ];
@@ -326,13 +408,12 @@ export const prmSidebarLinks = [
     },
     {
         id: 3,
-        title: "User Management",
+        title: "User Database",
         to: "#0",
         icon: Users,
         subLinks: [
             { icon: UserRound, title: "Student Database", to: "/front-office/student-management" },
             { icon: UserRoundCog, title: "Teacher Database", to: "/front-office/teacher-management" },
-            { icon: UsersRound, title: "Parent Database", to: "/front-office/parent-management" },
         ],
     },
     {
@@ -373,6 +454,12 @@ export const prmSidebarLinks = [
             { icon: FileText, title: "My Leave Requests", to: "/front-office/leave-request/my-requests" },
             { icon: ListChecks, title: "Received Leave Requests", to: "/front-office/leave-request/received" },
         ],
+    },
+    {
+        id: 12,
+        title: "Notification",
+        to: "/front-office/notifications",
+        icon: BellDot,
     },
     {
         id: 7,
@@ -419,11 +506,8 @@ export const librarianSidebarLinks = [
     {
         id: 6,
         title: "Notification",
-        to: "#0",
+        to: "/librarian/notifications",
         icon: BellDot,
-        subLinks: [
-            { icon: BellDot, title: "Reminder", to: "/librarian/notification/reminder-list" }
-        ],
     },
     {
         id: 7,
@@ -489,6 +573,12 @@ export const gateKeeperSidebarLinks = [
         icon: CalendarDays,
     },
     {
+        id: 11,
+        title: "Notification",
+        to: "/gate-keeper/notifications",
+        icon: BellDot,
+    },
+    {
         id: 9,
         title: "Communication",
         to: "/gate-keeper/communication/inbox",
@@ -538,6 +628,12 @@ export const gateKeeperManagerSidebarLinks = [
         title: "Academic Calendar",
         to: "/gatekeeper-manager/academic-calendar",
         icon: CalendarDays,
+    },
+    {
+        id: 10,
+        title: "Notification",
+        to: "/gatekeeper-manager/notifications",
+        icon: BellDot,
     },
     {
         id: 8,
@@ -770,6 +866,15 @@ export const teacherSidebarLinks = [
         icon: FileText,
     },
     {
+        id: 5,
+        title: "Student Evaluation",
+        to: "#0",
+        icon: Award,
+        subLinks: [
+            { icon: ClipboardPen, title: "Mark Entry", to: "/teacher/student-evaluation/mark-entry" },
+        ],
+    },
+    {
         id: 6,
         title: "Student Deliverables",
         to: "#0",
@@ -782,7 +887,7 @@ export const teacherSidebarLinks = [
     },
     {
         id: 7,
-        title: "User Management",
+        title: "User Database",
         to: "#0",
         icon: Users,
         subLinks: [
@@ -1480,7 +1585,7 @@ export const directorSidebarLinks = [
     },
     {
         id: 6,
-        title: "User Management",
+        title: "User Database",
         to: "#0",
         icon: Users,
         subLinks: [
@@ -1529,9 +1634,15 @@ export const directorSidebarLinks = [
     },
     {
         id: 10,
-        title: "Academic Calendar",
+        title: "Calendar",
         to: "/director/academic-calendar",
         icon: CalendarDays,
+    },
+    {
+        id: 14,
+        title: "Notification",
+        to: "/director/notifications",
+        icon: BellDot,
     },
     {
         id: 11,
@@ -1594,7 +1705,7 @@ export const principalSidebarLinks = [
     },
     {
         id: 6,
-        title: "User Management",
+        title: "User Database",
         to: "#0",
         icon: Users,
         subLinks: [
@@ -1628,6 +1739,12 @@ export const principalSidebarLinks = [
         ],
     },
     {
+        id: 14,
+        title: "Notification",
+        to: "/principal/notifications",
+        icon: BellDot,
+    },
+    {
         id: 11,
         title: "Communication",
         to: "/principal/communication/inbox",
@@ -1644,6 +1761,7 @@ export const principalSidebarLinks = [
 export const roleBasedSidebarLinks = {
     Administrator: adminSidebarLinks,
     Student: studentSidebarLinks,
+    Parent: parentSidebarLinks,
     Teacher: teacherSidebarLinks,
     Librarian: librarianSidebarLinks,
     PRM: prmSidebarLinks,

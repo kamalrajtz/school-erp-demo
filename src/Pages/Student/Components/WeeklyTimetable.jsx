@@ -1,5 +1,8 @@
 import { useMemo, useState } from "react";
-import { addDays, format, isToday, startOfWeek } from "date-fns";
+import { addDays, addWeeks, format, isToday, startOfWeek, subWeeks } from "date-fns";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { getPeriodSubject, getPeriodTeacher } from "../../../Common/ClassTimetable/classTimetableUtils";
+import TimetablePeriodCell from "../../../Common/ClassTimetable/TimetablePeriodCell";
 
 /**
  * WeeklyTimetable Component
@@ -7,9 +10,9 @@ import { addDays, format, isToday, startOfWeek } from "date-fns";
  * Props:
  * - days: string[]          — Column headers, e.g. ["Monday","Tuesday",...]
  * - timeSlots: { time: string; label: string }[]  — Row time ranges
- * - schedule: Record<string, Record<string, string>>
- *     Keys are time slot labels → day names → subject name
- *     e.g. { "09:00 AM - 09:45 AM": { Monday: "Mathematics", Tuesday: "English", ... } }
+ * - schedule: Record<string, Record<string, string | { subject: string; teacher?: string }>>
+ *     Keys are time slot labels → day names → subject name or period details
+ *     e.g. { "09:00 AM - 09:45 AM": { Monday: { subject: "Mathematics", teacher: "Mr. Ravi" }, ... } }
  * - subjectColors: Record<string, string>  — Optional subject → Tailwind bg class
  * - weekDate: Date          — Any date within the week to display (defaults to today)
  */
@@ -32,36 +35,36 @@ const DEFAULT_TIME_SLOTS = [
 
 const DEFAULT_SCHEDULE = {
     "09:00 AM - 09:45 AM": {
-        Monday: "Mathematics",
-        Tuesday: "English",
-        Wednesday: "Social",
-        Thursday: "Tamil",
-        Friday: "Science",
-        Saturday: "Mathematics",
+        Monday: { subject: "Mathematics", teacher: "Sandy Selva" },
+        Tuesday: { subject: "English", teacher: "Kamal" },
+        Wednesday: { subject: "Social", teacher: "Mr. Karthik" },
+        Thursday: { subject: "Tamil", teacher: "Mrs. Priya" },
+        Friday: { subject: "Science", teacher: "Vichu" },
+        Saturday: { subject: "Mathematics", teacher: "Sandy Selva" },
     },
     "09:45 AM - 10:30 AM": {
-        Monday: "English",
-        Tuesday: "Science",
-        Wednesday: "Mathematics",
-        Thursday: "English",
-        Friday: "Tamil",
-        Saturday: "Social",
+        Monday: { subject: "English", teacher: "Kamal" },
+        Tuesday: { subject: "Science", teacher: "Vichu" },
+        Wednesday: { subject: "Mathematics", teacher: "Sandy Selva" },
+        Thursday: { subject: "English", teacher: "Kamal" },
+        Friday: { subject: "Tamil", teacher: "Mrs. Priya" },
+        Saturday: { subject: "Social", teacher: "Mr. Karthik" },
     },
     "10:30 AM - 11:15 AM": {
-        Monday: "Mathematics",
-        Tuesday: "English",
-        Wednesday: "Social",
-        Thursday: "Tamil",
-        Friday: "Science",
-        Saturday: "Mathematics",
+        Monday: { subject: "Mathematics", teacher: "Sandy Selva" },
+        Tuesday: { subject: "English", teacher: "Kamal" },
+        Wednesday: { subject: "Social", teacher: "Mr. Karthik" },
+        Thursday: { subject: "Tamil", teacher: "Mrs. Priya" },
+        Friday: { subject: "Science", teacher: "Vichu" },
+        Saturday: { subject: "Mathematics", teacher: "Sandy Selva" },
     },
     "11:15 AM - 12:00 PM": {
-        Monday: "English",
-        Tuesday: "Science",
-        Wednesday: "Mathematics",
-        Thursday: "English",
-        Friday: "Tamil",
-        Saturday: "Social",
+        Monday: { subject: "English", teacher: "Kamal" },
+        Tuesday: { subject: "Science", teacher: "Vichu" },
+        Wednesday: { subject: "Mathematics", teacher: "Sandy Selva" },
+        Thursday: { subject: "English", teacher: "Kamal" },
+        Friday: { subject: "Tamil", teacher: "Mrs. Priya" },
+        Saturday: { subject: "Social", teacher: "Mr. Karthik" },
     },
 };
 
@@ -79,23 +82,52 @@ export default function WeeklyTimetable({
     timeSlots = DEFAULT_TIME_SLOTS,
     schedule = DEFAULT_SCHEDULE,
     subjectColors = DEFAULT_SUBJECT_COLORS,
-    weekDate = new Date(),
+    weekDate: initialWeekDate = new Date(),
+    showWeekNavigation = true,
 }) {
     const [hoveredCell, setHoveredCell] = useState(null);
+    const [currentWeekDate, setCurrentWeekDate] = useState(initialWeekDate);
 
-    // Map each day column to its actual date for the week containing `weekDate`.
-    // Week starts on Monday (weekStartsOn: 1) to match the default Mon–Sat columns.
     const dayDates = useMemo(() => {
-        const weekStart = startOfWeek(weekDate, { weekStartsOn: 1 });
+        const weekStart = startOfWeek(currentWeekDate, { weekStartsOn: 1 });
         return days.map((_, index) => addDays(weekStart, index));
-    }, [days, weekDate]);
+    }, [days, currentWeekDate]);
+
+    const weekLabel = useMemo(() => {
+        const start = dayDates[0];
+        const end = dayDates[dayDates.length - 1];
+        if (!start || !end) return '';
+        return `${format(start, 'd MMM')} – ${format(end, 'd MMM yyyy')}`;
+    }, [dayDates]);
 
     const getSubjectStyle = (subject) =>
         subjectColors[subject] ?? "bg-gray-50 text-gray-700";
 
     return (
         <div className="w-full bg-white rounded-2xl border border-gray-200 overflow-hidden font-sans">
-            {/* Timetable Grid */}
+            {showWeekNavigation && (
+                <div className="flex items-center justify-center gap-5 px-4 py-4 border-b border-gray-200">
+                    <button
+                        type="button"
+                        onClick={() => setCurrentWeekDate((date) => subWeeks(date, 1))}
+                        className="w-9 h-9 flex items-center justify-center rounded-full text-gray-700 hover:bg-gray-100 active:scale-90 transition-all cursor-pointer"
+                        aria-label="Previous week"
+                    >
+                        <ChevronLeft size={20} />
+                    </button>
+                    <h3 className="text-base font-semibold text-gray-800 min-w-[200px] text-center">
+                        {weekLabel}
+                    </h3>
+                    <button
+                        type="button"
+                        onClick={() => setCurrentWeekDate((date) => addWeeks(date, 1))}
+                        className="w-9 h-9 flex items-center justify-center rounded-full text-gray-700 hover:bg-gray-100 active:scale-90 transition-all cursor-pointer"
+                        aria-label="Next week"
+                    >
+                        <ChevronRight size={20} />
+                    </button>
+                </div>
+            )}
             <div className="overflow-x-auto">
                 <table className="w-full min-w-[700px] border-collapse">
                     <thead>
@@ -144,7 +176,10 @@ export default function WeeklyTimetable({
 
                                 {/* Subject Cells */}
                                 {days.map((day, colIdx) => {
-                                    const subject = schedule[slot.label]?.[day] ?? "";
+                                    const period = schedule[slot.label]?.[day]
+                                    const subject = getPeriodSubject(period)
+                                    const teacher = getPeriodTeacher(period)
+                                    const cellDate = dayDates[colIdx]
                                     const cellKey = `${rowIdx}-${colIdx}`;
                                     const isHovered = hoveredCell === cellKey;
 
@@ -156,18 +191,12 @@ export default function WeeklyTimetable({
                                             onMouseLeave={() => setHoveredCell(null)}
                                         >
                                             {subject ? (
-                                                <div
-                                                    className={`
-                            inline-flex items-center justify-center
-                            w-full py-3 px-2 rounded-lg
-                            text-sm font-medium
-                            transition-all duration-200
-                            ${getSubjectStyle(subject)}
-                            ${isHovered ? "shadow-sm scale-[1.03]" : ""}
-                          `}
-                                                >
-                                                    {subject}
-                                                </div>
+                                                <TimetablePeriodCell
+                                                    subject={subject}
+                                                    date={cellDate}
+                                                    teacher={teacher}
+                                                    className={`transition-all duration-200 ${getSubjectStyle(subject)} ${isHovered ? "shadow-sm scale-[1.03]" : ""}`}
+                                                />
                                             ) : (
                                                 <span className="text-gray-300 text-xs">—</span>
                                             )}

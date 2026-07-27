@@ -20,6 +20,7 @@ const DEFAULT_NOTIFICATIONS = [
         relatedDate: '12-06-2026',
         notificationDate: '05-06-2026',
         postedBy: 'Principal Office',
+        isRead: false,
     },
     {
         id: 'NTF-1002',
@@ -30,6 +31,7 @@ const DEFAULT_NOTIFICATIONS = [
         relatedDate: '15-06-2026',
         notificationDate: '08-06-2026',
         postedBy: 'Examination Cell',
+        isRead: false,
     },
     {
         id: 'NTF-1003',
@@ -40,6 +42,7 @@ const DEFAULT_NOTIFICATIONS = [
         relatedDate: '20-06-2026',
         notificationDate: '01-06-2026',
         postedBy: 'Examination Cell',
+        isRead: true,
     },
     {
         id: 'NTF-1004',

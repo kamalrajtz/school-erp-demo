@@ -3,6 +3,7 @@ import { CLASSES, SECTIONS, SUBJECTS } from '../../AssignedClass/assignedClassDa
 const STORAGE_KEY = 'teacher-student-deliverables-sample-questions'
 
 export const ROUTE_BASE = '/teacher/student-deliverables/sample-questions'
+export const DEFAULT_ROUTE_BASE = ROUTE_BASE
 
 const DEFAULT_SAMPLE_QUESTIONS = [
     {

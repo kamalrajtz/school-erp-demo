@@ -26,12 +26,8 @@ import ViewEscalation from '../Pages/Director/EscalationManagement/ViewEscalatio
 import CommunicationInbox from '../Pages/Director/Communication/Inbox'
 import RedirectLegacyDirectMessages from '../Common/Communication/RedirectLegacyDirectMessages'
 import AcademicCalendar from '../Pages/Director/AcademicCalendar/AcademicCalendar'
-import CulturalList from '../Pages/Director/Activities/Cultural/CulturalList'
-import AddCultural from '../Pages/Director/Activities/Cultural/AddCultural'
-import SportsList from '../Pages/Director/Activities/Sports/SportsList'
-import AddSports from '../Pages/Director/Activities/Sports/AddSports'
-import Competitions from '../Pages/Director/Activities/Competitions/Competitions'
-import AddCompetition from '../Pages/Director/Activities/Competitions/AddCompetition'
+import ActivityListView from '../Common/Activities/ActivityListView'
+import AddActivityForm from '../Common/Activities/AddActivityForm'
 import MyLeaveRequests from '../Pages/Director/LeaveRequest/MyLeaveRequests'
 import AddLeaveRequest from '../Pages/Director/LeaveRequest/AddLeaveRequest'
 import ViewMyLeaveRequest from '../Pages/Director/LeaveRequest/ViewMyLeaveRequest'
@@ -40,6 +36,7 @@ import ViewReceivedLeaveRequest from '../Pages/Director/LeaveRequest/ViewReceive
 import LessonPlanApproval from '../Pages/Director/LessonPlanApproval/LessonPlanApproval'
 import StudentAllocationList from '../Pages/Director/StudentAllocation/StudentAllocationList'
 import AllocateStudent from '../Pages/Director/StudentAllocation/AllocateStudent'
+import Notifications from '../Pages/Director/Notifications/Notifications'
 
 const DirectorRoutes = () => {
     return (
@@ -62,12 +59,12 @@ const DirectorRoutes = () => {
             <Route path="/director/user-management/employee-database/view/:id" element={<ViewEmployeeDatabase />} />
             <Route path="/director/student-transfer" element={<Navigate to='/front-office/student-transfer' replace />} />
             <Route path="/director/student-transfer/add" element={<Navigate to='/front-office/student-transfer/add' replace />} />
-            <Route path="/director/activities/cultural-list" element={<CulturalList />} />
-            <Route path="/director/activities/add-cultural" element={<AddCultural />} />
-            <Route path="/director/activities/sports-list" element={<SportsList />} />
-            <Route path="/director/activities/add-sports" element={<AddSports />} />
-            <Route path="/director/activities/competitions-list" element={<Competitions />} />
-            <Route path="/director/activities/add-competition" element={<AddCompetition />} />
+            <Route path="/director/activities/cultural-list" element={<ActivityListView roleKey="director" activityType="cultural" />} />
+            <Route path="/director/activities/add-cultural" element={<AddActivityForm roleKey="director" activityType="cultural" />} />
+            <Route path="/director/activities/sports-list" element={<ActivityListView roleKey="director" activityType="sports" />} />
+            <Route path="/director/activities/add-sports" element={<AddActivityForm roleKey="director" activityType="sports" />} />
+            <Route path="/director/activities/competitions-list" element={<ActivityListView roleKey="director" activityType="competition" />} />
+            <Route path="/director/activities/add-competition" element={<AddActivityForm roleKey="director" activityType="competition" />} />
             <Route path="/director/lms/student-lms" element={<StudentLMS />} />
             <Route path="/director/lms/view-student-lms" element={<ViewStudentLMS />} />
             <Route path="/director/lms/teacher-lms" element={<TeacherLMS />} />
@@ -75,6 +72,7 @@ const DirectorRoutes = () => {
             <Route path="/director/request-approvals" element={<RequestApprovals />} />
             <Route path="/director/request-approvals/view-request" element={<ViewRequestApproval />} />
             <Route path="/director/academic-calendar" element={<AcademicCalendar />} />
+            <Route path="/director/notifications" element={<Notifications />} />
             <Route path="/director/communication" element={<Navigate to="/director/communication/inbox" replace />} />
             <Route path="/director/communication/inbox" element={<CommunicationInbox />} />
             <Route path="/director/communication/inbox/:conversationId" element={<CommunicationInbox />} />

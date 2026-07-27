@@ -3,6 +3,7 @@
 export const ROLES = {
     ADMIN: 'admin',
     STUDENT: 'student',
+    PARENT: 'parent',
     LIBRARIAN: 'librarian',
     PRM: 'prm',
     GATEKEEPER: 'gatekeeper',
@@ -28,6 +29,7 @@ export const ROLES = {
 export const FAKE_CREDENTIALS = {
     [ROLES.ADMIN]: { email: 'admin@school.com' },
     [ROLES.STUDENT]: { email: 'student@school.com' },
+    [ROLES.PARENT]: { email: 'parent@school.com' },
     [ROLES.LIBRARIAN]: { email: 'librarian@school.com' },
     [ROLES.PRM]: { email: 'prm@school.com' },
     [ROLES.GATEKEEPER]: { email: 'gatekeeper@school.com' },
@@ -53,6 +55,7 @@ export const FAKE_CREDENTIALS = {
 export const ROLE_HOME_PATHS = {
     [ROLES.ADMIN]: '/admin/front-office/admission-list',
     [ROLES.STUDENT]: '/student/class/online-class',
+    [ROLES.PARENT]: '/parent/select-child',
     [ROLES.LIBRARIAN]: '/librarian/book-management/book-list',
     [ROLES.PRM]: '/front-office/admission-enquiry',
     [ROLES.GATEKEEPER]: '/gate-keeper/dashboard',

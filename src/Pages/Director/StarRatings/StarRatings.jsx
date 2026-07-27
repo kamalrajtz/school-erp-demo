@@ -243,7 +243,7 @@ const StarRatings = ({ view = 'som' }) => {
                                     <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>Rating ID</th>
                                     <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Month</th>
                                     <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Employee Type</th>
-                                    <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Name</th>
+                                    <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Employee Name</th>
                                     <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Employee ID</th>
                                     <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Department</th>
                                     <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>{RATING_CATEGORY}</th>
@@ -311,7 +311,7 @@ const StarRatings = ({ view = 'som' }) => {
                             <thead className='text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg'>
                                 <tr className='rounded-lg'>
                                     <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>Employee Type</th>
-                                    <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Name</th>
+                                    <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Employee Name</th>
                                     <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Employee ID</th>
                                     <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Department</th>
                                     <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Months Rated</th>

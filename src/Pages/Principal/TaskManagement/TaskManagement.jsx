@@ -116,7 +116,6 @@ const TaskManagement = () => {
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Task Title</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Task Description</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Assigned To</th>
-                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Department</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Priority</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Assigned Date</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Due Date</th>
@@ -131,7 +130,6 @@ const TaskManagement = () => {
                                 <td className="px-2 py-4">Submit Monthly Attendance Report</td>
                                 <td className="px-2 py-4">Prepare and submit the attendance report for all Grade 9 students.</td>
                                 <td className="px-2 py-4">Mr. Ravi</td>
-                                <td className="px-2 py-4">Teachers</td>
                                 <td className="px-2 py-4">High</td>
                                 <td className="px-2 py-4">01-08-2025</td>
                                 <td className="px-2 py-4">05-08-2025</td>
@@ -161,7 +159,6 @@ const TaskManagement = () => {
                                 <td className="px-2 py-4">Review and Approve the Monthly Attendance Report</td>
                                 <td className="px-2 py-4">Review and approve the monthly attendance report for all Grade 9 students.</td>
                                 <td className="px-2 py-4">Mr. Sanjay</td>
-                                <td className="px-2 py-4">Co-ordinator</td>
                                 <td className="px-2 py-4">High</td>
                                 <td className="px-2 py-4">01-08-2025</td>
                                 <td className="px-2 py-4">05-08-2025</td>
@@ -191,7 +188,6 @@ const TaskManagement = () => {
                                 <td className="px-2 py-4">Prepare the monthly report</td>
                                 <td className="px-2 py-4">Prepare the monthly report for the principal about the school activities and achievements.</td>
                                 <td className="px-2 py-4">Mr. Shah</td>
-                                <td className="px-2 py-4">Front Office</td>
                                 <td className="px-2 py-4">High</td>
                                 <td className="px-2 py-4">01-08-2025</td>
                                 <td className="px-2 py-4">05-08-2025</td>

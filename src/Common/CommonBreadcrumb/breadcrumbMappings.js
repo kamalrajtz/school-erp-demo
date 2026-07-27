@@ -3,6 +3,7 @@ import { ROLE_HOME_PATHS, ROLES } from '../../context/AuthContext'
 import {
     adminSidebarLinks,
     studentSidebarLinks,
+    parentSidebarLinks,
     teacherSidebarLinks,
     librarianSidebarLinks,
     prmSidebarLinks,
@@ -13,6 +14,7 @@ import {
 } from '../CommonSidebar/Components/sidebarLinks'
 
 const ROLE_ROUTE_CONFIG = [
+    { prefix: '/parent', role: ROLES.PARENT, links: parentSidebarLinks },
     { prefix: '/gatekeeper-manager', role: ROLES.GATEKEEPER_MANAGER, links: gateKeeperManagerSidebarLinks },
     { prefix: '/gate-keeper', role: ROLES.GATEKEEPER, links: gateKeeperSidebarLinks },
     { prefix: '/front-office', role: ROLES.PRM, links: prmSidebarLinks },

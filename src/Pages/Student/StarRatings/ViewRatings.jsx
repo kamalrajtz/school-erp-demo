@@ -1,57 +1,20 @@
 import React from 'react'
 import { Star } from 'lucide-react'
 import mo_user from '../../../assets/images/no-profile.png'
+import { useActiveStudent } from '../../../context/ActiveStudentContext'
+import { formatGradeSection } from '../studentPortalConfig'
 
-const MAX_STARS = 5
+const MAX_STARS = 3
 
-const MOCK_STUDENT = {
-    name: 'Rahul Kumar Sharma',
-    class: 'Class 10',
-    section: 'Section A',
-    classTeacher: 'Mrs. Priya Nair',
-    rollNumber: '24',
+const MOCK_RATING = {
+    month: 'June 2025',
+    academicYear: '2025-2026',
+    ratedBy: 'Mrs. Priya Nair',
+    rating: 2,
+    remarks: 'Good attendance and consistent participation in class activities.',
 }
 
-const MOCK_RATINGS = [
-    {
-        id: 1,
-        teacherName: 'Mr. Ravi Kumar',
-        subject: 'Mathematics',
-        attendanceRating: 4,
-        taskRating: 5,
-        disciplineRating: 4,
-        overallPoints: 190,
-    },
-    {
-        id: 2,
-        teacherName: 'Ms. Anitha Verma',
-        subject: 'English',
-        attendanceRating: 5,
-        taskRating: 4,
-        disciplineRating: 5,
-        overallPoints: 195,
-    },
-    {
-        id: 3,
-        teacherName: 'Dr. Suresh Menon',
-        subject: 'Science',
-        attendanceRating: 3,
-        taskRating: 4,
-        disciplineRating: 3,
-        overallPoints: 165,
-    },
-    {
-        id: 4,
-        teacherName: 'Mr. Karthik Raj',
-        subject: 'Social Science',
-        attendanceRating: 4,
-        taskRating: 3,
-        disciplineRating: 4,
-        overallPoints: 175,
-    },
-]
-
-const StarRatingDisplay = ({ rating, size = 20 }) => {
+const StarRatingDisplay = ({ rating, size = 24 }) => {
     const clampedRating = Math.min(Math.max(rating, 0), MAX_STARS)
 
     return (
@@ -70,7 +33,7 @@ const StarRatingDisplay = ({ rating, size = 20 }) => {
                     />
                 )
             })}
-            <span className='text-sm text-[#667085] ml-1'>
+            <span className='text-sm text-[#667085] ml-2'>
                 ({clampedRating}/{MAX_STARS})
             </span>
         </div>
@@ -84,15 +47,15 @@ const InfoField = ({ label, value }) => (
     </div>
 )
 
-const RatingRow = ({ label, children }) => (
-    <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 py-3 border-b border-[#f2f4f7] last:border-b-0'>
-        <span className='text-sm font-medium text-[#808080]'>{label}</span>
-        {children}
-    </div>
-)
-
 const ViewRatings = () => {
-    const student = MOCK_STUDENT
+    const { activeStudent } = useActiveStudent()
+    const rating = MOCK_RATING
+    const student = {
+        name: activeStudent.name,
+        classSection: formatGradeSection(activeStudent),
+        classTeacher: 'Mrs. Priya Nair',
+        rollNumber: activeStudent.rollNumber,
+    }
 
     return (
         <section className='space-y-6'>
@@ -115,7 +78,7 @@ const ViewRatings = () => {
                     <InfoField label='Student Name' value={student.name} />
                     <InfoField
                         label='Class & Section'
-                        value={`${student.class} · ${student.section}`}
+                        value={student.classSection}
                     />
                     <InfoField label='Class Teacher' value={student.classTeacher} />
                     <InfoField label='Roll Number' value={student.rollNumber} />
@@ -123,42 +86,26 @@ const ViewRatings = () => {
             </div>
 
             <div className='bg-white rounded-2xl shadow-md p-4'>
-                <h2 className='text-xl font-semibold text-black mb-6'>Rating Details</h2>
+                <h2 className='text-xl font-semibold text-black mb-2'>Star Rating</h2>
                 <p className='text-sm text-[#667085] mb-6'>
-                    Ratings given by subject teachers for the current term.
+                    Your monthly star rating on a 1–3 scale.
                 </p>
 
-                <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
-                    {MOCK_RATINGS.map((rating) => (
-                        <div
-                            key={rating.id}
-                            className='border border-[#EDEEF5] rounded-xl p-4 hover:shadow-sm transition-shadow'
-                        >
-                            <div className='mb-4 pb-4 border-b border-[#EDEEF5]'>
-                                <h3 className='text-lg font-semibold text-[#1E1E1E]'>
-                                    {rating.teacherName}
-                                </h3>
-                                <p className='text-sm text-[#515DEF] font-medium mt-1'>
-                                    {rating.subject}
-                                </p>
-                            </div>
+                <div className='border border-[#EDEEF5] rounded-xl p-6 max-w-2xl'>
+                    <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6'>
+                        <InfoField label='Month' value={rating.month} />
+                        <InfoField label='Academic Year' value={rating.academicYear} />
+                        <InfoField label='Rated By' value={rating.ratedBy} />
+                    </div>
 
-                            <RatingRow label='Attendance Rating'>
-                                <StarRatingDisplay rating={rating.attendanceRating} />
-                            </RatingRow>
-                            <RatingRow label='Task Rating'>
-                                <StarRatingDisplay rating={rating.taskRating} />
-                            </RatingRow>
-                            <RatingRow label='Discipline Rating'>
-                                <StarRatingDisplay rating={rating.disciplineRating} />
-                            </RatingRow>
-                            <RatingRow label='Overall Points'>
-                                <span className='text-sm font-semibold text-[#0C1E5B]'>
-                                    {rating.overallPoints} Points
-                                </span>
-                            </RatingRow>
-                        </div>
-                    ))}
+                    <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 py-4 border-t border-[#f2f4f7]'>
+                        <span className='text-base font-medium text-[#808080]'>Rating (1–3)</span>
+                        <StarRatingDisplay rating={rating.rating} />
+                    </div>
+
+                    <div className='pt-4 border-t border-[#f2f4f7]'>
+                        <InfoField label='Remarks' value={rating.remarks} />
+                    </div>
                 </div>
             </div>
         </section>

@@ -44,6 +44,7 @@ import AddLessonPlan from '../Pages/Teacher/LessonPlanApproval/AddLessonPlan'
 import MyLessonPlan from '../Pages/Teacher/LessonPlanApproval/MyLessonPlan'
 import AnnouncementList from '../Pages/Teacher/Announcement/AnnouncementList'
 import ViewAnnouncement from '../Pages/Teacher/Announcement/ViewAnnouncement'
+import MarkEntry from '../Pages/Teacher/StudentEvaluation/MarkEntry/MarkEntry'
 
 const Placeholder = () => null
 
@@ -80,6 +81,7 @@ const TeacherRoutes = () => {
             <Route path="/teacher/unit-tests" element={<UnitTests />} />
             <Route path="/teacher/unit-tests/add" element={<AddUnitTest />} />
             <Route path="/teacher/unit-tests/view/:id" element={<ViewUnitTest />} />
+            <Route path="/teacher/student-evaluation/mark-entry" element={<MarkEntry />} />
             <Route path="/teacher/user-management/students-list" element={<StudentsList />} />
             <Route path="/teacher/user-management/students-list/view/:id" element={<ViewStudent />} />
             <Route path="/teacher/user-management/students-list/view/:id/full" element={<ViewStudentFullDetails />} />

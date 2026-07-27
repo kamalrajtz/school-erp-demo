@@ -8,6 +8,7 @@ import ExportModal from '../../../../Common/CommonComponents/ExportModal'
 import pdf_icon from '../../../../assets/images/pdf-icon.png'
 import noAssign from '../../../../assets/images/no-assign.png'
 import {
+    DEFAULT_ROUTE_BASE,
     DELIVERABLE_TYPES,
     filterHomeFunItems,
     getHomeFunItems,
@@ -19,6 +20,16 @@ import {
     ASSIGNMENT_STATUSES,
     typeBadgeColor,
 } from './homeFunData'
+import {
+    getStudentSubmissionStatus,
+} from '../../../Student/StudentDeliverables/studentHomeFunSubmissions'
+import { useActiveStudent } from '../../../../context/ActiveStudentContext'
+
+const studentStatusBadgeColor = {
+    Submitted: 'bg-[#4CAF5033] text-[#4CAF50]',
+    Late: 'bg-[#F4433633] text-[#F44336]',
+    Pending: 'bg-[#FF980033] text-[#FF9800]',
+}
 
 const emptyFilters = {
     search: '',
@@ -31,7 +42,10 @@ const emptyFilters = {
     toDate: null,
 }
 
-const HomeFunEmpty = () => (
+const HomeFunEmpty = ({ routeBase, viewMode }) => {
+    const isStudent = viewMode === 'student'
+
+    return (
     <div className='bg-white rounded-2xl shadow-md p-8 sm:p-12 min-h-[420px] flex items-center justify-center'>
         <div className='flex flex-col items-center text-center max-w-md mx-auto'>
             <img src={noAssign} alt='No deliverables found' className='w-72 h-72 object-contain' />
@@ -39,26 +53,35 @@ const HomeFunEmpty = () => (
                 No Assignment or Homework Found!
             </h2>
             <p className='text-sm sm:text-base text-[#667085] mt-2'>
-                It looks like you haven&apos;t added any assignment or homework yet.
+                {isStudent
+                    ? 'There are no assignments or homework available for you at the moment.'
+                    : 'It looks like you haven&apos;t added any assignment or homework yet.'}
             </p>
-            <NavLink
-                to='/teacher/student-deliverables/home-fun/add'
-                className='bg-[#515DEF] text-white text-sm text-center px-12 py-2 rounded-md border border-[#515DEF] hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2 mt-8'
-            >
-                <Plus size={16} />
-                Add Assignment / Homework
-            </NavLink>
+            {!isStudent && (
+                <NavLink
+                    to={`${routeBase}/add`}
+                    className='bg-[#515DEF] text-white text-sm text-center px-12 py-2 rounded-md border border-[#515DEF] hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2 mt-8'
+                >
+                    <Plus size={16} />
+                    Add Assignment / Homework
+                </NavLink>
+            )}
         </div>
     </div>
-)
+    )
+}
 
-const HomeFunList = ({ items }) => {
+const HomeFunList = ({ items, routeBase, viewMode }) => {
+    const isStudent = viewMode === 'student'
+    const { activeStudentId } = useActiveStudent()
     const [filters, setFilters] = useState(emptyFilters)
     const [exportModal, setExportModal] = useState(false)
 
     const filteredItems = useMemo(() => filterHomeFunItems(items, filters), [items, filters])
     const showTotalMarks = filters.type !== 'Homework'
-    const tableColumnCount = showTotalMarks ? 13 : 12
+    const tableColumnCount = showTotalMarks
+        ? (isStudent ? 13 : 13)
+        : (isStudent ? 12 : 12)
 
     const updateFilter = (key, value) => {
         setFilters((current) => ({ ...current, [key]: value }))
@@ -197,23 +220,25 @@ const HomeFunList = ({ items }) => {
             <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
                     <h2 className='text-xl font-medium text-black'>Assignments & Homework List</h2>
-                    <div className='flex gap-x-2'>
-                        <NavLink
-                            to='/teacher/student-deliverables/home-fun/add'
-                            className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
-                        >
-                            <Plus size={16} />
-                            Add Assignment / Homework
-                        </NavLink>
-                        <button
-                            type='button'
-                            onClick={() => setExportModal(true)}
-                            className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
-                        >
-                            <Download size={16} />
-                            Export
-                        </button>
-                    </div>
+                    {!isStudent && (
+                        <div className='flex gap-x-2'>
+                            <NavLink
+                                to={`${routeBase}/add`}
+                                className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
+                            >
+                                <Plus size={16} />
+                                Add Assignment / Homework
+                            </NavLink>
+                            <button
+                                type='button'
+                                onClick={() => setExportModal(true)}
+                                className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
+                            >
+                                <Download size={16} />
+                                Export
+                            </button>
+                        </div>
+                    )}
                 </div>
                 <div className='flex gap-x-2 items-center my-2'>
                     <select className='px-2 py-1.5 bg-white text-[#515DEF] border border-[#515DEF] rounded-md'>
@@ -242,7 +267,9 @@ const HomeFunList = ({ items }) => {
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Attachment</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Due Date</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Assigned Date</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Total Submissions</th>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>
+                                    {isStudent ? 'My Status' : 'Total Submissions'}
+                                </th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>Actions</th>
                             </tr>
                         </thead>
@@ -288,11 +315,19 @@ const HomeFunList = ({ items }) => {
                                         </td>
                                         <td className='px-2 py-4'>{record.dueDate}</td>
                                         <td className='px-2 py-4'>{record.assignedDate}</td>
-                                        <td className='px-2 py-4 font-medium text-[#1E1E1E]'>{formatTotalSubmissions(record)}</td>
+                                        <td className='px-2 py-4 font-medium text-[#1E1E1E]'>
+                                            {isStudent ? (
+                                                <span className={`px-2 py-1 rounded-lg text-xs font-semibold whitespace-nowrap ${studentStatusBadgeColor[getStudentSubmissionStatus(record, activeStudentId)]}`}>
+                                                    {getStudentSubmissionStatus(record, activeStudentId)}
+                                                </span>
+                                            ) : (
+                                                formatTotalSubmissions(record)
+                                            )}
+                                        </td>
                                         <td className='px-2 py-4 text-center rounded-e-lg'>
                                             <Dropdown buttonContent={<EllipsisIcon size={16} className='text-black' />}>
                                                 <NavLink
-                                                    to={`/teacher/student-deliverables/home-fun/view/${record.id}`}
+                                                    to={`${routeBase}/view/${record.id}`}
                                                     className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
                                                 >
                                                     View
@@ -330,7 +365,7 @@ const HomeFunList = ({ items }) => {
     )
 }
 
-const HomeFun = () => {
+const HomeFun = ({ routeBase = DEFAULT_ROUTE_BASE, viewMode = 'teacher' }) => {
     const location = useLocation()
     const [items, setItems] = useState(() => getHomeFunItems())
 
@@ -340,7 +375,11 @@ const HomeFun = () => {
 
     return (
         <section>
-            {items.length === 0 ? <HomeFunEmpty /> : <HomeFunList items={items} />}
+            {items.length === 0 ? (
+                <HomeFunEmpty routeBase={routeBase} viewMode={viewMode} />
+            ) : (
+                <HomeFunList items={items} routeBase={routeBase} viewMode={viewMode} />
+            )}
         </section>
     )
 }

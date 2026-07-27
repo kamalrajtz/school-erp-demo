@@ -1,15 +1,33 @@
 import React, { useState } from 'react'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { format } from 'date-fns';
 import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import WeeklyTimetable from "../Components/WeeklyTimetable";
 
-const TimeTableDetails = () => {
+const DAILY_TIMETABLE_ROWS = [
+    { period: '1', time: '09:00 AM - 09:45 AM', subject: 'Mathematics', teacher: 'Sandy Selva' },
+    { period: '2', time: '09:45 AM - 10:30 AM', subject: 'English', teacher: 'Kamal' },
+    { period: '3', time: '10:30 AM - 11:15 AM', subject: 'Science', teacher: 'Vichu' },
+]
+
+const TimeTableDetails = ({ weeklyOnly = false }) => {
 
     const [fromDate, setFromDate] = useState(new Date());
     const [toDate, setToDate] = useState(new Date());
 
-    const [activeTab, setActiveTab] = useState(1);
+    const [activeTab, setActiveTab] = useState(weeklyOnly ? 2 : 1);
+
+    if (weeklyOnly) {
+        return (
+            <section>
+                <div className='bg-white rounded-2xl shadow-md p-4'>
+                    <h2 className='text-xl font-medium text-black mb-4'>Timetable</h2>
+                    <WeeklyTimetable />
+                </div>
+            </section>
+        )
+    }
 
     return (
         <section>
@@ -116,29 +134,21 @@ const TimeTableDetails = () => {
                                         <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg">Period</th>
                                         <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Time</th>
                                         <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Subject</th>
+                                        <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Date</th>
                                         <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg">Teacher</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    <tr className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg">
-                                        <td className="px-2 py-4 rounded-s-lg">1</td>
-                                        <td className="px-2 py-4">09:00 AM - 09:45 AM</td>
-                                        <td className="px-2 py-4">Mathematics</td>
-                                        <td className="px-2 py-4 rounded-e-lg">Sandy Selva</td>
-                                    </tr>
-                                    <tr className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg">
-                                        <td className="px-2 py-4 rounded-s-lg">2</td>
-                                        <td className="px-2 py-4">09:45 AM - 10:30 AM</td>
-                                        <td className="px-2 py-4">English</td>
-                                        <td className="px-2 py-4 rounded-e-lg">Kamal</td>
-                                    </tr>
-                                    <tr className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg">
-                                        <td className="px-2 py-4 rounded-s-lg">3</td>
-                                        <td className="px-2 py-4">10:30 AM - 11:15 AM</td>
-                                        <td className="px-2 py-4">Science</td>
-                                        <td className="px-2 py-4 rounded-e-lg">Vichu</td>
-                                    </tr>
+                                    {DAILY_TIMETABLE_ROWS.map((row) => (
+                                        <tr key={row.period} className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg">
+                                            <td className="px-2 py-4 rounded-s-lg">{row.period}</td>
+                                            <td className="px-2 py-4">{row.time}</td>
+                                            <td className="px-2 py-4">{row.subject}</td>
+                                            <td className="px-2 py-4">{format(fromDate, 'dd-MM-yyyy')}</td>
+                                            <td className="px-2 py-4 rounded-e-lg">{row.teacher}</td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>

@@ -27,6 +27,7 @@ import TeacherAllocationList from '../Pages/Principal/TeacherAllocation/TeacherA
 import AllocateTeacher from '../Pages/Principal/TeacherAllocation/AllocateTeacher'
 import ViewTeacherAllocation from '../Pages/Principal/TeacherAllocation/ViewTeacherAllocation'
 import EditTeacherAllocation from '../Pages/Principal/TeacherAllocation/EditTeacherAllocation'
+import Notifications from '../Pages/Principal/Notifications/Notifications'
 
 const PrincipalRoutes = () => {
     return (
@@ -65,6 +66,7 @@ const PrincipalRoutes = () => {
             <Route path="/principal/lms/teacher-lms" element={<TeacherLMS />} />
             <Route path="/principal/lms/view-teacher-lms" element={<ViewTeacherLMS />} />
             <Route path="/principal/academic-calendar" element={<AcademicCalendar />} />
+            <Route path="/principal/notifications" element={<Notifications />} />
             <Route path="/principal/academic/teacher-allocation" element={<TeacherAllocationList />} />
             <Route path="/principal/academic/teacher-allocation/allocate/:employeeId" element={<AllocateTeacher />} />
             <Route path="/principal/academic/teacher-allocation/view/:employeeId" element={<ViewTeacherAllocation />} />

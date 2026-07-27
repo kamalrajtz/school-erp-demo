@@ -25,10 +25,6 @@ const AddAssignTask = () => {
                         <label className='text-base font-medium text-[#1E1E1E]'>Assigned To:</label>
                         <input type='text' className={inputClass} placeholder='Employee or team name' />
                     </div>
-                    <div className='flex flex-col gap-y-2'>
-                        <label className='text-base font-medium text-[#1E1E1E]'>Department:</label>
-                        <input type='text' className={inputClass} />
-                    </div>
                     <div className='flex flex-col gap-y-2 lg:col-span-3'>
                         <label className='text-base font-medium text-[#1E1E1E]'>Task Description:</label>
                         <textarea rows={3} className={inputClass} />

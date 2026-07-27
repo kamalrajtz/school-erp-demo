@@ -37,6 +37,7 @@ import AddLeaveRequest from '../Pages/FrontOffice/LeaveRequest/AddLeaveRequest'
 import ViewMyLeaveRequest from '../Pages/FrontOffice/LeaveRequest/ViewMyLeaveRequest'
 import ReceivedLeaveRequests from '../Pages/FrontOffice/LeaveRequest/ReceivedLeaveRequests'
 import ViewReceivedLeaveRequest from '../Pages/FrontOffice/LeaveRequest/ViewReceivedLeaveRequest'
+import Notifications from '../Pages/FrontOffice/Notifications/Notifications'
 
 const FrontOfficeRoutes = () => {
     return (
@@ -69,6 +70,7 @@ const FrontOfficeRoutes = () => {
             <Route path="/front-office/goods-received-pass/view/:id" element={<ViewGoodsReceivedPass />} />
             <Route path="/front-office/goods-received-pass/edit/:id" element={<EditGoodsReceivedPass />} />
             <Route path="/front-office/academic-calendar" element={<AcademicCalendar />} />
+            <Route path="/front-office/notifications" element={<Notifications />} />
             <Route path="/front-office/leave-request/my-requests" element={<MyLeaveRequests />} />
             <Route path="/front-office/leave-request/my-requests/add" element={<AddLeaveRequest />} />
             <Route path="/front-office/leave-request/my-requests/view/:id" element={<ViewMyLeaveRequest />} />

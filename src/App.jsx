@@ -22,6 +22,7 @@ import AccountHeadLayout from "./Layout/AccountHeadLayout";
 import DriverLayout from "./Layout/DriverLayout";
 import PRMLayout from "./Layout/PRMLayout";
 import StudentLayout from "./Layout/StudentLayout";
+import ParentLayout from "./Layout/ParentLayout";
 import { ROLE_HOME_PATHS, ROLES, useAuth } from "./context/AuthContext";
 import './App.css'
 
@@ -66,6 +67,13 @@ const App = () => {
       return <Navigate to={ROLE_HOME_PATHS[ROLES.STUDENT]} replace />;
     }
     return <StudentLayout />;
+  }
+
+  if (role === ROLES.PARENT) {
+    if (!pathname.startsWith("/parent")) {
+      return <Navigate to={ROLE_HOME_PATHS[ROLES.PARENT]} replace />;
+    }
+    return <ParentLayout />;
   }
 
   if (role === ROLES.LIBRARIAN) {
@@ -216,6 +224,7 @@ const App = () => {
     pathname.startsWith("/librarian") ||
     pathname.startsWith("/front-office") ||
     pathname.startsWith("/student") ||
+    pathname.startsWith("/parent") ||
     pathname.startsWith("/teacher") ||
     pathname.startsWith("/gate-keeper") ||
     pathname.startsWith("/gatekeeper-manager") ||

@@ -33,10 +33,6 @@ const AddTask = () => {
                         <input type="text" id="enquiry-reason" className={inputClass} />
                     </div>
                     <div className='flex flex-col gap-y-2'>
-                        <label htmlFor="enquiry-reason" className='text-base font-medium text-[#1E1E1E]'>Department:</label>
-                        <input type="text" id="enquiry-reason" className={inputClass} />
-                    </div>
-                    <div className='flex flex-col gap-y-2'>
                         <label htmlFor="enquiry-reason" className='text-base font-medium text-[#1E1E1E]'>Priority:</label>
                         <input type="text" id="enquiry-reason" className={inputClass} />
                     </div>

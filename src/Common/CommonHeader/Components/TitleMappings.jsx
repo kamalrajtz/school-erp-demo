@@ -45,11 +45,15 @@
     "/admin/library-details/add-issued-book": "Add Issued Book",
 
 
+    // User Database
+    "/admin/user-management/student-database": "Student Database",
+    "/admin/user-management/employee-database": "Employee Database",
+
     // Student Details
-    "/admin/student/student-details": "Student Details List",
+    "/admin/student/student-details": "Student Database",
     "/admin/student/class-fee-details": "Class Fee Details List",
     "/admin/student/add-class-fee-details": "Add Class Fee Details",
-    "/admin/student/parent-details": "Parent Details List",
+    "/admin/student/parent-details": "Student Database",
     "/admin/student/student-transfer": "Student Transfer List",
     "/admin/student/add-student-transfer": "Add Student Transfer",
     "/admin/student/leave-request": "Student Leave Request List",
@@ -119,27 +123,19 @@
     // ── Student Role ──────────────────────────────────────────────────────────
     "/student/dashboard": "Dashboard",
     "/student/class/online-class": "Online Class List",
-    "/student/class/extra-class": "Extra Class List",
+    "/student/class/extra-class": "Extended Class List",
     "/student/class/timetable-list": "Time Table List",
     "/student/class/attendance-list": "Attendance List",
     "/student/class/attendance-report": "Attendance Report",
 
-    // Studies
-    "/student/studies/study-material-list": "Study Material List",
-    "/student/studies/sample-questions-list": "Sample Questions List",
-
     // Student Evaluation
-    "/student/student-evaluation/exam-details": "Exam Details",
+    "/student/student-evaluation/exam-result": "Exam Result",
+    "/student/student-evaluation/exam-schedule": "Exam Schedule",
 
-    // Assessment List
-    "/student/assessment/assignment-list": "Assignment List",
-
-    "/student/result-details": "Result Details",
-
-    // Activities
-    "/student/activities/cultural-list": "Cultural List",
-    "/student/activities/sports-list": "Sports List",
-    "/student/activities/competitions-list": "Competitions List",
+    // Student Deliverables
+    "/student/student-deliverables/home-fun": "Home Fun",
+    "/student/student-deliverables/study-materials": "Study Materials",
+    "/student/student-deliverables/sample-questions": "Sample Questions",
 
     // Library
     "/student/library/borrowed-books-list": "Borrowed Books List",
@@ -157,17 +153,47 @@
     "/student/payment/transport-payment": "Transport Payment Details",
 
     // Notification
-    "/student/notification/exam-notification": "Exam Notification",
-    "/student/notification/event-notification": "Event Notification",
-    "/student/notification/holiday-notification": "Holiday Notification",
-    "/student/notification/payment-notification": "Payment Notification",
+    "/student/notifications": "Notifications",
+    "/student/notification/exam-notification": "Notifications",
+    "/student/notification/event-notification": "Notifications",
+    "/student/notification/holiday-notification": "Notifications",
+    "/student/notification/payment-notification": "Notifications",
 
     // Star Ratings
     "/student/star-ratings/view-ratings": "View Star Rating",
     "/student/escalation-management": "Escalation List",
     "/student/escalation-management/add-escalation": "Add Escalation",
-    "/student/academic-calendar": "Academic Calendar",
+    "/student/academic-calendar": "Calendar",
     "/student/communication/inbox": "Communication Inbox",
+
+    // ── Parent Role ───────────────────────────────────────────────────────────
+    "/parent/select-child": "Select Child",
+    "/parent/dashboard": "Dashboard",
+    "/parent/class/online-class": "Online Class",
+    "/parent/class/extra-class": "Extended Class",
+    "/parent/class/timetable-list": "Timetable",
+    "/parent/class/attendance-list": "Attendance List",
+    "/parent/class/attendance-report": "Attendance Report",
+    "/parent/student-evaluation/exam-result": "Exam Result",
+    "/parent/student-evaluation/exam-schedule": "Exam Schedule",
+    "/parent/student-deliverables/home-fun": "Home Fun",
+    "/parent/student-deliverables/study-materials": "Study Materials",
+    "/parent/student-deliverables/sample-questions": "Sample Questions",
+    "/parent/library/borrowed-books-list": "Borrowed Books List",
+    "/parent/transport/track-bus": "Track Bus",
+    "/parent/hostel/hostel-details": "Hostel Details",
+    "/parent/payment/fees-payment": "Academic Payment",
+    "/parent/payment/hostel-payment": "Hostel Payment Details",
+    "/parent/payment/transport-payment": "Transport Payment Details",
+    "/parent/notifications": "Notifications",
+    "/parent/notification/exam-notification": "Notifications",
+    "/parent/notification/event-notification": "Notifications",
+    "/parent/notification/holiday-notification": "Notifications",
+    "/parent/notification/payment-notification": "Notifications",
+    "/parent/academic-calendar": "Calendar",
+    "/parent/communication/inbox": "Communication Inbox",
+    "/parent/escalation-management": "Escalation List",
+    "/parent/escalation-management/add-escalation": "Add Escalation",
 
     // ── Librarian Role ────────────────────────────────────────────────────────
     "/librarian/dashboard": "Dashboard",
@@ -184,7 +210,8 @@
     "/librarian/members/member-list": "Members List",
 
     // Notification
-    "/librarian/notification/reminder-list": "Reminder List",
+    "/librarian/notifications": "Notifications",
+    "/librarian/notification/reminder-list": "Notifications",
     "/librarian/escalation-management": "Escalation List",
     "/librarian/escalation-management/add-escalation": "Add Escalation",
     "/librarian/academic-calendar": "Academic Calendar",
@@ -209,6 +236,7 @@
     "/front-office/escalation-management": "Escalation List",
     "/front-office/escalation-management/add-escalation": "Add Escalation",
     "/front-office/academic-calendar": "Calendar",
+    "/front-office/notifications": "Notifications",
     "/front-office/leave-request/my-requests": "My Leave Requests",
     "/front-office/leave-request/my-requests/add": "Apply Leave",
     "/front-office/leave-request/received": "Received Leave Requests",
@@ -226,6 +254,7 @@
     "/gate-keeper/escalation-management": "Escalation List",
     "/gate-keeper/escalation-management/add-escalation": "Add Escalation",
     "/gate-keeper/academic-calendar": "Academic Calendar",
+    "/gate-keeper/notifications": "Notifications",
     "/gate-keeper/communication/inbox": "Communication Inbox",
 
     // ── Gate Keeper Manager Role ──────────────────────────────────────────────
@@ -239,6 +268,7 @@
     "/gatekeeper-manager/escalation-management": "Escalation List",
     "/gatekeeper-manager/escalation-management/add-escalation": "Add Escalation",
     "/gatekeeper-manager/academic-calendar": "Academic Calendar",
+    "/gatekeeper-manager/notifications": "Notifications",
     "/gatekeeper-manager/communication/inbox": "Communication Inbox",
 
     // ── Canteen Manager Role ──────────────────────────────────────────────────
@@ -310,10 +340,11 @@
     "/teacher/student-deliverables/sample-questions/add": "Add Sample Questions",
     "/teacher/unit-tests": "Unit Test",
     "/teacher/unit-tests/add": "Create Unit Test",
+    "/teacher/student-evaluation/mark-entry": "Mark Entry",
     "/teacher/user-management/students-list": "Students List",
     "/teacher/user-management/parents-list": "Parents List",
     "/teacher/library/books-borrowed": "Books Borrowed",
-    "/teacher/notifications": "Notifications List",
+    "/teacher/notifications": "Notifications",
     "/teacher/announcement": "Announcement List",
     "/teacher/escalation-management": "Escalation List",
     "/teacher/escalation-management/add-escalation": "Add Escalation",
@@ -532,6 +563,7 @@
     "/principal/escalation-management": "Escalation List",
     "/principal/escalation-management/add-escalation": "Add Escalation",
     "/principal/academic-calendar": "Calendar",
+    "/principal/notifications": "Notifications",
     "/principal/academic/teacher-allocation": "Teacher Allocation",
     "/principal/academic/teacher-allocation/allocate": "Allocate Teacher",
     "/principal/academic/teacher-allocation/view": "View Teacher Allocation",
@@ -572,7 +604,8 @@
     "/director/leave-request/my-requests/add": "Apply Leave",
     "/director/leave-request/received": "Received Leave Requests",
     "/director/lesson-plan-approval": "Lesson Plan Approval",
-    "/director/academic-calendar": "Academic Calendar",
+    "/director/academic-calendar": "Calendar",
+    "/director/notifications": "Notifications",
     "/director/communication/inbox": "Communication Inbox",
 }
 
@@ -647,6 +680,14 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/principal\/academic\/teacher-allocation\/edit\/[^/]+$/.test(p), title: 'Edit Teacher Allocation' },
     { test: (p) => /^\/principal\/user-management\/student-database\/view\/[^/]+$/.test(p), title: 'View Student Details' },
     { test: (p) => /^\/principal\/user-management\/employee-database\/view\/[^/]+$/.test(p), title: 'View Employee Details' },
+    { test: (p) => /^\/admin\/user-management\/student-database\/view\/[^/]+$/.test(p), title: 'View Student Details' },
+    { test: (p) => /^\/admin\/user-management\/employee-database\/view\/[^/]+$/.test(p), title: 'View Employee Details' },
+    { test: (p) => /^\/parent\/student-deliverables\/home-fun\/view\/[^/]+$/.test(p), title: 'View Assignment / Homework Details' },
+    { test: (p) => /^\/parent\/student-deliverables\/study-materials\/view\/[^/]+$/.test(p), title: 'View Study Material' },
+    { test: (p) => /^\/parent\/student-deliverables\/sample-questions\/view\/[^/]+$/.test(p), title: 'View Sample Questions' },
+    { test: (p) => /^\/student\/student-deliverables\/home-fun\/view\/[^/]+$/.test(p), title: 'View Assignment / Homework Details' },
+    { test: (p) => /^\/student\/student-deliverables\/study-materials\/view\/[^/]+$/.test(p), title: 'View Study Material' },
+    { test: (p) => /^\/student\/student-deliverables\/sample-questions\/view\/[^/]+$/.test(p), title: 'View Sample Questions' },
     { test: (p) => /^\/teacher\/student-deliverables\/home-fun\/view\/[^/]+$/.test(p), title: 'View Assignment / Homework Details' },
     { test: (p) => /^\/hr\/employee-management\/employee-profile\/[^/]+$/.test(p), title: 'Employee Profile' },
     { test: (p) => /^\/process-auditor\/audit-management\/my-audits\/view\/[^/]+$/.test(p), title: 'View Audit Details' },

@@ -34,8 +34,8 @@ const TaskManagement = () => {
                         <label htmlFor="assigned-to-filter" className='text-base font-medium text-[#808080]'>Assigned To</label>
                         <select id="assigned-to-filter" className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full'>
                             <option value="">All</option>
-                            {ASSIGNEE_OPTIONS.map((option) => (
-                                <option key={option.label} value={option.label}>{option.label}</option>
+                            {ASSIGNEE_OPTIONS.map((label) => (
+                                <option key={label} value={label}>{label}</option>
                             ))}
                         </select>
                     </div>
@@ -109,7 +109,6 @@ const TaskManagement = () => {
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Task Title</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Task Description</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Assigned To</th>
-                                <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Department</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Priority</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Assigned Date</th>
                                 <th className="px-2 py-3.5 text-[#0C1E5B] font-medium uppercase">Due Date</th>
@@ -124,7 +123,6 @@ const TaskManagement = () => {
                                     <td className="px-2 py-4">{task.title}</td>
                                     <td className="px-2 py-4 max-w-xs truncate">{task.description}</td>
                                     <td className="px-2 py-4 whitespace-nowrap">{task.assignedTo}</td>
-                                    <td className="px-2 py-4">{task.department}</td>
                                     <td className="px-2 py-4">{task.priority}</td>
                                     <td className="px-2 py-4">{task.assignedDate}</td>
                                     <td className="px-2 py-4">{task.dueDate}</td>

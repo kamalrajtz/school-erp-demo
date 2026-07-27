@@ -30,7 +30,8 @@ const LibrarianRoutes = () => {
             <Route path="/librarian/members/member-list" element={<MembersList />} />
 
             {/* Notification */}
-            <Route path="/librarian/notification/reminder-list" element={<ReminderList />} />
+            <Route path="/librarian/notifications" element={<ReminderList />} />
+            <Route path="/librarian/notification/reminder-list" element={<Navigate to="/librarian/notifications" replace />} />
 
             {/* Academic Calendar */}
             <Route path="/librarian/academic-calendar" element={<AcademicCalendar />} />

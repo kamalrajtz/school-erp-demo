@@ -60,7 +60,6 @@ const AssignedTasks = () => {
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Title</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Description</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Assigned By</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Department</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Priority</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Due Date</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>Status</th>
@@ -73,7 +72,6 @@ const AssignedTasks = () => {
                                     <td className='px-2 py-4'>{task.title}</td>
                                     <td className='px-2 py-4 max-w-[200px] truncate' title={task.description}>{task.description}</td>
                                     <td className='px-2 py-4'>{task.assignedBy}</td>
-                                    <td className='px-2 py-4'>{task.department}</td>
                                     <td className='px-2 py-4'>{task.priority}</td>
                                     <td className='px-2 py-4'>{task.dueDate}</td>
                                     <td className='px-2 py-4 rounded-e-lg'>

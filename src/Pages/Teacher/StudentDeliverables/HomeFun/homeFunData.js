@@ -3,6 +3,8 @@ import { SUBMISSIONS_LIST } from './homeFunSubmissionsData'
 
 const STORAGE_KEY = 'teacher-home-fun-deliverables'
 
+export const DEFAULT_ROUTE_BASE = '/teacher/student-deliverables/home-fun'
+
 export const ASSESSMENT_TYPES = ['Assignment', 'Homework']
 
 export const DELIVERABLE_TYPES = ASSESSMENT_TYPES

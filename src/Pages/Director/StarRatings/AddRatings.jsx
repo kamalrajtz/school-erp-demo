@@ -34,9 +34,6 @@ const AddRatings = () => {
         navigate('/director/star-ratings/star-of-month')
     }
 
-    const nameLabel = employeeType === 'teacher' ? 'Teacher Name' : 'Co-ordinator Name'
-    const idLabel = employeeType === 'teacher' ? 'Teacher ID' : 'Co-ordinator ID'
-
     return (
         <section>
             <div className='bg-white rounded-2xl shadow-md p-4'>
@@ -76,21 +73,21 @@ const AddRatings = () => {
                         </select>
                     </div>
                     <div className='flex flex-col gap-y-2'>
-                        <label htmlFor='employee-select' className='text-base font-medium text-[#1E1E1E]'>{nameLabel}:</label>
+                        <label htmlFor='employee-select' className='text-base font-medium text-[#1E1E1E]'>Employee Name:</label>
                         <select
                             id='employee-select'
                             value={selectedEmployeeId}
                             onChange={(e) => setSelectedEmployeeId(e.target.value)}
                             className={selectClass}
                         >
-                            <option value=''>Select {employeeType === 'teacher' ? 'Teacher' : 'Co-ordinator'}</option>
+                            <option value=''>Select Employee</option>
                             {employeeOptions.map((emp) => (
                                 <option key={emp.id} value={emp.id}>{emp.name}</option>
                             ))}
                         </select>
                     </div>
                     <div className='flex flex-col gap-y-2'>
-                        <label htmlFor='employee-id' className='text-base font-medium text-[#1E1E1E]'>{idLabel}:</label>
+                        <label htmlFor='employee-id' className='text-base font-medium text-[#1E1E1E]'>Employee ID:</label>
                         <input
                             type='text'
                             id='employee-id'

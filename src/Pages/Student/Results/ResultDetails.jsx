@@ -4,6 +4,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { CalendarRange, BadgePercent, BookOpenCheck, CircleCheck, ChevronLeft, ChevronRight, Calendar, Download, Star } from "lucide-react"
 import ReactECharts from "echarts-for-react"
 import resultImg from "../../../assets/images/result-img.png"
+import { useActiveStudent } from '../../../context/ActiveStudentContext'
+import { getStudentResultSummary } from '../../Parent/parentStudentViewData'
 
 const performanceCategories = [
     { label: "Excellent", range: "90 - 100%", subjects: 1, color: "#4CAF50" },
@@ -19,6 +21,11 @@ const chartData = performanceCategories
 const ResultDetails = () => {
 
     const [selectMonth, setSelectMonth] = useState(new Date());
+    const { activeStudent } = useActiveStudent()
+    const summary = useMemo(
+        () => getStudentResultSummary(activeStudent.id),
+        [activeStudent.id],
+    )
 
     const pieChartOption = useMemo(() => ({
         series: [{
@@ -56,7 +63,7 @@ const ResultDetails = () => {
                             </div>
                             <div className='flex flex-col gap-y-2'>
                                 <h3 className='text-lg font-bold text-[#0C1E5B]'>Exam Appeared</h3>
-                                <span className='text-4xl font-bold text-[#0C1E5B]'>4</span>
+                                <span className='text-4xl font-bold text-[#0C1E5B]'>{summary.examAppeared}</span>
                                 <span className='text-sm font-medium text-[#0C1E5B]'>This Term</span>
                             </div>
                         </div>
@@ -68,7 +75,7 @@ const ResultDetails = () => {
                             </div>
                             <div className='flex flex-col gap-y-2'>
                                 <h3 className='text-lg font-bold text-[#0B6D2C]'>Average Percent</h3>
-                                <span className='text-4xl font-bold text-[#0B6D2C]'>84 %</span>
+                                <span className='text-4xl font-bold text-[#0B6D2C]'>{summary.averagePercent} %</span>
                                 <span className='text-sm font-medium text-[#0B6D2C]'>This Term</span>
                             </div>
                         </div>
@@ -80,8 +87,8 @@ const ResultDetails = () => {
                             </div>
                             <div className='flex flex-col gap-y-2'>
                                 <h3 className='text-lg font-bold text-[#980E0F]'>Highest Mark</h3>
-                                <span className='text-4xl font-bold text-[#980E0F]'>92/100</span>
-                                <span className='text-sm font-medium text-[#980E0F]'>Mathematics</span>
+                                <span className='text-4xl font-bold text-[#980E0F]'>{summary.highestMark}</span>
+                                <span className='text-sm font-medium text-[#980E0F]'>{summary.highestSubject}</span>
                             </div>
                         </div>
                     </div>
@@ -92,7 +99,7 @@ const ResultDetails = () => {
                             </div>
                             <div className='flex flex-col gap-y-2'>
                                 <h3 className='text-lg font-bold text-[#2515B4]'>Overall Grade</h3>
-                                <span className='text-4xl font-bold text-[#2515B4]'>A</span>
+                                <span className='text-4xl font-bold text-[#2515B4]'>{summary.overallGrade}</span>
                                 <span className='text-sm font-medium text-[#2515B4]'>This Term</span>
                             </div>
                         </div>
@@ -259,7 +266,7 @@ const ResultDetails = () => {
                         <Star className='w-14 h-14 md:w-16 md:h-16 text-[#0056D2] fill-[#0056D2] shrink-0' />
                         <div>
                             <h3 className='text-xl md:text-2xl lg:text-3xl font-bold text-[#0056D2] leading-tight'>
-                                Great Job, Sandy!
+                                Great Job, {summary.encouragementName}!
                             </h3>
                             <p className='text-sm md:text-base text-[#0C1E5B] mt-2 leading-relaxed'>
                                 Your are performing well, Keep up the good work and continue to achieve more!
