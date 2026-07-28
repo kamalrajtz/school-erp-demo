@@ -4,15 +4,16 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Calendar, ChevronLeft, ChevronRight, Download } from 'lucide-react'
 import ExportModal from '../../../Common/CommonComponents/ExportModal'
-import MarkAsDoneConfirmModal from './Components/MarkAsDoneConfirmModal'
+import FilterChips from '../../../Common/LessonPlanApproval/Components/FilterChips'
+import LessonPlanGroupedTable from '../../../Common/LessonPlanApproval/Components/LessonPlanGroupedTable'
 import {
-    approvalStatusColor,
+    buildLessonPlanGroupHref,
     CLASS_OPTIONS,
     emptyLessonPlanFilters,
     filterLessonPlans,
     getActiveFilterLabels,
     getApprovedLessonPlansBySubmitter,
-    markLessonPlanAsDone,
+    groupLessonPlansByTeacherSubject,
     SECTION_OPTIONS,
     SUBJECT_OPTIONS,
     TEACHER_NAME,
@@ -26,18 +27,15 @@ const MyLessonPlan = () => {
     const [plans, setPlans] = useState(() => getApprovedLessonPlansBySubmitter(TEACHER_NAME))
     const [filters, setFilters] = useState(emptyLessonPlanFilters)
     const [exportModal, setExportModal] = useState(false)
-    const [confirmPlan, setConfirmPlan] = useState(null)
 
     const filteredPlans = useMemo(() => filterLessonPlans(plans, filters), [plans, filters])
+    const groupedPlans = useMemo(() => groupLessonPlansByTeacherSubject(filteredPlans), [filteredPlans])
     const activeFilterLabels = useMemo(() => getActiveFilterLabels(filters), [filters])
+    const routePrefix = location.pathname.startsWith('/coordinator') ? '/coordinator' : '/teacher'
 
     useEffect(() => {
         setPlans(getApprovedLessonPlansBySubmitter(TEACHER_NAME))
     }, [location.key])
-
-    const refreshPlans = () => {
-        setPlans(getApprovedLessonPlansBySubmitter(TEACHER_NAME))
-    }
 
     const updateFilter = (key, value) => {
         setFilters((current) => ({ ...current, [key]: value }))
@@ -45,18 +43,6 @@ const MyLessonPlan = () => {
 
     const clearFilters = () => {
         setFilters(emptyLessonPlanFilters)
-    }
-
-    const handleMarkAsDoneClick = (plan) => {
-        if (plan.markAsDone) return
-        setConfirmPlan(plan)
-    }
-
-    const handleConfirmMarkAsDone = () => {
-        if (!confirmPlan) return
-        markLessonPlanAsDone(confirmPlan.id)
-        setConfirmPlan(null)
-        refreshPlans()
     }
 
     const exportDescription = (
@@ -183,72 +169,28 @@ const MyLessonPlan = () => {
                         Export
                     </button>
                 </div>
-                <div className='relative overflow-x-auto'>
-                    <table className='w-full text-sm text-left'>
-                        <thead className='text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg'>
-                            <tr>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>S.No</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Subject</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Class</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Section</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Description</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>From Date</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>To Date</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Submitted At</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Status</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>Mark as Done</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredPlans.length === 0 ? (
-                                <tr>
-                                    <td colSpan={10} className='px-2 py-8 text-center text-[#667085]'>
-                                        {plans.length === 0
-                                            ? 'No approved lesson plans available yet.'
-                                            : 'No lesson plans match the selected filters.'}
-                                    </td>
-                                </tr>
-                            ) : (
-                                filteredPlans.map((plan, index) => (
-                                    <tr key={plan.id} className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7]'>
-                                        <td className='px-2 py-4 rounded-s-lg'>{index + 1}</td>
-                                        <td className='px-2 py-4 font-medium text-[#1E1E1E]'>{plan.subject}</td>
-                                        <td className='px-2 py-4'>{plan.className}</td>
-                                        <td className='px-2 py-4'>{plan.section}</td>
-                                        <td className='px-2 py-4 max-w-[220px] truncate' title={plan.description}>{plan.description}</td>
-                                        <td className='px-2 py-4 whitespace-nowrap'>{plan.fromDate ?? '—'}</td>
-                                        <td className='px-2 py-4 whitespace-nowrap'>{plan.toDate ?? '—'}</td>
-                                        <td className='px-2 py-4 whitespace-nowrap'>{plan.submittedAt}</td>
-                                        <td className='px-2 py-4'>
-                                            <span className={`px-2 py-1 rounded-lg text-xs font-semibold whitespace-nowrap ${approvalStatusColor[plan.approvalStatus]}`}>
-                                                {plan.approvalStatus}
-                                            </span>
-                                        </td>
-                                        <td className='px-2 py-4 rounded-e-lg'>
-                                            <label className={`inline-flex items-center gap-2 ${plan.markAsDone ? 'cursor-default' : 'cursor-pointer'}`}>
-                                                <input
-                                                    type='checkbox'
-                                                    checked={Boolean(plan.markAsDone)}
-                                                    disabled={Boolean(plan.markAsDone)}
-                                                    onChange={() => handleMarkAsDoneClick(plan)}
-                                                    className='size-4 accent-[#515DEF] cursor-pointer disabled:cursor-default'
-                                                />
-                                                <span className='text-sm text-[#1E1E1E]'>
-                                                    {plan.markAsDone ? 'Done' : 'Mark as Done'}
-                                                </span>
-                                            </label>
-                                        </td>
-                                    </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                <FilterChips filters={filters} onFiltersChange={setFilters} />
+                <LessonPlanGroupedTable
+                    groups={groupedPlans}
+                    showTeacherColumn={false}
+                    statusMode='mark-as-done'
+                    actionLabel='Open'
+                    getGroupHref={(group) =>
+                        buildLessonPlanGroupHref(routePrefix, group.submitterName, group.subject, 'mark-as-done')
+                    }
+                    emptyTitle={plans.length === 0 ? 'No approved plans' : 'No matching groups'}
+                    emptyMessage={
+                        plans.length === 0
+                            ? 'No approved lesson plans are available yet. They will appear here after the Director approves your submissions.'
+                            : 'No lesson plan groups match the selected filters. Try clearing a filter chip above.'
+                    }
+                    emptyIcon='clipboard'
+                />
             </div>
 
             <div className='flex justify-between items-center px-4'>
                 <p className='text-sm font-medium text-[#515DEF]'>
-                    Showing 1 to {filteredPlans.length} of {filteredPlans.length} entries
+                    Showing 1 to {groupedPlans.length} of {groupedPlans.length} groups ({filteredPlans.length} lesson plans)
                 </p>
                 <div className='flex gap-x-2'>
                     <button type='button' className='size-8 flex justify-center items-center p-2 bg-white text-[#515DEF] border border-[#E2E8F0] hover:bg-[#515DEF] hover:text-white rounded-full cursor-pointer'>
@@ -264,12 +206,6 @@ const MyLessonPlan = () => {
             </div>
 
             <ExportModal exportModal={exportModal} setExportModal={setExportModal} exportDescription={exportDescription} />
-            <MarkAsDoneConfirmModal
-                open={Boolean(confirmPlan)}
-                plan={confirmPlan}
-                onCancel={() => setConfirmPlan(null)}
-                onConfirm={handleConfirmMarkAsDone}
-            />
         </section>
     )
 }

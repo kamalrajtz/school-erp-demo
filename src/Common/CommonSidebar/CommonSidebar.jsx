@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { ChevronLeft, ChevronDown } from "lucide-react"
 import logo from "../../assets/images/demo-logo.svg"
 import logoMini from "../../assets/images/demo-logo-mini.svg"
-import { adminSidebarLinks, canteenManagerSidebarLinks, gateKeeperManagerSidebarLinks, gateKeeperSidebarLinks, directorSidebarLinks, principalSidebarLinks, librarianSidebarLinks, prmSidebarLinks, studentSidebarLinks, parentSidebarLinks, teacherSidebarLinks, itSupportManagerSidebarLinks, stationeryStoreManagerSidebarLinks, housekeepingManagerSidebarLinks, transportManagerSidebarLinks, jointDirectorSidebarLinks, jointDirectorAssistantSidebarLinks, jointDirectorAuditSidebarLinks, processAuditorSidebarLinks, qualityAuditorSidebarLinks, hrSidebarLinks, accountHeadSidebarLinks, driverSidebarLinks } from './Components/sidebarLinks'
+import { adminSidebarLinks, canteenManagerSidebarLinks, gateKeeperManagerSidebarLinks, gateKeeperSidebarLinks, directorSidebarLinks, principalSidebarLinks, librarianSidebarLinks, prmSidebarLinks, studentSidebarLinks, parentSidebarLinks, teacherSidebarLinks, coordinatorSidebarLinks, itSupportManagerSidebarLinks, stationeryStoreManagerSidebarLinks, housekeepingManagerSidebarLinks, transportManagerSidebarLinks, jointDirectorSidebarLinks, jointDirectorAssistantSidebarLinks, jointDirectorAuditSidebarLinks, processAuditorSidebarLinks, qualityAuditorSidebarLinks, hrSidebarLinks, accountHeadSidebarLinks, driverSidebarLinks } from './Components/sidebarLinks'
 
 const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
 
@@ -22,6 +22,7 @@ const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
     const sidebarLinks = useMemo(() => {
         if (location.pathname.startsWith('/parent')) return parentSidebarLinks
         if (location.pathname.startsWith('/student')) return studentSidebarLinks
+        if (location.pathname.startsWith('/coordinator')) return coordinatorSidebarLinks
         if (location.pathname.startsWith('/teacher')) return teacherSidebarLinks
         if (location.pathname.startsWith('/librarian')) return librarianSidebarLinks
         if (location.pathname.startsWith('/canteen-manager')) return canteenManagerSidebarLinks

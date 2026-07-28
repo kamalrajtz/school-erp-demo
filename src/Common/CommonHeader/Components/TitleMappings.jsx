@@ -351,6 +351,41 @@
     "/teacher/academic-calendar": "Calendar",
     "/teacher/communication/inbox": "Communication Inbox",
 
+    // ── Coordinator Role ──────────────────────────────────────────────────────
+    "/coordinator/dashboard": "Dashboard",
+    "/coordinator/attendance/my-attendance": "My Attendance",
+    "/coordinator/attendance/class-attendance": "Class Attendance",
+    "/coordinator/class/class-routine": "Class Timetable",
+    "/coordinator/class/extra-class": "Extended Class",
+    "/coordinator/class/extra-class/add": "Add Extended Class",
+    "/coordinator/class/online-class": "Online Class",
+    "/coordinator/class/online-class/add": "Add Online Class",
+    "/coordinator/class/leave-request": "Received Leave Requests",
+    "/coordinator/leave-request/my-requests": "My Leave Requests",
+    "/coordinator/leave-request/my-requests/add": "Apply Leave",
+    "/coordinator/leave-request/received": "Received Leave Requests",
+    "/coordinator/lesson-plan-approval": "Lesson Plan Approval",
+    "/coordinator/lesson-plan-approval/add": "Add Lesson Plan",
+    "/coordinator/lesson-plan/my-lesson-plan": "My Lesson Plan",
+    "/coordinator/student-deliverables/home-fun": "Home Fun",
+    "/coordinator/student-deliverables/home-fun/add": "Add Assignment / Homework",
+    "/coordinator/student-deliverables/study-materials": "Study Materials",
+    "/coordinator/student-deliverables/study-materials/add": "Add Study Material",
+    "/coordinator/student-deliverables/sample-questions": "Sample Questions",
+    "/coordinator/student-deliverables/sample-questions/add": "Add Sample Questions",
+    "/coordinator/unit-tests": "Unit Test",
+    "/coordinator/unit-tests/add": "Create Unit Test",
+    "/coordinator/student-evaluation/mark-entry": "Mark Entry",
+    "/coordinator/user-management/students-list": "Students List",
+    "/coordinator/user-management/parents-list": "Parents List",
+    "/coordinator/library/books-borrowed": "Books Borrowed",
+    "/coordinator/notifications": "Notifications",
+    "/coordinator/announcement": "Announcement List",
+    "/coordinator/escalation-management": "Escalation List",
+    "/coordinator/escalation-management/add-escalation": "Add Escalation",
+    "/coordinator/academic-calendar": "Calendar",
+    "/coordinator/communication/inbox": "Communication Inbox",
+
     // ── Transport Manager Role ────────────────────────────────────────────────
     "/transport-manager/dashboard": "Dashboard",
     "/transport-manager/driver-management": "Driver Management",
@@ -614,7 +649,11 @@
 
 /** Paths with params never equal `location.pathname`; match with prefixes / patterns here */
 const dynamicTitleMatchers = [
-    { test: (p) => /^\/admin\/front-office\/view-teacher\/[^/]+$/.test(p), title: 'Teacher Details' },
+    { test: (p) => /^\/teacher\/lesson-plan-approval\/group\/[^/]+\/[^/]+$/.test(p), title: 'Lesson Plan Group' },
+    { test: (p) => /^\/teacher\/lesson-plan\/my-lesson-plan\/group\/[^/]+\/[^/]+$/.test(p), title: 'My Lesson Plan Group' },
+    { test: (p) => /^\/coordinator\/lesson-plan-approval\/group\/[^/]+\/[^/]+$/.test(p), title: 'Lesson Plan Group' },
+    { test: (p) => /^\/coordinator\/lesson-plan\/my-lesson-plan\/group\/[^/]+\/[^/]+$/.test(p), title: 'My Lesson Plan Group' },
+    { test: (p) => /^\/director\/lesson-plan-approval\/group\/[^/]+\/[^/]+$/.test(p), title: 'Lesson Plan Review' },
     { test: (p) => /^\/admin\/front-office\/view-librarian\/[^/]+$/.test(p), title: 'Librarian Details' },
     { test: (p) => /^\/admin\/front-office\/view-driver\/[^/]+$/.test(p), title: 'Driver Details' },
     { test: (p) => /^\/admin\/front-office\/view-admission\/[^/]+$/.test(p), title: 'Admission Details' },
@@ -644,6 +683,7 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/front-office\/goods-received-pass\/edit\/[^/]+$/.test(p), title: 'Edit Goods Received Pass' },
     { test: (p) => /^\/admin\/announcement\/view\/[^/]+$/.test(p), title: 'View Announcement Details' },
     { test: (p) => /^\/teacher\/announcement\/view\/[^/]+$/.test(p), title: 'View Announcement Details' },
+    { test: (p) => /^\/coordinator\/announcement\/view\/[^/]+$/.test(p), title: 'View Announcement Details' },
     { test: (p) => /^\/admin\/leave-request\/my-requests\/view\/[^/]+$/.test(p), title: 'View Leave Request Details' },
     { test: (p) => /^\/admin\/leave-request\/received\/view\/[^/]+$/.test(p), title: 'View Received Leave Request' },
     { test: (p) => /^\/director\/leave-request\/my-requests\/view\/[^/]+$/.test(p), title: 'View Leave Request Details' },
@@ -652,6 +692,8 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/principal\/leave-request\/received\/view\/[^/]+$/.test(p), title: 'View Received Leave Request' },
     { test: (p) => /^\/teacher\/leave-request\/my-requests\/view\/[^/]+$/.test(p), title: 'View Leave Request Details' },
     { test: (p) => /^\/teacher\/leave-request\/received\/view\/[^/]+$/.test(p), title: 'View Received Leave Request' },
+    { test: (p) => /^\/coordinator\/leave-request\/my-requests\/view\/[^/]+$/.test(p), title: 'View Leave Request Details' },
+    { test: (p) => /^\/coordinator\/leave-request\/received\/view\/[^/]+$/.test(p), title: 'View Received Leave Request' },
     { test: (p) => /^\/joint-director\/employee-management\/drivers\/view\/[^/]+$/.test(p), title: 'View Driver Details' },
     { test: (p) => /^\/joint-director-audit\/findings-compliance\/view\/[^/]+$/.test(p), title: 'Finding Details' },
     { test: (p) => /^\/joint-director-audit\/audit-monitoring\/view\/[^/]+$/.test(p), title: 'Audit Monitoring Details' },
@@ -668,14 +710,14 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/joint-director\/assets-inventory\/view\/[^/]+$/.test(p), title: 'View Asset / Inventory Details' },
     {
         test: (p) =>
-            /^\/(admin|director|front-office|gate-keeper|gatekeeper-manager|librarian|principal|student|teacher)\/escalation-management\/view\/[^/]+$/.test(
+            /^\/(admin|director|front-office|gate-keeper|gatekeeper-manager|librarian|principal|student|teacher|coordinator)\/escalation-management\/view\/[^/]+$/.test(
                 p,
             ),
         title: 'View Escalation Details',
     },
     {
         test: (p) =>
-            /^\/(admin|director|front-office|gate-keeper|gatekeeper-manager|librarian|principal|student|teacher)\/communication\/inbox\/[^/]+$/.test(
+            /^\/(admin|director|front-office|gate-keeper|gatekeeper-manager|librarian|principal|student|teacher|coordinator)\/communication\/inbox\/[^/]+$/.test(
                 p,
             ),
         title: 'Communication Inbox',
@@ -743,6 +785,14 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/teacher\/unit-tests\/view\/[^/]+$/.test(p), title: 'View Unit Test' },
     { test: (p) => /^\/teacher\/user-management\/students-list\/view\/[^/]+$/.test(p), title: 'View Student Profile' },
     { test: (p) => /^\/teacher\/user-management\/students-list\/view\/[^/]+\/full$/.test(p), title: 'View Student Details' },
+    { test: (p) => /^\/coordinator\/class\/extra-class\/view\/[^/]+$/.test(p), title: 'View Extended Class' },
+    { test: (p) => /^\/coordinator\/class\/online-class\/view\/[^/]+$/.test(p), title: 'View Online Class' },
+    { test: (p) => /^\/coordinator\/student-deliverables\/home-fun\/view\/[^/]+$/.test(p), title: 'View Assignment / Homework Details' },
+    { test: (p) => /^\/coordinator\/student-deliverables\/study-materials\/view\/[^/]+$/.test(p), title: 'View Study Material' },
+    { test: (p) => /^\/coordinator\/student-deliverables\/sample-questions\/view\/[^/]+$/.test(p), title: 'View Sample Questions' },
+    { test: (p) => /^\/coordinator\/unit-tests\/view\/[^/]+$/.test(p), title: 'View Unit Test' },
+    { test: (p) => /^\/coordinator\/user-management\/students-list\/view\/[^/]+$/.test(p), title: 'View Student Profile' },
+    { test: (p) => /^\/coordinator\/user-management\/students-list\/view\/[^/]+\/full$/.test(p), title: 'View Student Details' },
     { test: (p) => /^\/driver\/leave-request\/view\/[^/]+$/.test(p), title: 'View Leave Request' },
     { test: (p) => /^\/driver\/leave-request\/edit\/[^/]+$/.test(p), title: 'Edit Leave Request' },
     { test: (p) => /^\/driver\/maintenance-request\/view\/[^/]+$/.test(p), title: 'View Maintenance Request' },

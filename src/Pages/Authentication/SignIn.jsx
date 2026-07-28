@@ -1,28 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import signin_img from "../../assets/images/signin-img.png"
-import logo from "../../assets/images/demo-logo2.svg"
 import { NavLink, useNavigate } from 'react-router-dom'
-import { ROLE_HOME_PATHS, ROLES, useAuth } from '../../context/AuthContext'
-
-const ROLE_LABELS = {
-    [ROLES.ADMIN]: 'Admin',
-    [ROLES.STUDENT]: 'Student',
-    [ROLES.LIBRARIAN]: 'Librarian',
-    [ROLES.PRM]: 'PRM',
-    [ROLES.GATEKEEPER]: 'Gate Keeper',
-    [ROLES.GATEKEEPER_MANAGER]: 'Gate Keeper Manager',
-    [ROLES.DIRECTOR]: 'Director',
-    [ROLES.PRINCIPAL]: 'Principal',
-    [ROLES.CANTEEN_MANAGER]: 'Canteen Manager',
-    [ROLES.IT_SUPPORT_MANAGER]: 'IT Support Team Manager',
-    [ROLES.STATIONERY_STORE_MANAGER]: 'Stationery Store Manager',
-    [ROLES.HOUSEKEEPING_MANAGER]: 'Housekeeping Manager',
-    [ROLES.TRANSPORT_MANAGER]: 'Transport Manager',
-    [ROLES.TEACHER]: 'Teacher',
-    [ROLES.JOINT_DIRECTOR]: 'Joint Director',
-    [ROLES.JOINT_DIRECTOR_ASSISTANT]: 'Joint Director Assistant',
-    [ROLES.JOINT_DIRECTOR_AUDIT]: 'Joint Director - Audit',
-}
+import { ROLE_HOME_PATHS, useAuth } from '../../context/AuthContext'
+import { getProfileLabel } from './profileOptions'
+import AuthHeader from './AuthHeader'
 
 const SignIn = () => {
     const navigate = useNavigate()
@@ -42,7 +23,7 @@ const SignIn = () => {
         return null
     }
 
-    const roleLabel = ROLE_LABELS[pendingRole] ?? 'User'
+    const roleLabel = getProfileLabel(pendingRole)
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -58,18 +39,12 @@ const SignIn = () => {
     }
 
     return (
-        <div className="relative w-full h-screen bg-[#f5f7ff] overflow-hidden font-poppins">
+        <div className="relative w-full min-h-screen font-poppins flex flex-col">
+            <AuthHeader />
 
-            <div className="absolute -bottom-32 w-[600px] h-[600px] bg-[#B4C4FF] rounded-full blur-[120px] -left-28 opacity-70"></div>
-
-            <div className="absolute -top-28 w-[600px] h-[600px] bg-[#B4C4FF] rounded-full blur-[120px] -right-28 opacity-70"></div>
-
-            <div className="relative z-10 w-full h-full grid grid-cols-1 md:grid-cols-2">
-                <div className='flex justify-center items-center md:p-6 p-2 relative'>
-                    <div className='absolute md:top-4 md:left-4 top-4 left-0 w-full flex justify-center md:block md:px-0 lg:px-0 xl:px-10'>
-                        <img src={logo} alt="logo" className='w-52' />
-                    </div>
-                    <form onSubmit={handleSubmit} className='w-full max-w-lg flex flex-col gap-y-8'>
+            <div className="relative z-10 flex-1 grid grid-cols-1 md:grid-cols-2">
+                <div className="flex justify-center items-center md:p-6 p-2">
+                    <form onSubmit={handleSubmit} className="w-full max-w-lg flex flex-col gap-y-8 py-8">
                         <div>
                             <h1 className='text-4xl font-semibold text-[#313131] md:text-left text-center'>Login</h1>
                             <p className='text-base font-medium text-[#313131]/70 mt-4 md:text-left text-center'>

@@ -4,14 +4,17 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Calendar, ChevronLeft, ChevronRight, Download, Plus } from 'lucide-react'
 import ExportModal from '../../../Common/CommonComponents/ExportModal'
+import FilterChips from '../../../Common/LessonPlanApproval/Components/FilterChips'
+import LessonPlanGroupedTable from '../../../Common/LessonPlanApproval/Components/LessonPlanGroupedTable'
 import {
     APPROVAL_STATUSES,
-    approvalStatusColor,
+    buildLessonPlanGroupHref,
     CLASS_OPTIONS,
     emptyLessonPlanFilters,
     filterLessonPlans,
     getActiveFilterLabels,
     getLessonPlansBySubmitter,
+    groupLessonPlansByTeacherSubject,
     SECTION_OPTIONS,
     SUBJECT_OPTIONS,
     TEACHER_NAME,
@@ -27,7 +30,9 @@ const SubmitLessonPlan = () => {
     const [exportModal, setExportModal] = useState(false)
 
     const filteredPlans = useMemo(() => filterLessonPlans(plans, filters), [plans, filters])
+    const groupedPlans = useMemo(() => groupLessonPlansByTeacherSubject(filteredPlans), [filteredPlans])
     const activeFilterLabels = useMemo(() => getActiveFilterLabels(filters), [filters])
+    const routePrefix = location.pathname.startsWith('/coordinator') ? '/coordinator' : '/teacher'
 
     useEffect(() => {
         setPlans(getLessonPlansBySubmitter(TEACHER_NAME))
@@ -172,7 +177,7 @@ const SubmitLessonPlan = () => {
                     <h2 className='text-xl font-medium text-black'>My Submitted Lesson Plans</h2>
                     <div className='flex gap-x-2'>
                         <NavLink
-                            to='/teacher/lesson-plan-approval/add'
+                            to={`${routePrefix}/lesson-plan-approval/add`}
                             className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
                         >
                             <Plus size={16} />
@@ -188,57 +193,28 @@ const SubmitLessonPlan = () => {
                         </button>
                     </div>
                 </div>
-                <div className='relative overflow-x-auto'>
-                    <table className='w-full text-sm text-left'>
-                        <thead className='text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg'>
-                            <tr>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>S.No</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Subject</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Class</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Section</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Description</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>From Date</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>To Date</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Submitted At</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>Approval Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredPlans.length === 0 ? (
-                                <tr>
-                                    <td colSpan={9} className='px-2 py-8 text-center text-[#667085]'>
-                                        {plans.length === 0
-                                            ? 'You have not submitted any lesson plans yet.'
-                                            : 'No lesson plans match the selected filters.'}
-                                    </td>
-                                </tr>
-                            ) : (
-                                filteredPlans.map((plan, index) => (
-                                    <tr key={plan.id} className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7]'>
-                                        <td className='px-2 py-4 rounded-s-lg'>{index + 1}</td>
-                                        <td className='px-2 py-4 font-medium text-[#1E1E1E]'>{plan.subject}</td>
-                                        <td className='px-2 py-4'>{plan.className}</td>
-                                        <td className='px-2 py-4'>{plan.section}</td>
-                                        <td className='px-2 py-4 max-w-[220px] truncate' title={plan.description}>{plan.description}</td>
-                                        <td className='px-2 py-4 whitespace-nowrap'>{plan.fromDate ?? '—'}</td>
-                                        <td className='px-2 py-4 whitespace-nowrap'>{plan.toDate ?? '—'}</td>
-                                        <td className='px-2 py-4 whitespace-nowrap'>{plan.submittedAt}</td>
-                                        <td className='px-2 py-4 rounded-e-lg'>
-                                            <span className={`px-2 py-1 rounded-lg text-xs font-semibold whitespace-nowrap ${approvalStatusColor[plan.approvalStatus]}`}>
-                                                {plan.approvalStatus}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                <FilterChips filters={filters} onFiltersChange={setFilters} />
+                <LessonPlanGroupedTable
+                    groups={groupedPlans}
+                    showTeacherColumn={false}
+                    statusMode='approval'
+                    actionLabel='View'
+                    getGroupHref={(group) =>
+                        buildLessonPlanGroupHref(routePrefix, group.submitterName, group.subject, 'submissions')
+                    }
+                    emptyTitle={plans.length === 0 ? 'No submissions yet' : 'No matching groups'}
+                    emptyMessage={
+                        plans.length === 0
+                            ? 'You have not submitted any lesson plans yet. Use Add Lesson Plan to get started.'
+                            : 'No lesson plan groups match the selected filters. Try clearing a filter chip above.'
+                    }
+                    emptyIcon={plans.length === 0 ? 'clipboard' : 'inbox'}
+                />
             </div>
 
             <div className='flex justify-between items-center px-4'>
                 <p className='text-sm font-medium text-[#515DEF]'>
-                    Showing 1 to {filteredPlans.length} of {filteredPlans.length} entries
+                    Showing 1 to {groupedPlans.length} of {groupedPlans.length} groups ({filteredPlans.length} lesson plans)
                 </p>
                 <div className='flex gap-x-2'>
                     <button type='button' className='size-8 flex justify-center items-center p-2 bg-white text-[#515DEF] border border-[#E2E8F0] hover:bg-[#515DEF] hover:text-white rounded-full cursor-pointer'>

@@ -1,23 +1,24 @@
 import React, { useMemo, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { Calendar, ChevronLeft, ChevronRight, Download, EllipsisIcon } from 'lucide-react'
-import Dropdown from '../../../Common/CommonComponents/Dropdown'
+import { Calendar, ChevronLeft, ChevronRight, Download } from 'lucide-react'
 import ExportModal from '../../../Common/CommonComponents/ExportModal'
+import FilterChips from '../../../Common/LessonPlanApproval/Components/FilterChips'
+import LessonPlanGroupedTable from '../../../Common/LessonPlanApproval/Components/LessonPlanGroupedTable'
 import {
     APPROVAL_STATUSES,
-    approvalStatusColor,
+    buildLessonPlanGroupHref,
     CLASS_OPTIONS,
     emptyLessonPlanFilters,
     filterLessonPlans,
     getActiveFilterLabels,
     getLessonPlans,
     getSummaryCounts,
+    groupLessonPlansByTeacherSubject,
     SECTION_OPTIONS,
     SUBJECT_OPTIONS,
     SUBMITTER_ROLES,
     TRACK_STATUSES,
-    updateLessonPlanStatus,
 } from '../../../Common/LessonPlanApproval/lessonPlanApprovalData'
 
 const SUMMARY_CARDS = [
@@ -37,11 +38,8 @@ const LessonPlanApproval = () => {
 
     const summary = useMemo(() => getSummaryCounts(plans), [plans])
     const filteredPlans = useMemo(() => filterLessonPlans(plans, filters), [plans, filters])
+    const groupedPlans = useMemo(() => groupLessonPlansByTeacherSubject(filteredPlans), [filteredPlans])
     const activeFilterLabels = useMemo(() => getActiveFilterLabels(filters), [filters])
-
-    const refreshPlans = () => {
-        setPlans(getLessonPlans())
-    }
 
     const updateFilter = (key, value) => {
         setFilters((current) => ({ ...current, [key]: value }))
@@ -49,16 +47,6 @@ const LessonPlanApproval = () => {
 
     const clearFilters = () => {
         setFilters(emptyLessonPlanFilters)
-    }
-
-    const handleApprove = (id) => {
-        updateLessonPlanStatus(id, 'Approved')
-        refreshPlans()
-    }
-
-    const handleReject = (id) => {
-        updateLessonPlanStatus(id, 'Rejected')
-        refreshPlans()
     }
 
     const exportDescription = (
@@ -76,12 +64,46 @@ const LessonPlanApproval = () => {
     return (
         <section className='space-y-8'>
             <div className='grid grid-cols-2 lg:grid-cols-4 gap-4'>
-                {SUMMARY_CARDS.map((card) => (
-                    <div key={card.key} className='bg-white rounded-2xl shadow-md p-5'>
-                        <p className='text-sm font-medium text-[#808080]'>{card.label}</p>
-                        <p className='text-3xl font-bold text-[#0C1E5B] mt-2'>{summary[card.key]}</p>
-                    </div>
-                ))}
+                {SUMMARY_CARDS.map((card) => {
+                    const isPendingCard = card.key === 'pendingApprovals'
+                    const isPendingActive = filters.approvalStatus === 'Pending'
+
+                    return (
+                        <div
+                            key={card.key}
+                            role={isPendingCard ? 'button' : undefined}
+                            tabIndex={isPendingCard ? 0 : undefined}
+                            onClick={
+                                isPendingCard
+                                    ? () => updateFilter('approvalStatus', isPendingActive ? '' : 'Pending')
+                                    : undefined
+                            }
+                            onKeyDown={
+                                isPendingCard
+                                    ? (event) => {
+                                        if (event.key === 'Enter' || event.key === ' ') {
+                                            event.preventDefault()
+                                            updateFilter('approvalStatus', isPendingActive ? '' : 'Pending')
+                                        }
+                                    }
+                                    : undefined
+                            }
+                            className={`bg-white rounded-2xl shadow-md p-5 transition-all ${
+                                isPendingCard
+                                    ? 'cursor-pointer hover:border hover:border-[#515DEF] hover:shadow-lg'
+                                    : ''
+                            } ${isPendingCard && isPendingActive ? 'ring-2 ring-[#515DEF] border border-[#515DEF]' : ''}`}
+                        >
+                            <p className='text-sm font-medium text-[#808080]'>{card.label}</p>
+                            <p className='text-3xl font-bold text-[#0C1E5B] mt-2'>{summary[card.key]}</p>
+                            {isPendingCard ? (
+                                <p className='text-xs text-[#515DEF] mt-2'>
+                                    {isPendingActive ? 'Filter active — click to clear' : 'Click to filter pending'}
+                                </p>
+                            ) : null}
+                        </div>
+                    )
+                })}
             </div>
 
             <div className='bg-white rounded-2xl shadow-md p-4'>
@@ -236,83 +258,36 @@ const LessonPlanApproval = () => {
                         Export
                     </button>
                 </div>
-                <div className='relative overflow-x-auto'>
-                    <table className='w-full text-sm text-left'>
-                        <thead className='text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg'>
-                            <tr>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>S.No</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Subject</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Teacher&apos;s / Co-ordinator&apos;s Name</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Class</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Section</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Description</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>From Date</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>To Date</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Submitted At</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Status</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredPlans.length === 0 ? (
-                                <tr>
-                                    <td colSpan={11} className='px-2 py-8 text-center text-[#667085]'>
-                                        No lesson plans match the selected filters.
-                                    </td>
-                                </tr>
-                            ) : (
-                                filteredPlans.map((plan, index) => (
-                                    <tr key={plan.id} className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7]'>
-                                        <td className='px-2 py-4 rounded-s-lg'>{index + 1}</td>
-                                        <td className='px-2 py-4 font-medium text-[#1E1E1E]'>{plan.subject}</td>
-                                        <td className='px-2 py-4'>
-                                            <span className='block text-[#1E1E1E]'>{plan.submitterName}</span>
-                                            <span className='text-xs text-[#808080]'>{plan.submitterRole}</span>
-                                        </td>
-                                        <td className='px-2 py-4'>{plan.className}</td>
-                                        <td className='px-2 py-4'>{plan.section}</td>
-                                        <td className='px-2 py-4 max-w-[220px] truncate' title={plan.description}>{plan.description}</td>
-                                        <td className='px-2 py-4 whitespace-nowrap'>{plan.fromDate ?? '—'}</td>
-                                        <td className='px-2 py-4 whitespace-nowrap'>{plan.toDate ?? '—'}</td>
-                                        <td className='px-2 py-4 whitespace-nowrap'>{plan.submittedAt}</td>
-                                        <td className='px-2 py-4'>
-                                            <span className={`px-2 py-1 rounded-lg text-xs font-semibold whitespace-nowrap ${approvalStatusColor[plan.approvalStatus]}`}>
-                                                {plan.approvalStatus}
-                                            </span>
-                                        </td>
-                                        <td className='px-2 py-4 text-center rounded-e-lg'>
-                                            {plan.approvalStatus === 'Pending' ? (
-                                                <Dropdown buttonContent={<EllipsisIcon size={16} className='text-black' />}>
-                                                    <button
-                                                        type='button'
-                                                        onClick={() => handleApprove(plan.id)}
-                                                        className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
-                                                    >
-                                                        Approve
-                                                    </button>
-                                                    <button
-                                                        type='button'
-                                                        onClick={() => handleReject(plan.id)}
-                                                        className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
-                                                    >
-                                                        Reject
-                                                    </button>
-                                                </Dropdown>
-                                            ) : (
-                                                <span className='text-xs text-[#808080]'>—</span>
-                                            )}
-                                        </td>
-                                    </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                <FilterChips filters={filters} onFiltersChange={setFilters} />
+                <LessonPlanGroupedTable
+                    groups={groupedPlans}
+                    showTeacherColumn
+                    statusMode='approval'
+                    actionLabel='Review'
+                    getGroupHref={(group) =>
+                        buildLessonPlanGroupHref('/director', group.submitterName, group.subject, 'submissions')
+                    }
+                    emptyTitle={
+                        filters.approvalStatus === 'Pending' && groupedPlans.length === 0
+                            ? 'All caught up'
+                            : 'No matching groups'
+                    }
+                    emptyMessage={
+                        filters.approvalStatus === 'Pending' && groupedPlans.length === 0
+                            ? 'No pending approvals — all lesson plans have been reviewed.'
+                            : filteredPlans.length === 0
+                                ? 'No lesson plans match the selected filters. Try clearing a filter chip above.'
+                                : 'No lesson plan groups match the selected filters.'
+                    }
+                    emptyIcon={
+                        filters.approvalStatus === 'Pending' && groupedPlans.length === 0 ? 'check' : 'inbox'
+                    }
+                />
             </div>
 
             <div className='flex justify-between items-center px-4'>
                 <p className='text-sm font-medium text-[#515DEF]'>
-                    Showing 1 to {filteredPlans.length} of {filteredPlans.length} entries
+                    Showing 1 to {groupedPlans.length} of {groupedPlans.length} groups ({filteredPlans.length} lesson plans)
                 </p>
                 <div className='flex gap-x-2'>
                     <button type='button' className='size-8 flex justify-center items-center p-2 bg-white text-[#515DEF] border border-[#E2E8F0] hover:bg-[#515DEF] hover:text-white rounded-full cursor-pointer'>

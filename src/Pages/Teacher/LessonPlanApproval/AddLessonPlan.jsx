@@ -9,11 +9,13 @@ import {
     addLessonPlans,
     CLASS_OPTIONS,
     formatPlanDate,
+    parsePlanDateString,
     SECTION_OPTIONS,
     SUBJECT_OPTIONS,
     TEACHER_NAME,
     TEACHER_ROLE,
 } from '../../../Common/LessonPlanApproval/lessonPlanApprovalData'
+import QueuedPlansPanel from '../../../Common/LessonPlanApproval/Components/QueuedPlansPanel'
 
 const inputClass =
     'text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full bg-white'
@@ -79,6 +81,17 @@ const AddLessonPlan = () => {
         setQueuedPlans((current) => current.filter((_, itemIndex) => itemIndex !== index))
     }
 
+    const editQueuedPlan = (index) => {
+        const plan = queuedPlans[index]
+        setPlanRow({
+            title: plan.title,
+            description: plan.description,
+            fromDate: parsePlanDateString(plan.fromDate),
+            toDate: parsePlanDateString(plan.toDate),
+        })
+        removeQueuedPlan(index)
+    }
+
     const handleSubmit = () => {
         const allPayloads = [...queuedPlans]
         if (isPlanRowValid(planRow)) {
@@ -93,6 +106,13 @@ const AddLessonPlan = () => {
 
     const queuedCount = queuedPlans.length
     const currentRowValid = isPlanRowValid(planRow)
+    const plansToSubmit = queuedCount + (currentRowValid ? 1 : 0)
+    const submitLabel =
+        plansToSubmit === 0
+            ? 'Submit for Approval'
+            : plansToSubmit === 1
+              ? 'Submit 1 plan for approval'
+              : `Submit ${plansToSubmit} plans for approval`
 
     return (
         <section className='space-y-6'>
@@ -183,6 +203,12 @@ const AddLessonPlan = () => {
 
                 </div>
 
+                <QueuedPlansPanel
+                    queuedPlans={queuedPlans}
+                    onEdit={editQueuedPlan}
+                    onRemove={removeQueuedPlan}
+                />
+
                 <div className='mt-8 border border-[#E4E7EC] rounded-xl p-4'>
                     <div className='mb-4'>
                         <h3 className='text-base font-semibold text-[#1E1E1E]'>Lesson Plan Details</h3>
@@ -256,38 +282,6 @@ const AddLessonPlan = () => {
                 </div>
             </div>
 
-            {queuedCount > 0 && (
-                <div className='bg-white rounded-2xl shadow-md p-4'>
-                    <div className='flex justify-between items-center mb-4'>
-                        <h3 className='text-lg font-semibold text-black'>Queued Lesson Plans</h3>
-                        <span className='text-sm font-medium text-[#515DEF]'>{queuedCount} queued</span>
-                    </div>
-                    <div className='space-y-3'>
-                        {queuedPlans.map((plan, index) => (
-                            <div
-                                key={`${plan.title}-${plan.fromDate}-${plan.toDate}-${index}`}
-                                className='flex flex-col sm:flex-row sm:items-center justify-between gap-3 border border-[#E4E7EC] rounded-lg px-4 py-3'
-                            >
-                                <div>
-                                    <p className='text-sm font-medium text-[#1E1E1E]'>{plan.title}</p>
-                                    <p className='text-xs text-[#667085] mt-1'>{plan.description}</p>
-                                    <p className='text-xs text-[#667085] mt-1'>
-                                        {plan.academicYear} · {plan.month} · {plan.subject} · {plan.className} · Section {plan.section} · {plan.fromDate} to {plan.toDate}
-                                    </p>
-                                </div>
-                                <button
-                                    type='button'
-                                    onClick={() => removeQueuedPlan(index)}
-                                    className='text-sm text-red-500 hover:text-red-600 cursor-pointer self-start sm:self-center'
-                                >
-                                    Remove
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
-
             <div className='flex sm:justify-end justify-center gap-x-4'>
                 <button
                     type='button'
@@ -299,10 +293,10 @@ const AddLessonPlan = () => {
                 <button
                     type='button'
                     onClick={handleSubmit}
-                    disabled={queuedCount === 0 && !currentRowValid}
+                    disabled={plansToSubmit === 0}
                     className='bg-[#515DEF] text-white text-sm text-center px-12 py-2 rounded-md border border-[#515DEF] hover:opacity-90 transition-all duration-200 cursor-pointer md:w-auto w-full disabled:opacity-50 disabled:cursor-not-allowed'
                 >
-                    Submit for Approval
+                    {submitLabel}
                 </button>
             </div>
         </section>

@@ -25,6 +25,23 @@ export const approvalStatusColor = {
     Rejected: 'bg-[#FF000033] text-[#FF0000]',
 }
 
+export const approvalStatusBarColor = {
+    Pending: '#FF9800',
+    Approved: '#4CAF50',
+    Rejected: '#FF0000',
+}
+
+export const trackStatusColor = {
+    'On Track': 'bg-[#4CAF5033] text-[#4CAF50]',
+    'Behind Schedule': 'bg-[#FF980033] text-[#FF9800]',
+    Completed: 'bg-[#2196F333] text-[#2196F3]',
+}
+
+export const markAsDoneBarColor = {
+    Done: '#4CAF50',
+    Pending: '#2196F3',
+}
+
 const DEFAULT_LESSON_PLANS = [
     {
         id: 'LP-001',
@@ -138,6 +155,63 @@ const DEFAULT_LESSON_PLANS = [
         markAsDone: true,
         attachment: 'light-reflection-plan.pdf',
     },
+    {
+        id: 'LP-008',
+        subject: 'Mathematics',
+        submitterName: TEACHER_NAME,
+        submitterRole: TEACHER_ROLE,
+        className: 'Grade 10',
+        section: 'A',
+        title: 'Quadratic Equations — Week 2',
+        academicYear: '2025-2026',
+        month: 'April',
+        description: 'Factorisation method and completing the square with practice problems.',
+        fromDate: '08-04-2026',
+        toDate: '12-04-2026',
+        submittedAt: '21-03-2026 10:15 AM',
+        approvalStatus: 'Pending',
+        trackStatus: 'On Track',
+        markAsDone: false,
+        attachment: 'quadratic-week2.pdf',
+    },
+    {
+        id: 'LP-009',
+        subject: 'Mathematics',
+        submitterName: TEACHER_NAME,
+        submitterRole: TEACHER_ROLE,
+        className: 'Grade 10',
+        section: 'A',
+        title: 'Quadratic Equations — Week 3',
+        academicYear: '2025-2026',
+        month: 'April',
+        description: 'Graphical representation of quadratic functions and real-world applications.',
+        fromDate: '15-04-2026',
+        toDate: '19-04-2026',
+        submittedAt: '21-03-2026 10:15 AM',
+        approvalStatus: 'Pending',
+        trackStatus: 'On Track',
+        markAsDone: false,
+        attachment: 'quadratic-week3.pdf',
+    },
+    {
+        id: 'LP-010',
+        subject: 'Mathematics',
+        submitterName: TEACHER_NAME,
+        submitterRole: TEACHER_ROLE,
+        className: 'Grade 10',
+        section: 'A',
+        title: 'Quadratic Equations — Week 4',
+        academicYear: '2025-2026',
+        month: 'April',
+        description: 'Revision and assessment preparation for unit test.',
+        fromDate: '22-04-2026',
+        toDate: '26-04-2026',
+        submittedAt: '21-03-2026 10:15 AM',
+        approvalStatus: 'Pending',
+        trackStatus: 'On Track',
+        markAsDone: false,
+        attachment: 'quadratic-week4.pdf',
+    },
 ]
 
 export const getLessonPlans = () => {
@@ -250,11 +324,16 @@ export const getApprovedLessonPlansBySubmitter = (submitterName) =>
         (item) => item.submitterName === submitterName && item.approvalStatus === 'Approved'
     )
 
-export const markLessonPlanAsDone = (id) => {
+export const markLessonPlanAsDone = (id, completionRemarks = '') => {
     const plans = getLessonPlans()
     const updated = plans.map((item) =>
         item.id === id
-            ? { ...item, markAsDone: true, trackStatus: 'Completed' }
+            ? {
+                ...item,
+                markAsDone: true,
+                trackStatus: 'Completed',
+                completionRemarks: completionRemarks.trim(),
+            }
             : item
     )
     saveLessonPlans(updated)
@@ -326,4 +405,131 @@ export const getActiveFilterLabels = (filters) => {
     if (filters.search.trim()) labels.push(`Search: ${filters.search.trim()}`)
     if (filters.fromDate || filters.toDate) labels.push('Date range applied')
     return labels
+}
+
+export const buildLessonPlanGroupKey = (submitterName, subject) =>
+    `${submitterName}::${subject}`
+
+export const buildLessonPlanGroupHref = (routePrefix, submitterName, subject, variant = 'submissions') => {
+    const encodedTeacher = encodeURIComponent(submitterName)
+    const encodedSubject = encodeURIComponent(subject)
+    if (variant === 'mark-as-done') {
+        return `${routePrefix}/lesson-plan/my-lesson-plan/group/${encodedTeacher}/${encodedSubject}`
+    }
+    return `${routePrefix}/lesson-plan-approval/group/${encodedTeacher}/${encodedSubject}`
+}
+
+export const getGroupApprovalStatusSummary = (plans) => {
+    const counts = { Pending: 0, Approved: 0, Rejected: 0 }
+    plans.forEach((plan) => {
+        counts[plan.approvalStatus] = (counts[plan.approvalStatus] ?? 0) + 1
+    })
+
+    const parts = []
+    if (counts.Pending) parts.push(`${counts.Pending} Pending`)
+    if (counts.Approved) parts.push(`${counts.Approved} Approved`)
+    if (counts.Rejected) parts.push(`${counts.Rejected} Rejected`)
+
+    return {
+        counts,
+        label: parts.join(', ') || '—',
+        dominantStatus:
+            counts.Pending > 0
+                ? 'Pending'
+                : counts.Rejected > 0
+                  ? 'Rejected'
+                  : counts.Approved > 0
+                    ? 'Approved'
+                    : '—',
+    }
+}
+
+export const getGroupMarkAsDoneSummary = (plans) => {
+    const doneCount = plans.filter((plan) => plan.markAsDone).length
+    const total = plans.length
+    const pendingCount = total - doneCount
+
+    let label = 'Pending'
+    if (doneCount === total && total > 0) label = 'All Done'
+    else if (doneCount > 0) label = `${doneCount} Done, ${pendingCount} Pending`
+
+    return { doneCount, pendingCount, total, label }
+}
+
+export const groupLessonPlansByTeacherSubject = (plans) => {
+    const groupMap = new Map()
+
+    plans.forEach((plan) => {
+        const key = buildLessonPlanGroupKey(plan.submitterName, plan.subject)
+        if (!groupMap.has(key)) {
+            groupMap.set(key, {
+                key,
+                submitterName: plan.submitterName,
+                submitterRole: plan.submitterRole,
+                subject: plan.subject,
+                plans: [],
+            })
+        }
+        groupMap.get(key).plans.push(plan)
+    })
+
+    return Array.from(groupMap.values())
+        .map((group) => {
+            const approvalSummary = getGroupApprovalStatusSummary(group.plans)
+            const markAsDoneSummary = getGroupMarkAsDoneSummary(group.plans)
+            const latestSubmittedAt = group.plans.reduce((latest, plan) => {
+                if (!latest) return plan.submittedAt
+                return plan.submittedAt > latest ? plan.submittedAt : latest
+            }, '')
+
+            return {
+                ...group,
+                planCount: group.plans.length,
+                approvalSummary,
+                markAsDoneSummary,
+                latestSubmittedAt,
+            }
+        })
+        .sort((a, b) => {
+            const subjectCompare = a.subject.localeCompare(b.subject)
+            if (subjectCompare !== 0) return subjectCompare
+            return a.submitterName.localeCompare(b.submitterName)
+        })
+}
+
+export const getLessonPlansForGroup = (submitterName, subject, sourcePlans) =>
+    sourcePlans.filter(
+        (plan) => plan.submitterName === submitterName && plan.subject === subject
+    )
+
+export const parsePlanDateString = (value) => {
+    if (!value) return null
+    const [day, month, year] = value.split('-').map(Number)
+    if (!day || !month || !year) return null
+    return new Date(year, month - 1, day)
+}
+
+export const getFilterChipItems = (filters) => {
+    const items = []
+    if (filters.search.trim()) {
+        items.push({ key: 'search', label: `Search: ${filters.search.trim()}` })
+    }
+    if (filters.subject) items.push({ key: 'subject', label: `Subject: ${filters.subject}` })
+    if (filters.className) items.push({ key: 'className', label: `Class: ${filters.className}` })
+    if (filters.section) items.push({ key: 'section', label: `Section: ${filters.section}` })
+    if (filters.approvalStatus) items.push({ key: 'approvalStatus', label: `Status: ${filters.approvalStatus}` })
+    if (filters.trackStatus) items.push({ key: 'trackStatus', label: `Track: ${filters.trackStatus}` })
+    if (filters.submitterRole) items.push({ key: 'submitterRole', label: `Role: ${filters.submitterRole}` })
+    if (filters.fromDate || filters.toDate) items.push({ key: 'dateRange', label: 'Date range' })
+    return items
+}
+
+export const clearFilterChip = (filters, chipKey) => {
+    if (chipKey === 'dateRange') {
+        return { ...filters, fromDate: null, toDate: null }
+    }
+    if (chipKey === 'search') {
+        return { ...filters, search: '' }
+    }
+    return { ...filters, [chipKey]: '' }
 }

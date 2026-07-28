@@ -34,6 +34,7 @@ import ViewMyLeaveRequest from '../Pages/Director/LeaveRequest/ViewMyLeaveReques
 import ReceivedLeaveRequests from '../Pages/Director/LeaveRequest/ReceivedLeaveRequests'
 import ViewReceivedLeaveRequest from '../Pages/Director/LeaveRequest/ViewReceivedLeaveRequest'
 import LessonPlanApproval from '../Pages/Director/LessonPlanApproval/LessonPlanApproval'
+import LessonPlanGroupDetail from '../Common/LessonPlanApproval/Components/LessonPlanGroupDetail'
 import StudentAllocationList from '../Pages/Director/StudentAllocation/StudentAllocationList'
 import AllocateStudent from '../Pages/Director/StudentAllocation/AllocateStudent'
 import Notifications from '../Pages/Director/Notifications/Notifications'
@@ -87,6 +88,7 @@ const DirectorRoutes = () => {
             <Route path="/director/leave-request/received" element={<ReceivedLeaveRequests />} />
             <Route path="/director/leave-request/received/view/:id" element={<ViewReceivedLeaveRequest />} />
             <Route path="/director/lesson-plan-approval" element={<LessonPlanApproval />} />
+            <Route path="/director/lesson-plan-approval/group/:teacherName/:subject" element={<LessonPlanGroupDetail />} />
             <Route path="/director/student-allocation" element={<StudentAllocationList />} />
             <Route path="/director/student-allocation/allocate/:id" element={<AllocateStudent />} />
             <Route path="*" element={<Navigate to="/director/dashboard" replace />} />

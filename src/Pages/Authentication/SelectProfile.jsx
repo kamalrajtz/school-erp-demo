@@ -1,159 +1,161 @@
 ﻿import React, { useMemo, useState } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-import logo from '../../assets/images/demo-logo2.svg'
+import { ArrowLeft, ArrowRight, ChevronRight } from 'lucide-react'
 import select_profile_img from '../../assets/images/select-profile-img.png'
 import { useNavigate } from 'react-router-dom'
-import admin_profile from '../../assets/images/admin-icon.png'
-import student_profile from '../../assets/images/student-icon.png'
-import teacher_profile from '../../assets/images/teacher-icon.png'
-import driver_profile from '../../assets/images/van-driver-icon.png'
-import librarian_profile from '../../assets/images/librarian-icon.png'
-import prm_profile from '../../assets/images/prm-icon.jpg'
-import { ROLES, useAuth } from '../../context/AuthContext'
-
-const ROLES_PER_PAGE = 9
-
-const PROFILE_OPTIONS = [
-    { role: ROLES.ADMIN, label: 'Admin', image: admin_profile, alt: 'admin_profile' },
-    { role: ROLES.STUDENT, label: 'Student', image: student_profile, alt: 'student_profile' },
-    { role: ROLES.PARENT, label: 'Parent', image: student_profile, alt: 'parent_profile' },
-    { role: ROLES.TEACHER, label: 'Teacher', image: teacher_profile, alt: 'teacher_profile' },
-    { role: ROLES.DRIVER, label: 'Driver', image: driver_profile, alt: 'driver_profile' },
-    { role: ROLES.LIBRARIAN, label: 'Librarian', image: librarian_profile, alt: 'librarian_profile' },
-    { role: ROLES.PRM, label: 'PRM', image: prm_profile, alt: 'prm_profile', imageClassName: 'rounded-full' },
-    { role: ROLES.GATEKEEPER, label: 'Gate Keeper', image: driver_profile, alt: 'gatekeeper_profile' },
-    {
-        role: ROLES.GATEKEEPER_MANAGER,
-        label: 'Gate Keeper Manager',
-        image: driver_profile,
-        alt: 'gatekeeper_manager_profile',
-    },
-    { role: ROLES.DIRECTOR, label: 'Director', image: admin_profile, alt: 'director_profile' },
-    { role: ROLES.PRINCIPAL, label: 'Principal', image: admin_profile, alt: 'principal_profile' },
-    { role: ROLES.CANTEEN_MANAGER, label: 'Canteen Manager', image: librarian_profile, alt: 'canteen_manager_profile' },
-    { role: ROLES.IT_SUPPORT_MANAGER, label: 'IT Support Team Manager', image: admin_profile, alt: 'it_support_manager_profile' },
-    { role: ROLES.STATIONERY_STORE_MANAGER, label: 'Stationery Store Manager', image: librarian_profile, alt: 'stationery_store_manager_profile' },
-    { role: ROLES.HOUSEKEEPING_MANAGER, label: 'Housekeeping Manager', image: admin_profile, alt: 'housekeeping_manager_profile' },
-    { role: ROLES.TRANSPORT_MANAGER, label: 'Transport Manager', image: driver_profile, alt: 'transport_manager_profile' },
-    { role: ROLES.JOINT_DIRECTOR, label: 'Joint Director', image: admin_profile, alt: 'joint_director_profile' },
-    { role: ROLES.JOINT_DIRECTOR_ASSISTANT, label: 'Joint Director Assistant', image: admin_profile, alt: 'joint_director_assistant_profile' },
-    { role: ROLES.JOINT_DIRECTOR_AUDIT, label: 'Joint Director - Audit', image: admin_profile, alt: 'joint_director_audit_profile' },
-    { role: ROLES.PROCESS_AUDITOR, label: 'Process Auditor', image: admin_profile, alt: 'process_auditor_profile' },
-    { role: ROLES.QUALITY_AUDITOR, label: 'Quality Auditor', image: admin_profile, alt: 'quality_auditor_profile' },
-    { role: ROLES.HR, label: 'HR', image: admin_profile, alt: 'hr_profile' },
-    { role: ROLES.ACCOUNT_HEAD, label: 'Account Head', image: admin_profile, alt: 'account_head_profile' },
-]
+import { useAuth } from '../../context/AuthContext'
+import { PROFILE_BY_ROLE } from './profileOptions'
+import { ADMIN_PROFILE, getModuleById, ROLE_MODULES } from './roleModuleConfig'
+import AuthHeader from './AuthHeader'
 
 const SelectProfile = () => {
     const navigate = useNavigate()
     const { setPendingRole } = useAuth()
-    const [currentPage, setCurrentPage] = useState(1)
+    const [activeModuleId, setActiveModuleId] = useState(null)
 
-    const totalPages = Math.ceil(PROFILE_OPTIONS.length / ROLES_PER_PAGE)
+    const activeModule = useMemo(
+        () => (activeModuleId ? getModuleById(activeModuleId) : null),
+        [activeModuleId]
+    )
 
-    const visibleProfiles = useMemo(() => {
-        const start = (currentPage - 1) * ROLES_PER_PAGE
-        return PROFILE_OPTIONS.slice(start, start + ROLES_PER_PAGE)
-    }, [currentPage])
+    const moduleProfiles = useMemo(() => {
+        if (!activeModule) return []
+        return activeModule.roles
+            .map((role) => PROFILE_BY_ROLE[role])
+            .filter(Boolean)
+    }, [activeModule])
 
     const handleSelect = (role) => {
         setPendingRole(role)
         navigate('/signin')
     }
 
+    const AdminIcon = ADMIN_PROFILE.icon
+
     return (
-        <div className='relative w-full min-h-screen bg-[#f5f7ff] overflow-hidden font-poppins'>
-            <div className='absolute -bottom-32 w-[600px] h-[600px] bg-[#B4C4FF] rounded-full blur-[120px] -left-28 opacity-70' />
-            <div className='absolute -top-28 w-[600px] h-[600px] bg-[#B4C4FF] rounded-full blur-[120px] -right-28 opacity-70' />
+        <div className='relative w-full min-h-screen font-poppins flex flex-col'>
+            <AuthHeader />
 
-            <div className='relative z-10 w-full min-h-screen grid grid-cols-1 md:grid-cols-2'>
-                <div className='flex justify-center items-center md:p-6 p-2 relative'>
-                    <div className='absolute md:top-4 md:left-4 top-4 left-0 w-full flex justify-center md:block md:px-0 lg:px-0 xl:px-10'>
-                        <img src={logo} alt='logo' className='w-52' />
-                    </div>
-                    <div className='w-full max-w-lg flex flex-col gap-y-8 mt-20 sm:mt-0 py-8'>
-                        <div>
-                            <h1 className='text-4xl font-semibold text-[#313131] md:text-left text-center'>
-                                Profile
-                            </h1>
-                            <p className='text-base font-medium text-[#313131]/70 mt-4 md:text-left text-center'>
-                                Select your correct profile
-                            </p>
-                        </div>
-
-                        <div className='grid grid-cols-2 sm:grid-cols-3 gap-8'>
-                            {visibleProfiles.map((profile) => (
-                                <button
-                                    key={profile.label}
-                                    type='button'
-                                    disabled={profile.disabled}
-                                    onClick={() => profile.role && handleSelect(profile.role)}
-                                    className={`flex flex-col gap-y-2 items-center ${
-                                        profile.disabled
-                                            ? 'opacity-50 cursor-not-allowed'
-                                            : 'cursor-pointer'
-                                    }`}
-                                >
-                                    <img
-                                        src={profile.image}
-                                        className={`h-24 w-24 ${profile.imageClassName ?? ''}`}
-                                        alt={profile.alt}
-                                    />
-                                    <p className='text-base font-medium text-black text-center'>
-                                        {profile.label}
+            <div className='relative z-10 flex-1 grid grid-cols-1 md:grid-cols-2'>
+                <div className='flex justify-center items-center md:p-6 p-2'>
+                    <div className='w-full max-w-lg flex flex-col gap-y-6 py-8'>
+                        {!activeModule ? (
+                            <>
+                                <div>
+                                    <h1 className='text-4xl font-semibold text-[#313131] md:text-left text-center'>
+                                        Select Your Role
+                                    </h1>
+                                    <p className='text-base font-medium text-[#313131]/70 mt-4 md:text-left text-center'>
+                                        Choose Admin or select a module to find your role
                                     </p>
-                                </button>
-                            ))}
-                        </div>
-
-                        {totalPages > 1 && (
-                            <div className='flex justify-between items-center gap-4'>
-                                <button
-                                    type='button'
-                                    onClick={() => setCurrentPage((page) => Math.max(page - 1, 1))}
-                                    disabled={currentPage === 1}
-                                    className='inline-flex items-center gap-2 text-sm font-medium text-[#515DEF] border border-[#515DEF] rounded-md px-4 py-2 hover:bg-[#515DEF] hover:text-white transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#515DEF]'
-                                >
-                                    <ChevronLeft size={16} />
-                                    Previous
-                                </button>
-
-                                <div className='flex items-center gap-2'>
-                                    {Array.from({ length: totalPages }, (_, index) => {
-                                        const page = index + 1
-                                        const isActive = page === currentPage
-                                        return (
-                                            <button
-                                                key={page}
-                                                type='button'
-                                                onClick={() => setCurrentPage(page)}
-                                                className={`size-8 flex justify-center items-center text-sm font-medium rounded-full cursor-pointer transition-colors ${
-                                                    isActive
-                                                        ? 'bg-[#515DEF] text-white'
-                                                        : 'bg-white text-[#515DEF] border border-[#E2E8F0] hover:bg-[#515DEF] hover:text-white'
-                                                }`}
-                                            >
-                                                {page}
-                                            </button>
-                                        )
-                                    })}
                                 </div>
 
                                 <button
                                     type='button'
-                                    onClick={() =>
-                                        setCurrentPage((page) => Math.min(page + 1, totalPages))
-                                    }
-                                    disabled={currentPage === totalPages}
-                                    className='inline-flex items-center gap-2 text-sm font-medium text-[#515DEF] border border-[#515DEF] rounded-md px-4 py-2 hover:bg-[#515DEF] hover:text-white transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#515DEF]'
+                                    onClick={() => handleSelect(ADMIN_PROFILE.roles[0])}
+                                    className='w-full flex items-center gap-4 bg-white rounded-2xl shadow-md border border-[#E8ECFF] px-5 py-4 text-left hover:border-[#515DEF] hover:shadow-lg transition-all duration-200 cursor-pointer group'
                                 >
-                                    Next
-                                    <ChevronRight size={16} />
+                                    <span className='flex size-12 shrink-0 items-center justify-center rounded-xl bg-[#EDEEF5] text-[#515DEF] group-hover:bg-[#515DEF] group-hover:text-white transition-colors'>
+                                        <AdminIcon size={24} />
+                                    </span>
+                                    <span className='flex-1 min-w-0'>
+                                        <span className='block text-lg font-semibold text-[#313131]'>
+                                            {ADMIN_PROFILE.title}
+                                        </span>
+                                        <span className='block text-sm font-medium text-[#313131]/60 mt-0.5'>
+                                            {ADMIN_PROFILE.description}
+                                        </span>
+                                    </span>
+                                    <ChevronRight size={20} className='shrink-0 text-[#515DEF]' />
                                 </button>
-                            </div>
+
+                                <div className='flex flex-col gap-y-3'>
+                                    {ROLE_MODULES.map((module) => {
+                                        const ModuleIcon = module.icon
+                                        return (
+                                            <button
+                                                key={module.id}
+                                                type='button'
+                                                onClick={() => setActiveModuleId(module.id)}
+                                                className='w-full flex items-center gap-4 bg-white rounded-2xl shadow-md border border-[#E8ECFF] px-5 py-4 text-left hover:border-[#515DEF] hover:shadow-lg transition-all duration-200 cursor-pointer group'
+                                            >
+                                                <span className='flex size-12 shrink-0 items-center justify-center rounded-xl bg-[#EDEEF5] text-[#515DEF] group-hover:bg-[#515DEF] group-hover:text-white transition-colors'>
+                                                    <ModuleIcon size={24} />
+                                                </span>
+                                                <span className='flex-1 min-w-0'>
+                                                    <span className='block text-lg font-semibold text-[#313131]'>
+                                                        {module.title}
+                                                    </span>
+                                                    <span className='block text-sm font-medium text-[#313131]/60 mt-0.5'>
+                                                        {module.description}
+                                                    </span>
+                                                </span>
+                                                <span className='flex items-center gap-2 shrink-0'>
+                                                    <span className='inline-flex min-w-8 justify-center rounded-full bg-[#515DEF]/10 px-2.5 py-1 text-sm font-semibold text-[#515DEF]'>
+                                                        {module.roles.length}
+                                                    </span>
+                                                    <ChevronRight size={20} className='text-[#515DEF]' />
+                                                </span>
+                                            </button>
+                                        )
+                                    })}
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <button
+                                    type='button'
+                                    onClick={() => setActiveModuleId(null)}
+                                    className='inline-flex items-center gap-2 self-start text-sm font-medium text-[#515DEF] border border-[#515DEF] rounded-md px-4 py-2 hover:bg-[#515DEF] hover:text-white transition-colors cursor-pointer'
+                                >
+                                    <ArrowLeft size={16} />
+                                    Back
+                                </button>
+
+                                <div>
+                                    <p className='text-sm font-semibold uppercase tracking-wide text-[#515DEF] md:text-left text-center'>
+                                        {activeModule.title}
+                                    </p>
+                                    <h1 className='text-3xl font-semibold text-[#313131] mt-2 md:text-left text-center'>
+                                        Select your role
+                                    </h1>
+                                    <p className='text-base font-medium text-[#313131]/70 mt-2 md:text-left text-center'>
+                                        {activeModule.description}
+                                    </p>
+                                </div>
+
+                                <div className='grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6'>
+                                    {moduleProfiles.map((profile) => (
+                                        <button
+                                            key={profile.role}
+                                            type='button'
+                                            onClick={() => handleSelect(profile.role)}
+                                            className='flex flex-col gap-y-2 items-center rounded-2xl border border-transparent bg-white/80 px-3 py-4 shadow-sm hover:border-[#515DEF] hover:shadow-md transition-all duration-200 cursor-pointer group'
+                                        >
+                                            <img
+                                                src={profile.image}
+                                                className={`h-20 w-20 sm:h-24 sm:w-24 object-contain ${profile.imageClassName ?? ''}`}
+                                                alt={profile.alt}
+                                            />
+                                            <p className='text-sm sm:text-base font-medium text-black text-center leading-snug group-hover:text-[#515DEF] transition-colors'>
+                                                {profile.label}
+                                            </p>
+                                        </button>
+                                    ))}
+                                </div>
+
+                                <button
+                                    type='button'
+                                    onClick={() => setActiveModuleId(null)}
+                                    className='inline-flex items-center justify-center gap-2 self-center text-sm font-medium text-[#515DEF] hover:underline cursor-pointer mt-2'
+                                >
+                                    <ArrowRight size={16} className='rotate-180' />
+                                    Back to modules
+                                </button>
+                            </>
                         )}
                     </div>
                 </div>
+
                 <div className='hidden md:flex justify-center items-center p-6'>
                     <img src={select_profile_img} className='w-full max-w-md' alt='select_profile_img' />
                 </div>

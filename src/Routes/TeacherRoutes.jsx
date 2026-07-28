@@ -42,6 +42,7 @@ import AcademicCalendar from '../Pages/Teacher/AcademicCalendar/AcademicCalendar
 import SubmitLessonPlan from '../Pages/Teacher/LessonPlanApproval/SubmitLessonPlan'
 import AddLessonPlan from '../Pages/Teacher/LessonPlanApproval/AddLessonPlan'
 import MyLessonPlan from '../Pages/Teacher/LessonPlanApproval/MyLessonPlan'
+import LessonPlanGroupDetail from '../Common/LessonPlanApproval/Components/LessonPlanGroupDetail'
 import AnnouncementList from '../Pages/Teacher/Announcement/AnnouncementList'
 import ViewAnnouncement from '../Pages/Teacher/Announcement/ViewAnnouncement'
 import MarkEntry from '../Pages/Teacher/StudentEvaluation/MarkEntry/MarkEntry'
@@ -93,7 +94,9 @@ const TeacherRoutes = () => {
             <Route path="/teacher/academic-calendar" element={<AcademicCalendar />} />
             <Route path="/teacher/lesson-plan-approval" element={<SubmitLessonPlan />} />
             <Route path="/teacher/lesson-plan-approval/add" element={<AddLessonPlan />} />
+            <Route path="/teacher/lesson-plan-approval/group/:teacherName/:subject" element={<LessonPlanGroupDetail />} />
             <Route path="/teacher/lesson-plan/my-lesson-plan" element={<MyLessonPlan />} />
+            <Route path="/teacher/lesson-plan/my-lesson-plan/group/:teacherName/:subject" element={<LessonPlanGroupDetail />} />
             <Route path="/teacher/communication" element={<Navigate to="/teacher/communication/inbox" replace />} />
             <Route path="/teacher/communication/inbox" element={<CommunicationInbox />} />
             <Route path="/teacher/communication/inbox/:conversationId" element={<CommunicationInbox />} />
