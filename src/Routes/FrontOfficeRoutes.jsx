@@ -38,6 +38,7 @@ import ViewMyLeaveRequest from '../Pages/FrontOffice/LeaveRequest/ViewMyLeaveReq
 import ReceivedLeaveRequests from '../Pages/FrontOffice/LeaveRequest/ReceivedLeaveRequests'
 import ViewReceivedLeaveRequest from '../Pages/FrontOffice/LeaveRequest/ViewReceivedLeaveRequest'
 import Notifications from '../Pages/FrontOffice/Notifications/Notifications'
+import { TaskManagementRoutes } from '../Common/TaskManagement/TaskManagementRoutes'
 
 const FrontOfficeRoutes = () => {
     return (
@@ -81,6 +82,7 @@ const FrontOfficeRoutes = () => {
             <Route path="/front-office/communication/inbox/:conversationId" element={<CommunicationInbox />} />
             <Route path="/front-office/communication/direct-messages" element={<RedirectLegacyDirectMessages inboxBase="/front-office/communication/inbox" />} />
             <Route path="/front-office/communication/direct-messages/:conversationId" element={<RedirectLegacyDirectMessages inboxBase="/front-office/communication/inbox" />} />
+            {TaskManagementRoutes({ basePath: '/front-office' })}
             <Route path="/front-office/escalation-management" element={<EscalationList />} />
             <Route path="/front-office/escalation-management/add-escalation" element={<AddEscalation />} />
             <Route path="/front-office/escalation-management/view/:id" element={<ViewEscalation />} />

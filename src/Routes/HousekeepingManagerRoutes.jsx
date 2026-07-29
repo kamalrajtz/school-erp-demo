@@ -1,8 +1,7 @@
 import React from 'react'
 import { Route, Routes as ReactRoutes, Navigate } from 'react-router-dom'
 import Dashboard from '../Pages/HousekeepingManager/Dashboard/Dashboard'
-import TaskManagement from '../Pages/HousekeepingManager/TaskManagement/TaskManagement'
-import AddTask from '../Pages/HousekeepingManager/TaskManagement/AddTask'
+import { TaskManagementRoutes } from '../Common/TaskManagement/TaskManagementRoutes'
 import Inventory from '../Pages/HousekeepingManager/Inventory/Inventory'
 import AddInventory from '../Pages/HousekeepingManager/Inventory/AddInventory'
 import ViewInventoryItem from '../Pages/HousekeepingManager/Inventory/ViewInventoryItem'
@@ -17,8 +16,7 @@ const HousekeepingManagerRoutes = () => {
     return (
         <ReactRoutes>
             <Route path="/housekeeping-manager/dashboard" element={<Dashboard />} />
-            <Route path="/housekeeping-manager/task-management" element={<TaskManagement />} />
-            <Route path="/housekeeping-manager/task-management/add-task" element={<AddTask />} />
+            {TaskManagementRoutes({ basePath: '/housekeeping-manager' })}
             <Route path="/housekeeping-manager/inventory" element={<Inventory />} />
             <Route path="/housekeeping-manager/inventory/add-item" element={<AddInventory />} />
             <Route path="/housekeeping-manager/inventory/view-item/:id" element={<ViewInventoryItem />} />

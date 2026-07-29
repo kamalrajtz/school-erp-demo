@@ -55,9 +55,7 @@ import Notifications from '../Pages/Admin/Notification/Notifications'
 import AnnouncementList from '../Pages/Admin/Announcement/AnnouncementList'
 import AddAnnouncement from '../Pages/Admin/Announcement/AddAnnouncement'
 import ViewAnnouncement from '../Pages/Admin/Announcement/ViewAnnouncement'
-import AssignTasks from '../Pages/Admin/TaskManagement/AssignTasks'
-import AddAssignTask from '../Pages/Admin/TaskManagement/AddAssignTask'
-import AssignedTasks from '../Pages/Admin/TaskManagement/AssignedTasks'
+import { TaskManagementRoutes } from '../Common/TaskManagement/TaskManagementRoutes'
 import MyLeaveRequests from '../Pages/Admin/LeaveRequest/MyLeaveRequests'
 import AddLeaveRequest from '../Pages/Admin/LeaveRequest/AddLeaveRequest'
 import ViewMyLeaveRequest from '../Pages/Admin/LeaveRequest/ViewMyLeaveRequest'
@@ -189,9 +187,7 @@ const AdminRoutes = () => {
             <Route path='/admin/announcement/view/:id' element={<ViewAnnouncement />} />
 
             {/* Task Management */}
-            <Route path='/admin/task-management/assign-tasks' element={<AssignTasks />} />
-            <Route path='/admin/task-management/assign-tasks/add' element={<AddAssignTask />} />
-            <Route path='/admin/task-management/assigned-tasks' element={<AssignedTasks />} />
+            {TaskManagementRoutes({ basePath: '/admin' })}
 
             {/* Leave Request */}
             <Route path='/admin/leave-request/my-requests' element={<MyLeaveRequests />} />

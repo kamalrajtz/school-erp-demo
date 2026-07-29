@@ -111,6 +111,7 @@
     "/admin/task-management/assign-tasks": "Assign Tasks List",
     "/admin/task-management/assign-tasks/add": "Assign Task",
     "/admin/task-management/assigned-tasks": "Assigned Tasks List",
+    "/admin/task-management/my-tasks": "My Tasks",
 
     // Leave Request
     "/admin/leave-request/my-requests": "My Leave Requests",
@@ -216,6 +217,7 @@
     "/librarian/notification/reminder-list": "Notifications",
     "/librarian/escalation-management": "Escalation List",
     "/librarian/escalation-management/add-escalation": "Add Escalation",
+    "/librarian/task-management/my-tasks": "My Tasks",
     "/librarian/academic-calendar": "Academic Calendar",
     "/librarian/communication/inbox": "Communication Inbox",
 
@@ -237,6 +239,9 @@
     "/front-office/add-goods-received-pass": "Add Goods Received Pass",
     "/front-office/escalation-management": "Escalation List",
     "/front-office/escalation-management/add-escalation": "Add Escalation",
+    "/front-office/task-management/assign-tasks": "Assign Tasks List",
+    "/front-office/task-management/assign-tasks/add": "Assign Task",
+    "/front-office/task-management/my-tasks": "My Tasks",
     "/front-office/academic-calendar": "Calendar",
     "/front-office/notifications": "Notifications",
     "/front-office/leave-request/my-requests": "My Leave Requests",
@@ -246,6 +251,7 @@
 
     // ── Gate Keeper Role ──────────────────────────────────────────────────────
     "/gate-keeper/dashboard": "Dashboard",
+    "/gate-keeper/task-management/my-tasks": "My Tasks",
     "/gate-keeper/hostel-gate-pass": "Hostel Gate Pass List",
     "/gate-keeper/my-duty": "My Duty List",
     "/gate-keeper/incidents": "Incidents List",
@@ -261,6 +267,9 @@
 
     // ── Gate Keeper Manager Role ──────────────────────────────────────────────
     "/gatekeeper-manager/dashboard": "Dashboard",
+    "/gatekeeper-manager/task-management/assign-tasks": "Assign Tasks List",
+    "/gatekeeper-manager/task-management/assign-tasks/add": "Assign Task",
+    "/gatekeeper-manager/task-management/my-tasks": "My Tasks",
     "/gatekeeper-manager/assign-duty-list": "Assign Duty List",
     "/gatekeeper-manager/assign-duty": "Assign New Duty",
     "/gatekeeper-manager/leave-approval-list": "Leave Approval List",
@@ -309,8 +318,9 @@
 
     // ── Housekeeping Manager Role ─────────────────────────────────────────────
     "/housekeeping-manager/dashboard": "Dashboard",
-    "/housekeeping-manager/task-management": "Task Management",
-    "/housekeeping-manager/task-management/add-task": "Add Task",
+    "/housekeeping-manager/task-management/my-tasks": "My Tasks",
+    "/housekeeping-manager/task-management/assign-tasks": "Assign Tasks List",
+    "/housekeeping-manager/task-management/assign-tasks/add": "Assign Task",
     "/housekeeping-manager/inventory": "Inventory",
     "/housekeeping-manager/inventory/add-item": "Add Inventory",
     "/housekeeping-manager/requests-approvals": "Requests & Approvals",
@@ -320,6 +330,7 @@
 
     // ── Teacher Role ──────────────────────────────────────────────────────────
     "/teacher/dashboard": "Dashboard",
+    "/teacher/task-management/my-tasks": "My Tasks",
     "/teacher/attendance/my-attendance": "My Attendance",
     "/teacher/attendance/class-attendance": "Class Attendance",
     "/teacher/class/class-routine": "Class Timetable",
@@ -356,6 +367,9 @@
 
     // ── Coordinator Role ──────────────────────────────────────────────────────
     "/coordinator/dashboard": "Dashboard",
+    "/coordinator/task-management/assign-tasks": "Assign Tasks List",
+    "/coordinator/task-management/assign-tasks/add": "Assign Task",
+    "/coordinator/task-management/my-tasks": "My Tasks",
     "/coordinator/attendance/my-attendance": "My Attendance",
     "/coordinator/attendance/class-attendance": "Class Attendance",
     "/coordinator/class/class-routine": "Class Timetable",
@@ -410,8 +424,9 @@
 
     // ── Joint Director Role ───────────────────────────────────────────────────
     "/joint-director/dashboard": "Dashboard",
-    "/joint-director/task-management": "Task Management",
-    "/joint-director/task-management/add-task": "Add Task",
+    "/joint-director/task-management/my-tasks": "My Tasks",
+    "/joint-director/task-management/assign-tasks": "Assign Tasks List",
+    "/joint-director/task-management/assign-tasks/add": "Assign Task",
     "/joint-director/employee-management": "Employee Management",
     "/joint-director/employee-management/jd-assistant": "JD Assistant Profile",
     "/joint-director/employee-management/canteen-manager": "Canteen Manager Profile",
@@ -430,8 +445,9 @@
 
     // ── Joint Director Assistant Role ─────────────────────────────────────────
     "/joint-director-assistant/dashboard": "Dashboard",
-    "/joint-director-assistant/task-management": "Task Management",
-    "/joint-director-assistant/task-management/add-task": "Add Task",
+    "/joint-director-assistant/task-management/my-tasks": "My Tasks",
+    "/joint-director-assistant/task-management/assign-tasks": "Assign Tasks List",
+    "/joint-director-assistant/task-management/assign-tasks/add": "Assign Task",
     "/joint-director-assistant/employee-management": "Employee Management",
     "/joint-director-assistant/employee-management/canteen-manager": "Canteen Manager Profile",
     "/joint-director-assistant/employee-management/store-manager": "Store Manager Profile",
@@ -469,8 +485,9 @@
     "/joint-director-audit/audit-monitoring": "Audit Monitoring",
     "/joint-director-audit/findings-compliance": "Findings & Compliance",
     "/joint-director-audit/reports-analytics": "Reports & Analytics",
-    "/joint-director-audit/task-management": "Task Management",
-    "/joint-director-audit/task-management/add-task": "Add Task",
+    "/joint-director-audit/task-management/my-tasks": "My Tasks",
+    "/joint-director-audit/task-management/assign-tasks": "Assign Tasks List",
+    "/joint-director-audit/task-management/assign-tasks/add": "Assign Task",
     "/joint-director-audit/employee-management": "Employee Management",
     "/joint-director-audit/employee-management/hr-manager": "HR Manager Profile",
     "/joint-director-audit/employee-management/hr-executive": "HR Executive Profile",
@@ -546,6 +563,7 @@
 
     // ── Account Head Role ───────────────────────────────────────────────────────
     "/account-head/dashboard": "Finance Dashboard",
+    "/account-head/task-management/my-tasks": "My Tasks",
     "/account-head/fees-management": "Fees Management",
     "/account-head/transport-finance": "Transport Finance",
     "/account-head/collections": "Collections",
@@ -584,8 +602,9 @@
 
     // ── Principal Role ──────────────────────────────────────────────────────────
     "/principal/dashboard": "Dashboard",
-    "/principal/task-management": "Task Management",
-    "/principal/task-management/add-task": "Add Task Management",
+    "/principal/task-management/assign-tasks": "Assign Tasks List",
+    "/principal/task-management/assign-tasks/add": "Assign Task",
+    "/principal/task-management/my-tasks": "My Tasks",
     "/principal/star-ratings/star-of-month": "Star of the Month",
     "/principal/star-ratings/star-of-year": "Star of the Year",
     "/principal/star-ratings/add-ratings": "Add SOM Rating",
@@ -616,8 +635,9 @@
     "/director/dashboard": "Dashboard",
     "/director/broadcast": "Announcement",
     "/director/broadcast/add-broadcast": "Add Announcement",
-    "/director/task-management": "Task Management",
-    "/director/task-management/add-task": "Assign Task",
+    "/director/task-management/assign-tasks": "Assign Tasks List",
+    "/director/task-management/assign-tasks/add": "Assign Task",
+    "/director/task-management/my-tasks": "My Tasks",
     "/director/star-ratings/star-of-month": "Star of the Month",
     "/director/star-ratings/star-of-year": "Star of the Year",
     "/director/star-ratings/add-ratings": "Add SOM Rating",

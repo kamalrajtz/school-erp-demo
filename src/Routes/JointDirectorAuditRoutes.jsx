@@ -10,8 +10,7 @@ import ViewAuditMonitoring from '../Pages/JointDirectorAudit/AuditMonitoring/Vie
 import FindingsComplianceList from '../Pages/JointDirectorAudit/FindingsCompliance/FindingsComplianceList'
 import ViewFinding from '../Pages/JointDirectorAudit/FindingsCompliance/ViewFinding'
 import ReportsAnalytics from '../Pages/JointDirectorAudit/ReportsAnalytics/ReportsAnalytics'
-import TaskManagement from '../Pages/JointDirectorAudit/TaskManagement/TaskManagement'
-import AddTask from '../Pages/JointDirectorAudit/TaskManagement/AddTask'
+import { TaskManagementRoutes } from '../Common/TaskManagement/TaskManagementRoutes'
 import ViewEmployeeProfile from '../Pages/JointDirectorAudit/EmployeeManagement/ViewEmployeeProfile'
 import RequestApprovals from '../Pages/JointDirectorAudit/RequestApprovals/RequestApprovals'
 import ViewRequestApproval from '../Pages/JointDirectorAudit/RequestApprovals/ViewRequestApproval'
@@ -66,8 +65,7 @@ const JointDirectorAuditRoutes = () => {
             <Route path="/joint-director-audit/findings-compliance" element={<FindingsComplianceList />} />
             <Route path="/joint-director-audit/findings-compliance/view/:id" element={<ViewFinding />} />
             <Route path="/joint-director-audit/reports-analytics" element={<ReportsAnalytics />} />
-            <Route path="/joint-director-audit/task-management" element={<TaskManagement />} />
-            <Route path="/joint-director-audit/task-management/add-task" element={<AddTask />} />
+            {TaskManagementRoutes({ basePath: '/joint-director-audit' })}
             <Route path="/joint-director-audit/employee-management/:roleKey" element={<ViewEmployeeProfile />} />
             <Route path="/joint-director-audit/employee-management" element={<Navigate to="/joint-director-audit/employee-management/hr-manager" replace />} />
             <Route path="/joint-director-audit/request-approvals" element={<RequestApprovals />} />

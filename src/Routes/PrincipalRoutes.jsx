@@ -2,8 +2,7 @@ import React from 'react'
 import { Route, Routes as ReactRoutes, Navigate } from 'react-router-dom'
 import Dashboard from '../Pages/Principal/Dashboard/Dashboard'
 import StarRatings from '../Pages/Principal/StarRatings/StarRatings'
-import TaskManagement from '../Pages/Principal/TaskManagement/TaskManagement'
-import AddTask from '../Pages/Principal/TaskManagement/AddTask'
+import { TaskManagementRoutes } from '../Common/TaskManagement/TaskManagementRoutes'
 import AddRatings from '../Pages/Principal/StarRatings/AddRatings'
 import ExaminationTimetableList from '../Pages/Principal/ExaminationTimetable/ExaminationTimetableList'
 import CreateExaminationTimetable from '../Pages/Principal/ExaminationTimetable/CreateExaminationTimetable'
@@ -38,8 +37,7 @@ const PrincipalRoutes = () => {
     return (
         <ReactRoutes>
             <Route path="/principal/dashboard" element={<Dashboard />} />
-            <Route path="/principal/task-management" element={<TaskManagement />} />
-            <Route path="/principal/task-management/add-task" element={<AddTask />} />
+            {TaskManagementRoutes({ basePath: '/principal' })}
             <Route path="/principal/star-ratings/star-of-month" element={<StarRatings view="som" />} />
             <Route path="/principal/star-ratings/star-of-year" element={<StarRatings view="soy" />} />
             <Route path="/principal/star-ratings/add-ratings" element={<AddRatings />} />

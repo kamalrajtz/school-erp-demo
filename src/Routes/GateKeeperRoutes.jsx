@@ -16,6 +16,7 @@ import CommunicationInbox from '../Pages/Gatekeeper/Communication/Inbox'
 import RedirectLegacyDirectMessages from '../Common/Communication/RedirectLegacyDirectMessages'
 import AcademicCalendar from '../Pages/Gatekeeper/AcademicCalendar/AcademicCalendar'
 import Notifications from '../Pages/Gatekeeper/Notifications/Notifications'
+import { TaskManagementRoutes } from '../Common/TaskManagement/TaskManagementRoutes'
 
 const GateKeeperRoutes = () => {
     return (
@@ -31,6 +32,7 @@ const GateKeeperRoutes = () => {
             <Route path="/gate-keeper/view-broadcast/:id" element={<ViewAnnouncement />} />
             <Route path="/gate-keeper/academic-calendar" element={<AcademicCalendar />} />
             <Route path="/gate-keeper/notifications" element={<Notifications />} />
+            {TaskManagementRoutes({ basePath: '/gate-keeper' })}
             <Route path="/gate-keeper/communication" element={<Navigate to="/gate-keeper/communication/inbox" replace />} />
             <Route path="/gate-keeper/communication/inbox" element={<CommunicationInbox />} />
             <Route path="/gate-keeper/communication/inbox/:conversationId" element={<CommunicationInbox />} />

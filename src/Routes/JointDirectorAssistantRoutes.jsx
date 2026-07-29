@@ -1,8 +1,7 @@
 import React from 'react'
 import { Route, Routes as ReactRoutes, Navigate } from 'react-router-dom'
 import Dashboard from '../Pages/JointDirectorAssistant/Dashboard/Dashboard'
-import TaskManagement from '../Pages/JointDirectorAssistant/TaskManagement/TaskManagement'
-import AddTask from '../Pages/JointDirectorAssistant/TaskManagement/AddTask'
+import { TaskManagementRoutes } from '../Common/TaskManagement/TaskManagementRoutes'
 import ViewEmployeeProfile from '../Pages/JointDirectorAssistant/EmployeeManagement/ViewEmployeeProfile'
 import DriversList from '../Pages/JointDirectorAssistant/EmployeeManagement/DriversList'
 import ViewDriver from '../Pages/JointDirectorAssistant/EmployeeManagement/ViewDriver'
@@ -21,8 +20,7 @@ const JointDirectorAssistantRoutes = () => {
     return (
         <ReactRoutes>
             <Route path="/joint-director-assistant/dashboard" element={<Dashboard />} />
-            <Route path="/joint-director-assistant/task-management" element={<TaskManagement />} />
-            <Route path="/joint-director-assistant/task-management/add-task" element={<AddTask />} />
+            {TaskManagementRoutes({ basePath: '/joint-director-assistant' })}
             <Route path="/joint-director-assistant/employee-management/drivers" element={<DriversList />} />
             <Route path="/joint-director-assistant/employee-management/drivers/view/:id" element={<ViewDriver />} />
             <Route path="/joint-director-assistant/employee-management/:roleKey" element={<ViewEmployeeProfile />} />

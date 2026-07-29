@@ -5,8 +5,7 @@ import AnnouncementList from '../Pages/Director/Announcement/AnnouncementList'
 import AddAnnouncement from '../Pages/Director/Announcement/AddAnnouncement'
 import ViewAnnouncement from '../Pages/Director/Announcement/ViewAnnouncement'
 import StarRatings from '../Pages/Director/StarRatings/StarRatings'
-import TaskManagement from '../Pages/Director/TaskManagement/TaskManagement'
-import AddTask from '../Pages/Director/TaskManagement/AddTask'
+import { TaskManagementRoutes } from '../Common/TaskManagement/TaskManagementRoutes'
 import AddRatings from '../Pages/Director/StarRatings/AddRatings'
 import ExamApprovals from '../Pages/Director/ExamApprovals/ExamApprovals'
 import StudentDatabaseList from '../Pages/Director/UserManagement/StudentDatabase/StudentsList'
@@ -46,8 +45,7 @@ const DirectorRoutes = () => {
             <Route path="/director/broadcast" element={<AnnouncementList />} />
             <Route path="/director/broadcast/add-broadcast" element={<AddAnnouncement />} />
             <Route path="/director/broadcast/view-broadcast/:id" element={<ViewAnnouncement />} />
-            <Route path="/director/task-management" element={<TaskManagement />} />
-            <Route path="/director/task-management/add-task" element={<AddTask />} />
+            {TaskManagementRoutes({ basePath: '/director' })}
             <Route path="/director/star-ratings/star-of-month" element={<StarRatings view="som" />} />
             <Route path="/director/star-ratings/star-of-year" element={<StarRatings view="soy" />} />
             <Route path="/director/star-ratings/add-ratings" element={<AddRatings />} />

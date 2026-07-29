@@ -9,6 +9,7 @@ import Accounting from '../Pages/AccountHead/Accounting/Accounting'
 import Approvals from '../Pages/AccountHead/Approvals/Approvals'
 import ReportsAnalytics from '../Pages/AccountHead/ReportsAnalytics/ReportsAnalytics'
 import Settings from '../Pages/AccountHead/Settings/Settings'
+import { TaskManagementRoutes } from '../Common/TaskManagement/TaskManagementRoutes'
 
 const AccountHeadRoutes = () => {
     return (
@@ -23,6 +24,7 @@ const AccountHeadRoutes = () => {
             <Route path="/account-head/approvals" element={<Approvals />} />
             <Route path="/account-head/reports-analytics" element={<ReportsAnalytics />} />
             <Route path="/account-head/settings" element={<Settings />} />
+            {TaskManagementRoutes({ basePath: '/account-head' })}
             <Route path="*" element={<Navigate to="/account-head/dashboard" replace />} />
         </ReactRoutes>
     )

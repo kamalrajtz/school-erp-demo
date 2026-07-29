@@ -450,6 +450,16 @@ export const prmSidebarLinks = [
     },
     {
         id: 8,
+        title: "Task Management",
+        to: "#0",
+        icon: ClipboardList,
+        subLinks: [
+            { icon: UserPlus, title: "Assign Tasks", to: "/front-office/task-management/assign-tasks" },
+            { icon: ListChecks, title: "My Tasks", to: "/front-office/task-management/my-tasks" },
+        ],
+    },
+    {
+        id: 9,
         title: "Leave Request",
         to: "#0",
         icon: FileX,
@@ -459,19 +469,19 @@ export const prmSidebarLinks = [
         ],
     },
     {
-        id: 9,
+        id: 10,
         title: "Notification",
         to: "/front-office/notifications",
         icon: BellDot,
     },
     {
-        id: 10,
+        id: 11,
         title: "Communication",
         to: "/front-office/communication/inbox",
         icon: MessageCircle,
     },
     {
-        id: 11,
+        id: 12,
         title: "Escalation Management",
         to: "/front-office/escalation-management",
         icon: ShieldAlert,
@@ -508,6 +518,12 @@ export const librarianSidebarLinks = [
     },
     {
         id: 4,
+        title: "Task Management",
+        to: "/librarian/task-management/my-tasks",
+        icon: ClipboardList,
+    },
+    {
+        id: 5,
         title: "Notification",
         to: "/librarian/notifications",
         icon: BellDot,
@@ -571,24 +587,30 @@ export const gateKeeperSidebarLinks = [
     },
     {
         id: 6,
+        title: "Task Management",
+        to: "/gate-keeper/task-management/my-tasks",
+        icon: ClipboardList,
+    },
+    {
+        id: 7,
         title: "Academic Calendar",
         to: "/gate-keeper/academic-calendar",
         icon: CalendarDays,
     },
     {
-        id: 7,
+        id: 8,
         title: "Notification",
         to: "/gate-keeper/notifications",
         icon: BellDot,
     },
     {
-        id: 8,
+        id: 9,
         title: "Communication",
         to: "/gate-keeper/communication/inbox",
         icon: MessageCircle,
     },
     {
-        id: 9,
+        id: 10,
         title: "Escalation Management",
         to: "/gate-keeper/escalation-management",
         icon: ShieldAlert,
@@ -628,24 +650,34 @@ export const gateKeeperManagerSidebarLinks = [
     },
     {
         id: 5,
+        title: "Task Management",
+        to: "#0",
+        icon: ClipboardList,
+        subLinks: [
+            { icon: UserPlus, title: "Assign Tasks", to: "/gatekeeper-manager/task-management/assign-tasks" },
+            { icon: ListChecks, title: "My Tasks", to: "/gatekeeper-manager/task-management/my-tasks" },
+        ],
+    },
+    {
+        id: 6,
         title: "Academic Calendar",
         to: "/gatekeeper-manager/academic-calendar",
         icon: CalendarDays,
     },
     {
-        id: 6,
+        id: 7,
         title: "Notification",
         to: "/gatekeeper-manager/notifications",
         icon: BellDot,
     },
     {
-        id: 7,
+        id: 8,
         title: "Communication",
         to: "/gatekeeper-manager/communication/inbox",
         icon: MessageCircle,
     },
     {
-        id: 8,
+        id: 9,
         title: "Escalation Management",
         to: "/gatekeeper-manager/escalation-management",
         icon: ShieldAlert,
@@ -785,7 +817,7 @@ export const housekeepingManagerSidebarLinks = [
     {
         id: 2,
         title: "Task Management",
-        to: "/housekeeping-manager/task-management",
+        to: "/housekeeping-manager/task-management/my-tasks",
         icon: ClipboardList,
     },
     {
@@ -854,12 +886,18 @@ export const teacherSidebarLinks = [
     },
     {
         id: 5,
+        title: "Task Management",
+        to: "/teacher/task-management/my-tasks",
+        icon: ClipboardList,
+    },
+    {
+        id: 6,
         title: "Unit Test",
         to: "/teacher/unit-tests",
         icon: FileText,
     },
     {
-        id: 6,
+        id: 7,
         title: "Student Evaluation",
         to: "#0",
         icon: Award,
@@ -868,7 +906,7 @@ export const teacherSidebarLinks = [
         ],
     },
     {
-        id: 7,
+        id: 8,
         title: "Student Deliverables",
         to: "#0",
         icon: Package,
@@ -879,7 +917,7 @@ export const teacherSidebarLinks = [
         ],
     },
     {
-        id: 8,
+        id: 9,
         title: "User Database",
         to: "#0",
         icon: Users,
@@ -985,12 +1023,22 @@ export const coordinatorSidebarLinks = [
     },
     {
         id: 5,
+        title: "Task Management",
+        to: "#0",
+        icon: ClipboardList,
+        subLinks: [
+            { icon: UserPlus, title: "Assign Tasks", to: "/coordinator/task-management/assign-tasks" },
+            { icon: ListChecks, title: "My Tasks", to: "/coordinator/task-management/my-tasks" },
+        ],
+    },
+    {
+        id: 6,
         title: "Unit Test",
         to: "/coordinator/unit-tests",
         icon: FileText,
     },
     {
-        id: 6,
+        id: 7,
         title: "Student Evaluation",
         to: "#0",
         icon: Award,
@@ -1155,7 +1203,7 @@ export const jointDirectorSidebarLinks = [
     {
         id: 2,
         title: "Task Management",
-        to: "/joint-director/task-management",
+        to: "/joint-director/task-management/my-tasks",
         icon: ClipboardList,
     },
     {
@@ -1215,7 +1263,7 @@ export const jointDirectorAssistantSidebarLinks = [
     {
         id: 2,
         title: "Task Management",
-        to: "/joint-director-assistant/task-management",
+        to: "/joint-director-assistant/task-management/my-tasks",
         icon: ClipboardList,
     },
     {
@@ -1327,7 +1375,7 @@ export const jointDirectorAuditSidebarLinks = [
     {
         id: 8,
         title: "Task Management",
-        to: "/joint-director-audit/task-management",
+        to: "/joint-director-audit/task-management/my-tasks",
         icon: ClipboardList,
     },
     {
@@ -1573,24 +1621,30 @@ export const accountHeadSidebarLinks = [
     },
     {
         id: 3,
+        title: "Task Management",
+        to: "/account-head/task-management/my-tasks",
+        icon: ClipboardList,
+    },
+    {
+        id: 4,
         title: "Transport Finance",
         to: "/account-head/transport-finance",
         icon: Bus,
     },
     {
-        id: 4,
+        id: 5,
         title: "Collections",
         to: "/account-head/collections",
         icon: BadgeDollarSign,
     },
     {
-        id: 5,
+        id: 6,
         title: "Wallet Management",
         to: "/account-head/wallet-management",
         icon: Wallet,
     },
     {
-        id: 6,
+        id: 7,
         title: "Accounting",
         to: "#0",
         icon: BookCopy,
@@ -1700,8 +1754,12 @@ export const directorSidebarLinks = [
     {
         id: 1,
         title: "Task Management",
-        to: "/director/task-management",
+        to: "#0",
         icon: ClipboardList,
+        subLinks: [
+            { icon: UserPlus, title: "Assign Tasks", to: "/director/task-management/assign-tasks" },
+            { icon: ListChecks, title: "My Tasks", to: "/director/task-management/my-tasks" },
+        ],
     },
     {
         id: 2,
@@ -1824,8 +1882,12 @@ export const principalSidebarLinks = [
     {
         id: 1,
         title: "Task Management",
-        to: "/principal/task-management",
+        to: "#0",
         icon: ClipboardList,
+        subLinks: [
+            { icon: UserPlus, title: "Assign Tasks", to: "/principal/task-management/assign-tasks" },
+            { icon: ListChecks, title: "My Tasks", to: "/principal/task-management/my-tasks" },
+        ],
     },
     {
         id: 2,

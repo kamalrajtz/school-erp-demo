@@ -12,6 +12,7 @@ import ViewEscalation from '../Pages/Librarian/EscalationManagement/ViewEscalati
 import CommunicationInbox from '../Pages/Librarian/Communication/Inbox'
 import RedirectLegacyDirectMessages from '../Common/Communication/RedirectLegacyDirectMessages'
 import AcademicCalendar from '../Pages/Librarian/AcademicCalendar/AcademicCalendar'
+import { TaskManagementRoutes } from '../Common/TaskManagement/TaskManagementRoutes'
 
 const LibrarianRoutes = () => {
     return (
@@ -42,6 +43,8 @@ const LibrarianRoutes = () => {
             <Route path="/librarian/communication/inbox/:conversationId" element={<CommunicationInbox />} />
             <Route path="/librarian/communication/direct-messages" element={<RedirectLegacyDirectMessages inboxBase="/librarian/communication/inbox" />} />
             <Route path="/librarian/communication/direct-messages/:conversationId" element={<RedirectLegacyDirectMessages inboxBase="/librarian/communication/inbox" />} />
+
+            {TaskManagementRoutes({ basePath: '/librarian' })}
 
             {/* Escalation Management */}
             <Route path="/librarian/escalation-management" element={<EscalationList />} />
