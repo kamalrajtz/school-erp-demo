@@ -35,8 +35,8 @@ import ReceivedLeaveRequests from '../Pages/Director/LeaveRequest/ReceivedLeaveR
 import ViewReceivedLeaveRequest from '../Pages/Director/LeaveRequest/ViewReceivedLeaveRequest'
 import LessonPlanApproval from '../Pages/Director/LessonPlanApproval/LessonPlanApproval'
 import LessonPlanGroupDetail from '../Common/LessonPlanApproval/Components/LessonPlanGroupDetail'
-import StudentAllocationList from '../Pages/Director/StudentAllocation/StudentAllocationList'
-import AllocateStudent from '../Pages/Director/StudentAllocation/AllocateStudent'
+import StudentAllocationApproval from '../Common/StudentAllocation/StudentAllocationApproval'
+import StudentAllocationDetail from '../Common/StudentAllocation/StudentAllocationDetail'
 import Notifications from '../Pages/Director/Notifications/Notifications'
 
 const DirectorRoutes = () => {
@@ -89,8 +89,11 @@ const DirectorRoutes = () => {
             <Route path="/director/leave-request/received/view/:id" element={<ViewReceivedLeaveRequest />} />
             <Route path="/director/lesson-plan-approval" element={<LessonPlanApproval />} />
             <Route path="/director/lesson-plan-approval/group/:teacherName/:subject" element={<LessonPlanGroupDetail />} />
-            <Route path="/director/student-allocation" element={<StudentAllocationList />} />
-            <Route path="/director/student-allocation/allocate/:id" element={<AllocateStudent />} />
+            <Route path="/director/student-allocation-approval" element={<StudentAllocationApproval />} />
+            <Route path="/director/student-allocation-approval/review/:id" element={<StudentAllocationDetail />} />
+            <Route path="/director/student-allocation" element={<Navigate to="/director/student-allocation-approval" replace />} />
+            <Route path="/director/student-allocation/review/:id" element={<StudentAllocationDetail />} />
+            <Route path="/director/student-allocation/allocate/:id" element={<StudentAllocationDetail />} />
             <Route path="*" element={<Navigate to="/director/dashboard" replace />} />
         </ReactRoutes>
     )

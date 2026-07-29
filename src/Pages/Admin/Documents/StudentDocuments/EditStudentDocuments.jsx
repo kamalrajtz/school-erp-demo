@@ -1,15 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { Calendar } from 'lucide-react'
 import StudentDocumentFields from './Components/StudentDocumentFields'
 import {
-    addStudentDocumentRecord,
     CLASS_OPTIONS,
     formatPlanDate,
+    getStudentDocumentRecordById,
+    parsePlanDateString,
     RECORD_STATUS_OPTIONS,
+    recordToDocumentSlots,
     STUDENT_DOCUMENT_TYPES,
+    updateStudentDocumentRecord,
 } from './studentDocumentsData'
 
 const inputClass =
@@ -23,14 +26,31 @@ const buildInitialSlots = () =>
         status: 'Pending',
     }))
 
-const AddStudentDocuments = () => {
+const EditStudentDocuments = () => {
+    const { id } = useParams()
     const navigate = useNavigate()
     const [admissionNumber, setAdmissionNumber] = useState('')
     const [studentName, setStudentName] = useState('')
     const [className, setClassName] = useState('')
-    const [submittedDate, setSubmittedDate] = useState(new Date())
+    const [submittedDate, setSubmittedDate] = useState(null)
     const [status, setStatus] = useState('In Progress')
     const [documentSlots, setDocumentSlots] = useState(buildInitialSlots)
+    const [notFound, setNotFound] = useState(false)
+
+    useEffect(() => {
+        const record = getStudentDocumentRecordById(id)
+        if (!record) {
+            setNotFound(true)
+            return
+        }
+
+        setAdmissionNumber(record.admissionNumber)
+        setStudentName(record.studentName)
+        setClassName(record.className)
+        setSubmittedDate(parsePlanDateString(record.submittedDate))
+        setStatus(record.status)
+        setDocumentSlots(recordToDocumentSlots(record))
+    }, [id])
 
     const isValid = () =>
         admissionNumber.trim() &&
@@ -41,7 +61,7 @@ const AddStudentDocuments = () => {
     const handleSave = () => {
         if (!isValid()) return
 
-        addStudentDocumentRecord({
+        updateStudentDocumentRecord(id, {
             admissionNumber,
             studentName,
             className,
@@ -53,10 +73,25 @@ const AddStudentDocuments = () => {
         navigate('/admin/documents/student-documents')
     }
 
+    if (notFound) {
+        return (
+            <section className='space-y-4'>
+                <p className='text-[#667085]'>Student document record not found.</p>
+                <NavLink
+                    to='/admin/documents/student-documents'
+                    className='text-[#515DEF] hover:underline text-sm font-medium'
+                >
+                    Back to list
+                </NavLink>
+            </section>
+        )
+    }
+
     return (
         <section>
             <div className='bg-white rounded-2xl shadow-md p-4'>
-                <h2 className='text-xl font-semibold text-black'>Student Documents Information</h2>
+                <h2 className='text-xl font-semibold text-black'>Edit Student Documents</h2>
+                <p className='text-sm text-[#667085] mt-1'>Update student details and document uploads.</p>
 
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 lg:mt-8 mt-2'>
                     <div className='flex flex-col gap-y-2'>
@@ -169,4 +204,4 @@ const AddStudentDocuments = () => {
     )
 }
 
-export default AddStudentDocuments
+export default EditStudentDocuments

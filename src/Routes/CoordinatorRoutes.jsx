@@ -46,6 +46,8 @@ import LessonPlanGroupDetail from '../Common/LessonPlanApproval/Components/Lesso
 import AnnouncementList from '../Pages/Coordinator/Announcement/AnnouncementList'
 import ViewAnnouncement from '../Pages/Coordinator/Announcement/ViewAnnouncement'
 import MarkEntry from '../Pages/Coordinator/StudentEvaluation/MarkEntry/MarkEntry'
+import StudentAllocationList from '../Common/StudentAllocation/StudentAllocationList'
+import StudentAllocationDetail from '../Common/StudentAllocation/StudentAllocationDetail'
 
 const CoordinatorRoutes = () => {
     return (
@@ -95,6 +97,8 @@ const CoordinatorRoutes = () => {
             <Route path="/coordinator/lesson-plan-approval/group/:teacherName/:subject" element={<LessonPlanGroupDetail />} />
             <Route path="/coordinator/lesson-plan/my-lesson-plan" element={<MyLessonPlan />} />
             <Route path="/coordinator/lesson-plan/my-lesson-plan/group/:teacherName/:subject" element={<LessonPlanGroupDetail />} />
+            <Route path="/coordinator/student-allocation" element={<StudentAllocationList />} />
+            <Route path="/coordinator/student-allocation/allocate/:id" element={<StudentAllocationDetail />} />
             <Route path="/coordinator/communication" element={<Navigate to="/coordinator/communication/inbox" replace />} />
             <Route path="/coordinator/communication/inbox" element={<CommunicationInbox />} />
             <Route path="/coordinator/communication/inbox/:conversationId" element={<CommunicationInbox />} />

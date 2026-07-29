@@ -124,7 +124,10 @@ export const adminSidebarLinks = [
         title: "Documents",
         to: "#0",
         icon: FolderOpen,
-        subLinks: [{ icon: FileText, title: "Student Documents", to: "/admin/documents/student-documents" }],
+        subLinks: [
+            { icon: FileText, title: "Student Documents", to: "/admin/documents/student-documents" },
+            { icon: FileText, title: "Employee Documents", to: "/admin/documents/employee-documents" },
+        ],
     },
     {
         id: 8,
@@ -934,6 +937,12 @@ export const teacherSidebarLinks = [
         to: "/teacher/escalation-management",
         icon: ShieldAlert,
     },
+    {
+        id: 16,
+        title: "Student Allocation",
+        to: "/teacher/student-allocation",
+        icon: UserPlus,
+    },
 ];
 
 export const coordinatorSidebarLinks = [
@@ -1058,6 +1067,12 @@ export const coordinatorSidebarLinks = [
         title: "Escalation Management",
         to: "/coordinator/escalation-management",
         icon: ShieldAlert,
+    },
+    {
+        id: 16,
+        title: "Student Allocation",
+        to: "/coordinator/student-allocation",
+        icon: UserPlus,
     },
 ];
 
@@ -1710,8 +1725,8 @@ export const directorSidebarLinks = [
     },
     {
         id: 4,
-        title: "Student Allocation",
-        to: "/director/student-allocation",
+        title: "Student Allocation Approval",
+        to: "/director/student-allocation-approval",
         icon: UserPlus,
     },
     {
@@ -1872,12 +1887,9 @@ export const principalSidebarLinks = [
     },
     {
         id: 9,
-        title: "Academic",
-        to: "#0",
-        icon: GraduationCap,
-        subLinks: [
-            { icon: UserRoundCog, title: "Teacher Allocation", to: "/principal/academic/teacher-allocation" },
-        ],
+        title: "Teacher Allocation",
+        to: "/principal/academic/teacher-allocation",
+        icon: UserRoundCog,
     },
     {
         id: 10,

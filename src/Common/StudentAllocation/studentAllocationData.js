@@ -1,11 +1,19 @@
-const STORAGE_KEY = 'director-student-allocation'
+const STORAGE_KEY = 'school-erp-student-allocation'
+const LEGACY_STORAGE_KEY = 'director-student-allocation'
 
-export const ALLOCATION_STATUSES = ['Pending Allocation', 'Allocated']
+export const ALLOCATION_STATUSES = ['Pending Allocation', 'Pending Approval', 'Allocated', 'Rejected']
 export const SECTION_OPTIONS = ['A', 'B', 'C']
+
+export const TEACHER_NAME = 'Sandy Selva'
+export const TEACHER_ROLE = 'Teacher'
+export const COORDINATOR_NAME = 'Priya Nair'
+export const COORDINATOR_ROLE = 'Coordinator'
 
 export const allocationStatusColor = {
     'Pending Allocation': 'bg-[#FF980033] text-[#FF9800]',
+    'Pending Approval': 'bg-[#515DEF33] text-[#515DEF]',
     Allocated: 'bg-[#4CAF5033] text-[#4CAF50]',
+    Rejected: 'bg-[#FF000033] text-[#FF0000]',
 }
 
 const DEFAULT_STUDENT_ALLOCATIONS = [
@@ -23,6 +31,9 @@ const DEFAULT_STUDENT_ALLOCATIONS = [
         state: 'Tamil Nadu',
         city: 'Trichy',
         allocationStatus: 'Pending Allocation',
+        submittedBy: '',
+        submittedByRole: '',
+        submittedAt: '',
         admission: {
             admissionRollNumber: 'ADM-ROLL-1001',
             admissionDate: '10-09-2025',
@@ -90,6 +101,9 @@ const DEFAULT_STUDENT_ALLOCATIONS = [
         state: 'Tamil Nadu',
         city: 'Madurai',
         allocationStatus: 'Pending Allocation',
+        submittedBy: '',
+        submittedByRole: '',
+        submittedAt: '',
         admission: {
             admissionRollNumber: 'ADM-ROLL-1002',
             admissionDate: '09-09-2025',
@@ -157,6 +171,9 @@ const DEFAULT_STUDENT_ALLOCATIONS = [
         state: 'Kerala',
         city: 'Kochi',
         allocationStatus: 'Allocated',
+        submittedBy: 'Priya Nair',
+        submittedByRole: 'Coordinator',
+        submittedAt: '08 SEP 2025',
         admission: {
             admissionRollNumber: 'ADM-ROLL-1003',
             admissionDate: '05-09-2025',
@@ -210,15 +227,91 @@ const DEFAULT_STUDENT_ALLOCATIONS = [
         },
         feesTimeline: 'Annual Fees Group',
     },
+    {
+        id: 'ADM-004',
+        studentName: 'Kavya Reddy',
+        rollNo: 'STU-1004',
+        className: 'Class-10',
+        classSection: 'B',
+        admissionNumber: 'ADM-NO1848',
+        gender: 'Female',
+        mobileNumber: '9988776655',
+        createdDate: '14 SEP 2025',
+        country: 'India',
+        state: 'Telangana',
+        city: 'Hyderabad',
+        allocationStatus: 'Pending Approval',
+        submittedBy: TEACHER_NAME,
+        submittedByRole: TEACHER_ROLE,
+        submittedAt: '14 SEP 2025',
+        admission: {
+            admissionRollNumber: 'ADM-ROLL-1004',
+            admissionDate: '13-09-2025',
+            className: 'Class-10',
+            classSection: 'B',
+            registrationFees: '₹5,000',
+            batchStartYear: '2025',
+            batchEndYear: '2026',
+        },
+        student: {
+            firstName: 'Kavya',
+            middleName: '',
+            lastName: 'Reddy',
+            gender: 'Female',
+            religion: 'Hindu',
+            caste: 'General',
+            address: '22, Banjara Hills, Hyderabad',
+            dateOfBirth: '03-01-2009',
+            country: 'India',
+            state: 'Telangana',
+            city: 'Hyderabad',
+            zipCode: '500034',
+            mobileNumber: '9988776655',
+            alternativeMobileNumber: '9988776656',
+            email: 'kavya.reddy@email.com',
+            previousSchool: 'Delhi Public School',
+            bloodGroup: 'AB+',
+            height: '160 cm',
+            weight: '49 kg',
+            medicalHistory: 'None',
+        },
+        transport: {
+            routeList: 'Route 7 – Hyderabad Central',
+            busStop: 'Banjara Hills',
+        },
+        parents: {
+            fatherName: 'V. Reddy',
+            motherName: 'P. Reddy',
+            fatherOccupation: 'IT Manager',
+            motherOccupation: 'Consultant',
+            fatherYearlyIncome: '₹15,00,000',
+            motherYearlyIncome: '₹9,00,000',
+            siblings: 'None',
+            address: '22, Banjara Hills, Hyderabad',
+            country: 'India',
+            state: 'Telangana',
+            city: 'Hyderabad',
+            zipCode: '500034',
+            mobileNumber: '9988776650',
+            email: 'reddy.family@email.com',
+        },
+        feesTimeline: 'Quarterly Fees Group',
+    },
 ]
 
-export const getStudentAllocations = () => {
+const readJson = (key) => {
     try {
-        const stored = localStorage.getItem(STORAGE_KEY)
-        if (stored) return JSON.parse(stored)
+        const raw = localStorage.getItem(key)
+        if (!raw) return null
+        return JSON.parse(raw)
     } catch {
-        /* ignore */
+        return null
     }
+}
+
+export const getStudentAllocations = () => {
+    const stored = readJson(STORAGE_KEY) ?? readJson(LEGACY_STORAGE_KEY)
+    if (stored) return stored
     return [...DEFAULT_STUDENT_ALLOCATIONS]
 }
 
@@ -229,18 +322,55 @@ export const saveStudentAllocations = (records) => {
 export const getStudentAllocationById = (id) =>
     getStudentAllocations().find((item) => item.id === id) ?? null
 
-export const allocateStudentSection = (id, classSection) => {
+export const submitStudentAllocation = (id, classSection, submitterName, submitterRole) => {
     const records = getStudentAllocations()
     const updated = records.map((item) => {
         if (item.id !== id) return item
         return {
             ...item,
             classSection,
-            allocationStatus: 'Allocated',
+            allocationStatus: 'Pending Approval',
+            submittedBy: submitterName,
+            submittedByRole: submitterRole,
+            submittedAt: new Date().toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+            }).toUpperCase(),
             admission: {
                 ...item.admission,
                 classSection,
             },
+        }
+    })
+    saveStudentAllocations(updated)
+    return updated
+}
+
+export const approveStudentAllocation = (id) => {
+    const records = getStudentAllocations()
+    const updated = records.map((item) => {
+        if (item.id !== id) return item
+        return {
+            ...item,
+            allocationStatus: 'Allocated',
+            admission: {
+                ...item.admission,
+                classSection: item.classSection,
+            },
+        }
+    })
+    saveStudentAllocations(updated)
+    return updated
+}
+
+export const rejectStudentAllocation = (id) => {
+    const records = getStudentAllocations()
+    const updated = records.map((item) => {
+        if (item.id !== id) return item
+        return {
+            ...item,
+            allocationStatus: 'Rejected',
         }
     })
     saveStudentAllocations(updated)
@@ -267,10 +397,49 @@ export const filterStudentAllocations = (records, filters) => {
         if (filters.status && record.allocationStatus !== filters.status) return false
 
         if (search) {
-            const haystack = `${record.studentName} ${record.rollNo} ${record.admissionNumber} ${record.className} ${record.city} ${record.state}`.toLowerCase()
+            const haystack = `${record.studentName} ${record.rollNo} ${record.admissionNumber} ${record.className} ${record.city} ${record.state} ${record.submittedBy}`.toLowerCase()
             if (!haystack.includes(search)) return false
         }
 
         return true
     })
+}
+
+export const getSubmitterIdentity = (routePrefix) => {
+    if (routePrefix === '/coordinator') {
+        return { name: COORDINATOR_NAME, role: COORDINATOR_ROLE }
+    }
+    return { name: TEACHER_NAME, role: TEACHER_ROLE }
+}
+
+export const getPendingApprovalCount = (records) =>
+    records.filter((record) => record.allocationStatus === 'Pending Approval').length
+
+export const DIRECTOR_APPROVAL_LIST_PATH = '/director/student-allocation-approval'
+
+export const getStudentAllocationContext = (pathname) => {
+    if (pathname.startsWith('/coordinator')) {
+        return {
+            routePrefix: '/coordinator',
+            listPath: '/coordinator/student-allocation',
+            isApprover: false,
+        }
+    }
+
+    if (
+        pathname.startsWith(DIRECTOR_APPROVAL_LIST_PATH) ||
+        pathname.startsWith('/director/student-allocation')
+    ) {
+        return {
+            routePrefix: '/director',
+            listPath: DIRECTOR_APPROVAL_LIST_PATH,
+            isApprover: true,
+        }
+    }
+
+    return {
+        routePrefix: '/teacher',
+        listPath: '/teacher/student-allocation',
+        isApprover: false,
+    }
 }

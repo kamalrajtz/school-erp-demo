@@ -26,7 +26,9 @@ const AdmissionDetailsForm = ({ record, section, onSectionChange, sectionEditabl
                 <ReadOnlyField label='Admission Date:' value={admission.admissionDate} />
                 <ReadOnlyField label='Class:' value={admission.className} />
                 <div className='flex flex-col gap-y-2'>
-                    <label htmlFor='class-section' className='text-base font-medium text-[#1E1E1E]'>Class Section:</label>
+                    <label htmlFor='class-section' className='text-base font-medium text-[#1E1E1E]'>
+                        Class Section:
+                    </label>
                     {sectionEditable ? (
                         <select
                             id='class-section'
@@ -36,7 +38,9 @@ const AdmissionDetailsForm = ({ record, section, onSectionChange, sectionEditabl
                         >
                             <option value=''>Select Section</option>
                             {SECTION_OPTIONS.map((item) => (
-                                <option key={item} value={item}>{item}</option>
+                                <option key={item} value={item}>
+                                    {item}
+                                </option>
                             ))}
                         </select>
                     ) : (
@@ -47,6 +51,14 @@ const AdmissionDetailsForm = ({ record, section, onSectionChange, sectionEditabl
                 <ReadOnlyField label='Batch Start Year:' value={admission.batchStartYear} />
                 <ReadOnlyField label='Batch End Year:' value={admission.batchEndYear} />
             </div>
+
+            {record.submittedBy ? (
+                <div className='grid grid-cols-1 sm:grid-cols-3 gap-6 p-4 bg-[#515DEF08] border border-[#515DEF22] rounded-xl'>
+                    <ReadOnlyField label='Submitted By:' value={record.submittedBy} />
+                    <ReadOnlyField label='Role:' value={record.submittedByRole} />
+                    <ReadOnlyField label='Submitted At:' value={record.submittedAt} />
+                </div>
+            ) : null}
 
             <div>
                 <h3 className='text-lg font-semibold text-black mb-4'>Student Information</h3>

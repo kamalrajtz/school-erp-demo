@@ -28,6 +28,10 @@ import ClassFeeDetails from '../Pages/Admin/Students/ClassFeeDetails/ClassFeeDet
 import AddClassFeeDetails from '../Pages/Admin/Students/ClassFeeDetails/AddClassFeeDetails'
 import StudentDocuments from '../Pages/Admin/Documents/StudentDocuments/StudentDocuments'
 import AddStudentDocuments from '../Pages/Admin/Documents/StudentDocuments/AddStudentDocuments'
+import EditStudentDocuments from '../Pages/Admin/Documents/StudentDocuments/EditStudentDocuments'
+import EmployeeDocuments from '../Pages/Admin/Documents/EmployeeDocuments/EmployeeDocuments'
+import AddEmployeeDocuments from '../Pages/Admin/Documents/EmployeeDocuments/AddEmployeeDocuments'
+import EditEmployeeDocuments from '../Pages/Admin/Documents/EmployeeDocuments/EditEmployeeDocuments'
 import VehicleDetailsList from '../Pages/Admin/Transport/VehicleDetails/VehicleDetailsList'
 import AddVehicleDetails from '../Pages/Admin/Transport/VehicleDetails/AddVehicleDetails'
 import RouteDetailsList from '../Pages/Admin/Transport/RouteDetails/RouteDetailsList'
@@ -144,6 +148,10 @@ const AdminRoutes = () => {
             {/* Documents */}
             <Route path="/admin/documents/student-documents" element={<StudentDocuments />} />
             <Route path="/admin/documents/add-student-documents" element={<AddStudentDocuments />} />
+            <Route path="/admin/documents/edit-student-documents/:id" element={<EditStudentDocuments />} />
+            <Route path="/admin/documents/employee-documents" element={<EmployeeDocuments />} />
+            <Route path="/admin/documents/add-employee-documents" element={<AddEmployeeDocuments />} />
+            <Route path="/admin/documents/edit-employee-documents/:id" element={<EditEmployeeDocuments />} />
 
             {/* Transport */}
             <Route path="/admin/transport/vehicle-details" element={<VehicleDetailsList />} />

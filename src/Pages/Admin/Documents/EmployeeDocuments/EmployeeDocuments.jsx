@@ -9,24 +9,30 @@ import DeleteRequestModal from '../../../../Common/CommonComponents/DeleteReques
 import {
     documentStatusColor,
     getDocumentCellValue,
-    getStudentDocumentRecords,
+    getDocumentTypes,
+    getEmployeeDocumentRecords,
     recordStatusBadgeColor,
     RECORD_STATUS_OPTIONS,
-    STUDENT_DOCUMENT_TYPES,
-} from './studentDocumentsData'
+} from './employeeDocumentsData'
 
-const StudentDocuments = () => {
+const EmployeeDocuments = () => {
     const location = useLocation()
     const [fromDate, setFromDate] = useState(new Date())
     const [toDate, setToDate] = useState(new Date())
     const [search, setSearch] = useState('')
     const [statusFilter, setStatusFilter] = useState('')
-    const [records, setRecords] = useState(() => getStudentDocumentRecords())
+    const [records, setRecords] = useState(() => getEmployeeDocumentRecords())
+    const [documentTypes, setDocumentTypes] = useState(() => getDocumentTypes())
     const [exportModal, setExportModal] = useState(false)
     const [deleteRequestModal, setDeleteRequestModal] = useState(false)
 
+    const refreshData = () => {
+        setRecords(getEmployeeDocumentRecords())
+        setDocumentTypes(getDocumentTypes())
+    }
+
     useEffect(() => {
-        setRecords(getStudentDocumentRecords())
+        refreshData()
     }, [location.key])
 
     const filteredRecords = useMemo(() => {
@@ -34,7 +40,7 @@ const StudentDocuments = () => {
         return records.filter((record) => {
             if (statusFilter && record.status !== statusFilter) return false
             if (!query) return true
-            const haystack = `${record.admissionNumber} ${record.studentName} ${record.className}`.toLowerCase()
+            const haystack = `${record.employeeId} ${record.employeeName}`.toLowerCase()
             return haystack.includes(query)
         })
     }, [records, search, statusFilter])
@@ -67,7 +73,7 @@ const StudentDocuments = () => {
                             type='text'
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            placeholder='Admission no. or name'
+                            placeholder='Employee ID or name'
                             className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full'
                         />
                     </div>
@@ -128,10 +134,15 @@ const StudentDocuments = () => {
 
             <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
-                    <h2 className='text-xl font-medium text-black'>Student Document List</h2>
+                    <div>
+                        <h2 className='text-xl font-medium text-black'>Employee Document List</h2>
+                        <p className='text-sm text-[#667085] mt-1'>
+                            Document columns are added automatically when you save new document labels.
+                        </p>
+                    </div>
                     <div className='flex gap-x-2'>
                         <NavLink
-                            to='/admin/documents/add-student-documents'
+                            to='/admin/documents/add-employee-documents'
                             className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
                         >
                             <Plus size={16} />
@@ -162,28 +173,36 @@ const StudentDocuments = () => {
                         <thead className='text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg'>
                             <tr className='rounded-lg'>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>
-                                    Admission Number
+                                    Employee ID
                                 </th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Student Name</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Class</th>
-                                {STUDENT_DOCUMENT_TYPES.map((type) => (
-                                    <th key={type.id} className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>
+                                    Employee Name
+                                </th>
+                                {documentTypes.map((type) => (
+                                    <th
+                                        key={type.id}
+                                        className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'
+                                    >
                                         {type.label}
                                     </th>
                                 ))}
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Submitted Date</th>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>
+                                    Submitted Date
+                                </th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Status</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>Actions</th>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>
+                                    Actions
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             {filteredRecords.length === 0 ? (
                                 <tr>
                                     <td
-                                        colSpan={STUDENT_DOCUMENT_TYPES.length + 6}
+                                        colSpan={documentTypes.length + 5}
                                         className='px-2 py-10 text-center text-[#667085]'
                                     >
-                                        No student documents found.
+                                        No employee documents found.
                                     </td>
                                 </tr>
                             ) : (
@@ -193,11 +212,10 @@ const StudentDocuments = () => {
                                         className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg'
                                     >
                                         <td className='px-2 py-4 rounded-s-lg font-medium text-[#1E1E1E]'>
-                                            {record.admissionNumber}
+                                            {record.employeeId}
                                         </td>
-                                        <td className='px-2 py-4 whitespace-nowrap'>{record.studentName}</td>
-                                        <td className='px-2 py-4'>{record.className}</td>
-                                        {STUDENT_DOCUMENT_TYPES.map((type) => {
+                                        <td className='px-2 py-4 whitespace-nowrap'>{record.employeeName}</td>
+                                        {documentTypes.map((type) => {
                                             const cell = getDocumentCellValue(record, type.id)
                                             return (
                                                 <td key={type.id} className='px-2 py-4'>
@@ -232,7 +250,7 @@ const StudentDocuments = () => {
                                                     View
                                                 </button>
                                                 <NavLink
-                                                    to={`/admin/documents/edit-student-documents/${record.id}`}
+                                                    to={`/admin/documents/edit-employee-documents/${record.id}`}
                                                     className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
                                                 >
                                                     Edit
@@ -286,4 +304,4 @@ const StudentDocuments = () => {
     )
 }
 
-export default StudentDocuments
+export default EmployeeDocuments

@@ -3,34 +3,48 @@ import { NavLink, useLocation } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Calendar, ChevronLeft, ChevronRight, Download, EllipsisIcon } from 'lucide-react'
-import mo_user from '../../../assets/images/no-profile.png'
-import Dropdown from '../../../Common/CommonComponents/Dropdown'
-import ExportModal from '../../../Common/CommonComponents/ExportModal'
-import EditRequestModal from '../../../Common/CommonComponents/EditRequestModal'
-import DeleteRequestModal from '../../../Common/CommonComponents/DeleteRequestModal'
+import mo_user from '../../assets/images/no-profile.png'
+import Dropdown from '../CommonComponents/Dropdown'
+import ExportModal from '../CommonComponents/ExportModal'
+import DeleteRequestModal from '../CommonComponents/DeleteRequestModal'
 import {
     ALLOCATION_STATUSES,
     allocationStatusColor,
     emptyAllocationFilters,
     filterStudentAllocations,
+    getPendingApprovalCount,
+    getStudentAllocationContext,
     getStudentAllocations,
 } from './studentAllocationData'
 
 const filterInputClass =
     'text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full bg-white'
 
-const StudentAllocationList = () => {
+const StudentAllocationList = ({
+    mode,
+    listPath: listPathProp,
+    defaultStatusFilter = '',
+}) => {
     const location = useLocation()
+    const context = getStudentAllocationContext(location.pathname)
+    const routePrefix = context.routePrefix
+    const isApprover = mode ? mode === 'approver' : context.isApprover
+    const listPath = listPathProp ?? context.listPath
+
     const [records, setRecords] = useState(() => getStudentAllocations())
-    const [filters, setFilters] = useState(emptyAllocationFilters)
+    const [filters, setFilters] = useState({
+        ...emptyAllocationFilters,
+        status: defaultStatusFilter,
+    })
     const [exportModal, setExportModal] = useState(false)
-    const [editRequestModal, setEditRequestModal] = useState(false)
     const [deleteRequestModal, setDeleteRequestModal] = useState(false)
 
     const filteredRecords = useMemo(
         () => filterStudentAllocations(records, filters),
         [records, filters],
     )
+
+    const pendingApprovalCount = useMemo(() => getPendingApprovalCount(records), [records])
 
     useEffect(() => {
         setRecords(getStudentAllocations())
@@ -42,14 +56,6 @@ const StudentAllocationList = () => {
 
     const clearFilters = () => {
         setFilters(emptyAllocationFilters)
-    }
-
-    const openEditModal = () => {
-        setEditRequestModal(true)
-    }
-
-    const openDeleteModal = () => {
-        setDeleteRequestModal(true)
     }
 
     const exportDescription = (
@@ -64,12 +70,38 @@ const StudentAllocationList = () => {
         </>
     )
 
+    const canAllocate = (record) =>
+        !isApprover &&
+        (record.allocationStatus === 'Pending Allocation' || record.allocationStatus === 'Rejected')
+
+    const canReview = (record) =>
+        isApprover && record.allocationStatus === 'Pending Approval'
+
     return (
         <section>
             <div className='bg-white rounded-2xl shadow-md p-4'>
                 <p className='text-sm text-[#667085] mb-4'>
-                    Newly admitted students from Front Office must be assigned to a section by the Director of Academics.
+                    {isApprover
+                        ? 'Review section allocations submitted by Teachers and Coordinators.'
+                        : 'Assign newly admitted students to a section and submit for Director approval.'}
                 </p>
+                {isApprover && pendingApprovalCount > 0 ? (
+                    <button
+                        type='button'
+                        onClick={() => updateFilter('status', filters.status === 'Pending Approval' ? '' : 'Pending Approval')}
+                        className={`mb-4 text-left w-full sm:w-auto rounded-xl border px-4 py-3 transition-all cursor-pointer ${
+                            filters.status === 'Pending Approval'
+                                ? 'border-[#515DEF] bg-[#515DEF08] ring-2 ring-[#515DEF]'
+                                : 'border-[#E4E7EC] hover:border-[#515DEF]'
+                        }`}
+                    >
+                        <p className='text-sm font-medium text-[#808080]'>Pending approvals</p>
+                        <p className='text-2xl font-bold text-[#0C1E5B] mt-1'>{pendingApprovalCount}</p>
+                        <p className='text-xs text-[#515DEF] mt-1'>
+                            {filters.status === 'Pending Approval' ? 'Filter active — click to clear' : 'Click to filter pending'}
+                        </p>
+                    </button>
+                ) : null}
                 <div className='flex justify-between md:items-center sm:items-stretch md:flex-row sm:flex-col flex-col gap-y-4'>
                     <button
                         type='button'
@@ -141,7 +173,9 @@ const StudentAllocationList = () => {
 
             <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
-                    <h2 className='text-xl font-medium text-black'>Student Allocation</h2>
+                    <h2 className='text-xl font-medium text-black'>
+                        {isApprover ? 'Student Allocation Approval' : 'Student Allocation'}
+                    </h2>
                     <button
                         type='button'
                         onClick={() => setExportModal(true)}
@@ -169,11 +203,12 @@ const StudentAllocationList = () => {
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Class</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Class Section</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Admission Number</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Gender</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Mobile Number</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Created Date</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Country</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>City</th>
+                                {isApprover ? (
+                                    <>
+                                        <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Submitted By</th>
+                                        <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Submitted At</th>
+                                    </>
+                                ) : null}
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Status</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>Actions</th>
                             </tr>
@@ -181,8 +216,10 @@ const StudentAllocationList = () => {
                         <tbody>
                             {filteredRecords.length === 0 ? (
                                 <tr>
-                                    <td colSpan={13} className='px-2 py-8 text-center text-[#667085]'>
-                                        No student records match the selected filters.
+                                    <td colSpan={isApprover ? 11 : 9} className='px-2 py-8 text-center text-[#667085]'>
+                                        {isApprover && filters.status === 'Pending Approval'
+                                            ? 'All caught up — no pending allocation approvals.'
+                                            : 'No student records match the selected filters.'}
                                     </td>
                                 </tr>
                             ) : (
@@ -196,11 +233,21 @@ const StudentAllocationList = () => {
                                         <td className='px-2 py-4'>{record.className}</td>
                                         <td className='px-2 py-4'>{record.classSection || '—'}</td>
                                         <td className='px-2 py-4'>{record.admissionNumber}</td>
-                                        <td className='px-2 py-4'>{record.gender}</td>
-                                        <td className='px-2 py-4'>{record.mobileNumber}</td>
-                                        <td className='px-2 py-4'>{record.createdDate}</td>
-                                        <td className='px-2 py-4'>{record.country}</td>
-                                        <td className='px-2 py-4'>{record.city}</td>
+                                        {isApprover ? (
+                                            <>
+                                                <td className='px-2 py-4 whitespace-nowrap'>
+                                                    {record.submittedBy ? (
+                                                        <>
+                                                            <span className='block text-[#1E1E1E]'>{record.submittedBy}</span>
+                                                            <span className='text-xs text-[#808080]'>{record.submittedByRole}</span>
+                                                        </>
+                                                    ) : (
+                                                        '—'
+                                                    )}
+                                                </td>
+                                                <td className='px-2 py-4 whitespace-nowrap'>{record.submittedAt || '—'}</td>
+                                            </>
+                                        ) : null}
                                         <td className='px-2 py-4'>
                                             <span className={`px-2 py-1 rounded-lg text-xs font-semibold whitespace-nowrap ${allocationStatusColor[record.allocationStatus]}`}>
                                                 {record.allocationStatus}
@@ -208,22 +255,33 @@ const StudentAllocationList = () => {
                                         </td>
                                         <td className='px-2 py-4 text-center rounded-e-lg'>
                                             <Dropdown buttonContent={<EllipsisIcon size={16} className='text-black' />}>
-                                                <NavLink
-                                                    to={`/director/student-allocation/allocate/${record.id}`}
-                                                    className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
-                                                >
-                                                    Allocate
-                                                </NavLink>
+                                                {canAllocate(record) ? (
+                                                    <NavLink
+                                                        to={`${listPath}/allocate/${record.id}`}
+                                                        className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
+                                                    >
+                                                        Allocate
+                                                    </NavLink>
+                                                ) : null}
+                                                {canReview(record) ? (
+                                                    <NavLink
+                                                        to={`${listPath}/review/${record.id}`}
+                                                        className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
+                                                    >
+                                                        Review
+                                                    </NavLink>
+                                                ) : null}
+                                                {(isApprover && !canReview(record)) || (!isApprover && !canAllocate(record)) ? (
+                                                    <NavLink
+                                                        to={`${listPath}/${isApprover ? 'review' : 'allocate'}/${record.id}`}
+                                                        className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
+                                                    >
+                                                        View
+                                                    </NavLink>
+                                                ) : null}
                                                 <button
                                                     type='button'
-                                                    onClick={openEditModal}
-                                                    className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
-                                                >
-                                                    Edit
-                                                </button>
-                                                <button
-                                                    type='button'
-                                                    onClick={openDeleteModal}
+                                                    onClick={() => setDeleteRequestModal(true)}
                                                     className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
                                                 >
                                                     Delete
@@ -256,7 +314,6 @@ const StudentAllocationList = () => {
             </div>
 
             <ExportModal exportModal={exportModal} setExportModal={setExportModal} exportDescription={exportDescription} />
-            <EditRequestModal editRequestModal={editRequestModal} setEditRequestModal={setEditRequestModal} />
             <DeleteRequestModal deleteRequestModal={deleteRequestModal} setDeleteRequestModal={setDeleteRequestModal} />
         </section>
     )
