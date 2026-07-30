@@ -9,7 +9,9 @@ import {
     createDefaultApprovals,
     createEmptyMaterialRow,
     getNextMgpPreview,
+    getPassTypeTitle,
     normalizeApprovals,
+    PASS_TYPE_OPTIONS,
 } from '../materialGatePassData'
 
 const inputClass =
@@ -47,8 +49,25 @@ const MaterialGatePassForm = ({ formData, onChange, errors = {}, isEdit = false 
                         Melakkal Main Road, Kochadai, Madurai - 625016
                     </p>
                     <p className='text-sm sm:text-base font-semibold text-[#0C1E5B] pt-1'>
-                        Material Gate Pass (Non-Returnable)
+                        {getPassTypeTitle(formData.passType)}
                     </p>
+                </div>
+
+                <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-4'>
+                    <div className='flex flex-col gap-y-2 md:col-span-1'>
+                        <label htmlFor='pass-type' className='text-base font-medium text-[#1E1E1E]'>Pass Type</label>
+                        <select
+                            id='pass-type'
+                            value={formData.passType}
+                            onChange={(e) => setField('passType', e.target.value)}
+                            className={`${inputClass} bg-white`}
+                        >
+                            {PASS_TYPE_OPTIONS.map((option) => (
+                                <option key={option} value={option}>{option}</option>
+                            ))}
+                        </select>
+                        {errors.passType && <p className='text-xs text-[#FF0000]'>{errors.passType}</p>}
+                    </div>
                 </div>
 
                 <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
@@ -145,6 +164,7 @@ const MaterialGatePassForm = ({ formData, onChange, errors = {}, isEdit = false 
 
 export const createInitialFormData = () => ({
     mgpNo: '',
+    passType: 'Non-Returnable',
     date: formatDate(new Date()),
     time: '10:00',
     timePeriod: 'AM',
@@ -157,6 +177,7 @@ export const createInitialFormData = () => ({
 
 export const recordToFormData = (record) => ({
     mgpNo: record.mgpNo,
+    passType: record.passType ?? 'Non-Returnable',
     date: record.date,
     time: record.time,
     timePeriod: record.timePeriod,
@@ -169,6 +190,7 @@ export const recordToFormData = (record) => ({
 
 export const validateMaterialGatePassForm = (formData) => {
     const errors = {}
+    if (!formData.passType) errors.passType = 'Pass type is required.'
     if (!formData.date) errors.date = 'Date is required.'
     if (!formData.time) errors.time = 'Time is required.'
     if (!formData.driverName?.trim()) errors.driverName = 'Driver name is required.'

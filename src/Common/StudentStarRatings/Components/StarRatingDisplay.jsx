@@ -1,14 +1,13 @@
 import React from 'react'
 import { Star } from 'lucide-react'
+import { MAX_STARS } from '../studentStarRatingsData'
 
-const MAX_STARS = 5
-
-const StarRatingDisplay = ({ rating, size = 16, showCount = false }) => {
-    const clampedRating = Math.min(Math.max(rating, 0), MAX_STARS)
+const StarRatingDisplay = ({ rating, maxStars = MAX_STARS, size = 16 }) => {
+    const clampedRating = Math.min(Math.max(Number(rating) || 0, 0), maxStars)
 
     return (
         <div className='flex items-center gap-0.5'>
-            {Array.from({ length: MAX_STARS }, (_, index) => {
+            {Array.from({ length: maxStars }, (_, index) => {
                 const isFilled = index < clampedRating
                 return (
                     <Star
@@ -18,11 +17,7 @@ const StarRatingDisplay = ({ rating, size = 16, showCount = false }) => {
                     />
                 )
             })}
-            {showCount && (
-                <span className='text-sm text-[#667085] ml-1'>
-                    ({clampedRating}/{MAX_STARS})
-                </span>
-            )}
+            <span className='text-xs text-[#808080] ml-1'>({clampedRating}/{maxStars})</span>
         </div>
     )
 }

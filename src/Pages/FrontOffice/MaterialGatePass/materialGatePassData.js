@@ -25,6 +25,11 @@ export const getPersonNameByRole = (role) =>
 
 export const STATUS_OPTIONS = ['Pending', 'Approved', 'Partially Approved']
 
+export const PASS_TYPE_OPTIONS = ['Returnable', 'Non-Returnable']
+
+export const getPassTypeTitle = (passType = 'Non-Returnable') =>
+    `Material Gate Pass (${passType})`
+
 export const statusBadgeColor = {
     Pending: 'bg-[#FF980033] text-[#FF9800]',
     Approved: 'bg-[#4CAF5033] text-[#4CAF50]',
@@ -73,6 +78,7 @@ const DEFAULT_MATERIAL_GATE_PASSES = [
     {
         id: 'mgp-1376',
         mgpNo: '1376',
+        passType: 'Non-Returnable',
         date: '29-06-2026',
         time: '10:30',
         timePeriod: 'AM',
@@ -108,6 +114,7 @@ const DEFAULT_MATERIAL_GATE_PASSES = [
     {
         id: 'mgp-1375',
         mgpNo: '1375',
+        passType: 'Returnable',
         date: '28-06-2026',
         time: '02:15',
         timePeriod: 'PM',
@@ -160,6 +167,7 @@ export const generateMgpNo = () => {
 
 const hydrateRecord = (record) => ({
     ...record,
+    passType: record.passType ?? 'Non-Returnable',
     approvals: normalizeApprovals(record.approvals),
     totalItems: calculateTotalItems(record.materials),
     status: record.status ?? deriveOverallStatus(record.approvals),

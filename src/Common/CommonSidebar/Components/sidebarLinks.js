@@ -891,6 +891,16 @@ export const teacherSidebarLinks = [
         icon: ClipboardList,
     },
     {
+        id: 55,
+        title: "Star Ratings",
+        to: "#0",
+        icon: Star,
+        subLinks: [
+            { icon: Star, title: "Star of the Month", to: "/teacher/star-ratings/star-of-month" },
+            { icon: Trophy, title: "Star of the Year", to: "/teacher/star-ratings/star-of-year" },
+        ],
+    },
+    {
         id: 6,
         title: "Unit Test",
         to: "/teacher/unit-tests",
@@ -1029,6 +1039,16 @@ export const coordinatorSidebarLinks = [
         subLinks: [
             { icon: UserPlus, title: "Assign Tasks", to: "/coordinator/task-management/assign-tasks" },
             { icon: ListChecks, title: "My Tasks", to: "/coordinator/task-management/my-tasks" },
+        ],
+    },
+    {
+        id: 55,
+        title: "Star Ratings",
+        to: "#0",
+        icon: Star,
+        subLinks: [
+            { icon: Star, title: "Star of the Month", to: "/coordinator/star-ratings/star-of-month" },
+            { icon: Trophy, title: "Star of the Year", to: "/coordinator/star-ratings/star-of-year" },
         ],
     },
     {
@@ -1961,12 +1981,18 @@ export const principalSidebarLinks = [
     },
     {
         id: 11,
+        title: "Announcement",
+        to: "/principal/announcement",
+        icon: Rss,
+    },
+    {
+        id: 12,
         title: "Communication",
         to: "/principal/communication/inbox",
         icon: MessageCircle,
     },
     {
-        id: 12,
+        id: 13,
         title: "Escalation Management",
         to: "/principal/escalation-management",
         icon: ShieldAlert,

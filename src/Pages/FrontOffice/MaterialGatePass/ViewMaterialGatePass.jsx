@@ -6,6 +6,7 @@ import {
     calculateTotalItems,
     formatDisplayTime,
     getMaterialGatePassById,
+    getPassTypeTitle,
     statusBadgeColor,
 } from './materialGatePassData'
 
@@ -64,7 +65,7 @@ const ViewMaterialGatePass = () => {
                             Melakkal Main Road, Kochadai, Madurai - 625016
                         </p>
                         <p className='text-base font-semibold text-[#0C1E5B] pt-1'>
-                            Material Gate Pass (Non-Returnable)
+                            {getPassTypeTitle(record.passType)}
                         </p>
                     </div>
 

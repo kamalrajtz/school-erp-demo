@@ -24,7 +24,7 @@ const AddMaterialGatePass = () => {
         <section>
             <div className='bg-white rounded-2xl shadow-md p-4 mb-6'>
                 <h2 className='text-xl font-semibold text-black'>Add Material Gate Pass</h2>
-                <p className='text-sm text-[#667085] mt-1'>Create a new non-returnable material gate pass entry.</p>
+                <p className='text-sm text-[#667085] mt-1'>Create a new material gate pass entry. Select Returnable or Non-Returnable pass type.</p>
             </div>
 
             <MaterialGatePassForm formData={formData} onChange={setFormData} errors={errors} />

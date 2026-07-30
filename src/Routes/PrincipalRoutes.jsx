@@ -32,6 +32,9 @@ import AddLeaveRequest from '../Pages/Principal/LeaveRequest/AddLeaveRequest'
 import ViewMyLeaveRequest from '../Pages/Principal/LeaveRequest/ViewMyLeaveRequest'
 import ReceivedLeaveRequests from '../Pages/Principal/LeaveRequest/ReceivedLeaveRequests'
 import ViewReceivedLeaveRequest from '../Pages/Principal/LeaveRequest/ViewReceivedLeaveRequest'
+import AnnouncementList from '../Pages/Principal/Announcement/AnnouncementList'
+import AddAnnouncement from '../Pages/Principal/Announcement/AddAnnouncement'
+import ViewAnnouncement from '../Pages/Principal/Announcement/ViewAnnouncement'
 
 const PrincipalRoutes = () => {
     return (
@@ -70,6 +73,9 @@ const PrincipalRoutes = () => {
             <Route path="/principal/lms/view-teacher-lms" element={<ViewTeacherLMS />} />
             <Route path="/principal/academic-calendar" element={<AcademicCalendar />} />
             <Route path="/principal/notifications" element={<Notifications />} />
+            <Route path="/principal/announcement" element={<AnnouncementList />} />
+            <Route path="/principal/announcement/add" element={<AddAnnouncement />} />
+            <Route path="/principal/announcement/view/:id" element={<ViewAnnouncement />} />
             <Route path="/principal/academic/teacher-allocation" element={<TeacherAllocationList />} />
             <Route path="/principal/academic/teacher-allocation/allocate/:employeeId" element={<AllocateTeacher />} />
             <Route path="/principal/academic/teacher-allocation/view/:employeeId" element={<ViewTeacherAllocation />} />

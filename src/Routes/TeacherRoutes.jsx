@@ -49,6 +49,7 @@ import MarkEntry from '../Pages/Teacher/StudentEvaluation/MarkEntry/MarkEntry'
 import StudentAllocationList from '../Common/StudentAllocation/StudentAllocationList'
 import StudentAllocationDetail from '../Common/StudentAllocation/StudentAllocationDetail'
 import { TaskManagementRoutes } from '../Common/TaskManagement/TaskManagementRoutes'
+import { StudentStarRatingsRoutes } from '../Common/StudentStarRatings/StudentStarRatingsRoutes'
 
 const Placeholder = () => null
 
@@ -103,6 +104,7 @@ const TeacherRoutes = () => {
             <Route path="/teacher/student-allocation" element={<StudentAllocationList />} />
             <Route path="/teacher/student-allocation/allocate/:id" element={<StudentAllocationDetail />} />
             {TaskManagementRoutes({ basePath: '/teacher' })}
+            {StudentStarRatingsRoutes({ basePath: '/teacher' })}
             <Route path="/teacher/communication" element={<Navigate to="/teacher/communication/inbox" replace />} />
             <Route path="/teacher/communication/inbox" element={<CommunicationInbox />} />
             <Route path="/teacher/communication/inbox/:conversationId" element={<CommunicationInbox />} />

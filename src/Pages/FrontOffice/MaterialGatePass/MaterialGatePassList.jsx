@@ -196,6 +196,7 @@ const MaterialGatePassList = () => {
                         <thead className='text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg'>
                             <tr>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>MGP No.</th>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Pass Type</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Date</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Time</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Total Items</th>
@@ -209,7 +210,7 @@ const MaterialGatePassList = () => {
                         <tbody>
                             {paginatedRecords.length === 0 ? (
                                 <tr>
-                                    <td colSpan={9} className='px-2 py-8 text-center text-[#667085]'>
+                                    <td colSpan={10} className='px-2 py-8 text-center text-[#667085]'>
                                         No material gate pass records found.
                                     </td>
                                 </tr>
@@ -217,6 +218,7 @@ const MaterialGatePassList = () => {
                                 paginatedRecords.map((record) => (
                                     <tr key={record.id} className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7]'>
                                         <td className='px-2 py-4 font-medium text-[#1E1E1E] rounded-s-lg'>{record.mgpNo}</td>
+                                        <td className='px-2 py-4'>{record.passType ?? 'Non-Returnable'}</td>
                                         <td className='px-2 py-4'>{record.date}</td>
                                         <td className='px-2 py-4'>{formatDisplayTime(record.time, record.timePeriod)}</td>
                                         <td className='px-2 py-4'>{record.totalItems}</td>
