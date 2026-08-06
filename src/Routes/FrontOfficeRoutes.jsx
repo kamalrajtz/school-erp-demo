@@ -12,6 +12,8 @@ import ParentsList from '../Pages/FrontOffice/ParentManagement/ParentsList'
 import ViewParent from '../Pages/FrontOffice/ParentManagement/ViewParent'
 import GatePassList from '../Pages/FrontOffice/GatePass/GatePassList'
 import AddGatePass from '../Pages/FrontOffice/GatePass/AddGatePass'
+import HostelGatePassList from '../Pages/FrontOffice/HostelGatePass/HostelGatePassList'
+import AddHostelGatePass from '../Pages/FrontOffice/HostelGatePass/AddHostelGatePass'
 import MaterialGatePassList from '../Pages/FrontOffice/MaterialGatePass/MaterialGatePassList'
 import AddMaterialGatePass from '../Pages/FrontOffice/MaterialGatePass/AddMaterialGatePass'
 import EditMaterialGatePass from '../Pages/FrontOffice/MaterialGatePass/EditMaterialGatePass'
@@ -38,12 +40,17 @@ import ViewMyLeaveRequest from '../Pages/FrontOffice/LeaveRequest/ViewMyLeaveReq
 import ReceivedLeaveRequests from '../Pages/FrontOffice/LeaveRequest/ReceivedLeaveRequests'
 import ViewReceivedLeaveRequest from '../Pages/FrontOffice/LeaveRequest/ViewReceivedLeaveRequest'
 import Notifications from '../Pages/FrontOffice/Notifications/Notifications'
+import MyAttendance from '../Pages/FrontOffice/Attendance/MyAttendance'
+import TcRequestList from '../Pages/FrontOffice/TcRequest/TcRequestList'
+import ViewTcRequest from '../Pages/FrontOffice/TcRequest/ViewTcRequest'
 import { TaskManagementRoutes } from '../Common/TaskManagement/TaskManagementRoutes'
 
 const FrontOfficeRoutes = () => {
     return (
         <ReactRoutes>
             <Route path="/front-office/dashboard" element={<div>Front Office Dashboard</div>} />
+            <Route path="/front-office/attendance" element={<Navigate to="/front-office/attendance/my-attendance" replace />} />
+            <Route path="/front-office/attendance/my-attendance" element={<MyAttendance />} />
             <Route path="/front-office/admission-enquiry" element={<AdmissionEnquiry />} />
             <Route path="/front-office/add-admission-enquiry" element={<AddAdmissionEnquiry />} />
             <Route path="/front-office/admission-list" element={<AdmissionList />} />
@@ -60,8 +67,12 @@ const FrontOfficeRoutes = () => {
             <Route path="/front-office/student-re-enrollment/add" element={<AddStudentReEnrollment />} />
             <Route path="/front-office/student-re-enrollment/view/:id" element={<ViewStudentReEnrollment />} />
             <Route path="/front-office/student-re-enrollment/edit/:id" element={<EditStudentReEnrollment />} />
+            <Route path="/front-office/tc-request" element={<TcRequestList />} />
+            <Route path="/front-office/tc-request/view/:id" element={<ViewTcRequest />} />
             <Route path="/front-office/gate-pass-list" element={<GatePassList />} />
             <Route path="/front-office/add-gate-pass" element={<AddGatePass />} />
+            <Route path="/front-office/hostel-gate-pass-list" element={<HostelGatePassList />} />
+            <Route path="/front-office/add-hostel-gate-pass" element={<AddHostelGatePass />} />
             <Route path="/front-office/material-gate-pass-list" element={<MaterialGatePassList />} />
             <Route path="/front-office/add-material-gate-pass" element={<AddMaterialGatePass />} />
             <Route path="/front-office/material-gate-pass/view/:id" element={<ViewMaterialGatePass />} />

@@ -61,6 +61,8 @@ import AddLeaveRequest from '../Pages/Admin/LeaveRequest/AddLeaveRequest'
 import ViewMyLeaveRequest from '../Pages/Admin/LeaveRequest/ViewMyLeaveRequest'
 import ReceivedLeaveRequests from '../Pages/Admin/LeaveRequest/ReceivedLeaveRequests'
 import ViewReceivedLeaveRequest from '../Pages/Admin/LeaveRequest/ViewReceivedLeaveRequest'
+import TcRequestApprovalList from '../Pages/Admin/TcRequest/TcRequestApprovalList'
+import ViewTcRequestApproval from '../Pages/Admin/TcRequest/ViewTcRequestApproval'
 import EscalationList from '../Pages/Admin/EscalationManagement/EscalationList'
 import AddEscalation from '../Pages/Admin/EscalationManagement/AddEscalation'
 import ViewEscalation from '../Pages/Admin/EscalationManagement/ViewEscalation'
@@ -185,6 +187,10 @@ const AdminRoutes = () => {
             <Route path='/admin/announcement' element={<AnnouncementList />} />
             <Route path='/admin/announcement/add' element={<AddAnnouncement />} />
             <Route path='/admin/announcement/view/:id' element={<ViewAnnouncement />} />
+
+            {/* TC Request Approval (Super Admin) */}
+            <Route path='/admin/tc-request-approval' element={<TcRequestApprovalList />} />
+            <Route path='/admin/tc-request-approval/view/:id' element={<ViewTcRequestApproval />} />
 
             {/* Task Management */}
             {TaskManagementRoutes({ basePath: '/admin' })}

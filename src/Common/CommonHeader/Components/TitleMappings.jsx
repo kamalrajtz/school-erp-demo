@@ -106,6 +106,7 @@
     // Announcement
     "/admin/announcement": "Announcement List",
     "/admin/announcement/add": "Add Announcement",
+    "/admin/tc-request-approval": "TC Request Approval",
 
     // Task Management
     "/admin/task-management/assign-tasks": "Assign Tasks List",
@@ -162,6 +163,10 @@
     "/student/notification/holiday-notification": "Notifications",
     "/student/notification/payment-notification": "Notifications",
 
+    "/student/announcement": "Announcement List",
+    "/student/tc-request": "TC Request List",
+    "/student/tc-request/add": "Request TC",
+
     // Star Ratings
     "/student/star-ratings/view-ratings": "View Star Rating",
     "/student/escalation-management": "Escalation List",
@@ -193,6 +198,9 @@
     "/parent/notification/event-notification": "Notifications",
     "/parent/notification/holiday-notification": "Notifications",
     "/parent/notification/payment-notification": "Notifications",
+    "/parent/announcement": "Announcement List",
+    "/parent/tc-request": "TC Request List",
+    "/parent/tc-request/add": "Request TC",
     "/parent/academic-calendar": "Calendar",
     "/parent/communication/inbox": "Communication Inbox",
     "/parent/escalation-management": "Escalation List",
@@ -219,6 +227,8 @@
     "/librarian/escalation-management/add-escalation": "Add Escalation",
     "/librarian/task-management/my-tasks": "My Tasks",
     "/librarian/academic-calendar": "Academic Calendar",
+    "/librarian/announcement": "Announcement List",
+    "/librarian/attendance/my-attendance": "My Attendance",
     "/librarian/communication/inbox": "Communication Inbox",
 
     "/front-office/student-management": "Student Database",
@@ -231,8 +241,11 @@
     "/front-office/student-transfer/add": "Add Student Transfer",
     "/front-office/student-re-enrollment": "Student Re-Enrollment List",
     "/front-office/student-re-enrollment/add": "Student Re-Enrollment",
+    "/front-office/tc-request": "TC Request List",
     "/front-office/gate-pass-list": "Student Gate Pass List",
     "/front-office/add-gate-pass": "Add Student Gate Pass",
+    "/front-office/hostel-gate-pass-list": "Hostel Gate Pass List",
+    "/front-office/add-hostel-gate-pass": "Add Hostel Gate Pass",
     "/front-office/material-gate-pass-list": "Material Gate Pass List",
     "/front-office/add-material-gate-pass": "Add Material Gate Pass",
     "/front-office/goods-received-pass-list": "Goods Received Pass List",
@@ -247,6 +260,7 @@
     "/front-office/leave-request/my-requests": "My Leave Requests",
     "/front-office/leave-request/my-requests/add": "Apply Leave",
     "/front-office/leave-request/received": "Received Leave Requests",
+    "/front-office/attendance/my-attendance": "My Attendance",
     "/front-office/communication/inbox": "Communication Inbox",
 
     // ── Gate Keeper Role ──────────────────────────────────────────────────────
@@ -259,6 +273,9 @@
     "/gate-keeper/gate-pass-list": "Gate Pass List",
     "/gate-keeper/add-gate-pass": "Add Gate Pass",
     "/gate-keeper/broadcast-list": "Announcement List",
+    "/gate-keeper/attendance/my-attendance": "My Attendance",
+    "/gate-keeper/leave-request/my-requests": "My Leave Requests",
+    "/gate-keeper/leave-request/my-requests/add": "Apply Leave",
     "/gate-keeper/escalation-management": "Escalation List",
     "/gate-keeper/escalation-management/add-escalation": "Add Escalation",
     "/gate-keeper/academic-calendar": "Academic Calendar",
@@ -272,13 +289,17 @@
     "/gatekeeper-manager/task-management/my-tasks": "My Tasks",
     "/gatekeeper-manager/assign-duty-list": "Assign Duty List",
     "/gatekeeper-manager/assign-duty": "Assign New Duty",
-    "/gatekeeper-manager/leave-approval-list": "Leave Approval List",
+    "/gatekeeper-manager/leave-request/my-requests": "My Leave Requests",
+    "/gatekeeper-manager/leave-request/my-requests/add": "Apply Leave",
+    "/gatekeeper-manager/leave-request/received": "Received Leave Requests",
     "/gatekeeper-manager/incidents-list": "Incidents Management List",
-    "/gatekeeper-manager/gatekeeper-broadcast-list": "Gatekeeper Announcement List",
-    "/gatekeeper-manager/add-gatekeeper-broadcast": "Add Gatekeeper Announcement",
+    "/gatekeeper-manager/gatekeeper-broadcast-list": "Announcement List",
+    "/gatekeeper-manager/add-gatekeeper-broadcast": "Add Announcement",
+    "/gatekeeper-manager/attendance/my-attendance": "My Attendance",
+    "/gatekeeper-manager/attendance/gatekeepers-attendance": "Gatekeepers Attendance",
     "/gatekeeper-manager/escalation-management": "Escalation List",
     "/gatekeeper-manager/escalation-management/add-escalation": "Add Escalation",
-    "/gatekeeper-manager/academic-calendar": "Academic Calendar",
+    "/gatekeeper-manager/academic-calendar": "Calendar",
     "/gatekeeper-manager/notifications": "Notifications",
     "/gatekeeper-manager/communication/inbox": "Communication Inbox",
 
@@ -638,6 +659,7 @@
     "/principal/leave-request/my-requests": "My Leave Requests",
     "/principal/leave-request/my-requests/add": "Apply Leave",
     "/principal/leave-request/received": "Received Leave Requests",
+    "/principal/attendance/my-attendance": "My Attendance",
 
     // ── Director Role ─────────────────────────────────────────────────────────
     "/director/dashboard": "Dashboard",
@@ -674,7 +696,10 @@
     "/director/leave-request/my-requests": "My Leave Requests",
     "/director/leave-request/my-requests/add": "Apply Leave",
     "/director/leave-request/received": "Received Leave Requests",
+    "/director/attendance/my-attendance": "My Attendance",
     "/director/lesson-plan-approval": "Lesson Plan Approval",
+    "/director/mark-entry-approval": "Mark Entry Approval",
+    "/director/mark-entry-approval/review/:contextKey": "Review Mark Entry",
     "/director/academic-calendar": "Calendar",
     "/director/notifications": "Notifications",
     "/director/communication/inbox": "Communication Inbox",
@@ -832,6 +857,9 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/coordinator\/unit-tests\/view\/[^/]+$/.test(p), title: 'View Unit Test' },
     { test: (p) => /^\/coordinator\/user-management\/students-list\/view\/[^/]+$/.test(p), title: 'View Student Profile' },
     { test: (p) => /^\/coordinator\/user-management\/students-list\/view\/[^/]+\/full$/.test(p), title: 'View Student Details' },
+    { test: (p) => /^\/gatekeeper-manager\/leave-request\/my-requests\/view\/[^/]+$/.test(p), title: 'View Leave Request Details' },
+    { test: (p) => /^\/gatekeeper-manager\/leave-request\/received\/view\/[^/]+$/.test(p), title: 'Review Leave Request' },
+    { test: (p) => /^\/gate-keeper\/leave-request\/my-requests\/view\/[^/]+$/.test(p), title: 'View Leave Request Details' },
     { test: (p) => /^\/driver\/leave-request\/view\/[^/]+$/.test(p), title: 'View Leave Request' },
     { test: (p) => /^\/driver\/leave-request\/edit\/[^/]+$/.test(p), title: 'Edit Leave Request' },
     { test: (p) => /^\/driver\/maintenance-request\/view\/[^/]+$/.test(p), title: 'View Maintenance Request' },

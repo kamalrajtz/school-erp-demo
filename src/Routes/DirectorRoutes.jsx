@@ -37,11 +37,16 @@ import LessonPlanGroupDetail from '../Common/LessonPlanApproval/Components/Lesso
 import StudentAllocationApproval from '../Common/StudentAllocation/StudentAllocationApproval'
 import StudentAllocationDetail from '../Common/StudentAllocation/StudentAllocationDetail'
 import Notifications from '../Pages/Director/Notifications/Notifications'
+import MyAttendance from '../Pages/Director/Attendance/MyAttendance'
+import MarkEntryApproval from '../Pages/Director/MarkEntryApproval/MarkEntryApproval'
+import MarkEntryReview from '../Pages/Director/MarkEntryApproval/MarkEntryReview'
 
 const DirectorRoutes = () => {
     return (
         <ReactRoutes>
             <Route path="/director/dashboard" element={<Dashboard />} />
+            <Route path="/director/attendance" element={<Navigate to="/director/attendance/my-attendance" replace />} />
+            <Route path="/director/attendance/my-attendance" element={<MyAttendance />} />
             <Route path="/director/broadcast" element={<AnnouncementList />} />
             <Route path="/director/broadcast/add-broadcast" element={<AddAnnouncement />} />
             <Route path="/director/broadcast/view-broadcast/:id" element={<ViewAnnouncement />} />
@@ -87,6 +92,8 @@ const DirectorRoutes = () => {
             <Route path="/director/leave-request/received/view/:id" element={<ViewReceivedLeaveRequest />} />
             <Route path="/director/lesson-plan-approval" element={<LessonPlanApproval />} />
             <Route path="/director/lesson-plan-approval/group/:teacherName/:subject" element={<LessonPlanGroupDetail />} />
+            <Route path="/director/mark-entry-approval" element={<MarkEntryApproval />} />
+            <Route path="/director/mark-entry-approval/review/:contextKey" element={<MarkEntryReview />} />
             <Route path="/director/student-allocation-approval" element={<StudentAllocationApproval />} />
             <Route path="/director/student-allocation-approval/review/:id" element={<StudentAllocationDetail />} />
             <Route path="/director/student-allocation" element={<Navigate to="/director/student-allocation-approval" replace />} />

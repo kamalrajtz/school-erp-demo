@@ -16,6 +16,11 @@ import FeesPayemnt from '../Pages/Student/PaymentDetails/FeesPayemnt'
 import HostelPayment from '../Pages/Student/PaymentDetails/HostelPayment'
 import TransportPayment from '../Pages/Student/PaymentDetails/TransportPayment'
 import NotificationsList from '../Pages/Student/Notifications/NotificationsList'
+import AnnouncementList from '../Pages/Student/Announcement/AnnouncementList'
+import ViewAnnouncement from '../Pages/Student/Announcement/ViewAnnouncement'
+import TcRequestList from '../Pages/Student/TcRequest/TcRequestList'
+import AddTcRequest from '../Pages/Student/TcRequest/AddTcRequest'
+import ViewTcRequest from '../Pages/Student/TcRequest/ViewTcRequest'
 import ViewRatings from '../Pages/Student/StarRatings/ViewRatings'
 import EscalationList from '../Pages/Student/EscalationManagement/EscalationList'
 import AddEscalation from '../Pages/Student/EscalationManagement/AddEscalation'
@@ -88,6 +93,13 @@ const StudentPortalRoutes = ({
             <Route path={`${routePrefix}/notification/event-notification`} element={<Navigate to={`${routePrefix}/notifications`} replace />} />
             <Route path={`${routePrefix}/notification/holiday-notification`} element={<Navigate to={`${routePrefix}/notifications`} replace />} />
             <Route path={`${routePrefix}/notification/payment-notification`} element={<Navigate to={`${routePrefix}/notifications`} replace />} />
+
+            <Route path={`${routePrefix}/announcement`} element={<AnnouncementList />} />
+            <Route path={`${routePrefix}/announcement/view/:id`} element={<ViewAnnouncement />} />
+
+            <Route path={`${routePrefix}/tc-request`} element={<TcRequestList />} />
+            <Route path={`${routePrefix}/tc-request/add`} element={<AddTcRequest />} />
+            <Route path={`${routePrefix}/tc-request/view/:id`} element={<ViewTcRequest />} />
 
             {includeStarRatings && (
                 <Route path={`${routePrefix}/star-ratings/view-ratings`} element={<ViewRatings />} />

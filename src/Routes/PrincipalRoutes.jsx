@@ -35,11 +35,14 @@ import ViewReceivedLeaveRequest from '../Pages/Principal/LeaveRequest/ViewReceiv
 import AnnouncementList from '../Pages/Principal/Announcement/AnnouncementList'
 import AddAnnouncement from '../Pages/Principal/Announcement/AddAnnouncement'
 import ViewAnnouncement from '../Pages/Principal/Announcement/ViewAnnouncement'
+import MyAttendance from '../Pages/Principal/Attendance/MyAttendance'
 
 const PrincipalRoutes = () => {
     return (
         <ReactRoutes>
             <Route path="/principal/dashboard" element={<Dashboard />} />
+            <Route path="/principal/attendance" element={<Navigate to="/principal/attendance/my-attendance" replace />} />
+            <Route path="/principal/attendance/my-attendance" element={<MyAttendance />} />
             {TaskManagementRoutes({ basePath: '/principal' })}
             <Route path="/principal/star-ratings/star-of-month" element={<StarRatings view="som" />} />
             <Route path="/principal/star-ratings/star-of-year" element={<StarRatings view="soy" />} />

@@ -6,6 +6,7 @@ import ReactECharts from "echarts-for-react"
 import resultImg from "../../../assets/images/result-img.png"
 import { useActiveStudent } from '../../../context/ActiveStudentContext'
 import { getStudentResultSummary } from '../../Parent/parentStudentViewData'
+import { getApprovedMarksForStudent } from '../../../Common/MarkEntryApproval/markEntryApprovalData'
 
 const performanceCategories = [
     { label: "Excellent", range: "90 - 100%", subjects: 1, color: "#4CAF50" },
@@ -27,6 +28,17 @@ const ResultDetails = () => {
         [activeStudent.id],
     )
 
+    const approvedResults = useMemo(
+        () => getApprovedMarksForStudent(activeStudent.id),
+        [activeStudent.id],
+    )
+
+    const bagdeColor = {
+        "Pass": "bg-[#4CAF5033] text-[#4CAF50]",
+        "Fail": "bg-[#FF000033] text-[#FF0000]",
+        "Absent": "bg-[#FF980033] text-[#FF9800]",
+    }
+
     const pieChartOption = useMemo(() => ({
         series: [{
             type: "pie",
@@ -45,11 +57,6 @@ const ResultDetails = () => {
             emphasis: { disabled: true },
         }],
     }), [])
-
-    const bagdeColor = {
-        "Pass": "bg-[#4CAF5033] text-[#4CAF50]",
-        "Fail": "bg-[#FF000033] text-[#FF0000]",
-    }
 
     return (
         <section>
@@ -179,20 +186,30 @@ const ResultDetails = () => {
                         </thead>
 
                         <tbody>
-                            <tr className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg">
-                                <td className="px-2 py-4 rounded-s-lg">Mid Term</td>
-                                <td className="px-2 py-4">Mathematics</td>
-                                <td className="px-2 py-4">100</td>
-                                <td className="px-2 py-4">92</td>
-                                <td className="px-2 py-4">A+</td>
-                                <td className="px-2 py-4">92%</td>
-                                <td className="px-2 py-4">
-                                    <span className={`px-2 py-1 rounded-lg text-xs font-semibold whitespace-nowrap ${bagdeColor["Pass"]}`}>
-                                        Pass
-                                    </span>
-                                </td>
-                                <td className='px-2 py-4 rounded-e-lg'>Excellent performance</td>
-                            </tr>
+                            {approvedResults.length === 0 ? (
+                                <tr>
+                                    <td colSpan={8} className="px-2 py-8 text-center text-[#667085]">
+                                        No approved exam results are available yet. Results will appear here after the Director approves submitted marks.
+                                    </td>
+                                </tr>
+                            ) : (
+                                approvedResults.map((row) => (
+                                    <tr key={row.id} className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg">
+                                        <td className="px-2 py-4 rounded-s-lg">{row.examName}</td>
+                                        <td className="px-2 py-4">{row.subject}</td>
+                                        <td className="px-2 py-4">{row.totalMarks}</td>
+                                        <td className="px-2 py-4">{row.obtainedMarks}</td>
+                                        <td className="px-2 py-4">{row.grade}</td>
+                                        <td className="px-2 py-4">{row.percentage}</td>
+                                        <td className="px-2 py-4">
+                                            <span className={`px-2 py-1 rounded-lg text-xs font-semibold whitespace-nowrap ${bagdeColor[row.resultStatus] ?? bagdeColor.Pass}`}>
+                                                {row.resultStatus}
+                                            </span>
+                                        </td>
+                                        <td className='px-2 py-4 rounded-e-lg'>{row.teacherRemarks}</td>
+                                    </tr>
+                                ))
+                            )}
                         </tbody>
                     </table>
                 </div>
@@ -200,7 +217,9 @@ const ResultDetails = () => {
 
             {/* Pagination */}
             <div className='flex justify-between items-center px-4 mt-4'>
-                <p className='text-sm font-medium text-[#515DEF]'>Showing 1 to 10 of 20 entries</p>
+                <p className='text-sm font-medium text-[#515DEF]'>
+                    Showing {approvedResults.length} approved result{approvedResults.length !== 1 ? 's' : ''}
+                </p>
 
                 <div className="flex justify-center gap-x-2 flex-wrap">
                     <button className="size-8 flex justify-center items-center p-2 bg-white text-[#515DEF] border border-[#E2E8F0] hover:bg-[#515DEF] hover:text-white rounded-full cursor-pointer">
@@ -266,10 +285,14 @@ const ResultDetails = () => {
                         <Star className='w-14 h-14 md:w-16 md:h-16 text-[#0056D2] fill-[#0056D2] shrink-0' />
                         <div>
                             <h3 className='text-xl md:text-2xl lg:text-3xl font-bold text-[#0056D2] leading-tight'>
-                                Great Job, {summary.encouragementName}!
+                                {summary.examAppeared > 0
+                                    ? `Great Job, ${summary.encouragementName}!`
+                                    : `Hello, ${summary.encouragementName}!`}
                             </h3>
                             <p className='text-sm md:text-base text-[#0C1E5B] mt-2 leading-relaxed'>
-                                Your are performing well, Keep up the good work and continue to achieve more!
+                                {summary.examAppeared > 0
+                                    ? 'You are performing well. Keep up the good work and continue to achieve more!'
+                                    : 'Your exam results will appear here once the Director approves submitted marks.'}
                             </p>
                         </div>
                     </div>

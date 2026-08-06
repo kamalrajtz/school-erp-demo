@@ -12,6 +12,9 @@ import ViewEscalation from '../Pages/Librarian/EscalationManagement/ViewEscalati
 import CommunicationInbox from '../Pages/Librarian/Communication/Inbox'
 import RedirectLegacyDirectMessages from '../Common/Communication/RedirectLegacyDirectMessages'
 import AcademicCalendar from '../Pages/Librarian/AcademicCalendar/AcademicCalendar'
+import AnnouncementList from '../Pages/Librarian/Announcement/AnnouncementList'
+import ViewAnnouncement from '../Pages/Librarian/Announcement/ViewAnnouncement'
+import MyAttendance from '../Pages/Librarian/Attendance/MyAttendance'
 import { TaskManagementRoutes } from '../Common/TaskManagement/TaskManagementRoutes'
 
 const LibrarianRoutes = () => {
@@ -36,6 +39,14 @@ const LibrarianRoutes = () => {
 
             {/* Academic Calendar */}
             <Route path="/librarian/academic-calendar" element={<AcademicCalendar />} />
+
+            {/* Announcement (view only) */}
+            <Route path="/librarian/announcement" element={<AnnouncementList />} />
+            <Route path="/librarian/announcement/view/:id" element={<ViewAnnouncement />} />
+
+            {/* Attendance */}
+            <Route path="/librarian/attendance" element={<Navigate to="/librarian/attendance/my-attendance" replace />} />
+            <Route path="/librarian/attendance/my-attendance" element={<MyAttendance />} />
 
             {/* Communication */}
             <Route path="/librarian/communication" element={<Navigate to="/librarian/communication/inbox" replace />} />

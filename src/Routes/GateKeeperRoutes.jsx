@@ -16,6 +16,10 @@ import CommunicationInbox from '../Pages/Gatekeeper/Communication/Inbox'
 import RedirectLegacyDirectMessages from '../Common/Communication/RedirectLegacyDirectMessages'
 import AcademicCalendar from '../Pages/Gatekeeper/AcademicCalendar/AcademicCalendar'
 import Notifications from '../Pages/Gatekeeper/Notifications/Notifications'
+import MyAttendance from '../Pages/Gatekeeper/Attendance/MyAttendance'
+import MyLeaveRequests from '../Pages/Gatekeeper/LeaveRequest/MyLeaveRequests'
+import AddLeaveRequest from '../Pages/Gatekeeper/LeaveRequest/AddLeaveRequest'
+import ViewMyLeaveRequest from '../Pages/Gatekeeper/LeaveRequest/ViewMyLeaveRequest'
 import { TaskManagementRoutes } from '../Common/TaskManagement/TaskManagementRoutes'
 
 const GateKeeperRoutes = () => {
@@ -30,6 +34,12 @@ const GateKeeperRoutes = () => {
             <Route path="/gate-keeper/add-gate-pass" element={<AddGatePass />} />
             <Route path="/gate-keeper/broadcast-list" element={<AnnouncementList />} />
             <Route path="/gate-keeper/view-broadcast/:id" element={<ViewAnnouncement />} />
+            <Route path="/gate-keeper/attendance" element={<Navigate to="/gate-keeper/attendance/my-attendance" replace />} />
+            <Route path="/gate-keeper/attendance/my-attendance" element={<MyAttendance />} />
+            <Route path="/gate-keeper/leave-request" element={<Navigate to="/gate-keeper/leave-request/my-requests" replace />} />
+            <Route path="/gate-keeper/leave-request/my-requests" element={<MyLeaveRequests />} />
+            <Route path="/gate-keeper/leave-request/my-requests/add" element={<AddLeaveRequest />} />
+            <Route path="/gate-keeper/leave-request/my-requests/view/:id" element={<ViewMyLeaveRequest />} />
             <Route path="/gate-keeper/academic-calendar" element={<AcademicCalendar />} />
             <Route path="/gate-keeper/notifications" element={<Notifications />} />
             {TaskManagementRoutes({ basePath: '/gate-keeper' })}
