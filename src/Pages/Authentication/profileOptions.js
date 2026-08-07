@@ -8,6 +8,7 @@ import { ROLES } from '../../context/AuthContext'
 
 /** Single source of truth for login profile metadata (labels, images). */
 export const PROFILE_OPTIONS = [
+    { role: ROLES.SUPER_ADMIN, label: 'Super Admin', image: admin_profile, alt: 'super_admin_profile' },
     { role: ROLES.ADMIN, label: 'Admin', image: admin_profile, alt: 'admin_profile' },
     { role: ROLES.STUDENT, label: 'Student', image: student_profile, alt: 'student_profile' },
     { role: ROLES.PARENT, label: 'Parent', image: student_profile, alt: 'parent_profile' },

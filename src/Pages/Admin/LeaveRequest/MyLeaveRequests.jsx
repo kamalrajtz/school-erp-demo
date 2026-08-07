@@ -5,9 +5,10 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { Calendar, ChevronLeft, ChevronRight, Download, EllipsisIcon, Plus } from 'lucide-react'
 import Dropdown from '../../../Common/CommonComponents/Dropdown'
 import ExportModal from '../../../Common/CommonComponents/ExportModal'
-import { LEAVE_STATUSES, MY_LEAVE_REQUESTS, statusBadgeColor } from './leaveRequestData'
+import { LEAVE_STATUSES, getAllAdminLeaveRequests, statusBadgeColor } from './leaveRequestData'
 
 const MyLeaveRequests = () => {
+    const [requests] = useState(() => getAllAdminLeaveRequests())
     const [fromDate, setFromDate] = useState(new Date())
     const [toDate, setToDate] = useState(new Date())
     const [exportModal, setExportModal] = useState(false)
@@ -81,7 +82,7 @@ const MyLeaveRequests = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {MY_LEAVE_REQUESTS.map((request) => (
+                            {requests.map((request) => (
                                 <tr key={request.id} className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7]'>
                                     <td className='px-2 py-4 font-medium text-[#1E1E1E] rounded-s-lg'>{request.leaveRequestId}</td>
                                     <td className='px-2 py-4'>{request.leaveType}</td>
@@ -107,7 +108,7 @@ const MyLeaveRequests = () => {
             </div>
 
             <div className='flex justify-between items-center px-4 mt-4'>
-                <p className='text-sm font-medium text-[#515DEF]'>Showing 1 to {MY_LEAVE_REQUESTS.length} of {MY_LEAVE_REQUESTS.length} entries</p>
+                <p className='text-sm font-medium text-[#515DEF]'>Showing 1 to {requests.length} of {requests.length} entries</p>
                 <div className='flex gap-x-2'>
                     <button type='button' className='size-8 flex justify-center items-center p-2 bg-white text-[#515DEF] border border-[#E2E8F0] hover:bg-[#515DEF] hover:text-white rounded-full cursor-pointer'><ChevronLeft size={16} /></button>
                     <button type='button' className='size-8 flex justify-center items-center p-2 bg-[#515DEF] text-white border border-[#515DEF] rounded-full cursor-pointer'>1</button>

@@ -1,6 +1,13 @@
 ﻿import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
+import {
+    clearActiveAdminSession,
+    findActiveAdminByEmail,
+    getAdminUserByEmail,
+    setActiveAdminSession,
+} from '../Pages/SuperAdmin/UserCreation/adminUsersData'
 
 export const ROLES = {
+    SUPER_ADMIN: 'superadmin',
     ADMIN: 'admin',
     STUDENT: 'student',
     PARENT: 'parent',
@@ -28,6 +35,7 @@ export const ROLES = {
 }
 
 export const FAKE_CREDENTIALS = {
+    [ROLES.SUPER_ADMIN]: { email: 'superadmin@school.com' },
     [ROLES.ADMIN]: { email: 'admin@school.com' },
     [ROLES.STUDENT]: { email: 'student@school.com' },
     [ROLES.PARENT]: { email: 'parent@school.com' },
@@ -55,6 +63,7 @@ export const FAKE_CREDENTIALS = {
 }
 
 export const ROLE_HOME_PATHS = {
+    [ROLES.SUPER_ADMIN]: '/super-admin/dashboard',
     [ROLES.ADMIN]: '/admin/front-office/admission-list',
     [ROLES.STUDENT]: '/student/class/online-class',
     [ROLES.PARENT]: '/parent/select-child',
@@ -120,7 +129,17 @@ export const AuthProvider = ({ children }) => {
         }
 
         const normalizedEmail = email.trim().toLowerCase()
-        if (normalizedEmail !== creds.email) {
+        const createdAdmin = expectedRole === ROLES.ADMIN ? findActiveAdminByEmail(normalizedEmail) : null
+
+        if (expectedRole === ROLES.ADMIN) {
+            const defaultEmail = creds.email.toLowerCase()
+            if (normalizedEmail !== defaultEmail && !createdAdmin) {
+                return {
+                    success: false,
+                    message: 'Use a registered administrator email for this profile.',
+                }
+            }
+        } else if (normalizedEmail !== creds.email) {
             return {
                 success: false,
                 message: `Use ${creds.email} for this profile.`,
@@ -140,11 +159,22 @@ export const AuthProvider = ({ children }) => {
         setRole(expectedRole)
         setPendingRole(null)
         persistAuth(expectedRole)
+
+        if (expectedRole === ROLES.ADMIN) {
+            const createdAdminUser = getAdminUserByEmail(normalizedEmail)
+            if (createdAdminUser && !createdAdminUser.isSystem) {
+                setActiveAdminSession(createdAdminUser)
+            } else {
+                clearActiveAdminSession()
+            }
+        }
+
         return { success: true }
     }, [persistAuth])
 
     const logout = useCallback(() => {
         sessionStorage.removeItem(STORAGE_KEY)
+        clearActiveAdminSession()
         setIsAuthenticated(false)
         setRole(null)
         setPendingRole(null)

@@ -12,6 +12,7 @@ export const statusBadgeColor = {
 
 /** Who each role may assign tasks to (direct reports only) */
 export const ASSIGNMENT_HIERARCHY = {
+    [ROLES.SUPER_ADMIN]: [ROLES.ADMIN, ROLES.DIRECTOR, ROLES.JOINT_DIRECTOR, ROLES.JOINT_DIRECTOR_AUDIT, ROLES.ACCOUNT_HEAD],
     [ROLES.ADMIN]: [ROLES.DIRECTOR, ROLES.JOINT_DIRECTOR, ROLES.JOINT_DIRECTOR_AUDIT, ROLES.ACCOUNT_HEAD],
     [ROLES.DIRECTOR]: [ROLES.PRINCIPAL, ROLES.PRM],
     [ROLES.PRINCIPAL]: [ROLES.COORDINATOR, ROLES.LIBRARIAN],
@@ -33,6 +34,7 @@ export const VIEW_ONLY_ROLES = [
 ]
 
 export const ROLE_LABELS = {
+    [ROLES.SUPER_ADMIN]: 'Super Admin',
     [ROLES.ADMIN]: 'Admin',
     [ROLES.DIRECTOR]: 'Director',
     [ROLES.JOINT_DIRECTOR]: 'Joint Director (Operations)',
@@ -50,6 +52,7 @@ export const ROLE_LABELS = {
 }
 
 export const ROUTE_BASE_BY_ROLE = {
+    [ROLES.SUPER_ADMIN]: '/super-admin',
     [ROLES.ADMIN]: '/admin',
     [ROLES.DIRECTOR]: '/director',
     [ROLES.PRINCIPAL]: '/principal',
@@ -68,6 +71,7 @@ export const ROUTE_BASE_BY_ROLE = {
 
 /** Demo user id per role for filtering "my tasks" */
 export const DEMO_USER_ID_BY_ROLE = {
+    [ROLES.SUPER_ADMIN]: 'SA-001',
     [ROLES.ADMIN]: 'ADM-001',
     [ROLES.DIRECTOR]: 'DIR-001',
     [ROLES.PRINCIPAL]: 'PRIN-001',
@@ -85,6 +89,7 @@ export const DEMO_USER_ID_BY_ROLE = {
 }
 
 export const USERS_BY_ROLE = {
+    [ROLES.ADMIN]: [{ id: 'ADM-001', name: 'System Admin' }],
     [ROLES.DIRECTOR]: [{ id: 'DIR-001', name: 'Director of Academics' }],
     [ROLES.JOINT_DIRECTOR]: [{ id: 'JD-001', name: 'Joint Director Ops' }],
     [ROLES.JOINT_DIRECTOR_AUDIT]: [{ id: 'JDA-001', name: 'Joint Director Audit' }],

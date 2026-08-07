@@ -1,4 +1,15 @@
 export const COMMUNICATION_ROLE_CONFIG = {
+    superAdmin: {
+        roleLabel: 'Super Admin',
+        routeBase: '/super-admin/communication',
+        currentUser: {
+            id: 'EMP-SA-001',
+            name: 'Super Admin',
+            role: 'Super Admin',
+            department: 'Governance',
+            avatarColor: '#9333EA',
+        },
+    },
     admin: {
         roleLabel: 'Admin',
         routeBase: '/admin/communication',

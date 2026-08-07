@@ -1,6 +1,60 @@
 ﻿export const singleTitleMapping = {
     "/dashboard": "Dashboard",
     "/admin/dashboard": "Dashboard",
+    "/super-admin/dashboard": "Super Admin Dashboard",
+
+    "/super-admin/attendance/my-attendance": "My Attendance",
+    "/super-admin/attendance/students/list": "Students Attendance List",
+    "/super-admin/attendance/employees": "Employee Attendance",
+
+    "/super-admin/user-database/students": "Students List",
+    "/super-admin/user-database/employees": "Employee List",
+
+    "/super-admin/user-creation": "User Creation",
+    "/super-admin/user-creation/add": "Create Admin User",
+
+    "/super-admin/gate-pass": "Gate Pass List",
+
+    "/super-admin/transport-overview": "Transport Overview",
+
+    "/super-admin/finance/overview": "Finance Overview",
+    "/super-admin/finance/fees": "Fees Management",
+    "/super-admin/finance/collections": "Collections",
+    "/super-admin/finance/wallets": "Wallet Management",
+    "/super-admin/finance/transport": "Transport Finance",
+    "/super-admin/finance/accounting": "Accounting",
+    "/super-admin/finance/reports": "Reports & Analytics",
+
+    "/super-admin/audit-reports/overview": "Audit Reports Overview",
+    "/super-admin/audit-reports/compliance": "Compliance Score",
+    "/super-admin/audit-reports/department-ranking": "Department Ranking",
+    "/super-admin/audit-reports/pending-findings": "Pending Findings",
+    "/super-admin/audit-reports/critical-findings": "Critical Findings",
+    "/super-admin/audit-reports/risk-dashboard": "Risk Dashboard",
+
+    "/super-admin/star-ratings/star-of-month": "Star of the Month",
+    "/super-admin/star-ratings/star-of-year": "Star of the Year",
+
+    "/super-admin/task-management/assign-tasks": "Assign Tasks List",
+    "/super-admin/task-management/assign-tasks/add": "Assign Task",
+    "/super-admin/leave-request/received": "Received Leave Requests",
+
+    "/super-admin/approvals": "Approvals",
+
+    "/super-admin/announcement": "Announcement List",
+    "/super-admin/announcement/add": "Add Announcement",
+    "/super-admin/communication/inbox": "Communication Inbox",
+    "/super-admin/academic-calendar": "Calendar",
+    "/super-admin/notifications": "Notifications",
+    "/super-admin/escalation-management": "Escalation List",
+    "/super-admin/escalation-management/add-escalation": "Add Escalation",
+
+    "/super-admin/activity-logs/login-history": "Login History",
+    "/super-admin/activity-logs/data-changes": "Data Changes",
+    "/super-admin/activity-logs/deleted-records": "Deleted Records",
+    "/super-admin/activity-logs/approval-actions": "Approval Actions",
+    "/super-admin/activity-logs/audit-logs": "Audit Logs",
+    "/super-admin/activity-logs/failed-logins": "Failed Logins",
 
     // Front Office
     "/front-office/dashboard": "Front Office Dashboard",
@@ -793,6 +847,12 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/principal\/user-management\/employee-database\/view\/[^/]+$/.test(p), title: 'View Employee Details' },
     { test: (p) => /^\/admin\/user-management\/student-database\/view\/[^/]+$/.test(p), title: 'View Student Details' },
     { test: (p) => /^\/admin\/user-management\/employee-database\/view\/[^/]+$/.test(p), title: 'View Employee Details' },
+    { test: (p) => /^\/super-admin\/user-database\/students\/view\/[^/]+$/.test(p), title: 'View Student Details' },
+    { test: (p) => /^\/super-admin\/user-database\/employees\/view\/[^/]+$/.test(p), title: 'View Employee Details' },
+    { test: (p) => /^\/super-admin\/gate-pass\/view\/[^/]+$/.test(p), title: 'View Gate Pass' },
+    { test: (p) => /^\/super-admin\/activity-logs\/view\/[^/]+$/.test(p), title: 'View Activity Log' },
+    { test: (p) => /^\/super-admin\/approvals\/view\/[^/]+$/.test(p), title: 'View Approval Request' },
+    { test: (p) => /^\/super-admin\/user-creation\/view\/[^/]+$/.test(p), title: 'View Admin User' },
     { test: (p) => /^\/parent\/student-deliverables\/home-fun\/view\/[^/]+$/.test(p), title: 'View Assignment / Homework Details' },
     { test: (p) => /^\/parent\/student-deliverables\/study-materials\/view\/[^/]+$/.test(p), title: 'View Study Material' },
     { test: (p) => /^\/parent\/student-deliverables\/sample-questions\/view\/[^/]+$/.test(p), title: 'View Sample Questions' },

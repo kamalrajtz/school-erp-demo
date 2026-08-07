@@ -163,6 +163,7 @@ export const ACADEMIC_CALENDAR_ITEMS = [
 ]
 
 export const ACADEMIC_CALENDAR_ROLE_CONFIG = {
+    superAdmin: { roleLabel: 'Super Admin', routeBase: '/super-admin/academic-calendar' },
     admin: { roleLabel: 'Admin', routeBase: '/admin/academic-calendar' },
     director: { roleLabel: 'Director', routeBase: '/director/academic-calendar', pageTitle: 'Calendar' },
     prm: { roleLabel: 'Front Office', routeBase: '/front-office/academic-calendar', pageTitle: 'Calendar' },

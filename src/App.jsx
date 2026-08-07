@@ -1,5 +1,6 @@
 ﻿import { Navigate, useLocation } from "react-router-dom";
 import AuthLayout from "./Layout/AuthLayout";
+import SuperAdminLayout from "./Layout/SuperAdminLayout";
 import AdminLayout from "./Layout/AdminLayout";
 import LibrarianLayout from "./Layout/LibrarianLayout";
 import GateKeeperLayout from "./Layout/GateKeeperLayout";
@@ -228,7 +229,22 @@ const App = () => {
     return <JointDirectorLayout />;
   }
 
+  if (role === ROLES.SUPER_ADMIN) {
+    if (!pathname.startsWith("/super-admin")) {
+      return <Navigate to={ROLE_HOME_PATHS[ROLES.SUPER_ADMIN]} replace />;
+    }
+    return <SuperAdminLayout />;
+  }
+
+  if (role === ROLES.ADMIN) {
+    if (!pathname.startsWith("/admin")) {
+      return <Navigate to={ROLE_HOME_PATHS[ROLES.ADMIN]} replace />;
+    }
+    return <AdminLayout />;
+  }
+
   if (
+    pathname.startsWith("/super-admin") ||
     pathname.startsWith("/librarian") ||
     pathname.startsWith("/front-office") ||
     pathname.startsWith("/student") ||
@@ -256,7 +272,7 @@ const App = () => {
     return <Navigate to={ROLE_HOME_PATHS[ROLES.ADMIN]} replace />;
   }
 
-  return <AdminLayout />;
+  return <Navigate to={ROLE_HOME_PATHS[ROLES.ADMIN]} replace />;
 }
 
 export default App

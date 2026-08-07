@@ -2,6 +2,7 @@ import { getPageTitle } from '../CommonHeader/Components/TitleMappings'
 import { ROLE_HOME_PATHS, ROLES } from '../../context/AuthContext'
 import {
     adminSidebarLinks,
+    superAdminSidebarLinks,
     studentSidebarLinks,
     parentSidebarLinks,
     teacherSidebarLinks,
@@ -14,6 +15,7 @@ import {
 } from '../CommonSidebar/Components/sidebarLinks'
 
 const ROLE_ROUTE_CONFIG = [
+    { prefix: '/super-admin', role: ROLES.SUPER_ADMIN, links: superAdminSidebarLinks },
     { prefix: '/parent', role: ROLES.PARENT, links: parentSidebarLinks },
     { prefix: '/gatekeeper-manager', role: ROLES.GATEKEEPER_MANAGER, links: gateKeeperManagerSidebarLinks },
     { prefix: '/gate-keeper', role: ROLES.GATEKEEPER, links: gateKeeperSidebarLinks },

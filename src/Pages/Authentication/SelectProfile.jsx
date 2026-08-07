@@ -4,7 +4,7 @@ import select_profile_img from '../../assets/images/select-profile-img.png'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { PROFILE_BY_ROLE } from './profileOptions'
-import { ADMIN_PROFILE, getModuleById, ROLE_MODULES } from './roleModuleConfig'
+import { ADMIN_PROFILE, SUPER_ADMIN_PROFILE, getModuleById, ROLE_MODULES } from './roleModuleConfig'
 import AuthHeader from './AuthHeader'
 
 const SelectProfile = () => {
@@ -29,6 +29,7 @@ const SelectProfile = () => {
         navigate('/signin')
     }
 
+    const SuperAdminIcon = SUPER_ADMIN_PROFILE.icon
     const AdminIcon = ADMIN_PROFILE.icon
 
     return (
@@ -45,9 +46,28 @@ const SelectProfile = () => {
                                         Select Your Role
                                     </h1>
                                     <p className='text-base font-medium text-[#313131]/70 mt-4 md:text-left text-center'>
-                                        Choose Admin or select a module to find your role
+                                        Choose Super Admin, Admin, or select a module to find your role
                                     </p>
                                 </div>
+
+                                <button
+                                    type='button'
+                                    onClick={() => handleSelect(SUPER_ADMIN_PROFILE.roles[0])}
+                                    className='w-full flex items-center gap-4 bg-white rounded-2xl shadow-md border border-[#E8ECFF] px-5 py-4 text-left hover:border-[#515DEF] hover:shadow-lg transition-all duration-200 cursor-pointer group'
+                                >
+                                    <span className='flex size-12 shrink-0 items-center justify-center rounded-xl bg-[#EDEEF5] text-[#515DEF] group-hover:bg-[#515DEF] group-hover:text-white transition-colors'>
+                                        <SuperAdminIcon size={24} />
+                                    </span>
+                                    <span className='flex-1 min-w-0'>
+                                        <span className='block text-lg font-semibold text-[#313131]'>
+                                            {SUPER_ADMIN_PROFILE.title}
+                                        </span>
+                                        <span className='block text-sm font-medium text-[#313131]/60 mt-0.5'>
+                                            {SUPER_ADMIN_PROFILE.description}
+                                        </span>
+                                    </span>
+                                    <ChevronRight size={20} className='shrink-0 text-[#515DEF]' />
+                                </button>
 
                                 <button
                                     type='button'

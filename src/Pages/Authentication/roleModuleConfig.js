@@ -1,10 +1,18 @@
-import { GraduationCap, IndianRupee, Settings, ShieldCheck, ClipboardCheck } from 'lucide-react'
+import { Crown, GraduationCap, IndianRupee, Settings, ShieldCheck, ClipboardCheck } from 'lucide-react'
 import { ROLES } from '../../context/AuthContext'
 
 /**
  * Presentation-layer grouping for login role selection.
  * Role identifiers match AuthContext ROLES — auth logic is unchanged.
  */
+export const SUPER_ADMIN_PROFILE = {
+    id: 'super-admin',
+    title: 'Super Admin',
+    description: 'System Governance & Final Approvals',
+    icon: Crown,
+    roles: [ROLES.SUPER_ADMIN],
+}
+
 export const ADMIN_PROFILE = {
     id: 'admin',
     title: 'Admin',

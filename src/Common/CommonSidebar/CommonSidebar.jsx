@@ -3,7 +3,8 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { ChevronLeft, ChevronDown } from "lucide-react"
 import logo from "../../assets/images/demo-logo.svg"
 import logoMini from "../../assets/images/demo-logo-mini.svg"
-import { adminSidebarLinks, canteenManagerSidebarLinks, gateKeeperManagerSidebarLinks, gateKeeperSidebarLinks, directorSidebarLinks, principalSidebarLinks, librarianSidebarLinks, prmSidebarLinks, studentSidebarLinks, parentSidebarLinks, teacherSidebarLinks, coordinatorSidebarLinks, itSupportManagerSidebarLinks, stationeryStoreManagerSidebarLinks, housekeepingManagerSidebarLinks, transportManagerSidebarLinks, jointDirectorSidebarLinks, jointDirectorAssistantSidebarLinks, jointDirectorAuditSidebarLinks, processAuditorSidebarLinks, qualityAuditorSidebarLinks, hrSidebarLinks, accountHeadSidebarLinks, driverSidebarLinks } from './Components/sidebarLinks'
+import { superAdminSidebarLinks, canteenManagerSidebarLinks, gateKeeperManagerSidebarLinks, gateKeeperSidebarLinks, directorSidebarLinks, principalSidebarLinks, librarianSidebarLinks, prmSidebarLinks, studentSidebarLinks, parentSidebarLinks, teacherSidebarLinks, coordinatorSidebarLinks, itSupportManagerSidebarLinks, stationeryStoreManagerSidebarLinks, housekeepingManagerSidebarLinks, transportManagerSidebarLinks, jointDirectorSidebarLinks, jointDirectorAssistantSidebarLinks, jointDirectorAuditSidebarLinks, processAuditorSidebarLinks, qualityAuditorSidebarLinks, hrSidebarLinks, accountHeadSidebarLinks, driverSidebarLinks } from './Components/sidebarLinks'
+import { getFilteredAdminSidebarLinks } from '../../Pages/SuperAdmin/UserCreation/adminUsersData'
 
 const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
 
@@ -20,6 +21,7 @@ const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
     const location = useLocation();
 
     const sidebarLinks = useMemo(() => {
+        if (location.pathname.startsWith('/super-admin')) return superAdminSidebarLinks
         if (location.pathname.startsWith('/parent')) return parentSidebarLinks
         if (location.pathname.startsWith('/student')) return studentSidebarLinks
         if (location.pathname.startsWith('/coordinator')) return coordinatorSidebarLinks
@@ -43,7 +45,7 @@ const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
         if (location.pathname.startsWith('/director')) return directorSidebarLinks
         if (location.pathname.startsWith('/principal')) return principalSidebarLinks
         if (location.pathname.startsWith('/front-office')) return prmSidebarLinks
-        return adminSidebarLinks
+        return getFilteredAdminSidebarLinks()
     }, [location.pathname]);
 
     const toggleSubMenu = (id) => {
