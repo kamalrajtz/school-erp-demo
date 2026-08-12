@@ -3,8 +3,7 @@
     "/admin/dashboard": "Dashboard",
     "/super-admin/dashboard": "Super Admin Dashboard",
 
-    "/super-admin/attendance/my-attendance": "My Attendance",
-    "/super-admin/attendance/students/list": "Students Attendance List",
+    "/super-admin/attendance/students/list": "Student Attendance",
     "/super-admin/attendance/employees": "Employee Attendance",
 
     "/super-admin/user-database/students": "Students List",

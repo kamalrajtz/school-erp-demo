@@ -106,7 +106,7 @@ const StudentsList = () => {
 
             <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
-                    <h2 className='text-xl font-medium text-black'>Students Attendance List</h2>
+                    <h2 className='text-xl font-medium text-black'>Student Attendance</h2>
                     <button
                         type='button'
                         onClick={() => setExportModal(true)}

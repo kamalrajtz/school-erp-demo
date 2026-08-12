@@ -15,7 +15,6 @@ import AddEscalation from '../Pages/SuperAdmin/EscalationManagement/AddEscalatio
 import ViewEscalation from '../Pages/SuperAdmin/EscalationManagement/ViewEscalation'
 import StudentsAttendanceList from '../Pages/SuperAdmin/Attendance/Students/StudentsList'
 import EmployeesAttendanceList from '../Pages/SuperAdmin/Attendance/Employees/EmployeesList'
-import MyAttendance from '../Pages/SuperAdmin/Attendance/MyAttendance/MyAttendance'
 import StudentsList from '../Pages/SuperAdmin/UserManagement/StudentDatabase/StudentsList'
 import ViewStudent from '../Pages/SuperAdmin/UserManagement/StudentDatabase/ViewStudent'
 import EmployeesList from '../Pages/SuperAdmin/UserManagement/EmployeeDatabase/EmployeesList'
@@ -42,8 +41,7 @@ const SuperAdminRoutes = () => {
         <ReactRoutes>
             <Route path="/super-admin/dashboard" element={<Dashboard />} />
 
-            <Route path="/super-admin/attendance" element={<Navigate to="/super-admin/attendance/my-attendance" replace />} />
-            <Route path="/super-admin/attendance/my-attendance" element={<MyAttendance />} />
+            <Route path="/super-admin/attendance" element={<Navigate to="/super-admin/attendance/students/list" replace />} />
             <Route path="/super-admin/attendance/students/list" element={<StudentsAttendanceList />} />
             <Route path="/super-admin/attendance/employees" element={<EmployeesAttendanceList />} />
 

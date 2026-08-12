@@ -82,8 +82,7 @@ export const superAdminSidebarLinks = [
         to: '#0',
         icon: CalendarCheck,
         subLinks: [
-            { icon: UserRound, title: 'My Attendance', to: '/super-admin/attendance/my-attendance' },
-            { icon: GraduationCap, title: 'Students List', to: '/super-admin/attendance/students/list' },
+            { icon: GraduationCap, title: 'Student Attendance', to: '/super-admin/attendance/students/list' },
             { icon: Briefcase, title: 'Employee Attendance', to: '/super-admin/attendance/employees' },
         ],
     },
