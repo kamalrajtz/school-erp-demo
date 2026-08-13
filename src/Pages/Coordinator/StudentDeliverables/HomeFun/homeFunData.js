@@ -57,16 +57,18 @@ export const getHomeFunSubmissionRecord = (record) => {
         (item) =>
             item.assignmentId === record.assignmentId
             || item.assignmentTitle === record.assignmentTitle,
-    ) ?? SUBMISSIONS_LIST[0]
+    ) ?? null
+
+    const emptyDetails = { submitted: [], pending: [], late: [] }
 
     return {
         ...record,
         classSection,
-        totalStudents: record.totalStudents ?? matched.totalStudents,
-        submittedStudents: record.submittedStudents ?? matched.submittedStudents,
-        pendingStudents: record.pendingStudents ?? matched.pendingStudents,
-        lateSubmissions: record.lateSubmissions ?? matched.lateSubmissions,
-        studentDetails: record.studentDetails ?? matched.studentDetails,
+        totalStudents: record.totalStudents ?? matched?.totalStudents ?? 0,
+        submittedStudents: record.submittedStudents ?? matched?.submittedStudents ?? 0,
+        pendingStudents: record.pendingStudents ?? matched?.pendingStudents ?? 0,
+        lateSubmissions: record.lateSubmissions ?? matched?.lateSubmissions ?? 0,
+        studentDetails: record.studentDetails ?? matched?.studentDetails ?? emptyDetails,
     }
 }
 

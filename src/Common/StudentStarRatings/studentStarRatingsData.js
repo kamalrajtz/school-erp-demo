@@ -55,16 +55,7 @@ const buildSomRating = ({
     ratedByRole,
 })
 
-const DEFAULT_SOM_RATINGS = [
-    buildSomRating({ ratingId: 'SSR-001', month: 'June 2025', academicYear: '2025-2026', studentId: STUDENTS_LIST[0].id, studentName: STUDENTS_LIST[0].name, rollNumber: STUDENTS_LIST[0].rollNumber, className: STUDENTS_LIST[0].className, section: STUDENTS_LIST[0].section, rating: 3, description: 'Excellent attendance and class participation.' }),
-    buildSomRating({ ratingId: 'SSR-002', month: 'June 2025', academicYear: '2025-2026', studentId: STUDENTS_LIST[1].id, studentName: STUDENTS_LIST[1].name, rollNumber: STUDENTS_LIST[1].rollNumber, className: STUDENTS_LIST[1].className, section: STUDENTS_LIST[1].section, rating: 2, description: 'Good academic progress this month.' }),
-    buildSomRating({ ratingId: 'SSR-003', month: 'July 2025', academicYear: '2025-2026', studentId: STUDENTS_LIST[0].id, studentName: STUDENTS_LIST[0].name, rollNumber: STUDENTS_LIST[0].rollNumber, className: STUDENTS_LIST[0].className, section: STUDENTS_LIST[0].section, rating: 3, description: 'Outstanding unit test performance.' }),
-    buildSomRating({ ratingId: 'SSR-004', month: 'July 2025', academicYear: '2025-2026', studentId: STUDENTS_LIST[2].id, studentName: STUDENTS_LIST[2].name, rollNumber: STUDENTS_LIST[2].rollNumber, className: STUDENTS_LIST[2].className, section: STUDENTS_LIST[2].section, rating: 2, description: 'Active in extracurricular activities.' }),
-    buildSomRating({ ratingId: 'SSR-005', month: 'August 2025', academicYear: '2025-2026', studentId: STUDENTS_LIST[3].id, studentName: STUDENTS_LIST[3].name, rollNumber: STUDENTS_LIST[3].rollNumber, className: STUDENTS_LIST[3].className, section: STUDENTS_LIST[3].section, rating: 3, description: 'Consistent homework submission and discipline.' }),
-    buildSomRating({ ratingId: 'SSR-006', month: 'September 2025', academicYear: '2025-2026', studentId: STUDENTS_LIST[1].id, studentName: STUDENTS_LIST[1].name, rollNumber: STUDENTS_LIST[1].rollNumber, className: STUDENTS_LIST[1].className, section: STUDENTS_LIST[1].section, rating: 3, description: 'Leadership in group projects.' }),
-    buildSomRating({ ratingId: 'SSR-007', month: 'October 2025', academicYear: '2025-2026', studentId: STUDENTS_LIST[4].id, studentName: STUDENTS_LIST[4].name, rollNumber: STUDENTS_LIST[4].rollNumber, className: STUDENTS_LIST[4].className, section: STUDENTS_LIST[4].section, rating: 2, description: 'Steady improvement in mathematics.' }),
-    buildSomRating({ ratingId: 'SSR-008', month: 'November 2025', academicYear: '2025-2026', studentId: STUDENTS_LIST[0].id, studentName: STUDENTS_LIST[0].name, rollNumber: STUDENTS_LIST[0].rollNumber, className: STUDENTS_LIST[0].className, section: STUDENTS_LIST[0].section, rating: 3, description: 'Top performer for mid-year review.' }),
-]
+const DEFAULT_SOM_RATINGS = []
 
 export const getClassSectionOptions = () => {
     const sections = [...new Set(STUDENTS_LIST.map((s) => `${s.className}-${s.section}`))]

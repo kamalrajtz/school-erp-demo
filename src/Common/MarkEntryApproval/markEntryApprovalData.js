@@ -1,5 +1,5 @@
 import { CLASSES, SECTIONS, SUBJECTS } from '../../Pages/Teacher/AssignedClass/assignedClassData'
-import { STUDENTS_LIST } from '../../Pages/Teacher/StudentsList/studentsListData'
+import { getStudentsList } from '../../Pages/Teacher/StudentsList/studentsListData'
 import { PARENT_CHILD_PROFILES } from '../../Pages/Parent/parentStudentProfiles'
 
 export { CLASSES, SECTIONS, SUBJECTS }
@@ -21,10 +21,8 @@ export const PASS_MARK_PERCENT = 33
 
 const STORAGE_KEY = 'teacher-mark-entry-sessions'
 
-/** Map parent-portal student IDs to mark-entry student IDs for published results. */
-const STUDENT_MARK_ID_ALIASES = {
-    'STU-PAR-001': 'STU-2024-1042',
-}
+/** Optional aliases for parent-portal student IDs (empty after Academics wipe). */
+const STUDENT_MARK_ID_ALIASES = {}
 
 export const resolveStudentIdForMarks = (studentId) =>
     STUDENT_MARK_ID_ALIASES[studentId] ?? studentId
@@ -34,18 +32,9 @@ const getEncouragementName = (studentId) => {
     if (parentProfile?.name) return parentProfile.name.split(' ')[0]
 
     const resolvedId = resolveStudentIdForMarks(studentId)
-    const student = STUDENTS_LIST.find((item) => item.id === resolvedId)
+    const student = getStudentsList().find((item) => item.id === resolvedId)
     return student?.name?.split(' ')[0] ?? 'Student'
 }
-
-const EXTRA_NAMES = [
-    'Abhinav Kumar', 'Rahul S', 'Priya M', 'Ananya Iyer', 'Vikram Singh',
-    'Meera Joshi', 'Aditya Patel', 'Kavya Nambiar', 'Rohan Das', 'Isha Gupta',
-    'Nikhil Rao', 'Sana Khan', 'Dev Malhotra', 'Lakshmi Pillai', 'Arun Thomas',
-    'Fatima Ali', 'Gaurav Mehta', 'Hema Krishnan', 'Imran Sheikh', 'Jyoti Desai',
-    'Kiran Babu', 'Leela Nair', 'Manoj Reddy', 'Neha Chopra', 'Omar Hussain',
-    'Pooja Sinha', 'Qadir Ahmed', 'Riya Kapoor', 'Sanjay Varma', 'Tara Menon',
-]
 
 export const formatClassLabel = (className) => `Grade ${className}`
 
@@ -105,32 +94,11 @@ export const getExamMaxMarks = (examName) =>
     EXAM_OPTIONS.find((item) => item.name === examName)?.maxMarks ?? 100
 
 export const getStudentsForMarkEntry = (className, section) => {
-    const existing = STUDENTS_LIST.filter(
+    const students = getStudentsList().filter(
         (student) => student.className === className && student.section === section,
     )
 
-    const targetCount = className === '10' && section === 'A' ? 35 : Math.max(existing.length, 12)
-    const students = [...existing]
-
-    let index = 0
-    while (students.length < targetCount && index < EXTRA_NAMES.length) {
-        const roll = String(students.length + 1).padStart(2, '0')
-        const name = EXTRA_NAMES[index]
-        if (!students.some((student) => student.name === name)) {
-            students.push({
-                id: `STU-GEN-${className}-${section}-${roll}`,
-                rollNumber: roll,
-                name,
-                admissionNumber: `ADM-${className}${section}-${roll}`,
-                className,
-                section,
-                classSection: `${className}-${section}`,
-            })
-        }
-        index += 1
-    }
-
-    return students.sort((a, b) => {
+    return [...students].sort((a, b) => {
         const rollA = parseInt(String(a.rollNumber).replace(/\D/g, ''), 10) || 0
         const rollB = parseInt(String(b.rollNumber).replace(/\D/g, ''), 10) || 0
         return rollA - rollB

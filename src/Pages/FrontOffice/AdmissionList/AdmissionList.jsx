@@ -2,9 +2,7 @@ import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { Calendar, ChevronLeft, ChevronRight, Download, EllipsisIcon, Plus } from 'lucide-react'
-import mo_user from '../../../assets/images/no-profile.png'
-import Dropdown from '../../../Common/CommonComponents/Dropdown'
+import { Calendar, Download, Plus } from 'lucide-react'
 import ExportModal from '../../../Common/CommonComponents/ExportModal'
 import EditRequestModal from '../../../Common/CommonComponents/EditRequestModal'
 
@@ -88,83 +86,11 @@ const AdmissionList = () => {
                         </button>
                     </div>
                 </div>
-                <div className='flex gap-x-2 items-center my-2'>
-                    <select className='px-2 py-1.5 bg-white text-[#515DEF] border border-[#515DEF] rounded-md'>
-                        <option value='10'>10</option>
-                        <option value='20'>20</option>
-                        <option value='30'>30</option>
-                        <option value='40'>40</option>
-                        <option value='50'>50</option>
-                    </select>
-                    <span className='text-sm font-normal text-[#515DEF]'>Entries Per Page</span>
-                </div>
-                <div className='relative overflow-x-auto'>
-                    <table className='w-full text-sm text-left'>
-                        <thead className='text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg'>
-                            <tr>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>Profile</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Student</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Roll No</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Class</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Class Section</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Admission Number</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Gender</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Mobile Number</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Created Date</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Country</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>City</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7]'>
-                                <td className='px-2 py-4 rounded-s-lg'>
-                                    <img src={mo_user} alt='no-profile-image' className='w-9 h-9 mx-auto' />
-                                </td>
-                                <td className='px-2 py-4'>Sandy Selva</td>
-                                <td className='px-2 py-4'>STU-1001</td>
-                                <td className='px-2 py-4'>Class-10</td>
-                                <td className='px-2 py-4'>A</td>
-                                <td className='px-2 py-4'>ADM-NO1845</td>
-                                <td className='px-2 py-4'>9944076993</td>
-                                <td className='px-2 py-4'>12 SEP 2025</td>
-                                <td className='px-2 py-4'>India</td>
-                                <td className='px-2 py-4'>Trichy</td>
-                                <td className='px-2 py-4'>Tamil Nadu</td>
-                                <td className='px-2 py-4 text-center rounded-e-lg'>
-                                    <Dropdown buttonContent={<EllipsisIcon size={16} className='text-black' />}>
-                                        <button type='button' className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'>
-                                            View
-                                        </button>
-                                        <button type='button' onClick={() => setEditRequestModal(true)} className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'>
-                                            Edit
-                                        </button>
-                                        <button type='button' className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'>
-                                            Delete
-                                        </button>
-                                    </Dropdown>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div className='flex justify-between items-center px-4 mt-4'>
-                <p className='text-sm font-medium text-[#515DEF]'>Showing 1 to 10 of 20 entries</p>
-                <div className='flex justify-center gap-x-2 flex-wrap'>
-                    <button type='button' className='size-8 flex justify-center items-center p-2 bg-white text-[#515DEF] border border-[#E2E8F0] hover:bg-[#515DEF] hover:text-white rounded-full cursor-pointer'>
-                        <ChevronLeft size={16} />
-                    </button>
-                    <button type='button' className='size-8 flex justify-center items-center p-2 bg-[#EDEDF5] text-[#515DEF] hover:bg-[#515DEF] hover:text-white border border-[#E2E8F0] rounded-full cursor-pointer'>
-                        1
-                    </button>
-                    <button type='button' className='size-8 flex justify-center items-center p-2 bg-[#EDEDF5] text-[#515DEF] hover:bg-[#515DEF] hover:text-white border border-[#E2E8F0] rounded-full cursor-pointer'>
-                        2
-                    </button>
-                    <button type='button' className='size-8 flex justify-center items-center p-2 bg-white text-[#515DEF] border border-[#E2E8F0] hover:bg-[#515DEF] hover:text-white rounded-full cursor-pointer'>
-                        <ChevronRight size={16} />
-                    </button>
+                <div className='py-16 text-center'>
+                    <h3 className='text-lg font-semibold text-[#0C1E5B]'>No admissions yet</h3>
+                    <p className='text-sm text-[#667085] mt-2 max-w-md mx-auto'>
+                        Admission records will appear here once created.
+                    </p>
                 </div>
             </div>
 

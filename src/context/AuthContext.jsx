@@ -1,10 +1,16 @@
-﻿import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
+﻿import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import {
     clearActiveAdminSession,
     findActiveAdminByEmail,
     getAdminUserByEmail,
     setActiveAdminSession,
 } from '../Pages/SuperAdmin/UserCreation/adminUsersData'
+import {
+    clearActiveCreatedUserSession,
+    findActiveCreatedUserByEmail,
+    getCreatedUserByEmail,
+    setActiveCreatedUserSession,
+} from '../Common/RBAC/createdUsersData'
 
 export const ROLES = {
     SUPER_ADMIN: 'superadmin',
@@ -92,19 +98,31 @@ export const ROLE_HOME_PATHS = {
 
 const STORAGE_KEY = 'schoolerp_auth'
 
+const CREATABLE_LOGIN_ROLES = new Set([
+    ROLES.TEACHER,
+    ROLES.STUDENT,
+    ROLES.PRM,
+    ROLES.COORDINATOR,
+])
+
 const readStoredAuth = () => {
     try {
         const raw = sessionStorage.getItem(STORAGE_KEY)
-        if (!raw) return { isAuthenticated: false, role: null }
+        if (!raw) return { isAuthenticated: false, role: null, email: null, name: null }
         const parsed = JSON.parse(raw)
         if (parsed?.isAuthenticated && parsed?.role) {
             const role = parsed.role === 'vandriver' ? ROLES.DRIVER : parsed.role
-            return { isAuthenticated: true, role }
+            return {
+                isAuthenticated: true,
+                role,
+                email: parsed.email || null,
+                name: parsed.name || null,
+            }
         }
     } catch {
         // ignore invalid storage
     }
-    return { isAuthenticated: false, role: null }
+    return { isAuthenticated: false, role: null, email: null, name: null }
 }
 
 const AuthContext = createContext(null)
@@ -113,23 +131,42 @@ export const AuthProvider = ({ children }) => {
     const stored = readStoredAuth()
     const [isAuthenticated, setIsAuthenticated] = useState(stored.isAuthenticated)
     const [role, setRole] = useState(stored.role)
+    const [email, setEmail] = useState(stored.email)
+    const [name, setName] = useState(stored.name)
     const [pendingRole, setPendingRole] = useState(null)
 
-    const persistAuth = useCallback((nextRole) => {
+    useEffect(() => {
+        if (stored.isAuthenticated && stored.email && CREATABLE_LOGIN_ROLES.has(stored.role)) {
+            const existing = getCreatedUserByEmail(stored.email)
+            if (existing && existing.status === 'Active') {
+                setActiveCreatedUserSession(existing)
+            }
+        }
+    }, [])
+
+    const persistAuth = useCallback((nextRole, nextEmail = null, nextName = null) => {
         sessionStorage.setItem(
             STORAGE_KEY,
-            JSON.stringify({ isAuthenticated: true, role: nextRole })
+            JSON.stringify({
+                isAuthenticated: true,
+                role: nextRole,
+                email: nextEmail,
+                name: nextName,
+            })
         )
     }, [])
 
-    const login = useCallback((email, otp, expectedRole) => {
+    const login = useCallback((emailInput, otp, expectedRole) => {
         const creds = FAKE_CREDENTIALS[expectedRole]
         if (!creds) {
             return { success: false, message: 'Please select a profile first.' }
         }
 
-        const normalizedEmail = email.trim().toLowerCase()
+        const normalizedEmail = emailInput.trim().toLowerCase()
         const createdAdmin = expectedRole === ROLES.ADMIN ? findActiveAdminByEmail(normalizedEmail) : null
+        const createdUser = CREATABLE_LOGIN_ROLES.has(expectedRole)
+            ? findActiveCreatedUserByEmail(normalizedEmail, expectedRole)
+            : null
 
         if (expectedRole === ROLES.ADMIN) {
             const defaultEmail = creds.email.toLowerCase()
@@ -137,6 +174,14 @@ export const AuthProvider = ({ children }) => {
                 return {
                     success: false,
                     message: 'Use a registered administrator email for this profile.',
+                }
+            }
+        } else if (CREATABLE_LOGIN_ROLES.has(expectedRole)) {
+            const defaultEmail = creds.email.toLowerCase()
+            if (normalizedEmail !== defaultEmail && !createdUser) {
+                return {
+                    success: false,
+                    message: `Use ${creds.email} or a user created by Admin for this profile.`,
                 }
             }
         } else if (normalizedEmail !== creds.email) {
@@ -155,10 +200,18 @@ export const AuthProvider = ({ children }) => {
             return { success: false, message: 'Enter a valid 6-digit OTP.' }
         }
 
+        const sessionName = createdUser?.name
+            || createdAdmin?.name
+            || null
+
         setIsAuthenticated(true)
         setRole(expectedRole)
+        setEmail(normalizedEmail)
+        setName(sessionName)
         setPendingRole(null)
-        persistAuth(expectedRole)
+        persistAuth(expectedRole, normalizedEmail, sessionName)
+
+        clearActiveCreatedUserSession()
 
         if (expectedRole === ROLES.ADMIN) {
             const createdAdminUser = getAdminUserByEmail(normalizedEmail)
@@ -166,6 +219,11 @@ export const AuthProvider = ({ children }) => {
                 setActiveAdminSession(createdAdminUser)
             } else {
                 clearActiveAdminSession()
+            }
+        } else {
+            clearActiveAdminSession()
+            if (createdUser) {
+                setActiveCreatedUserSession(createdUser)
             }
         }
 
@@ -175,8 +233,11 @@ export const AuthProvider = ({ children }) => {
     const logout = useCallback(() => {
         sessionStorage.removeItem(STORAGE_KEY)
         clearActiveAdminSession()
+        clearActiveCreatedUserSession()
         setIsAuthenticated(false)
         setRole(null)
+        setEmail(null)
+        setName(null)
         setPendingRole(null)
     }, [])
 
@@ -184,12 +245,14 @@ export const AuthProvider = ({ children }) => {
         () => ({
             isAuthenticated,
             role,
+            email,
+            name,
             pendingRole,
             setPendingRole,
             login,
             logout,
         }),
-        [isAuthenticated, role, pendingRole, login, logout]
+        [isAuthenticated, role, email, name, pendingRole, login, logout]
     )
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

@@ -5,6 +5,10 @@ import logo from "../../assets/images/demo-logo.svg"
 import logoMini from "../../assets/images/demo-logo-mini.svg"
 import { superAdminSidebarLinks, canteenManagerSidebarLinks, gateKeeperManagerSidebarLinks, gateKeeperSidebarLinks, directorSidebarLinks, principalSidebarLinks, librarianSidebarLinks, prmSidebarLinks, studentSidebarLinks, parentSidebarLinks, teacherSidebarLinks, coordinatorSidebarLinks, itSupportManagerSidebarLinks, stationeryStoreManagerSidebarLinks, housekeepingManagerSidebarLinks, transportManagerSidebarLinks, jointDirectorSidebarLinks, jointDirectorAssistantSidebarLinks, jointDirectorAuditSidebarLinks, processAuditorSidebarLinks, qualityAuditorSidebarLinks, hrSidebarLinks, accountHeadSidebarLinks, driverSidebarLinks } from './Components/sidebarLinks'
 import { getFilteredAdminSidebarLinks } from '../../Pages/SuperAdmin/UserCreation/adminUsersData'
+import {
+    getFilteredCoordinatorSidebarLinks,
+    getFilteredTeacherSidebarLinks,
+} from '../RBAC/rolePermissionsData'
 
 const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
 
@@ -24,8 +28,8 @@ const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
         if (location.pathname.startsWith('/super-admin')) return superAdminSidebarLinks
         if (location.pathname.startsWith('/parent')) return parentSidebarLinks
         if (location.pathname.startsWith('/student')) return studentSidebarLinks
-        if (location.pathname.startsWith('/coordinator')) return coordinatorSidebarLinks
-        if (location.pathname.startsWith('/teacher')) return teacherSidebarLinks
+        if (location.pathname.startsWith('/coordinator')) return getFilteredCoordinatorSidebarLinks(coordinatorSidebarLinks)
+        if (location.pathname.startsWith('/teacher')) return getFilteredTeacherSidebarLinks(teacherSidebarLinks)
         if (location.pathname.startsWith('/librarian')) return librarianSidebarLinks
         if (location.pathname.startsWith('/canteen-manager')) return canteenManagerSidebarLinks
         if (location.pathname.startsWith('/it-support-manager')) return itSupportManagerSidebarLinks

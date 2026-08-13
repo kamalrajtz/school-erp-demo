@@ -36,62 +36,7 @@ const buildTransfer = ({
     status,
 })
 
-const DEFAULT_STUDENT_TRANSFERS = [
-    buildTransfer({
-        transferRequestId: 'TRF-1001',
-        student: STUDENTS_LIST[0],
-        transferType: 'External',
-        transferTo: 'Global Academy, Kochi',
-        requestDate: '02-07-2025',
-        reason: 'Parent job transfer to another city.',
-        status: 'Pending',
-    }),
-    buildTransfer({
-        transferRequestId: 'TRF-1002',
-        student: STUDENTS_LIST[1],
-        transferType: 'Internal',
-        transferTo: 'Class 10 - Section B',
-        requestDate: '05-07-2025',
-        reason: 'Requested section change due to timetable conflict.',
-        status: 'Approved',
-    }),
-    buildTransfer({
-        transferRequestId: 'TRF-1003',
-        student: STUDENTS_LIST[2],
-        transferType: 'External',
-        transferTo: 'Delhi Public School',
-        requestDate: '08-07-2025',
-        reason: 'Family relocation to Delhi.',
-        status: 'Pending',
-    }),
-    buildTransfer({
-        transferRequestId: 'TRF-1004',
-        student: STUDENTS_LIST[3],
-        transferType: 'Internal',
-        transferTo: 'Class 11 - Section A',
-        requestDate: '10-06-2025',
-        reason: 'Promotion to higher class with section transfer.',
-        status: 'Rejected',
-    }),
-    buildTransfer({
-        transferRequestId: 'TRF-1005',
-        student: STUDENTS_LIST[4],
-        transferType: 'External',
-        transferTo: 'St. Mary\'s International School',
-        requestDate: '15-06-2025',
-        reason: 'Admission confirmed at another institution.',
-        status: 'Approved',
-    }),
-    buildTransfer({
-        transferRequestId: 'TRF-1006',
-        student: STUDENTS_LIST[5],
-        transferType: 'Internal',
-        transferTo: 'Class 10 - Section B',
-        requestDate: '20-06-2025',
-        reason: 'Peer group alignment request from parents.',
-        status: 'Pending',
-    }),
-]
+const DEFAULT_STUDENT_TRANSFERS = []
 
 export const saveStudentTransfers = (records) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(records))

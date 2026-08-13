@@ -2,6 +2,9 @@
 import { Navigate, Route, Routes as ReactRoutes } from 'react-router-dom'
 import AdmissionList from '../Pages/Admin/FrontOffice/AdminssionList/AdminssionList'
 import AddAdmission from '../Pages/Admin/FrontOffice/AdminssionList/AddAdmission'
+import AdmissionEnquiry from '../Pages/Admin/FrontOffice/AdmissionEnquiry/AdmissionEnquiry'
+import AddAdmissionEnquiry from '../Pages/Admin/FrontOffice/AdmissionEnquiry/AddAdmissionEnquiry'
+import ViewAdmissionEnquiry from '../Pages/Admin/FrontOffice/AdmissionEnquiry/ViewAdmissionEnquiry'
 import TeachersList from '../Pages/Admin/FrontOffice/TeachersList/TeachersList'
 import AddTeacher from '../Pages/Admin/FrontOffice/TeachersList/AddTeacher'
 import LibrarianList from '../Pages/Admin/FrontOffice/LibrarianList/LibrarianList'
@@ -75,6 +78,10 @@ import AdminStudentDatabaseList from '../Pages/Admin/UserManagement/StudentDatab
 import AdminViewStudentDatabase from '../Pages/Admin/UserManagement/StudentDatabase/ViewStudent'
 import AdminEmployeeDatabaseList from '../Pages/Admin/UserManagement/EmployeeDatabase/EmployeesList'
 import AdminViewEmployeeDatabase from '../Pages/Admin/UserManagement/EmployeeDatabase/ViewEmployee'
+import UserCreationPage from '../Pages/Admin/RBAC/UserCreationPage'
+import CreateUserPage from '../Pages/Admin/RBAC/CreateUserPage'
+import PermissionsPage from '../Pages/Admin/RBAC/PermissionsPage'
+import RolesPage from '../Pages/Admin/RBAC/RolesPage'
 
 // import Dashboard from '../Pages/Dashboard/Dashboard'
 
@@ -89,6 +96,12 @@ const AdminRoutes = () => {
 
             <Route path="/admin/front-office/admission-list" element={<AdmissionList />} />
             <Route path="/admin/front-office/add-admission" element={<AddAdmission />} />
+            <Route path="/admin/front-office/admission-enquiry" element={<AdmissionEnquiry />} />
+            <Route path="/admin/front-office/admission-enquiry/add" element={<AddAdmissionEnquiry />} />
+            <Route path="/admin/front-office/add-admission-enquiry" element={<AddAdmissionEnquiry />} />
+            <Route path="/admin/front-office/admission-enquiry/edit/:id" element={<AddAdmissionEnquiry />} />
+            <Route path="/admin/front-office/admission-enquiry/view/:id" element={<ViewAdmissionEnquiry />} />
+            <Route path="/admin/front-office/view-admission-enquiry/:id" element={<ViewAdmissionEnquiry />} />
             <Route path="/admin/front-office/teachers-list" element={<TeachersList />} />
             <Route path="/admin/front-office/add-teacher" element={<AddTeacher />} />
             <Route path="/admin/front-office/librarian-list" element={<LibrarianList />} />
@@ -216,6 +229,12 @@ const AdminRoutes = () => {
             <Route path='/admin/escalation-management' element={<EscalationList />} />
             <Route path='/admin/escalation-management/add-escalation' element={<AddEscalation />} />
             <Route path='/admin/escalation-management/view/:id' element={<ViewEscalation />} />
+
+            {/* RBAC */}
+            <Route path='/admin/rbac/user-creation' element={<UserCreationPage />} />
+            <Route path='/admin/rbac/user-creation/add' element={<CreateUserPage />} />
+            <Route path='/admin/rbac/permissions' element={<PermissionsPage />} />
+            <Route path='/admin/rbac/roles' element={<RolesPage />} />
         </ReactRoutes>
     )
 }

@@ -3,10 +3,15 @@ import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 import { Calendar } from 'lucide-react'
 import ProfileUpload from './ProfileUpload';
+import StateCityFields from '../../../../Common/CommonComponents/StateCityFields';
+import CountrySelect from '../../../../Common/CommonComponents/CountrySelect';
 
 const StudentInfo = () => {
 
     const [dateOfBirth, setDateOfBirth] = useState(new Date());
+    const [state, setState] = useState('');
+    const [city, setCity] = useState('');
+    const [country, setCountry] = useState('');
 
     return (
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 lg:mt-8 mt-2'>
@@ -59,24 +64,19 @@ const StudentInfo = () => {
                     />
                 </div>
             </div>
-            <div className='flex flex-col gap-y-2'>
-                <label htmlFor="" className='text-base font-medium text-[#1E1E1E]'>Country:</label>
-                <select name="" id="" className='text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full'>
-                    <option value="">Select Country</option>
-                </select>
-            </div>
-            <div className='flex flex-col gap-y-2'>
-                <label htmlFor="" className='text-base font-medium text-[#1E1E1E]'>State:</label>
-                <select name="" id="" className='text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full'>
-                    <option value="">Select State</option>
-                </select>
-            </div>
-            <div className='flex flex-col gap-y-2'>
-                <label htmlFor="" className='text-base font-medium text-[#1E1E1E]'>City:</label>
-                <select name="" id="" className='text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full'>
-                    <option value="">Select City</option>
-                </select>
-            </div>
+            <CountrySelect
+                id='studentCountry'
+                value={country}
+                onChange={setCountry}
+            />
+            <StateCityFields
+                state={state}
+                city={city}
+                onStateChange={setState}
+                onCityChange={setCity}
+                stateId='studentState'
+                cityId='studentCity'
+            />
             <div className='flex flex-col gap-y-2'>
                 <label htmlFor="" className='text-base font-medium text-[#1E1E1E]'>Zip Code:</label>
                 <input type='text' name="" id="" className='text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full' />

@@ -1,7 +1,22 @@
 import React from 'react'
 import { X, CircleAlert } from 'lucide-react'
 
-const DeleteRequestModal = ({ deleteRequestModal, setDeleteRequestModal }) => {
+const DeleteRequestModal = ({
+    deleteRequestModal,
+    setDeleteRequestModal,
+    onConfirm,
+    title = 'Send Delete Request?',
+    message = 'Do you want to send this delete request to the Super Admin for approval?',
+    confirmLabel = 'Send Request',
+}) => {
+    const handleConfirm = () => {
+        if (onConfirm) {
+            onConfirm()
+            return
+        }
+        setDeleteRequestModal(false)
+    }
+
     return (
         <div>
             {deleteRequestModal && (
@@ -22,15 +37,19 @@ const DeleteRequestModal = ({ deleteRequestModal, setDeleteRequestModal }) => {
                             <div className='flex justify-center items-center mb-4'>
                                 <CircleAlert size={70} strokeWidth={1.5} className='text-[#515DEF]' />
                             </div>
-                            <h3 className='text-xl font-medium text-[#77767A]'>Send Delete Request?</h3>
-                            <p className='text-base text-[#77767A] font-medium mt-2'>Do you want to send this delete request to the Super Admin for approval?</p>
+                            <h3 className='text-xl font-medium text-[#77767A]'>{title}</h3>
+                            <p className='text-base text-[#77767A] font-medium mt-2'>{message}</p>
 
                             <div className='flex gap-x-4 mt-10'>
                                 <button onClick={() => setDeleteRequestModal(false)} className='bg-white text-[#77767A] text-sm text-center px-4 py-2.5 rounded-md border border-[#77767A] hover:bg-[#515DEF] hover:text-white hover:border-[#515DEF] transition-all duration-200 cursor-pointer w-full'>
                                     Cancel
                                 </button>
-                                <button className='bg-[#515DEF] text-white text-sm text-center px-4 py-2.5 rounded-md border border-[#515DEF] hover:opacity-90 transition-all duration-200 cursor-pointer w-full'>
-                                    Send Request
+                                <button
+                                    type='button'
+                                    onClick={handleConfirm}
+                                    className='bg-[#515DEF] text-white text-sm text-center px-4 py-2.5 rounded-md border border-[#515DEF] hover:opacity-90 transition-all duration-200 cursor-pointer w-full'
+                                >
+                                    {confirmLabel}
                                 </button>
                             </div>
 

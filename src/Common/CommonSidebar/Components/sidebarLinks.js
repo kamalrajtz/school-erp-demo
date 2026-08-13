@@ -227,8 +227,12 @@ export const adminSidebarLinks = [
     {
         id: 2,
         title: "Admissions",
-        to: "/admin/front-office/admission-list",
+        to: "#0",
         icon: FileText,
+        subLinks: [
+            { icon: FileText, title: "Admission Enquiry", to: "/admin/front-office/admission-enquiry" },
+            { icon: FileText, title: "Admission List", to: "/admin/front-office/admission-list" },
+        ],
     },
     {
         id: 3,
@@ -332,6 +336,17 @@ export const adminSidebarLinks = [
         title: "Escalation Management",
         to: "/admin/escalation-management",
         icon: ShieldAlert,
+    },
+    {
+        id: 16,
+        title: "RBAC",
+        to: "#0",
+        icon: ShieldCheck,
+        subLinks: [
+            { icon: UserPlus, title: "User Creation", to: "/admin/rbac/user-creation" },
+            { icon: ShieldCheck, title: "Permissions", to: "/admin/rbac/permissions" },
+            { icon: UsersRound, title: "Roles", to: "/admin/rbac/roles" },
+        ],
     },
 ];
 

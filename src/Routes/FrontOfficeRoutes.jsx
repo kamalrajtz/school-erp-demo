@@ -2,6 +2,7 @@ import React from 'react'
 import { Navigate, Route, Routes as ReactRoutes } from 'react-router-dom'
 import AdmissionEnquiry from '../Pages/FrontOffice/AdmissionEnquiry/AdmissionEnquiry'
 import AddAdmissionEnquiry from '../Pages/FrontOffice/AdmissionEnquiry/AddAdmissionEnquiry'
+import ViewAdmissionEnquiry from '../Pages/FrontOffice/AdmissionEnquiry/ViewAdmissionEnquiry'
 import AdmissionList from '../Pages/FrontOffice/AdmissionList/AdmissionList'
 import AddAdmission from '../Pages/FrontOffice/AdmissionList/AddAdmission'
 import StudentsList from '../Pages/FrontOffice/StudentManagement/StudentsList'
@@ -52,7 +53,11 @@ const FrontOfficeRoutes = () => {
             <Route path="/front-office/attendance" element={<Navigate to="/front-office/attendance/my-attendance" replace />} />
             <Route path="/front-office/attendance/my-attendance" element={<MyAttendance />} />
             <Route path="/front-office/admission-enquiry" element={<AdmissionEnquiry />} />
+            <Route path="/front-office/admission-enquiry/add" element={<AddAdmissionEnquiry />} />
             <Route path="/front-office/add-admission-enquiry" element={<AddAdmissionEnquiry />} />
+            <Route path="/front-office/admission-enquiry/edit/:id" element={<AddAdmissionEnquiry />} />
+            <Route path="/front-office/admission-enquiry/view/:id" element={<ViewAdmissionEnquiry />} />
+            <Route path="/front-office/view-admission-enquiry/:id" element={<ViewAdmissionEnquiry />} />
             <Route path="/front-office/admission-list" element={<AdmissionList />} />
             <Route path="/front-office/add-admission" element={<AddAdmission />} />
             <Route path="/front-office/student-management" element={<StudentsList />} />

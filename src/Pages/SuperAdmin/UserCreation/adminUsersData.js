@@ -26,6 +26,7 @@ export const ADMIN_PERMISSION_MODULES = [
     { key: 'calendar', label: 'Calendar', sidebarId: 13 },
     { key: 'notifications', label: 'Notifications', sidebarId: 14 },
     { key: 'escalationManagement', label: 'Escalation Management', sidebarId: 15 },
+    { key: 'rbac', label: 'RBAC', sidebarId: 16 },
 ]
 
 export const statusBadgeColor = {

@@ -65,10 +65,12 @@ const MarkEntryPage = ({ submittedByRole = 'Teacher' }) => {
     const [academicYear, setAcademicYear] = useState(ACADEMIC_YEARS[0])
     const [term, setTerm] = useState(TERMS[0])
     const [exam, setExam] = useState(EXAM_OPTIONS[0].name)
-    const [className, setClassName] = useState('10')
-    const [section, setSection] = useState('A')
-    const [subject, setSubject] = useState('Mathematics')
+    const [className, setClassName] = useState(() => CLASSES[0] || '')
+    const [section, setSection] = useState(() => SECTIONS[0] || '')
+    const [subject, setSubject] = useState(() => SUBJECTS[0] || '')
     const [examDate, setExamDate] = useState(parseDisplayDate('15/07/2026'))
+
+    const catalogEmpty = CLASSES.length === 0 || SECTIONS.length === 0 || SUBJECTS.length === 0
 
     const [session, setSession] = useState(null)
     const [loaded, setLoaded] = useState(false)
@@ -93,6 +95,13 @@ const MarkEntryPage = ({ submittedByRole = 'Teacher' }) => {
     const isLocked = isSessionLocked(session)
 
     const handleLoadStudents = () => {
+        if (!className || !section || !subject) {
+            setSaveMessage('Create classes and sections under Class Details, and subjects under RBAC, before entering marks.')
+            setLoaded(false)
+            setSession(null)
+            return
+        }
+
         const nextSession = loadMarkEntrySession({
             academicYear,
             term,
@@ -107,7 +116,11 @@ const MarkEntryPage = ({ submittedByRole = 'Teacher' }) => {
         setLoaded(true)
         setSearch('')
         setStatusFilter('All')
-        setSaveMessage('')
+        setSaveMessage(
+            nextSession.students.length === 0
+                ? 'No students are assigned to this class and section yet.'
+                : '',
+        )
         setSubmitMessage(getSubmitMessage(nextSession))
     }
 
@@ -171,6 +184,21 @@ const MarkEntryPage = ({ submittedByRole = 'Teacher' }) => {
                 </p>
             </div>
 
+            {catalogEmpty && (
+                <div className='bg-white rounded-2xl shadow-md p-6 border border-[#EDEEF5]'>
+                    <h2 className='text-lg font-semibold text-[#0C1E5B]'>No classes or subjects yet</h2>
+                    <p className='text-sm text-[#667085] mt-2'>
+                        Ask an Administrator to create classes and sections under Class Details, subjects under RBAC, and students under User Creation before using Mark Entry.
+                    </p>
+                </div>
+            )}
+
+            {saveMessage && !loaded && (
+                <div className='rounded-xl border border-[#FF980033] bg-[#FFF8E1] px-4 py-3 text-sm text-[#E65100]'>
+                    {saveMessage}
+                </div>
+            )}
+
             <div className='bg-white rounded-2xl shadow-md p-4'>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
                     <div className='flex flex-col gap-y-2'>
@@ -200,6 +228,7 @@ const MarkEntryPage = ({ submittedByRole = 'Teacher' }) => {
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor='class' className='text-base font-medium text-[#808080]'>Class</label>
                         <select id='class' value={className} onChange={(e) => setClassName(e.target.value)} className={inputClass}>
+                            <option value=''>Select class</option>
                             {CLASSES.map((item) => (
                                 <option key={item} value={item}>{formatClassLabel(item)}</option>
                             ))}
@@ -208,6 +237,7 @@ const MarkEntryPage = ({ submittedByRole = 'Teacher' }) => {
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor='section' className='text-base font-medium text-[#808080]'>Section</label>
                         <select id='section' value={section} onChange={(e) => setSection(e.target.value)} className={inputClass}>
+                            <option value=''>Select section</option>
                             {SECTIONS.map((item) => (
                                 <option key={item} value={item}>{item}</option>
                             ))}
@@ -216,6 +246,7 @@ const MarkEntryPage = ({ submittedByRole = 'Teacher' }) => {
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor='subject' className='text-base font-medium text-[#808080]'>Subject</label>
                         <select id='subject' value={subject} onChange={(e) => setSubject(e.target.value)} className={inputClass}>
+                            <option value=''>Select subject</option>
                             {SUBJECTS.map((item) => (
                                 <option key={item} value={item}>{item}</option>
                             ))}
@@ -340,7 +371,9 @@ const MarkEntryPage = ({ submittedByRole = 'Teacher' }) => {
                                     {filteredStudents.length === 0 ? (
                                         <tr>
                                             <td colSpan={11} className='px-2 py-8 text-center text-[#667085]'>
-                                                No students match the selected filters.
+                                                {session.students.length === 0
+                                                    ? 'No students in this class yet. Create students under Admin → RBAC → User Creation.'
+                                                    : 'No students match the selected filters.'}
                                             </td>
                                         </tr>
                                     ) : (

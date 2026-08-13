@@ -5,74 +5,7 @@ const STORAGE_KEY = 'teacher-student-deliverables-study-materials'
 export const DEFAULT_ROUTE_BASE = '/coordinator/student-deliverables/study-materials'
 export const ACADEMICS_ROUTE_BASE = '/coordinator/academics/study-materials'
 
-const DEFAULT_STUDY_MATERIALS = [
-    {
-        id: 'SM-1001',
-        materialId: 'SM-1001',
-        title: 'Real Numbers — Chapter Notes',
-        description: 'Comprehensive notes covering Euclid\'s division lemma, irrational numbers, and decimal expansions.',
-        subject: 'Mathematics',
-        className: '10',
-        section: 'A',
-        fileName: 'Real_Numbers_Notes.pdf',
-        fileType: 'pdf',
-    },
-    {
-        id: 'SM-1002',
-        materialId: 'SM-1002',
-        title: 'Polynomials — Worksheet & Solutions',
-        description: 'Practice worksheet with step-by-step solutions for polynomial zeroes and factorisation.',
-        subject: 'Mathematics',
-        className: '10',
-        section: 'A',
-        fileName: 'Polynomials_Worksheet.pdf',
-        fileType: 'pdf',
-    },
-    {
-        id: 'SM-1003',
-        materialId: 'SM-1003',
-        title: 'Quadratic Equations — Video Lecture',
-        description: 'Recorded lecture explaining factorisation method and quadratic formula with examples.',
-        subject: 'Mathematics',
-        className: '10',
-        section: 'A',
-        fileName: 'Quadratic_Equations_Lecture.mp4',
-        fileType: 'mp4',
-    },
-    {
-        id: 'SM-1004',
-        materialId: 'SM-1004',
-        title: 'Trigonometric Identities — Reference Sheet',
-        description: 'Quick reference sheet for standard trigonometric identities and proofs.',
-        subject: 'Mathematics',
-        className: '10',
-        section: 'B',
-        fileName: 'Trig_Identities_Sheet.pdf',
-        fileType: 'pdf',
-    },
-    {
-        id: 'SM-1005',
-        materialId: 'SM-1005',
-        title: 'Number Systems — Presentation',
-        description: 'Classroom presentation slides for rational and irrational numbers.',
-        subject: 'Mathematics',
-        className: '9',
-        section: 'A',
-        fileName: 'Number_Systems_Slides.pptx',
-        fileType: 'ppt',
-    },
-    {
-        id: 'SM-1006',
-        materialId: 'SM-1006',
-        title: 'Sets — Concept Map',
-        description: 'Visual concept map summarising set operations and Venn diagram applications.',
-        subject: 'Mathematics',
-        className: '11',
-        section: 'A',
-        fileName: 'Sets_Concept_Map.pdf',
-        fileType: 'pdf',
-    },
-]
+const DEFAULT_STUDY_MATERIALS = []
 
 export const getStudyMaterials = () => {
     try {

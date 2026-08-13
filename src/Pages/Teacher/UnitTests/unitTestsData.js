@@ -4,50 +4,7 @@ const STORAGE_KEY = 'teacher-unit-tests'
 
 export const ROUTE_BASE = '/teacher/unit-tests'
 
-const DEFAULT_UNIT_TESTS = [
-    {
-        id: 'UT-1001',
-        entryId: 'UT-1001',
-        subject: 'Mathematics',
-        className: '10',
-        section: 'A',
-        title: 'Real Numbers — Unit Test I',
-        description: 'Unit test covering Euclid\'s division lemma, irrational numbers, and number system fundamentals.',
-        testDate: '2026-04-15',
-        totalMarks: '25',
-        duration: '45',
-        fileName: 'Real_Numbers_Unit_Test_I.pdf',
-        fileType: 'pdf',
-    },
-    {
-        id: 'UT-1002',
-        entryId: 'UT-1002',
-        subject: 'Mathematics',
-        className: '10',
-        section: 'A',
-        title: 'Polynomials — Unit Test',
-        description: 'Assessment on zeroes of polynomials, factorisation, and division algorithm.',
-        testDate: '2026-05-02',
-        totalMarks: '30',
-        duration: '60',
-        fileName: 'Polynomials_Unit_Test.pdf',
-        fileType: 'pdf',
-    },
-    {
-        id: 'UT-1003',
-        entryId: 'UT-1003',
-        subject: 'Mathematics',
-        className: '9',
-        section: 'B',
-        title: 'Number Systems — Unit Test',
-        description: 'Short answer and objective questions on rational and irrational numbers.',
-        testDate: '2026-04-22',
-        totalMarks: '20',
-        duration: '40',
-        fileName: 'Number_Systems_Unit_Test.pdf',
-        fileType: 'pdf',
-    },
-]
+const DEFAULT_UNIT_TESTS = []
 
 export const getUnitTests = () => {
     try {

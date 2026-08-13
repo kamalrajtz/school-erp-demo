@@ -55,68 +55,7 @@ const buildEntry = ({
     remarks,
 })
 
-const DEFAULT_MARKS_ENTRIES = [
-    buildEntry({
-        entryId: 'ME-1001',
-        student: STUDENTS_LIST[0],
-        subject: 'Mathematics',
-        examName: 'Mid Term Examination',
-        totalMarks: 100,
-        obtainedMarks: 88,
-        grade: 'A',
-        remarks: 'Strong performance in algebra and geometry.',
-    }),
-    buildEntry({
-        entryId: 'ME-1002',
-        student: STUDENTS_LIST[1],
-        subject: 'Physics',
-        examName: 'Unit Test — Term 1',
-        totalMarks: 50,
-        obtainedMarks: 46,
-        grade: 'A+',
-        remarks: 'Excellent grasp of light and electricity units.',
-    }),
-    buildEntry({
-        entryId: 'ME-1003',
-        student: STUDENTS_LIST[2],
-        subject: 'Chemistry',
-        examName: 'Mid Term Examination',
-        totalMarks: 100,
-        obtainedMarks: 72,
-        grade: 'B+',
-        remarks: 'Needs improvement in organic chemistry section.',
-    }),
-    buildEntry({
-        entryId: 'ME-1004',
-        student: STUDENTS_LIST[3],
-        subject: 'English',
-        examName: 'Annual Examination',
-        totalMarks: 100,
-        obtainedMarks: 91,
-        grade: 'A+',
-        remarks: 'Outstanding essay and comprehension scores.',
-    }),
-    buildEntry({
-        entryId: 'ME-1005',
-        student: STUDENTS_LIST[4],
-        subject: 'Computer Science',
-        examName: 'Practical Examination',
-        totalMarks: 50,
-        obtainedMarks: 42,
-        grade: 'A',
-        remarks: 'Good programming and logic implementation.',
-    }),
-    buildEntry({
-        entryId: 'ME-1006',
-        student: STUDENTS_LIST[5],
-        subject: 'Mathematics',
-        examName: 'Pre-Board Examination',
-        totalMarks: 100,
-        obtainedMarks: 95,
-        grade: 'A+',
-        remarks: 'Consistent top performer in mathematics.',
-    }),
-]
+const DEFAULT_MARKS_ENTRIES = []
 
 export const saveMarksEntries = (records) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(records))

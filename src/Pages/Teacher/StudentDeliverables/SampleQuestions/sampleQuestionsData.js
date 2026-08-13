@@ -5,52 +5,7 @@ const STORAGE_KEY = 'teacher-student-deliverables-sample-questions'
 export const ROUTE_BASE = '/teacher/student-deliverables/sample-questions'
 export const DEFAULT_ROUTE_BASE = ROUTE_BASE
 
-const DEFAULT_SAMPLE_QUESTIONS = [
-    {
-        id: 'SQ-1001',
-        entryId: 'SQ-1001',
-        subject: 'Mathematics',
-        className: '10',
-        section: 'A',
-        title: 'Real Numbers — Sample Questions',
-        description: 'Practice questions on Euclid\'s division lemma and irrational numbers.',
-        fileName: 'Real_Numbers_Sample_Questions.pdf',
-        fileType: 'pdf',
-    },
-    {
-        id: 'SQ-1002',
-        entryId: 'SQ-1002',
-        subject: 'Mathematics',
-        className: '10',
-        section: 'A',
-        title: 'Polynomials — MCQ Set',
-        description: 'Multiple choice questions covering zeroes and factorisation of polynomials.',
-        fileName: 'Polynomials_MCQ_Set.pdf',
-        fileType: 'pdf',
-    },
-    {
-        id: 'SQ-1003',
-        entryId: 'SQ-1003',
-        subject: 'Mathematics',
-        className: '10',
-        section: 'B',
-        title: 'Quadratic Equations — Worksheet',
-        description: 'Short answer and long answer questions on quadratic formula applications.',
-        fileName: 'Quadratic_Equations_Worksheet.pdf',
-        fileType: 'pdf',
-    },
-    {
-        id: 'SQ-1004',
-        entryId: 'SQ-1004',
-        subject: 'Mathematics',
-        className: '9',
-        section: 'A',
-        title: 'Number Systems — Practice Paper',
-        description: 'Sample paper for rational and irrational number concepts.',
-        fileName: 'Number_Systems_Practice.pdf',
-        fileType: 'pdf',
-    },
-]
+const DEFAULT_SAMPLE_QUESTIONS = []
 
 export const getSampleQuestions = () => {
     try {

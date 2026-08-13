@@ -1,14 +1,14 @@
-import React, { useState, useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { FileUp } from 'lucide-react'
 
-const ProfileUpload = () => {
+const ProfileUpload = ({ value = '', onChange }) => {
     const [isDragging, setIsDragging] = useState(false)
-    const [preview, setPreview] = useState(null)
     const [fileName, setFileName] = useState(null)
     const inputRef = useRef(null)
 
     const SUPPORTED_FORMATS = ['image/svg+xml', 'image/jpeg', 'image/jpg', 'image/png']
     const MAX_SIZE_MB = 5
+    const preview = value || null
 
     const handleFile = (file) => {
         if (!file) return
@@ -25,7 +25,7 @@ const ProfileUpload = () => {
 
         setFileName(file.name)
         const reader = new FileReader()
-        reader.onload = (e) => setPreview(e.target.result)
+        reader.onload = (e) => onChange?.(e.target.result || '')
         reader.readAsDataURL(file)
     }
 
@@ -53,13 +53,13 @@ const ProfileUpload = () => {
 
     const handleRemove = (e) => {
         e.stopPropagation()
-        setPreview(null)
         setFileName(null)
+        onChange?.('')
         if (inputRef.current) inputRef.current.value = ''
     }
 
     return (
-        <div className="">
+        <div>
             <div
                 onClick={() => inputRef.current?.click()}
                 onDragOver={handleDragOver}
@@ -77,46 +77,45 @@ const ProfileUpload = () => {
             >
                 <input
                     ref={inputRef}
-                    type="file"
-                    accept=".svg,.jpg,.jpeg,.png"
-                    className="hidden"
+                    type='file'
+                    accept='.svg,.jpg,.jpeg,.png'
+                    className='hidden'
                     onChange={handleChange}
                 />
 
                 {preview ? (
-                    <div className="flex flex-col items-center gap-3 py-5">
-                        <div className="relative">
+                    <div className='flex flex-col items-center gap-3 py-5'>
+                        <div className='relative'>
                             <img
                                 src={preview}
-                                alt="Profile preview"
-                                className="w-20 h-20 rounded-full object-cover ring-2 ring-indigo-200 shadow-md"
+                                alt='Profile preview'
+                                className='w-20 h-20 rounded-full object-cover ring-2 ring-indigo-200 shadow-md'
                             />
                             <button
+                                type='button'
                                 onClick={handleRemove}
-                                className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center hover:bg-red-600 shadow transition-colors cursor-pointer"
-                                title="Remove"
+                                className='absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center hover:bg-red-600 shadow transition-colors cursor-pointer'
+                                title='Remove'
                             >
                                 ✕
                             </button>
                         </div>
-                        <span className="text-xs text-gray-500 max-w-[180px] truncate">{fileName}</span>
-                        <span className="text-xs text-indigo-500 font-medium">Click to replace</span>
+                        <span className='text-xs text-gray-500 max-w-[180px] truncate'>{fileName || 'Uploaded image'}</span>
+                        <span className='text-xs text-indigo-500 font-medium'>Click to replace</span>
                     </div>
                 ) : (
-                    <div className="flex flex-col items-center gap-2 py-8 px-4 select-none">
-                        {/* Upload icon */}
-                        <div className="w-12 h-12 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center mb-1">
+                    <div className='flex flex-col items-center gap-2 py-8 px-4 select-none'>
+                        <div className='w-12 h-12 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center mb-1'>
                             <FileUp className='w-6 h-6 text-indigo-400' />
                         </div>
-
-                        <p className="text-sm text-gray-500">
-                            <span className="text-indigo-500 font-medium hover:underline cursor-pointer">
+                        <p className='text-sm text-gray-500'>
+                            <span className='text-indigo-500 font-medium hover:underline cursor-pointer'>
                                 Click to Upload
                             </span>
                             {' '}or drag and drop
                         </p>
-                        <p className="text-xs text-gray-400">
-                            Supported Formats: svg, Jpj, png, upto {MAX_SIZE_MB} MB
+                        <p className='text-xs text-gray-400'>
+                            Supported Formats: svg, jpg, png, upto {MAX_SIZE_MB} MB
                         </p>
                     </div>
                 )}

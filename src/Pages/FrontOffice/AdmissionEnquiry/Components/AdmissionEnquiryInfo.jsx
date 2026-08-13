@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 import { Calendar } from 'lucide-react'
 import ProfileUpload from './ProfileUpload';
-
+import { CLASS_LEVEL_OPTIONS } from '../../../Admin/Class/ClassDetails/classDetailsOptions'
 
 const AdmissionEnquiryInfo = () => {
 
@@ -106,8 +106,13 @@ const AdmissionEnquiryInfo = () => {
                 </select>
             </div>
             <div className='flex flex-col gap-y-2'>
-                <label htmlFor="" className='text-base font-medium text-[#1E1E1E]'>Class:</label>
-                <input type='text' name="" id="" className='text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full' />
+                <label htmlFor='className' className='text-base font-medium text-[#1E1E1E]'>Class:</label>
+                <select id='className' name='className' className='text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full'>
+                    <option value=''>Select Class</option>
+                    {CLASS_LEVEL_OPTIONS.map((item) => (
+                        <option key={item} value={item}>{item}</option>
+                    ))}
+                </select>
             </div>
             <div className='flex flex-col gap-y-2'>
                 <label htmlFor="" className='text-base font-medium text-[#1E1E1E]'>Number Of Child:</label>
@@ -120,10 +125,6 @@ const AdmissionEnquiryInfo = () => {
             <div className='cols-span-1 md:col-span-3 lg:col-span-3 flex flex-col md:flex-row gap-6'>
                 <div className='flex flex-col gap-y-2 w-full'>
                     <label htmlFor="" className='text-base font-medium text-[#1E1E1E]'>State:</label>
-                    <input type='text' name="" id="" className='text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full' />
-                </div>
-                <div className='flex flex-col gap-y-2 w-full'>
-                    <label htmlFor="" className='text-base font-medium text-[#1E1E1E]'>Status:</label>
                     <input type='text' name="" id="" className='text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full' />
                 </div>
             </div>

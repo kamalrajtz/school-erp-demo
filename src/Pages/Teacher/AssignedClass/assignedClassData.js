@@ -1,58 +1,35 @@
-export const CLASSES = ['9', '10', '11', '12']
-export const SECTIONS = ['A', 'B']
+import {
+    getAssignments,
+    getAssignmentsForTeacher,
+    getClasses as getCatalogClasses,
+    getSections as getCatalogSections,
+    getSubjects as getCatalogSubjects,
+} from '../../../Common/RBAC/academicsCatalogData'
+import { getStudentCountForClassSection } from '../../../Common/RBAC/createdUsersData'
+import { liveArray } from '../../../Common/RBAC/liveArray'
 
-export const SUBJECTS = ['Mathematics', 'Physics', 'Chemistry', 'English', 'Computer Science']
+export { liveArray }
 
-export const ASSIGNED_CLASSES = [
-    {
-        id: 'AC-1001',
-        className: '10',
-        section: 'A',
-        subject: 'Mathematics',
-        totalStudents: 38,
-        classTeacher: 'Yes',
-    },
-    {
-        id: 'AC-1002',
-        className: '10',
-        section: 'B',
-        subject: 'Mathematics',
-        totalStudents: 36,
-        classTeacher: 'No',
-    },
-    {
-        id: 'AC-1003',
-        className: '9',
-        section: 'A',
-        subject: 'Mathematics',
-        totalStudents: 42,
-        classTeacher: 'No',
-    },
-    {
-        id: 'AC-1004',
-        className: '10',
-        section: 'A',
-        subject: 'Physics',
-        totalStudents: 38,
-        classTeacher: 'No',
-    },
-    {
-        id: 'AC-1005',
-        className: '11',
-        section: 'A',
-        subject: 'Computer Science',
-        totalStudents: 32,
-        classTeacher: 'Yes',
-    },
-    {
-        id: 'AC-1006',
-        className: '9',
-        section: 'B',
-        subject: 'English',
-        totalStudents: 40,
-        classTeacher: 'No',
-    },
-]
+export const getClasses = () => getCatalogClasses()
+export const getSections = () => getCatalogSections()
+export const getSubjects = () => getCatalogSubjects()
+
+export const CLASSES = liveArray(getCatalogClasses)
+export const SECTIONS = liveArray(getCatalogSections)
+export const SUBJECTS = liveArray(getCatalogSubjects)
+
+export const getAssignedClasses = (teacherEmail) => {
+    const assignments = teacherEmail
+        ? getAssignmentsForTeacher(teacherEmail)
+        : getAssignments()
+
+    return assignments.map((item) => ({
+        ...item,
+        totalStudents: getStudentCountForClassSection(item.className, item.section),
+    }))
+}
+
+export const ASSIGNED_CLASSES = liveArray(() => getAssignedClasses())
 
 export const classTeacherBadgeColor = {
     Yes: 'bg-[#4CAF5033] text-[#4CAF50]',
