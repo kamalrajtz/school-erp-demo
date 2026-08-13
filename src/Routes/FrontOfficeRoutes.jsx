@@ -5,6 +5,7 @@ import AddAdmissionEnquiry from '../Pages/FrontOffice/AdmissionEnquiry/AddAdmiss
 import ViewAdmissionEnquiry from '../Pages/FrontOffice/AdmissionEnquiry/ViewAdmissionEnquiry'
 import AdmissionList from '../Pages/FrontOffice/AdmissionList/AdmissionList'
 import AddAdmission from '../Pages/FrontOffice/AdmissionList/AddAdmission'
+import ViewAdmission from '../Pages/FrontOffice/AdmissionList/ViewAdmission'
 import StudentsList from '../Pages/FrontOffice/StudentManagement/StudentsList'
 import TeachersList from '../Pages/FrontOffice/TeacherManagement/TeachersList'
 import ViewStudent from '../Pages/FrontOffice/StudentManagement/ViewStudent'
@@ -13,8 +14,12 @@ import ParentsList from '../Pages/FrontOffice/ParentManagement/ParentsList'
 import ViewParent from '../Pages/FrontOffice/ParentManagement/ViewParent'
 import GatePassList from '../Pages/FrontOffice/GatePass/GatePassList'
 import AddGatePass from '../Pages/FrontOffice/GatePass/AddGatePass'
+import EditGatePass from '../Pages/FrontOffice/GatePass/EditGatePass'
+import ViewGatePass from '../Pages/FrontOffice/GatePass/ViewGatePass'
 import HostelGatePassList from '../Pages/FrontOffice/HostelGatePass/HostelGatePassList'
 import AddHostelGatePass from '../Pages/FrontOffice/HostelGatePass/AddHostelGatePass'
+import EditHostelGatePass from '../Pages/FrontOffice/HostelGatePass/EditHostelGatePass'
+import ViewHostelGatePass from '../Pages/FrontOffice/HostelGatePass/ViewHostelGatePass'
 import MaterialGatePassList from '../Pages/FrontOffice/MaterialGatePass/MaterialGatePassList'
 import AddMaterialGatePass from '../Pages/FrontOffice/MaterialGatePass/AddMaterialGatePass'
 import EditMaterialGatePass from '../Pages/FrontOffice/MaterialGatePass/EditMaterialGatePass'
@@ -59,11 +64,14 @@ const FrontOfficeRoutes = () => {
             <Route path="/front-office/admission-enquiry/view/:id" element={<ViewAdmissionEnquiry />} />
             <Route path="/front-office/view-admission-enquiry/:id" element={<ViewAdmissionEnquiry />} />
             <Route path="/front-office/admission-list" element={<AdmissionList />} />
+            <Route path="/front-office/admission-list/view/:id" element={<ViewAdmission />} />
+            <Route path="/front-office/admission-list/edit/:id" element={<AddAdmission />} />
             <Route path="/front-office/add-admission" element={<AddAdmission />} />
             <Route path="/front-office/student-management" element={<StudentsList />} />
+            <Route path="/front-office/student-management/view/:id" element={<ViewStudent />} />
             <Route path="/front-office/teacher-management" element={<TeachersList />} />
             <Route path="/front-office/parent-management" element={<ParentsList />} />
-            <Route path="/front-office/view-student" element={<ViewStudent />} />
+            <Route path="/front-office/view-student" element={<Navigate to="/front-office/student-management" replace />} />
             <Route path="/front-office/view-teacher" element={<ViewTeacher />} />
             <Route path="/front-office/view-parent" element={<ViewParent />} />
             <Route path="/front-office/student-transfer" element={<StudentTransfer />} />
@@ -76,8 +84,12 @@ const FrontOfficeRoutes = () => {
             <Route path="/front-office/tc-request/view/:id" element={<ViewTcRequest />} />
             <Route path="/front-office/gate-pass-list" element={<GatePassList />} />
             <Route path="/front-office/add-gate-pass" element={<AddGatePass />} />
+            <Route path="/front-office/student-gate-pass/view/:id" element={<ViewGatePass />} />
+            <Route path="/front-office/student-gate-pass/edit/:id" element={<EditGatePass />} />
             <Route path="/front-office/hostel-gate-pass-list" element={<HostelGatePassList />} />
             <Route path="/front-office/add-hostel-gate-pass" element={<AddHostelGatePass />} />
+            <Route path="/front-office/hostel-gate-pass/view/:id" element={<ViewHostelGatePass />} />
+            <Route path="/front-office/hostel-gate-pass/edit/:id" element={<EditHostelGatePass />} />
             <Route path="/front-office/material-gate-pass-list" element={<MaterialGatePassList />} />
             <Route path="/front-office/add-material-gate-pass" element={<AddMaterialGatePass />} />
             <Route path="/front-office/material-gate-pass/view/:id" element={<ViewMaterialGatePass />} />

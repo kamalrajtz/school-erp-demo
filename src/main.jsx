@@ -7,8 +7,10 @@ import './index.css'
 import App from './App.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { runAcademicsWipeIfNeeded } from './Common/RBAC/academicsWipe.js'
+import { runFrontOfficePassWipeIfNeeded } from './Common/FrontOffice/frontOfficePassWipe.js'
 
 runAcademicsWipeIfNeeded()
+runFrontOfficePassWipeIfNeeded()
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

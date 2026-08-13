@@ -66,71 +66,7 @@ export const normalizeSignatories = (signatories = {}) =>
         return acc
     }, {})
 
-const DEFAULT_GOODS_RECEIVED_PASSES = [
-    {
-        id: 'grp-9075',
-        grNo: '9075',
-        paymentType: 'CREDIT',
-        date: '29-06-2026',
-        time: '11:00',
-        timePeriod: 'AM',
-        supplierName: 'Madurai Stationery Suppliers',
-        billNo: 'BILL-2026-441',
-        billDate: '28-06-2026',
-        materials: [
-            {
-                id: 'row-1',
-                description: 'A4 Paper Reams — 75 GSM',
-                quantity: 20,
-                remarks: 'Office stock replenishment',
-                lpNo: 'LP-104',
-            },
-            {
-                id: 'row-2',
-                description: 'Ball Point Pens — Blue',
-                quantity: 50,
-                remarks: 'Staff room supply',
-                lpNo: 'LP-105',
-            },
-        ],
-        signatories: {
-            storeKeeper: { role: 'Store Keeper', name: 'Selvam R.' },
-            checkedBy: { name: 'Lakshmi Devi' },
-            authorizedSignatory: { role: 'Authorised Signatory', name: 'Admin Office' },
-        },
-        status: 'Approved',
-        createdBy: 'Front Office',
-        createdAt: '29-06-2026 10:45 AM',
-    },
-    {
-        id: 'grp-9074',
-        grNo: '9074',
-        paymentType: 'CASH',
-        date: '27-06-2026',
-        time: '03:30',
-        timePeriod: 'PM',
-        supplierName: 'City Hardware Mart',
-        billNo: 'CHM-8891',
-        billDate: '27-06-2026',
-        materials: [
-            {
-                id: 'row-1',
-                description: 'Electrical Bulbs — 9W LED',
-                quantity: 30,
-                remarks: 'Maintenance purchase',
-                lpNo: 'LP-098',
-            },
-        ],
-        signatories: {
-            storeKeeper: { role: 'Store Keeper', name: 'Selvam R.' },
-            checkedBy: { name: 'Anand Kumar' },
-            authorizedSignatory: { role: '', name: '' },
-        },
-        status: 'Partially Approved',
-        createdBy: 'Front Office',
-        createdAt: '27-06-2026 03:00 PM',
-    },
-]
+const DEFAULT_GOODS_RECEIVED_PASSES = []
 
 export const calculateTotalItems = (materials = []) =>
     materials.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0)
@@ -148,11 +84,32 @@ export const formatDisplayTime = (time, timePeriod) => {
     return timePeriod ? `${time} ${timePeriod}` : time
 }
 
+const parsePassNumber = (value) => {
+    const numeric = Number(String(value ?? '').replace(/\D/g, ''))
+    return Number.isNaN(numeric) ? 0 : numeric
+}
+
+const formatPassNumber = (num) => String(num).padStart(4, '0')
+
+const syncGrCounter = (records = []) => {
+    const maxInRecords = records.reduce(
+        (max, record) => Math.max(max, parsePassNumber(record.grNo)),
+        0,
+    )
+    const stored = localStorage.getItem(GR_COUNTER_KEY)
+    const counter = stored !== null ? Number(stored) || 0 : maxInRecords
+    const nextCounter = Math.max(counter, maxInRecords)
+    localStorage.setItem(GR_COUNTER_KEY, String(nextCounter))
+    return nextCounter
+}
+
 export const generateGrNo = () => {
-    const current = Number(localStorage.getItem(GR_COUNTER_KEY) || 9075)
+    const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+    syncGrCounter(Array.isArray(records) ? records : [])
+    const current = Number(localStorage.getItem(GR_COUNTER_KEY) || 0)
     const next = current + 1
     localStorage.setItem(GR_COUNTER_KEY, String(next))
-    return String(next)
+    return formatPassNumber(next)
 }
 
 const hydrateRecord = (record) => ({
@@ -165,10 +122,12 @@ const hydrateRecord = (record) => ({
 export const getGoodsReceivedPasses = () => {
     const stored = localStorage.getItem(STORAGE_KEY)
     if (stored) {
-        return JSON.parse(stored).map(hydrateRecord)
+        const records = JSON.parse(stored).map(hydrateRecord)
+        syncGrCounter(records)
+        return records
     }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_GOODS_RECEIVED_PASSES))
-    localStorage.setItem(GR_COUNTER_KEY, '9075')
+    localStorage.setItem(GR_COUNTER_KEY, '0')
     return DEFAULT_GOODS_RECEIVED_PASSES.map(hydrateRecord)
 }
 
@@ -220,6 +179,7 @@ export const deleteGoodsReceivedPass = (id) => {
 }
 
 export const getNextGrPreview = () => {
-    const current = Number(localStorage.getItem(GR_COUNTER_KEY) || 9075)
-    return String(current + 1)
+    const records = getGoodsReceivedPasses()
+    const current = syncGrCounter(records)
+    return formatPassNumber(current + 1)
 }

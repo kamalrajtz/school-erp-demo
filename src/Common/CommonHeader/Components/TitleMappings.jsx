@@ -62,6 +62,7 @@
     "/front-office/add-admission-enquiry": "Add Admission Enquiry",
     "/front-office/admission-enquiry/edit": "Edit Admission Enquiry",
     "/front-office/admission-list": "Admission List",
+    "/front-office/admission-list/edit": "Edit Admission",
     "/front-office/add-admission": "Add Admission",
     "/admin/front-office/admission-list": "Admissions",
     "/admin/front-office/add-admission": "Add Admission",
@@ -777,13 +778,15 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/director\/lesson-plan-approval\/group\/[^/]+\/[^/]+$/.test(p), title: 'Lesson Plan Review' },
     { test: (p) => /^\/admin\/front-office\/view-librarian\/[^/]+$/.test(p), title: 'Librarian Details' },
     { test: (p) => /^\/admin\/front-office\/view-driver\/[^/]+$/.test(p), title: 'Driver Details' },
+    { test: (p) => /^\/admin\/front-office\/admission-list\/view\/[^/]+$/.test(p), title: 'Admission Details' },
     { test: (p) => /^\/admin\/front-office\/view-admission\/[^/]+$/.test(p), title: 'Admission Details' },
     { test: (p) => /^\/admin\/front-office\/view-admission-enquiry\/[^/]+$/.test(p), title: 'Admission Enquiry Details' },
     { test: (p) => /^\/admin\/front-office\/admission-enquiry\/view\/[^/]+$/.test(p), title: 'Admission Enquiry Details' },
     { test: (p) => /^\/admin\/front-office\/admission-enquiry\/edit\/[^/]+$/.test(p), title: 'Edit Admission Enquiry' },
     { test: (p) => /^\/front-office\/admission-enquiry\/view\/[^/]+$/.test(p), title: 'Admission Enquiry Details' },
     { test: (p) => /^\/front-office\/admission-enquiry\/edit\/[^/]+$/.test(p), title: 'Edit Admission Enquiry' },
-    { test: (p) => /^\/front-office\/view-admission-enquiry\/[^/]+$/.test(p), title: 'Admission Enquiry Details' },
+    { test: (p) => /^\/front-office\/admission-list\/view\/[^/]+$/.test(p), title: 'Admission Details' },
+    { test: (p) => /^\/front-office\/admission-list\/edit\/[^/]+$/.test(p), title: 'Edit Admission' },
     { test: (p) => /^\/admin\/student\/view-student-details\/[^/]+$/.test(p), title: 'View Student Details' },
     { test: (p) => /^\/admin\/class\/view-online-class\/[^/]+$/.test(p), title: 'Online Class Details' },
     { test: (p) => /^\/admin\/class\/view-extended-class\/[^/]+$/.test(p), title: 'Extended Class Details' },
@@ -794,6 +797,13 @@ const dynamicTitleMatchers = [
     { test: (p) => /^\/admin\/activities\/view-competition\/[^/]+$/.test(p), title: 'Competition Activity Details' },
     { test: (p) => /^\/front-office\/student-re-enrollment\/view\/[^/]+$/.test(p), title: 'View Student Re-Enrollment' },
     { test: (p) => /^\/front-office\/student-re-enrollment\/edit\/[^/]+$/.test(p), title: 'Edit Student Re-Enrollment' },
+    { test: (p) => /^\/front-office\/student-management\/view\/[^/]+$/.test(p), title: 'View Student Details' },
+    { test: (p) => /^\/front-office\/student-gate-pass\/view\/[^/]+$/.test(p), title: 'View Student Gate Pass' },
+    { test: (p) => /^\/front-office\/student-gate-pass\/edit\/[^/]+$/.test(p), title: 'Edit Student Gate Pass' },
+    { test: (p) => /^\/front-office\/hostel-gate-pass\/view\/[^/]+$/.test(p), title: 'View Hostel Gate Pass' },
+    { test: (p) => /^\/front-office\/hostel-gate-pass\/edit\/[^/]+$/.test(p), title: 'Edit Hostel Gate Pass' },
+    { test: (p) => /^\/front-office\/admission-list\/view\/[^/]+$/.test(p), title: 'View Admission Details' },
+    { test: (p) => /^\/admin\/front-office\/admission-list\/view\/[^/]+$/.test(p), title: 'View Admission Details' },
     { test: (p) => /^\/director\/user-management\/student-database\/view\/[^/]+$/.test(p), title: 'View Student Details' },
     { test: (p) => /^\/director\/user-management\/employee-database\/view\/[^/]+$/.test(p), title: 'View Employee Details' },
     { test: (p) => /^\/director\/student-allocation-approval\/review\/[^/]+$/.test(p), title: 'Review Student Allocation' },
@@ -948,8 +958,9 @@ const dynamicTitleMatchers = [
 ]
 
 export function getPageTitle(pathname) {
-    const exact = singleTitleMapping[pathname]
+    const path = (pathname || '').replace(/\/+$/, '') || '/'
+    const exact = singleTitleMapping[path]
     if (exact != null) return exact
-    const hit = dynamicTitleMatchers.find((m) => m.test(pathname))
+    const hit = dynamicTitleMatchers.find((m) => m.test(path))
     return hit?.title
 }

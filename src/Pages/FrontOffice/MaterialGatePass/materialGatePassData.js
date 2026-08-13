@@ -74,73 +74,7 @@ export const normalizeApprovals = (approvals = {}) =>
         return acc
     }, {})
 
-const DEFAULT_MATERIAL_GATE_PASSES = [
-    {
-        id: 'mgp-1376',
-        mgpNo: '1376',
-        passType: 'Non-Returnable',
-        date: '29-06-2026',
-        time: '10:30',
-        timePeriod: 'AM',
-        materials: [
-            {
-                id: 'row-1',
-                description: 'Science Lab Equipment — Microscope Set',
-                quantity: 2,
-                destination: 'Block B Science Lab',
-                remarks: 'Replacement units',
-            },
-            {
-                id: 'row-2',
-                description: 'Sports Equipment — Footballs',
-                quantity: 10,
-                destination: 'Sports Store Room',
-                remarks: 'New stock',
-            },
-        ],
-        driverName: 'Ramesh Kumar',
-        vehicleNo: 'TN-58-AB-4521',
-        approvals: {
-            storeKeeper: { role: 'Store Keeper', name: 'Selvam R.' },
-            security: { role: 'Security', name: 'Murugan P.' },
-            takenBy: { name: 'Vendor Rep.' },
-            principal: { role: 'Principal', name: 'Dr. Priya Nair' },
-            authorizedSignatory: { role: '', name: '' },
-        },
-        status: 'Partially Approved',
-        createdBy: 'Front Office',
-        createdAt: '29-06-2026 09:30 AM',
-    },
-    {
-        id: 'mgp-1375',
-        mgpNo: '1375',
-        passType: 'Returnable',
-        date: '28-06-2026',
-        time: '02:15',
-        timePeriod: 'PM',
-        materials: [
-            {
-                id: 'row-1',
-                description: 'Office Stationery — A4 Paper Reams',
-                quantity: 5,
-                destination: 'Admin Office',
-                remarks: 'Monthly supply',
-            },
-        ],
-        driverName: 'Anand S.',
-        vehicleNo: 'TN-58-CD-8890',
-        approvals: {
-            storeKeeper: { role: 'Store Keeper', name: 'Selvam R.' },
-            security: { role: 'Security', name: 'Murugan P.' },
-            takenBy: { name: 'Office Staff' },
-            principal: { role: 'Principal', name: 'Dr. Priya Nair' },
-            authorizedSignatory: { role: 'Authorized Signatory', name: 'Admin Office' },
-        },
-        status: 'Approved',
-        createdBy: 'Front Office',
-        createdAt: '28-06-2026 01:00 PM',
-    },
-]
+const DEFAULT_MATERIAL_GATE_PASSES = []
 
 export const calculateTotalItems = (materials = []) =>
     materials.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0)
@@ -158,11 +92,32 @@ export const formatDisplayTime = (time, timePeriod) => {
     return timePeriod ? `${time} ${timePeriod}` : time
 }
 
+const parsePassNumber = (value) => {
+    const numeric = Number(String(value ?? '').replace(/\D/g, ''))
+    return Number.isNaN(numeric) ? 0 : numeric
+}
+
+const formatPassNumber = (num) => String(num).padStart(4, '0')
+
+const syncMgpCounter = (records = []) => {
+    const maxInRecords = records.reduce(
+        (max, record) => Math.max(max, parsePassNumber(record.mgpNo)),
+        0,
+    )
+    const stored = localStorage.getItem(MGP_COUNTER_KEY)
+    const counter = stored !== null ? Number(stored) || 0 : maxInRecords
+    const nextCounter = Math.max(counter, maxInRecords)
+    localStorage.setItem(MGP_COUNTER_KEY, String(nextCounter))
+    return nextCounter
+}
+
 export const generateMgpNo = () => {
-    const current = Number(localStorage.getItem(MGP_COUNTER_KEY) || 1376)
+    const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+    syncMgpCounter(Array.isArray(records) ? records : [])
+    const current = Number(localStorage.getItem(MGP_COUNTER_KEY) || 0)
     const next = current + 1
     localStorage.setItem(MGP_COUNTER_KEY, String(next))
-    return String(next)
+    return formatPassNumber(next)
 }
 
 const hydrateRecord = (record) => ({
@@ -176,10 +131,12 @@ const hydrateRecord = (record) => ({
 export const getMaterialGatePasses = () => {
     const stored = localStorage.getItem(STORAGE_KEY)
     if (stored) {
-        return JSON.parse(stored).map(hydrateRecord)
+        const records = JSON.parse(stored).map(hydrateRecord)
+        syncMgpCounter(records)
+        return records
     }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_MATERIAL_GATE_PASSES))
-    localStorage.setItem(MGP_COUNTER_KEY, '1376')
+    localStorage.setItem(MGP_COUNTER_KEY, '0')
     return DEFAULT_MATERIAL_GATE_PASSES.map(hydrateRecord)
 }
 
@@ -231,6 +188,7 @@ export const deleteMaterialGatePass = (id) => {
 }
 
 export const getNextMgpPreview = () => {
-    const current = Number(localStorage.getItem(MGP_COUNTER_KEY) || 1376)
-    return String(current + 1)
+    const records = getMaterialGatePasses()
+    const current = syncMgpCounter(records)
+    return formatPassNumber(current + 1)
 }

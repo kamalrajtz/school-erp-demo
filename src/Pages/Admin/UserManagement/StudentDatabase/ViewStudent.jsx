@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import mo_user from '../../../../assets/images/no-profile.png'
@@ -21,7 +21,7 @@ const Field = ({ label, value }) => (
 const ViewStudent = () => {
     const { id } = useParams()
     const navigate = useNavigate()
-    const student = getStudentById(id)
+    const student = useMemo(() => getStudentById(id), [id])
 
     if (!student) {
         return (
@@ -107,6 +107,7 @@ const ViewStudent = () => {
 
             <Section title='Transport'>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+                    <Field label='Mode of transport' value={student.transport.modeOfTransport} />
                     <Field label='Route list' value={student.transport.routeList} />
                     <Field label='Bus stop' value={student.transport.busStop} />
                 </div>
@@ -121,6 +122,24 @@ const ViewStudent = () => {
                     <Field label='Father yearly income' value={student.parent.fatherYearlyIncome} />
                     <Field label='Mother yearly income' value={student.parent.motherYearlyIncome} />
                     <Field label='Siblings' value={student.parent.siblings} />
+                </div>
+            </Section>
+
+            <Section title='Parent address'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+                    <div className='lg:col-span-3'><Field label='Street / full address' value={student.parent.address.address} /></div>
+                    <Field label='Country' value={student.parent.address.country} />
+                    <Field label='State' value={student.parent.address.state} />
+                    <Field label='City' value={student.parent.address.city} />
+                    <Field label='Zip code' value={student.parent.address.zipCode} />
+                </div>
+            </Section>
+
+            <Section title='Parent contact'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+                    <Field label='Mobile number' value={student.parent.contact.mobileNumber} />
+                    <Field label='Alternative number' value={student.parent.contact.alternativeNumber} />
+                    <Field label='Email' value={student.parent.contact.email} />
                 </div>
             </Section>
         </section>

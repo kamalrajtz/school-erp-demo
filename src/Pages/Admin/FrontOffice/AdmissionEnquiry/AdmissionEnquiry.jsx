@@ -14,6 +14,7 @@ import {
     getAllAdmissionEnquiries,
     getEnquiryProfileImage,
     getEnquiryRouteBase,
+    isAdminFrontOfficePath,
     statusBadgeColor,
     updateAdmissionEnquiryStatus,
 } from './admissionEnquiryData'
@@ -22,6 +23,7 @@ const AdmissionEnquiry = () => {
     const navigate = useNavigate()
     const { pathname } = useLocation()
     const routeBase = getEnquiryRouteBase(pathname)
+    const isAdminView = isAdminFrontOfficePath(pathname)
     const [fromDate, setFromDate] = useState(null)
     const [toDate, setToDate] = useState(null)
     const [exportModal, setExportModal] = useState(false)
@@ -133,13 +135,15 @@ const AdmissionEnquiry = () => {
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
                     <h2 className='text-xl font-medium text-black'>Admission Enquiry List</h2>
                     <div className='flex gap-x-2'>
-                        <NavLink
-                            to={`${routeBase}/add`}
-                            className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
-                        >
-                            <Plus size={16} />
-                            Add Admission Enquiry
-                        </NavLink>
+                        {!isAdminView && (
+                            <NavLink
+                                to={`${routeBase}/add`}
+                                className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
+                            >
+                                <Plus size={16} />
+                                Add Admission Enquiry
+                            </NavLink>
+                        )}
                         <button
                             type='button'
                             onClick={() => setExportModal(true)}
@@ -222,26 +226,30 @@ const AdmissionEnquiry = () => {
                                                     >
                                                         View
                                                     </NavLink>
-                                                    <NavLink
-                                                        to={`${routeBase}/edit/${record.id}`}
-                                                        className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
-                                                    >
-                                                        Edit
-                                                    </NavLink>
-                                                    <button
-                                                        type='button'
-                                                        onClick={() => handleDelete(record.id)}
-                                                        className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                    <button
-                                                        type='button'
-                                                        onClick={() => handleConvertToAdmission(record)}
-                                                        className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
-                                                    >
-                                                        Convert to Admission
-                                                    </button>
+                                                    {!isAdminView && (
+                                                        <>
+                                                            <NavLink
+                                                                to={`${routeBase}/edit/${record.id}`}
+                                                                className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
+                                                            >
+                                                                Edit
+                                                            </NavLink>
+                                                            <button
+                                                                type='button'
+                                                                onClick={() => handleDelete(record.id)}
+                                                                className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                            <button
+                                                                type='button'
+                                                                onClick={() => handleConvertToAdmission(record)}
+                                                                className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
+                                                            >
+                                                                Convert to Admission
+                                                            </button>
+                                                        </>
+                                                    )}
                                                 </Dropdown>
                                             </td>
                                         </tr>

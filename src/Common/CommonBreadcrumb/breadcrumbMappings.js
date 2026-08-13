@@ -145,15 +145,16 @@ const findBestSidebarMatch = (pathname, sidebarLinks = []) => {
  * Home is handled separately by the UI (house icon).
  */
 export const getBreadcrumbItems = (pathname) => {
-    const roleConfig = getRoleConfigForPath(pathname)
+    const normalizedPath = (pathname || '').replace(/\/+$/, '') || '/'
+    const roleConfig = getRoleConfigForPath(normalizedPath)
     if (!roleConfig) return { homePath: '/', crumbs: [] }
 
     const currentTitle =
-        getPageTitle(pathname) ||
-        formatSegmentLabel(getMeaningfulSegment(getPathParts(pathname))) ||
+        getPageTitle(normalizedPath) ||
+        formatSegmentLabel(getMeaningfulSegment(getPathParts(normalizedPath))) ||
         'Page'
 
-    const best = findBestSidebarMatch(pathname, roleConfig.links)
+    const best = findBestSidebarMatch(normalizedPath, roleConfig.links)
     const crumbs = []
 
     if (best?.parent && best.parent.title) {
@@ -166,10 +167,10 @@ export const getBreadcrumbItems = (pathname) => {
     if (best?.leaf) {
         const isCurrentLeaf =
             best.exact ||
-            pathname === best.leaf.to ||
+            normalizedPath === best.leaf.to ||
             currentTitle === best.leaf.title
 
-        if (isCurrentLeaf && !pathname.startsWith(`${best.leaf.to}/`)) {
+        if (isCurrentLeaf && !normalizedPath.startsWith(`${best.leaf.to}/`)) {
             crumbs.push({
                 label: currentTitle || best.leaf.title,
                 to: null,
@@ -195,7 +196,7 @@ export const getBreadcrumbItems = (pathname) => {
     }
 
     // Avoid Home > Same Page when already on the role home route
-    if (pathname === roleConfig.homePath && crumbs.length === 1) {
+    if (normalizedPath === roleConfig.homePath && crumbs.length === 1) {
         return {
             homePath: roleConfig.homePath,
             crumbs,

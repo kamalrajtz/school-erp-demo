@@ -1,11 +1,11 @@
 import React, { useState, useRef } from 'react'
 import { FileUp } from 'lucide-react'
 
-const ProfileUpload = () => {
+const ProfileUpload = ({ value = '', onChange }) => {
     const [isDragging, setIsDragging] = useState(false)
-    const [preview, setPreview] = useState(null)
     const [fileName, setFileName] = useState(null)
     const inputRef = useRef(null)
+    const preview = value || null
 
     const SUPPORTED_FORMATS = ['image/svg+xml', 'image/jpeg', 'image/jpg', 'image/png']
     const MAX_SIZE_MB = 5
@@ -25,7 +25,7 @@ const ProfileUpload = () => {
 
         setFileName(file.name)
         const reader = new FileReader()
-        reader.onload = (e) => setPreview(e.target.result)
+        reader.onload = (e) => onChange?.(e.target.result || '')
         reader.readAsDataURL(file)
     }
 
@@ -53,7 +53,7 @@ const ProfileUpload = () => {
 
     const handleRemove = (e) => {
         e.stopPropagation()
-        setPreview(null)
+        onChange?.('')
         setFileName(null)
         if (inputRef.current) inputRef.current.value = ''
     }

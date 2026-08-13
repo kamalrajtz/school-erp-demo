@@ -1,40 +1,62 @@
 import React, { useMemo, useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Calendar, ChevronLeft, ChevronRight, Download, EllipsisIcon, Plus } from 'lucide-react'
+import mo_user from '../../../assets/images/no-profile.png'
 import Dropdown from '../../../Common/CommonComponents/Dropdown'
 import ExportModal from '../../../Common/CommonComponents/ExportModal'
-import DeleteRequestModal from '../../../Common/CommonComponents/DeleteRequestModal'
-import EditRequestModal from '../../../Common/CommonComponents/EditRequestModal'
 import {
     FINAL_STATUSES,
     approvalStatusColor,
+    deleteHostelGatePass,
     filterHostelGatePasses,
     finalStatusBadgeColor,
+    formatOutTimeForDisplay,
     getHostelGatePasses,
 } from './hostelGatePassData'
 
 const HostelGatePassList = () => {
-    const [records] = useState(() => getHostelGatePasses())
-    const [fromDate, setFromDate] = useState(new Date())
-    const [toDate, setToDate] = useState(new Date())
+    const [fromDate, setFromDate] = useState(null)
+    const [toDate, setToDate] = useState(null)
     const [search, setSearch] = useState('')
     const [status, setStatus] = useState('')
-    const [deleteRequestModal, setDeleteRequestModal] = useState(false)
-    const [editRequestModal, setEditRequestModal] = useState(false)
+    const [entriesPerPage, setEntriesPerPage] = useState(10)
     const [exportModal, setExportModal] = useState(false)
+    const [records, setRecords] = useState(() => getHostelGatePasses())
+
+    const refresh = () => setRecords(getHostelGatePasses())
 
     const filteredRecords = useMemo(
         () => filterHostelGatePasses(records, { search, status }),
         [records, search, status],
     )
 
+    const visibleRecords = filteredRecords.slice(0, entriesPerPage)
+
+    const clearFilters = () => {
+        setSearch('')
+        setStatus('')
+        setFromDate(null)
+        setToDate(null)
+    }
+
+    const handleDelete = (id) => {
+        deleteHostelGatePass(id)
+        refresh()
+        toast.success('Hostel gate pass deleted.')
+    }
+
     return (
         <section>
             <div className='bg-white rounded-2xl shadow-md p-4'>
                 <div className='flex justify-between md:items-center sm:items-stretch md:flex-row sm:flex-col flex-col gap-y-4'>
-                    <button type='button' className='bg-[#515DEF] text-white uppercase text-sm px-6 py-2 border border-[#515DEF] rounded-lg hover:opacity-90 transition-all duration-200 cursor-pointer'>
+                    <button
+                        type='button'
+                        onClick={clearFilters}
+                        className='bg-[#515DEF] text-white uppercase text-sm px-6 py-2 border border-[#515DEF] rounded-lg hover:opacity-90 transition-all duration-200 cursor-pointer'
+                    >
                         Clear Filters
                     </button>
                     <select className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full md:max-w-xs sm:max-w-full'>
@@ -72,7 +94,7 @@ const HostelGatePassList = () => {
                         <div className='relative w-full'>
                             <DatePicker
                                 selected={fromDate}
-                                onChange={(date) => setFromDate(date)}
+                                onChange={setFromDate}
                                 isClearable
                                 showMonthYearDropdown
                                 scrollableMonthYearDropdown
@@ -86,7 +108,7 @@ const HostelGatePassList = () => {
                         <div className='relative'>
                             <DatePicker
                                 selected={toDate}
-                                onChange={(date) => setToDate(date)}
+                                onChange={setToDate}
                                 isClearable
                                 showMonthYearDropdown
                                 scrollableMonthYearDropdown
@@ -120,12 +142,16 @@ const HostelGatePassList = () => {
                     </div>
                 </div>
                 <div className='flex gap-x-2 items-center my-2'>
-                    <select className='px-2 py-1.5 bg-white text-[#515DEF] border border-[#515DEF] rounded-md'>
-                        <option value='10'>10</option>
-                        <option value='20'>20</option>
-                        <option value='30'>30</option>
-                        <option value='40'>40</option>
-                        <option value='50'>50</option>
+                    <select
+                        value={entriesPerPage}
+                        onChange={(e) => setEntriesPerPage(Number(e.target.value))}
+                        className='px-2 py-1.5 bg-white text-[#515DEF] border border-[#515DEF] rounded-md'
+                    >
+                        <option value={10}>10</option>
+                        <option value={20}>20</option>
+                        <option value={30}>30</option>
+                        <option value={40}>40</option>
+                        <option value={50}>50</option>
                     </select>
                     <span className='text-sm font-normal text-[#515DEF]'>Entries Per Page</span>
                 </div>
@@ -149,17 +175,17 @@ const HostelGatePassList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredRecords.length === 0 ? (
+                            {visibleRecords.length === 0 ? (
                                 <tr>
                                     <td colSpan={13} className='px-2 py-8 text-center text-[#667085]'>
-                                        No hostel gate passes found for the selected filters.
+                                        No hostel gate passes found.
                                     </td>
                                 </tr>
                             ) : (
-                                filteredRecords.map((record) => (
+                                visibleRecords.map((record) => (
                                     <tr key={record.id} className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg'>
                                         <td className='px-2 py-4 object-cover flex justify-center rounded-s-lg'>
-                                            <img src={record.profile} alt='student profile' className='w-9 h-9 rounded-full' />
+                                            <img src={record.profile || mo_user} alt='' className='w-9 h-9 rounded-full object-cover' />
                                         </td>
                                         <td className='px-2 py-4'>{record.gatePassId}</td>
                                         <td className='px-2 py-4'>{record.studentId}</td>
@@ -167,8 +193,12 @@ const HostelGatePassList = () => {
                                         <td className='px-2 py-4'>{record.classSection}</td>
                                         <td className='px-2 py-4'>{record.hostel}</td>
                                         <td className='px-2 py-4'>{record.leaveType}</td>
-                                        <td className='px-2 py-4'>{record.outDate} {record.outTime}</td>
-                                        <td className='px-2 py-4'>{record.returnDate} {record.returnTime}</td>
+                                        <td className='px-2 py-4'>
+                                            {record.outDate} {formatOutTimeForDisplay(record.outTime)}
+                                        </td>
+                                        <td className='px-2 py-4'>
+                                            {record.returnDate} {formatOutTimeForDisplay(record.returnTime)}
+                                        </td>
                                         <td className='px-2 py-4'>
                                             <span className={`font-medium whitespace-nowrap ${approvalStatusColor[record.parentApproval] ?? ''}`}>
                                                 {record.parentApproval}
@@ -186,13 +216,23 @@ const HostelGatePassList = () => {
                                         </td>
                                         <td className='px-2 py-4 text-center rounded-e-lg'>
                                             <Dropdown buttonContent={<EllipsisIcon size={16} className='text-black' />}>
-                                                <button type='button' className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'>
+                                                <NavLink
+                                                    to={`/front-office/hostel-gate-pass/view/${record.id}`}
+                                                    className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
+                                                >
                                                     View
-                                                </button>
-                                                <button type='button' onClick={() => setEditRequestModal(true)} className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'>
+                                                </NavLink>
+                                                <NavLink
+                                                    to={`/front-office/hostel-gate-pass/edit/${record.id}`}
+                                                    className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
+                                                >
                                                     Edit
-                                                </button>
-                                                <button type='button' onClick={() => setDeleteRequestModal(true)} className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'>
+                                                </NavLink>
+                                                <button
+                                                    type='button'
+                                                    onClick={() => handleDelete(record.id)}
+                                                    className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
+                                                >
                                                     Delete
                                                 </button>
                                             </Dropdown>
@@ -207,7 +247,9 @@ const HostelGatePassList = () => {
 
             <div className='flex justify-between items-center px-4 mt-4'>
                 <p className='text-sm font-medium text-[#515DEF]'>
-                    Showing {filteredRecords.length} of {records.length} entries
+                    {filteredRecords.length === 0
+                        ? 'Showing 0 entries'
+                        : `Showing 1 to ${visibleRecords.length} of ${filteredRecords.length} entries`}
                 </p>
                 <div className='flex justify-center gap-x-2 flex-wrap'>
                     <button type='button' className='size-8 flex justify-center items-center p-2 bg-white text-[#515DEF] border border-[#E2E8F0] hover:bg-[#515DEF] hover:text-white rounded-full cursor-pointer'>
@@ -223,8 +265,6 @@ const HostelGatePassList = () => {
             </div>
 
             <ExportModal exportModal={exportModal} setExportModal={setExportModal} />
-            <DeleteRequestModal deleteRequestModal={deleteRequestModal} setDeleteRequestModal={setDeleteRequestModal} />
-            <EditRequestModal editRequestModal={editRequestModal} setEditRequestModal={setEditRequestModal} />
         </section>
     )
 }

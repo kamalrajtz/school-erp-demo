@@ -1,4 +1,19 @@
 import noProfile from '../../../assets/images/no-profile.png'
+import {
+    formatGatePassDate,
+    formatOutTimeForDisplay,
+    getEnrolledStudentSelectOptions,
+    mapStudentForGatePass,
+    parseGatePassDate,
+} from '../GatePass/gatePassData'
+
+export {
+    formatGatePassDate,
+    formatOutTimeForDisplay,
+    getEnrolledStudentSelectOptions,
+    mapStudentForGatePass,
+    parseGatePassDate,
+}
 
 export const HOSTEL_OPTIONS = ['QMIS Hostel', 'Boys Hostel Block A', 'Girls Hostel Block B']
 export const LEAVE_TYPES = ['Home Visit', 'Medical Leave', 'Emergency Leave', 'Personal Leave']
@@ -18,63 +33,38 @@ export const finalStatusBadgeColor = {
     Cancelled: 'bg-[#FF000033] text-[#FF0000]',
 }
 
+export const DEFAULT_HOSTEL_GATE_PASS_FORM = {
+    studentId: '',
+    studentName: '',
+    classSection: '',
+    gender: '',
+    mobileNumber: '',
+    city: '',
+    profileImage: '',
+    hostel: '',
+    leaveType: '',
+    reason: '',
+    outDate: '',
+    outTime: '',
+    returnDate: '',
+    returnTime: '',
+    status: 'Pending',
+}
+
 const STORAGE_KEY = 'hostel-gate-pass-front-office'
 const COUNTER_KEY = 'hostel-gate-pass-hgp-counter'
-
-const DEFAULT_RECORDS = [
-    {
-        id: 'HGP-001',
-        gatePassId: 'HGP-001',
-        profile: noProfile,
-        studentId: 'STU-2024-1042',
-        studentName: 'Arjun Sharma',
-        classSection: '10 A',
-        gender: 'Male',
-        mobileNumber: '+91 98765 43210',
-        city: 'Kochi',
-        hostel: 'QMIS Hostel',
-        leaveType: 'Home Visit',
-        reason: 'Weekend home visit with parent consent.',
-        outDate: '15-08-2025',
-        outTime: '09:00 AM',
-        returnDate: '16-08-2025',
-        returnTime: '06:00 PM',
-        parentApproval: 'Approved',
-        wardenApproval: 'Approved',
-        status: 'Returned',
-    },
-    {
-        id: 'HGP-002',
-        gatePassId: 'HGP-002',
-        profile: noProfile,
-        studentId: 'STD-NO1846',
-        studentName: 'John Milton',
-        classSection: '12 B',
-        gender: 'Male',
-        mobileNumber: '9944076993',
-        city: 'Madurai',
-        hostel: 'Boys Hostel Block A',
-        leaveType: 'Medical Leave',
-        reason: 'Doctor appointment at city hospital.',
-        outDate: '20-05-2026',
-        outTime: '10:00 AM',
-        returnDate: '20-05-2026',
-        returnTime: '04:00 PM',
-        parentApproval: 'Approved',
-        wardenApproval: 'Pending',
-        status: 'Pending',
-    },
-]
 
 const readRecords = () => {
     try {
         const stored = localStorage.getItem(STORAGE_KEY)
-        if (stored) return JSON.parse(stored)
+        if (stored) {
+            const parsed = JSON.parse(stored)
+            return Array.isArray(parsed) ? parsed : []
+        }
     } catch {
         /* ignore */
     }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_RECORDS))
-    return DEFAULT_RECORDS
+    return []
 }
 
 const writeRecords = (records) => {
@@ -82,27 +72,96 @@ const writeRecords = (records) => {
 }
 
 const nextGatePassId = () => {
-    const current = parseInt(localStorage.getItem(COUNTER_KEY) ?? '2', 10)
-    const next = current + 1
-    localStorage.setItem(COUNTER_KEY, String(next))
-    return `HGP-${String(next).padStart(3, '0')}`
+    const current = Number(localStorage.getItem(COUNTER_KEY) || 0) + 1
+    localStorage.setItem(COUNTER_KEY, String(current))
+    return `HGP-${String(current).padStart(3, '0')}`
 }
 
 export const getHostelGatePasses = () => readRecords()
 
-export const addHostelGatePass = (payload) => {
-    const gatePassId = nextGatePassId()
-    const record = {
-        id: gatePassId,
-        gatePassId,
-        profile: noProfile,
-        parentApproval: 'Pending',
-        wardenApproval: 'Pending',
-        status: 'Pending',
-        ...payload,
+export const getHostelGatePassById = (id) =>
+    readRecords().find((record) => record.id === id) ?? null
+
+const buildRecordPayload = (payload, existing = null) => {
+    const studentId = String(payload.studentId || '').trim()
+    const reason = String(payload.reason || '').trim()
+    const outTime = String(payload.outTime || '').trim()
+    const returnTime = String(payload.returnTime || '').trim()
+    const outDate = String(payload.outDate || '').trim()
+    const returnDate = String(payload.returnDate || '').trim()
+
+    if (!studentId) return { success: false, message: 'Student ID is required.' }
+    if (!payload.hostel) return { success: false, message: 'Hostel is required.' }
+    if (!payload.leaveType) return { success: false, message: 'Leave type is required.' }
+    if (!reason) return { success: false, message: 'Reason is required.' }
+    if (!outDate) return { success: false, message: 'Out date is required.' }
+    if (!outTime) return { success: false, message: 'Out time is required.' }
+    if (!returnDate) return { success: false, message: 'Return date is required.' }
+    if (!returnTime) return { success: false, message: 'Return time is required.' }
+    if (!FINAL_STATUSES.includes(payload.status)) {
+        return { success: false, message: 'Invalid status.' }
     }
+
+    return {
+        success: true,
+        data: {
+            studentId,
+            studentName: payload.studentName || '',
+            classSection: payload.classSection || '',
+            gender: payload.gender || '',
+            mobileNumber: payload.mobileNumber || '',
+            city: payload.city || '',
+            profile: payload.profileImage || noProfile,
+            hostel: payload.hostel,
+            leaveType: payload.leaveType,
+            reason,
+            outDate,
+            outTime,
+            returnDate,
+            returnTime,
+            status: payload.status,
+            parentApproval: existing?.parentApproval || 'Pending',
+            wardenApproval: existing?.wardenApproval || 'Pending',
+        },
+    }
+}
+
+export const addHostelGatePass = (payload) => {
+    const built = buildRecordPayload(payload)
+    if (!built.success) return built
+
+    const id = nextGatePassId()
+    const record = {
+        id,
+        gatePassId: id,
+        ...built.data,
+        createdAt: new Date().toISOString(),
+    }
+
     writeRecords([record, ...readRecords()])
-    return record
+    return { success: true, record }
+}
+
+export const updateHostelGatePass = (id, payload) => {
+    const records = readRecords()
+    const index = records.findIndex((record) => record.id === id)
+    if (index < 0) return { success: false, message: 'Gate pass not found.' }
+
+    const built = buildRecordPayload(payload, records[index])
+    if (!built.success) return built
+
+    records[index] = {
+        ...records[index],
+        ...built.data,
+        updatedAt: new Date().toISOString(),
+    }
+    writeRecords(records)
+    return { success: true, record: records[index] }
+}
+
+export const deleteHostelGatePass = (id) => {
+    writeRecords(readRecords().filter((record) => record.id !== id))
+    return { success: true }
 }
 
 export const filterHostelGatePasses = (records, { search = '', status = '' } = {}) => {
@@ -112,7 +171,7 @@ export const filterHostelGatePasses = (records, { search = '', status = '' } = {
         if (status && record.status !== status) return false
         if (!query) return true
 
-        const haystack = [
+        return [
             record.gatePassId,
             record.studentId,
             record.studentName,
@@ -120,16 +179,40 @@ export const filterHostelGatePasses = (records, { search = '', status = '' } = {
             record.hostel,
             record.leaveType,
             record.reason,
-        ].join(' ').toLowerCase()
-
-        return haystack.includes(query)
+            record.status,
+        ].some((value) => String(value || '').toLowerCase().includes(query))
     })
 }
 
-export const formatGatePassDate = (date) => {
-    if (!date) return ''
-    const day = String(date.getDate()).padStart(2, '0')
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const year = date.getFullYear()
-    return `${day}-${month}-${year}`
+export const toHostelGatePassFormState = (record) => ({
+    ...DEFAULT_HOSTEL_GATE_PASS_FORM,
+    studentId: record?.studentId || '',
+    studentName: record?.studentName || '',
+    classSection: record?.classSection || '',
+    gender: record?.gender || '',
+    mobileNumber: record?.mobileNumber || '',
+    city: record?.city || '',
+    profileImage: record?.profile && record.profile !== noProfile ? record.profile : '',
+    hostel: record?.hostel || '',
+    leaveType: record?.leaveType || '',
+    reason: record?.reason || '',
+    outDate: record?.outDate || '',
+    outTime: record?.outTime || '',
+    returnDate: record?.returnDate || '',
+    returnTime: record?.returnTime || '',
+    status: record?.status || 'Pending',
+})
+
+export const validateHostelGatePassForm = (formData) => {
+    const errors = {}
+    if (!formData.studentId) errors.studentId = 'Select a student.'
+    if (!formData.hostel) errors.hostel = 'Hostel is required.'
+    if (!formData.leaveType) errors.leaveType = 'Leave type is required.'
+    if (!String(formData.reason || '').trim()) errors.reason = 'Reason is required.'
+    if (!formData.outDate) errors.outDate = 'Out date is required.'
+    if (!String(formData.outTime || '').trim()) errors.outTime = 'Out time is required.'
+    if (!formData.returnDate) errors.returnDate = 'Return date is required.'
+    if (!String(formData.returnTime || '').trim()) errors.returnTime = 'Return time is required.'
+    if (!FINAL_STATUSES.includes(formData.status)) errors.status = 'Select a valid status.'
+    return errors
 }

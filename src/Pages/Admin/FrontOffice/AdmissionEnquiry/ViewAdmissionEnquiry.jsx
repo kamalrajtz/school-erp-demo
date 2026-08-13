@@ -6,6 +6,7 @@ import AdmissionEnquiryInfo from './Components/AdmissionEnquiryInfo'
 import {
     getAdmissionEnquiryById,
     getEnquiryRouteBase,
+    isAdminFrontOfficePath,
     toFormState,
     updateAdmissionEnquiryStatus,
 } from './admissionEnquiryData'
@@ -15,6 +16,7 @@ const ViewAdmissionEnquiry = () => {
     const navigate = useNavigate()
     const { pathname } = useLocation()
     const routeBase = getEnquiryRouteBase(pathname)
+    const isAdminView = isAdminFrontOfficePath(pathname)
     const record = useMemo(() => getAdmissionEnquiryById(id), [id])
     const form = useMemo(() => (record ? toFormState(record) : null), [record])
 
@@ -52,7 +54,7 @@ const ViewAdmissionEnquiry = () => {
                         <h2 className='text-xl font-semibold text-black'>Admission Enquiry Details</h2>
                         <p className='text-sm text-[#667085] mt-1'>ID: {record.id} · Status: {record.status}</p>
                     </div>
-                    {record.status !== 'Success' && (
+                    {record.status !== 'Success' && !isAdminView && (
                         <button
                             type='button'
                             onClick={handleMarkSuccess}

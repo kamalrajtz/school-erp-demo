@@ -18,6 +18,9 @@ export const getAdmissionListPath = (pathname = '') =>
         ? '/front-office/admission-list'
         : '/admin/front-office/admission-list'
 
+export const isAdminFrontOfficePath = (pathname = '') =>
+    pathname.startsWith('/admin/front-office')
+
 export const GENDER_OPTIONS = ['Male', 'Female', 'Others']
 
 export const SOURCE_OPTIONS = [
@@ -245,6 +248,8 @@ export const toFormState = (record) => ({
 export const mapEnquiryToAdmissionPrefill = (enquiry) => ({
     firstName: enquiry?.name || '',
     mobileNumber: enquiry?.mobileNumber || '',
+    email: enquiry?.email || '',
+    address: enquiry?.address || '',
     className: enquiry?.className || '',
     gender: enquiry?.gender || '',
     city: enquiry?.city || '',
