@@ -29,7 +29,7 @@ const mapToStudentView = (admission, record) => ({
     lastName: admission.lastName || record.lastName || '',
     admissionDate: displayValue(admission.admissionDate),
     class: displayValue(admission.className || record.className),
-    classSection: '—',
+    classSection: displayValue(record.section),
     registrationFees: displayValue(admission.registrationFees),
     batchYear: displayValue(admission.batchStartYear),
     batchEndYear: displayValue(admission.batchEndYear),

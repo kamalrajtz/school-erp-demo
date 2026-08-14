@@ -17,7 +17,13 @@ const StudentAllocationDetail = () => {
     const { routePrefix, listPath, isApprover } = getStudentAllocationContext(location.pathname)
 
     const record = getStudentAllocationById(id)
-    const [section, setSection] = useState(record?.classSection ?? '')
+    const initialSection =
+        record?.allocationStatus === 'Pending Approval'
+            ? record.proposedSection || record.classSection || ''
+            : record?.allocationStatus === 'Allocated'
+              ? record.classSection || ''
+              : ''
+    const [section, setSection] = useState(initialSection)
 
     if (!record) {
         return <Navigate to={listPath} replace />
@@ -68,8 +74,10 @@ const StudentAllocationDetail = () => {
                             Allocation details for{' '}
                             <span className='font-medium text-[#1E1E1E]'>{record.studentName}</span>.
                             {record.allocationStatus === 'Pending Approval'
-                                ? ' Awaiting Director approval.'
-                                : null}
+                                ? ' Awaiting Principal approval.'
+                                : record.allocationStatus === 'Allocated'
+                                  ? ' Section allocation is complete.'
+                                  : null}
                         </>
                     ) : (
                         <>

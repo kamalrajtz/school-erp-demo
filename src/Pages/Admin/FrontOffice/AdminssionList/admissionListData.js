@@ -1,5 +1,6 @@
 import noProfile from '../../../../assets/images/no-profile.png'
 import { createEnrolledStudentFromAdmission } from '../../../../Common/StudentDatabase/enrolledStudentsData'
+import { ensureStudentAllocationRecord } from '../../../../Common/StudentAllocation/studentAllocationData'
 
 const STORAGE_KEY = 'schoolerp-admin-admissions'
 
@@ -266,6 +267,7 @@ export const enrollAdmissionAsStudent = (id) => {
         enrolledAt: new Date().toISOString(),
     }
     saveAdmissions(records)
+    ensureStudentAllocationRecord(enrollResult.record)
     return { success: true, record: records[index], student: enrollResult.record }
 }
 

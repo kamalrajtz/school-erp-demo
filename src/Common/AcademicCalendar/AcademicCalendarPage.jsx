@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
     CalendarDays,
     ChevronLeft,
@@ -6,10 +6,11 @@ import {
     Filter,
 } from 'lucide-react'
 import {
-    ACADEMIC_CALENDAR_ITEMS,
     ACADEMIC_EVENT_TYPES,
     getAcademicCalendarRoleConfig,
+    getAllCalendarItems,
 } from './academicCalendarData'
+import { CALENDAR_UPDATED_EVENT } from '../Activities/activitiesData'
 import {
     format,
     formatRangeLabel,
@@ -43,11 +44,22 @@ const AcademicCalendarPage = ({ roleKey }) => {
     const [currentDate, setCurrentDate] = useState(() => new Date(2026, 6, 1)) // Jul 2026 — has sample exams
     const [selectedDate, setSelectedDate] = useState(null)
     const [activeTypes, setActiveTypes] = useState(() => new Set(TYPE_KEYS))
+    const [calendarRefresh, setCalendarRefresh] = useState(0)
 
-    const filteredItems = useMemo(
-        () => ACADEMIC_CALENDAR_ITEMS.filter((item) => activeTypes.has(item.type)),
-        [activeTypes]
-    )
+    useEffect(() => {
+        const refresh = () => setCalendarRefresh((value) => value + 1)
+        window.addEventListener(CALENDAR_UPDATED_EVENT, refresh)
+        window.addEventListener('focus', refresh)
+        return () => {
+            window.removeEventListener(CALENDAR_UPDATED_EVENT, refresh)
+            window.removeEventListener('focus', refresh)
+        }
+    }, [])
+
+    const filteredItems = useMemo(() => {
+        void calendarRefresh
+        return getAllCalendarItems().filter((item) => activeTypes.has(item.type))
+    }, [activeTypes, calendarRefresh])
 
     const cells = useMemo(() => getMonthCells(currentDate), [currentDate])
     const monthItems = useMemo(
@@ -100,7 +112,7 @@ const AcademicCalendarPage = ({ roleKey }) => {
                     <div>
                         <h2 className="text-lg font-semibold text-[#0C1E5B]">{pageTitle}</h2>
                         <p className="mt-0.5 text-sm text-[#667085]">
-                            View holidays, exam timelines, and school events (display only).
+                            View holidays, exam timelines, and school events including Cultural, Sports & Competition activities.
                         </p>
                     </div>
                     <div className="flex flex-wrap items-center gap-2">

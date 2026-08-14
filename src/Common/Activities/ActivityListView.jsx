@@ -1,50 +1,63 @@
-import { useMemo, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Calendar, ChevronLeft, ChevronRight, Download, EllipsisIcon, Plus } from 'lucide-react'
+import { toast } from 'react-toastify'
 import Dropdown from '../CommonComponents/Dropdown'
 import ExportModal from '../CommonComponents/ExportModal'
 import {
     MD_APPROVAL_STATUS,
+    deleteActivity,
     getActivitiesByType,
     getPersonInCharge,
     mdApprovalBadgeColor,
-    updateActivityMdApproval,
 } from './activitiesData'
-import { getActivityConfig, getActivityRoutes } from './activityConfigs'
+import { getActivityConfig, getActivityRoutes, getActivityEditPath, getActivityViewPath } from './activityConfigs'
+import { getClassDisplayLabel, getClassSelectOptions } from '../RBAC/academicsCatalogData'
 
 export default function ActivityListView({ roleKey, activityType }) {
+    const location = useLocation()
     const config = getActivityConfig(activityType)
     const routes = getActivityRoutes(activityType, roleKey)
     const [fromDate, setFromDate] = useState(new Date())
     const [toDate, setToDate] = useState(new Date())
     const [exportModal, setExportModal] = useState(false)
     const [statusFilter, setStatusFilter] = useState('')
+    const [classFilter, setClassFilter] = useState('')
     const [search, setSearch] = useState('')
     const [refreshKey, setRefreshKey] = useState(0)
+    const classOptions = useMemo(() => getClassSelectOptions(), [])
 
     const activities = useMemo(() => {
         void refreshKey
         return getActivitiesByType(activityType)
-    }, [activityType, refreshKey])
+    }, [activityType, refreshKey, location.key])
+
+    useEffect(() => {
+        setRefreshKey((value) => value + 1)
+    }, [location.pathname])
 
     const filteredActivities = useMemo(() => {
         const query = search.trim().toLowerCase()
         return activities.filter((item) => {
             if (statusFilter && item.mdApprovalStatus !== statusFilter) return false
+            if (classFilter && item.className !== classFilter) return false
             if (!query) return true
             const haystack = `${item.eventName} ${item.eventType} ${item.className} ${item.venue}`.toLowerCase()
             return haystack.includes(query)
         })
-    }, [activities, search, statusFilter])
+    }, [activities, search, statusFilter, classFilter])
 
-    const handleApproval = (id, status) => {
-        updateActivityMdApproval(id, status)
+    const handleDelete = (activity) => {
+        if (!window.confirm(`Delete "${activity.eventName}"? This cannot be undone.`)) return
+        deleteActivity(activity.id)
         setRefreshKey((value) => value + 1)
+        toast.success('Activity deleted.')
     }
 
     const personLabel = config.personLabel
+    const approvalStatusHeader = roleKey === 'admin' ? 'Super Admin Approval Status' : 'MD Approval Status'
 
     return (
         <section>
@@ -55,6 +68,7 @@ export default function ActivityListView({ roleKey, activityType }) {
                         onClick={() => {
                             setSearch('')
                             setStatusFilter('')
+                            setClassFilter('')
                         }}
                         className='bg-[#515DEF] text-white uppercase text-sm px-6 py-2 border border-[#515DEF] rounded-lg hover:opacity-90 transition-all duration-200 cursor-pointer'
                     >
@@ -64,7 +78,7 @@ export default function ActivityListView({ roleKey, activityType }) {
                         <option value=''>From Beginning</option>
                     </select>
                 </div>
-                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:mt-8 mt-2'>
+                <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 lg:mt-8 mt-2'>
                     <div className='flex flex-col gap-y-2'>
                         <label className='text-base font-medium text-[#808080]'>Search</label>
                         <input
@@ -76,7 +90,25 @@ export default function ActivityListView({ roleKey, activityType }) {
                         />
                     </div>
                     <div className='flex flex-col gap-y-2'>
-                        <label className='text-base font-medium text-[#808080]'>MD Approval Status</label>
+                        <label className='text-base font-medium text-[#808080]'>Class</label>
+                        <select
+                            value={classFilter}
+                            onChange={(e) => setClassFilter(e.target.value)}
+                            className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full'
+                        >
+                            <option value=''>All classes</option>
+                            <option value='All Students'>All Students</option>
+                            {classOptions.map((item) => (
+                                <option key={item.value} value={item.value}>
+                                    {item.label}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className='flex flex-col gap-y-2'>
+                        <label className='text-base font-medium text-[#808080]'>
+                            {roleKey === 'admin' ? 'Super Admin Approval Status' : 'MD Approval Status'}
+                        </label>
                         <select
                             value={statusFilter}
                             onChange={(e) => setStatusFilter(e.target.value)}
@@ -161,7 +193,7 @@ export default function ActivityListView({ roleKey, activityType }) {
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Venue</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>{personLabel}</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Submitted By</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>MD Approval Status</th>
+                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>{approvalStatusHeader}</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>Actions</th>
                             </tr>
                         </thead>
@@ -177,7 +209,7 @@ export default function ActivityListView({ roleKey, activityType }) {
                                     <tr key={activity.id} className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7]'>
                                         <td className='px-2 py-4 rounded-s-lg'>{activity.eventName}</td>
                                         <td className='px-2 py-4'>{activity.eventType}</td>
-                                        <td className='px-2 py-4'>{activity.className}</td>
+                                        <td className='px-2 py-4'>{getClassDisplayLabel(activity.className)}</td>
                                         <td className='px-2 py-4'>{activity.eventDate}</td>
                                         <td className='px-2 py-4'>{activity.startTime}</td>
                                         <td className='px-2 py-4'>{activity.endTime}</td>
@@ -191,26 +223,24 @@ export default function ActivityListView({ roleKey, activityType }) {
                                         </td>
                                         <td className='px-2 py-4 text-center rounded-e-lg'>
                                             <Dropdown buttonContent={<EllipsisIcon size={16} className='text-black' />}>
-                                                {roleKey === 'director' && activity.mdApprovalStatus === MD_APPROVAL_STATUS.PENDING && (
-                                                    <>
-                                                        <button
-                                                            type='button'
-                                                            onClick={() => handleApproval(activity.id, MD_APPROVAL_STATUS.APPROVED)}
-                                                            className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
-                                                        >
-                                                            Approve
-                                                        </button>
-                                                        <button
-                                                            type='button'
-                                                            onClick={() => handleApproval(activity.id, MD_APPROVAL_STATUS.REJECTED)}
-                                                            className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
-                                                        >
-                                                            Reject
-                                                        </button>
-                                                    </>
-                                                )}
-                                                <button type='button' className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'>
+                                                <NavLink
+                                                    to={getActivityViewPath(activityType, roleKey, activity.id)}
+                                                    className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
+                                                >
                                                     View
+                                                </NavLink>
+                                                <NavLink
+                                                    to={getActivityEditPath(activityType, roleKey, activity.id)}
+                                                    className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
+                                                >
+                                                    Edit
+                                                </NavLink>
+                                                <button
+                                                    type='button'
+                                                    onClick={() => handleDelete(activity)}
+                                                    className='w-full text-left p-2 text-[#F44336] hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
+                                                >
+                                                    Delete
                                                 </button>
                                             </Dropdown>
                                         </td>

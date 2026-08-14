@@ -1,3 +1,11 @@
+import noProfile from '../../assets/images/no-profile.png'
+import { getAdmissionById } from '../../Pages/Admin/FrontOffice/AdminssionList/admissionListData'
+import { getSections } from '../RBAC/academicsCatalogData'
+import {
+    getAllEnrolledStudents,
+    updateEnrolledStudentRecord,
+} from '../StudentDatabase/enrolledStudentsData'
+
 const STORAGE_KEY = 'school-erp-student-allocation'
 const LEGACY_STORAGE_KEY = 'director-student-allocation'
 
@@ -16,288 +24,8 @@ export const allocationStatusColor = {
     Rejected: 'bg-[#FF000033] text-[#FF0000]',
 }
 
-const DEFAULT_STUDENT_ALLOCATIONS = [
-    {
-        id: 'ADM-001',
-        studentName: 'Sandy Selva',
-        rollNo: 'STU-1001',
-        className: 'Class-10',
-        classSection: '',
-        admissionNumber: 'ADM-NO1845',
-        gender: 'Male',
-        mobileNumber: '9944076993',
-        createdDate: '12 SEP 2025',
-        country: 'India',
-        state: 'Tamil Nadu',
-        city: 'Trichy',
-        allocationStatus: 'Pending Allocation',
-        submittedBy: '',
-        submittedByRole: '',
-        submittedAt: '',
-        admission: {
-            admissionRollNumber: 'ADM-ROLL-1001',
-            admissionDate: '10-09-2025',
-            className: 'Class-10',
-            classSection: '',
-            registrationFees: '₹5,000',
-            batchStartYear: '2025',
-            batchEndYear: '2026',
-        },
-        student: {
-            firstName: 'Sandy',
-            middleName: '',
-            lastName: 'Selva',
-            gender: 'Male',
-            religion: 'Hindu',
-            caste: 'General',
-            address: '12, Anna Salai, Trichy',
-            dateOfBirth: '20-12-2008',
-            country: 'India',
-            state: 'Tamil Nadu',
-            city: 'Trichy',
-            zipCode: '620001',
-            mobileNumber: '9944076993',
-            alternativeMobileNumber: '9876543210',
-            email: 'sandy.selva@email.com',
-            previousSchool: 'St. Joseph Matric School',
-            bloodGroup: 'B+',
-            height: '162 cm',
-            weight: '50 kg',
-            medicalHistory: 'No known allergies.',
-        },
-        transport: {
-            routeList: 'Route 3 – Trichy Central',
-            busStop: 'Anna Salai Bus Stop',
-        },
-        parents: {
-            fatherName: 'R. Selvam',
-            motherName: 'L. Meena',
-            fatherOccupation: 'Business',
-            motherOccupation: 'Homemaker',
-            fatherYearlyIncome: '₹8,00,000',
-            motherYearlyIncome: '₹2,00,000',
-            siblings: '1 (Younger brother)',
-            address: '12, Anna Salai, Trichy',
-            country: 'India',
-            state: 'Tamil Nadu',
-            city: 'Trichy',
-            zipCode: '620001',
-            mobileNumber: '9944076990',
-            email: 'selvam.family@email.com',
-        },
-        feesTimeline: 'Quarterly Fees Group',
-    },
-    {
-        id: 'ADM-002',
-        studentName: 'Priya Sharma',
-        rollNo: 'STU-1002',
-        className: 'Class-9',
-        classSection: '',
-        admissionNumber: 'ADM-NO1846',
-        gender: 'Female',
-        mobileNumber: '9876543211',
-        createdDate: '11 SEP 2025',
-        country: 'India',
-        state: 'Tamil Nadu',
-        city: 'Madurai',
-        allocationStatus: 'Pending Allocation',
-        submittedBy: '',
-        submittedByRole: '',
-        submittedAt: '',
-        admission: {
-            admissionRollNumber: 'ADM-ROLL-1002',
-            admissionDate: '09-09-2025',
-            className: 'Class-9',
-            classSection: '',
-            registrationFees: '₹4,500',
-            batchStartYear: '2025',
-            batchEndYear: '2026',
-        },
-        student: {
-            firstName: 'Priya',
-            middleName: '',
-            lastName: 'Sharma',
-            gender: 'Female',
-            religion: 'Hindu',
-            caste: 'OBC',
-            address: '45, KK Nagar, Madurai',
-            dateOfBirth: '15-04-2009',
-            country: 'India',
-            state: 'Tamil Nadu',
-            city: 'Madurai',
-            zipCode: '625020',
-            mobileNumber: '9876543211',
-            alternativeMobileNumber: '9876543212',
-            email: 'priya.sharma@email.com',
-            previousSchool: 'DAV Public School',
-            bloodGroup: 'O+',
-            height: '158 cm',
-            weight: '48 kg',
-            medicalHistory: 'Mild asthma.',
-        },
-        transport: {
-            routeList: 'Route 5 – Madurai North',
-            busStop: 'KK Nagar Main Road',
-        },
-        parents: {
-            fatherName: 'A. Sharma',
-            motherName: 'S. Sharma',
-            fatherOccupation: 'Engineer',
-            motherOccupation: 'Teacher',
-            fatherYearlyIncome: '₹10,00,000',
-            motherYearlyIncome: '₹5,00,000',
-            siblings: 'None',
-            address: '45, KK Nagar, Madurai',
-            country: 'India',
-            state: 'Tamil Nadu',
-            city: 'Madurai',
-            zipCode: '625020',
-            mobileNumber: '9876543210',
-            email: 'sharma.family@email.com',
-        },
-        feesTimeline: 'Quarterly Fees Group',
-    },
-    {
-        id: 'ADM-003',
-        studentName: 'Arjun Menon',
-        rollNo: 'STU-1003',
-        className: 'Class-8',
-        classSection: 'A',
-        admissionNumber: 'ADM-NO1847',
-        gender: 'Male',
-        mobileNumber: '9123456789',
-        createdDate: '08 SEP 2025',
-        country: 'India',
-        state: 'Kerala',
-        city: 'Kochi',
-        allocationStatus: 'Allocated',
-        submittedBy: 'Priya Nair',
-        submittedByRole: 'Coordinator',
-        submittedAt: '08 SEP 2025',
-        admission: {
-            admissionRollNumber: 'ADM-ROLL-1003',
-            admissionDate: '05-09-2025',
-            className: 'Class-8',
-            classSection: 'A',
-            registrationFees: '₹4,000',
-            batchStartYear: '2025',
-            batchEndYear: '2026',
-        },
-        student: {
-            firstName: 'Arjun',
-            middleName: 'K.',
-            lastName: 'Menon',
-            gender: 'Male',
-            religion: 'Hindu',
-            caste: 'General',
-            address: '78, Marine Drive, Kochi',
-            dateOfBirth: '22-08-2010',
-            country: 'India',
-            state: 'Kerala',
-            city: 'Kochi',
-            zipCode: '682001',
-            mobileNumber: '9123456789',
-            alternativeMobileNumber: '9123456788',
-            email: 'arjun.menon@email.com',
-            previousSchool: 'Bhavan\'s Vidya Mandir',
-            bloodGroup: 'A+',
-            height: '155 cm',
-            weight: '45 kg',
-            medicalHistory: 'None',
-        },
-        transport: {
-            routeList: 'Route 2 – Kochi West',
-            busStop: 'Marine Drive Junction',
-        },
-        parents: {
-            fatherName: 'K. Menon',
-            motherName: 'L. Menon',
-            fatherOccupation: 'Doctor',
-            motherOccupation: 'Architect',
-            fatherYearlyIncome: '₹18,00,000',
-            motherYearlyIncome: '₹12,00,000',
-            siblings: '1 (Elder sister)',
-            address: '78, Marine Drive, Kochi',
-            country: 'India',
-            state: 'Kerala',
-            city: 'Kochi',
-            zipCode: '682001',
-            mobileNumber: '9123456780',
-            email: 'menon.family@email.com',
-        },
-        feesTimeline: 'Annual Fees Group',
-    },
-    {
-        id: 'ADM-004',
-        studentName: 'Kavya Reddy',
-        rollNo: 'STU-1004',
-        className: 'Class-10',
-        classSection: 'B',
-        admissionNumber: 'ADM-NO1848',
-        gender: 'Female',
-        mobileNumber: '9988776655',
-        createdDate: '14 SEP 2025',
-        country: 'India',
-        state: 'Telangana',
-        city: 'Hyderabad',
-        allocationStatus: 'Pending Approval',
-        submittedBy: TEACHER_NAME,
-        submittedByRole: TEACHER_ROLE,
-        submittedAt: '14 SEP 2025',
-        admission: {
-            admissionRollNumber: 'ADM-ROLL-1004',
-            admissionDate: '13-09-2025',
-            className: 'Class-10',
-            classSection: 'B',
-            registrationFees: '₹5,000',
-            batchStartYear: '2025',
-            batchEndYear: '2026',
-        },
-        student: {
-            firstName: 'Kavya',
-            middleName: '',
-            lastName: 'Reddy',
-            gender: 'Female',
-            religion: 'Hindu',
-            caste: 'General',
-            address: '22, Banjara Hills, Hyderabad',
-            dateOfBirth: '03-01-2009',
-            country: 'India',
-            state: 'Telangana',
-            city: 'Hyderabad',
-            zipCode: '500034',
-            mobileNumber: '9988776655',
-            alternativeMobileNumber: '9988776656',
-            email: 'kavya.reddy@email.com',
-            previousSchool: 'Delhi Public School',
-            bloodGroup: 'AB+',
-            height: '160 cm',
-            weight: '49 kg',
-            medicalHistory: 'None',
-        },
-        transport: {
-            routeList: 'Route 7 – Hyderabad Central',
-            busStop: 'Banjara Hills',
-        },
-        parents: {
-            fatherName: 'V. Reddy',
-            motherName: 'P. Reddy',
-            fatherOccupation: 'IT Manager',
-            motherOccupation: 'Consultant',
-            fatherYearlyIncome: '₹15,00,000',
-            motherYearlyIncome: '₹9,00,000',
-            siblings: 'None',
-            address: '22, Banjara Hills, Hyderabad',
-            country: 'India',
-            state: 'Telangana',
-            city: 'Hyderabad',
-            zipCode: '500034',
-            mobileNumber: '9988776650',
-            email: 'reddy.family@email.com',
-        },
-        feesTimeline: 'Quarterly Fees Group',
-    },
-]
+export const PRINCIPAL_APPROVAL_LIST_PATH = '/principal/student-allocation-approval'
+export const DIRECTOR_APPROVAL_LIST_PATH = '/director/student-allocation-approval'
 
 const readJson = (key) => {
     try {
@@ -309,11 +37,164 @@ const readJson = (key) => {
     }
 }
 
-export const getStudentAllocations = () => {
-    const stored = readJson(STORAGE_KEY) ?? readJson(LEGACY_STORAGE_KEY)
-    if (stored) return stored
-    return [...DEFAULT_STUDENT_ALLOCATIONS]
+const displayValue = (value) => {
+    const text = String(value ?? '').trim()
+    return text || '—'
 }
+
+export const getSectionOptions = () => {
+    const catalogSections = getSections()
+    return catalogSections.length > 0 ? catalogSections : SECTION_OPTIONS
+}
+
+const resolveAdmissionSource = (enrolled) => {
+    if (enrolled.admissionId) {
+        const live = getAdmissionById(enrolled.admissionId)
+        if (live) return live
+    }
+    return enrolled.admissionSnapshot || enrolled
+}
+
+const buildStudentName = (enrolled, admission) =>
+    enrolled.name
+    || [admission.firstName, admission.middleName, admission.lastName]
+        .map((part) => String(part || '').trim())
+        .filter(Boolean)
+        .join(' ')
+    || 'Student'
+
+const buildAllocationRecord = (enrolled, existing = null) => {
+    const admission = resolveAdmissionSource(enrolled)
+    const studentName = buildStudentName(enrolled, admission)
+    const admissionNumber = admission.admissionNumber || enrolled.admissionNumber || ''
+    const sourceClassName = admission.className || enrolled.className || ''
+
+    const allocationStatus = existing?.allocationStatus || 'Pending Allocation'
+    const proposedSection = existing?.proposedSection || ''
+    const approvedSection =
+        allocationStatus === 'Allocated'
+            ? existing?.classSection || enrolled.section || proposedSection
+            : ''
+
+    return {
+        id: enrolled.id,
+        studentId: enrolled.id,
+        studentName,
+        rollNo:
+            enrolled.rollNumber
+            || admission.rollNumber
+            || existing?.rollNo
+            || '',
+        className: sourceClassName,
+        classSection: approvedSection,
+        proposedSection,
+        admissionNumber,
+        gender: admission.gender || enrolled.gender || '',
+        mobileNumber: admission.mobileNumber || enrolled.mobileNumber || '',
+        profileImage: admission.profileImage || enrolled.profileImage || noProfile,
+        createdDate:
+            existing?.createdDate
+            || new Date(enrolled.enrolledAt || Date.now()).toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+            }).toUpperCase(),
+        country: admission.country || enrolled.country || '',
+        state: admission.state || enrolled.state || '',
+        city: admission.city || enrolled.city || '',
+        allocationStatus,
+        submittedBy: existing?.submittedBy || '',
+        submittedByRole: existing?.submittedByRole || '',
+        submittedAt: existing?.submittedAt || '',
+        sourceClassName,
+        admission: {
+            admissionRollNumber: admission.rollNumber || enrolled.rollNumber || enrolled.id,
+            admissionDate: admission.admissionDate || '',
+            className: sourceClassName,
+            classSection: approvedSection,
+            registrationFees: admission.registrationFees || '',
+            batchStartYear: admission.batchStartYear || '',
+            batchEndYear: admission.batchEndYear || '',
+        },
+        student: {
+            firstName: admission.firstName || enrolled.firstName || '',
+            middleName: admission.middleName || enrolled.middleName || '',
+            lastName: admission.lastName || enrolled.lastName || '',
+            gender: admission.gender || enrolled.gender || '',
+            religion: admission.religion || '',
+            caste: admission.caste || '',
+            address: admission.address || '',
+            dateOfBirth: admission.dateOfBirth || enrolled.dateOfBirth || '',
+            country: admission.country || enrolled.country || '',
+            state: admission.state || enrolled.state || '',
+            city: admission.city || enrolled.city || '',
+            zipCode: admission.zipCode || '',
+            mobileNumber: admission.mobileNumber || enrolled.mobileNumber || '',
+            alternativeMobileNumber: admission.altMobileNumber || '',
+            email: admission.email || enrolled.email || '',
+            previousSchool: admission.previousSchool || '',
+            bloodGroup: admission.bloodGroup || '',
+            height: admission.height || '',
+            weight: admission.weight || '',
+            medicalHistory: admission.medicalHistory || '',
+        },
+        transport: {
+            routeList: admission.route || '',
+            busStop: admission.busStop || '',
+        },
+        parents: {
+            fatherName: admission.fatherName || '',
+            motherName: admission.motherName || '',
+            fatherOccupation: admission.fatherOccupation || '',
+            motherOccupation: admission.motherOccupation || '',
+            fatherYearlyIncome: admission.fatherIncome || '',
+            motherYearlyIncome: admission.motherIncome || '',
+            siblings: admission.siblings || '',
+            address: admission.parentAddress || '',
+            country: admission.parentCountry || '',
+            state: admission.parentState || '',
+            city: admission.parentCity || '',
+            zipCode: admission.parentZipCode || '',
+            mobileNumber: admission.parentMobileNumber || '',
+            email: admission.parentEmail || '',
+        },
+        feesTimeline: admission.feesGroup || '',
+    }
+}
+
+export const syncStudentAllocationsFromEnrolled = () => {
+    const enrolled = getAllEnrolledStudents()
+    const existingRecords = readJson(STORAGE_KEY) ?? readJson(LEGACY_STORAGE_KEY) ?? []
+    const existingByStudentId = new Map(
+        existingRecords.map((record) => [record.studentId || record.id, record]),
+    )
+
+    const merged = enrolled.map((student) =>
+        buildAllocationRecord(student, existingByStudentId.get(student.id)),
+    )
+
+    saveStudentAllocations(merged)
+    return merged
+}
+
+export const ensureStudentAllocationRecord = (enrolledStudent) => {
+    if (!enrolledStudent?.id) return null
+
+    const records = readJson(STORAGE_KEY) ?? readJson(LEGACY_STORAGE_KEY) ?? []
+    const exists = records.some(
+        (record) => (record.studentId || record.id) === enrolledStudent.id,
+    )
+    if (exists) return syncStudentAllocationsFromEnrolled()
+
+    const next = [
+        buildAllocationRecord(enrolledStudent),
+        ...records.filter((record) => (record.studentId || record.id) !== enrolledStudent.id),
+    ]
+    saveStudentAllocations(next)
+    return next
+}
+
+export const getStudentAllocations = () => syncStudentAllocationsFromEnrolled()
 
 export const saveStudentAllocations = (records) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(records))
@@ -322,13 +203,32 @@ export const saveStudentAllocations = (records) => {
 export const getStudentAllocationById = (id) =>
     getStudentAllocations().find((item) => item.id === id) ?? null
 
+export const getAllocationDisplayRollNo = (record) =>
+    displayValue(record.rollNo || record.admission?.admissionRollNumber || record.studentId)
+
+export const getAllocationDisplayClass = (record) =>
+    displayValue(record.className || record.sourceClassName || record.admission?.className)
+
+export const getAllocationDisplaySection = (record) => {
+    if (record.allocationStatus === 'Allocated') {
+        return displayValue(record.classSection)
+    }
+    if (record.allocationStatus === 'Pending Approval') {
+        return displayValue(record.proposedSection || record.classSection)
+    }
+    return '—'
+}
+
+export const getAllocationProfileImage = (record) => record?.profileImage || noProfile
+
 export const submitStudentAllocation = (id, classSection, submitterName, submitterRole) => {
     const records = getStudentAllocations()
     const updated = records.map((item) => {
         if (item.id !== id) return item
         return {
             ...item,
-            classSection,
+            proposedSection: classSection,
+            classSection: '',
             allocationStatus: 'Pending Approval',
             submittedBy: submitterName,
             submittedByRole: submitterRole,
@@ -339,7 +239,7 @@ export const submitStudentAllocation = (id, classSection, submitterName, submitt
             }).toUpperCase(),
             admission: {
                 ...item.admission,
-                classSection,
+                classSection: '',
             },
         }
     })
@@ -349,14 +249,33 @@ export const submitStudentAllocation = (id, classSection, submitterName, submitt
 
 export const approveStudentAllocation = (id) => {
     const records = getStudentAllocations()
+    const target = records.find((item) => item.id === id)
+    if (!target) return records
+
+    const approvedSection = target.proposedSection || target.classSection
+    const approvedClass = target.sourceClassName || target.admission?.className || ''
+    const approvedRoll =
+        target.rollNo || target.admission?.admissionRollNumber || target.studentId
+
+    updateEnrolledStudentRecord(target.studentId, {
+        section: approvedSection,
+        rollNumber: approvedRoll,
+        className: approvedClass,
+    })
+
     const updated = records.map((item) => {
         if (item.id !== id) return item
         return {
             ...item,
+            rollNo: approvedRoll,
+            className: approvedClass,
+            classSection: approvedSection,
+            proposedSection: approvedSection,
             allocationStatus: 'Allocated',
             admission: {
                 ...item.admission,
-                classSection: item.classSection,
+                className: approvedClass,
+                classSection: approvedSection,
             },
         }
     })
@@ -371,6 +290,15 @@ export const rejectStudentAllocation = (id) => {
         return {
             ...item,
             allocationStatus: 'Rejected',
+            proposedSection: '',
+            classSection: '',
+            submittedBy: '',
+            submittedByRole: '',
+            submittedAt: '',
+            admission: {
+                ...item.admission,
+                classSection: '',
+            },
         }
     })
     saveStudentAllocations(updated)
@@ -397,7 +325,7 @@ export const filterStudentAllocations = (records, filters) => {
         if (filters.status && record.allocationStatus !== filters.status) return false
 
         if (search) {
-            const haystack = `${record.studentName} ${record.rollNo} ${record.admissionNumber} ${record.className} ${record.city} ${record.state} ${record.submittedBy}`.toLowerCase()
+            const haystack = `${record.studentName} ${record.rollNo} ${record.admissionNumber} ${record.className} ${record.sourceClassName} ${record.city} ${record.state} ${record.submittedBy}`.toLowerCase()
             if (!haystack.includes(search)) return false
         }
 
@@ -415,14 +343,23 @@ export const getSubmitterIdentity = (routePrefix) => {
 export const getPendingApprovalCount = (records) =>
     records.filter((record) => record.allocationStatus === 'Pending Approval').length
 
-export const DIRECTOR_APPROVAL_LIST_PATH = '/director/student-allocation-approval'
-
 export const getStudentAllocationContext = (pathname) => {
     if (pathname.startsWith('/coordinator')) {
         return {
             routePrefix: '/coordinator',
             listPath: '/coordinator/student-allocation',
             isApprover: false,
+        }
+    }
+
+    if (
+        pathname.startsWith(PRINCIPAL_APPROVAL_LIST_PATH) ||
+        pathname.startsWith('/principal/student-allocation')
+    ) {
+        return {
+            routePrefix: '/principal',
+            listPath: PRINCIPAL_APPROVAL_LIST_PATH,
+            isApprover: true,
         }
     }
 

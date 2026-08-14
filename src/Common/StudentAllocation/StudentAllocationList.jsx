@@ -3,19 +3,22 @@ import { NavLink, useLocation } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Calendar, ChevronLeft, ChevronRight, Download, EllipsisIcon } from 'lucide-react'
-import mo_user from '../../assets/images/no-profile.png'
-import Dropdown from '../CommonComponents/Dropdown'
-import ExportModal from '../CommonComponents/ExportModal'
-import DeleteRequestModal from '../CommonComponents/DeleteRequestModal'
 import {
     ALLOCATION_STATUSES,
     allocationStatusColor,
     emptyAllocationFilters,
     filterStudentAllocations,
+    getAllocationDisplayClass,
+    getAllocationDisplayRollNo,
+    getAllocationDisplaySection,
+    getAllocationProfileImage,
     getPendingApprovalCount,
     getStudentAllocationContext,
     getStudentAllocations,
 } from './studentAllocationData'
+import Dropdown from '../CommonComponents/Dropdown'
+import ExportModal from '../CommonComponents/ExportModal'
+import DeleteRequestModal from '../CommonComponents/DeleteRequestModal'
 
 const filterInputClass =
     'text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full bg-white'
@@ -39,12 +42,20 @@ const StudentAllocationList = ({
     const [exportModal, setExportModal] = useState(false)
     const [deleteRequestModal, setDeleteRequestModal] = useState(false)
 
-    const filteredRecords = useMemo(
-        () => filterStudentAllocations(records, filters),
-        [records, filters],
+    const pendingApprovalCount = useMemo(() => getPendingApprovalCount(records), [records])
+
+    const listRecords = useMemo(
+        () =>
+            isApprover
+                ? records.filter((record) => record.allocationStatus !== 'Pending Allocation')
+                : records,
+        [records, isApprover],
     )
 
-    const pendingApprovalCount = useMemo(() => getPendingApprovalCount(records), [records])
+    const filteredRecords = useMemo(
+        () => filterStudentAllocations(listRecords, filters),
+        [listRecords, filters],
+    )
 
     useEffect(() => {
         setRecords(getStudentAllocations())
@@ -83,7 +94,7 @@ const StudentAllocationList = ({
                 <p className='text-sm text-[#667085] mb-4'>
                     {isApprover
                         ? 'Review section allocations submitted by Teachers and Coordinators.'
-                        : 'Assign newly admitted students to a section and submit for Director approval.'}
+                        : 'Assign enrolled students to a class section and submit for Principal approval.'}
                 </p>
                 {isApprover && pendingApprovalCount > 0 ? (
                     <button
@@ -217,21 +228,27 @@ const StudentAllocationList = ({
                             {filteredRecords.length === 0 ? (
                                 <tr>
                                     <td colSpan={isApprover ? 11 : 9} className='px-2 py-8 text-center text-[#667085]'>
-                                        {isApprover && filters.status === 'Pending Approval'
-                                            ? 'All caught up — no pending allocation approvals.'
-                                            : 'No student records match the selected filters.'}
+                                        {records.length === 0 && !isApprover
+                                            ? 'No enrolled students found. Enroll students from the Admission List first.'
+                                            : isApprover && filters.status === 'Pending Approval'
+                                              ? 'All caught up — no pending allocation approvals.'
+                                              : 'No student records match the selected filters.'}
                                     </td>
                                 </tr>
                             ) : (
                                 filteredRecords.map((record) => (
                                     <tr key={record.id} className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7]'>
                                         <td className='px-2 py-4 rounded-s-lg'>
-                                            <img src={mo_user} alt='' className='w-9 h-9 object-cover mx-auto' />
+                                            <img
+                                                src={getAllocationProfileImage(record)}
+                                                alt=''
+                                                className='w-9 h-9 object-cover mx-auto rounded-full'
+                                            />
                                         </td>
                                         <td className='px-2 py-4 font-medium text-[#1E1E1E]'>{record.studentName}</td>
-                                        <td className='px-2 py-4'>{record.rollNo}</td>
-                                        <td className='px-2 py-4'>{record.className}</td>
-                                        <td className='px-2 py-4'>{record.classSection || '—'}</td>
+                                        <td className='px-2 py-4'>{getAllocationDisplayRollNo(record)}</td>
+                                        <td className='px-2 py-4'>{getAllocationDisplayClass(record)}</td>
+                                        <td className='px-2 py-4'>{getAllocationDisplaySection(record)}</td>
                                         <td className='px-2 py-4'>{record.admissionNumber}</td>
                                         {isApprover ? (
                                             <>

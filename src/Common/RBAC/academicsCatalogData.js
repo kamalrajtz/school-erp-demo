@@ -33,6 +33,28 @@ const saveCatalog = (catalog) => {
 
 export const getClasses = () => loadCatalog().classes
 
+export const getClassSelectOptions = () => {
+    const labelByClass = new Map(
+        getClassDetails().map((item) => [
+            item.className.toLowerCase(),
+            item.displayName || item.className,
+        ]),
+    )
+    return getClasses().map((className) => ({
+        value: className,
+        label: labelByClass.get(className.toLowerCase()) || className,
+    }))
+}
+
+export const getClassDisplayLabel = (className) => {
+    if (!className) return '—'
+    if (className === 'All Students') return 'All Students'
+    const match = getClassDetails().find(
+        (item) => item.className.toLowerCase() === String(className).toLowerCase(),
+    )
+    return match?.displayName || className
+}
+
 export const getSections = () => loadCatalog().sections
 
 export const getSubjects = () => loadCatalog().subjects

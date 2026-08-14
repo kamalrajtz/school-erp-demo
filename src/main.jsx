@@ -8,9 +8,21 @@ import App from './App.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { runAcademicsWipeIfNeeded } from './Common/RBAC/academicsWipe.js'
 import { runFrontOfficePassWipeIfNeeded } from './Common/FrontOffice/frontOfficePassWipe.js'
+import { runActivitiesWipeIfNeeded } from './Common/Activities/activitiesWipe.js'
+import { runAnnouncementsWipeIfNeeded } from './Common/Announcement/announcementsWipe.js'
+import { runLeaveRequestWipeIfNeeded } from './Common/LeaveRequest/leaveRequestWipe.js'
+import {
+    migrateLegacyLeaveRequestsIfNeeded,
+    migrateSessionLeaveRequestsToLocalIfNeeded,
+} from './Common/LeaveRequest/leaveRequestData.js'
 
 runAcademicsWipeIfNeeded()
 runFrontOfficePassWipeIfNeeded()
+runActivitiesWipeIfNeeded()
+runAnnouncementsWipeIfNeeded()
+runLeaveRequestWipeIfNeeded()
+migrateLegacyLeaveRequestsIfNeeded()
+migrateSessionLeaveRequestsToLocalIfNeeded()
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

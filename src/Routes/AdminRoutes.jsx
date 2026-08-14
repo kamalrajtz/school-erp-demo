@@ -31,6 +31,7 @@ import AddClassFeeDetails from '../Pages/Admin/Students/ClassFeeDetails/AddClass
 import StudentDocuments from '../Pages/Admin/Documents/StudentDocuments/StudentDocuments'
 import AddStudentDocuments from '../Pages/Admin/Documents/StudentDocuments/AddStudentDocuments'
 import EditStudentDocuments from '../Pages/Admin/Documents/StudentDocuments/EditStudentDocuments'
+import ViewStudentDocuments from '../Pages/Admin/Documents/StudentDocuments/ViewStudentDocuments'
 import EmployeeDocuments from '../Pages/Admin/Documents/EmployeeDocuments/EmployeeDocuments'
 import AddEmployeeDocuments from '../Pages/Admin/Documents/EmployeeDocuments/AddEmployeeDocuments'
 import EditEmployeeDocuments from '../Pages/Admin/Documents/EmployeeDocuments/EditEmployeeDocuments'
@@ -73,13 +74,13 @@ import RedirectLegacyDirectMessages from '../Common/Communication/RedirectLegacy
 import AcademicCalendar from '../Pages/Admin/AcademicCalendar/AcademicCalendar'
 import ActivityListView from '../Common/Activities/ActivityListView'
 import AddActivityForm from '../Common/Activities/AddActivityForm'
+import ViewActivityPage from '../Common/Activities/ViewActivityPage'
 import AdminStudentDatabaseList from '../Pages/Admin/UserManagement/StudentDatabase/StudentsList'
 import AdminViewStudentDatabase from '../Pages/Admin/UserManagement/StudentDatabase/ViewStudent'
 import AdminEmployeeDatabaseList from '../Pages/Admin/UserManagement/EmployeeDatabase/EmployeesList'
 import AdminViewEmployeeDatabase from '../Pages/Admin/UserManagement/EmployeeDatabase/ViewEmployee'
 import UserCreationPage from '../Pages/Admin/RBAC/UserCreationPage'
 import CreateUserPage from '../Pages/Admin/RBAC/CreateUserPage'
-import PermissionsPage from '../Pages/Admin/RBAC/PermissionsPage'
 import RolesPage from '../Pages/Admin/RBAC/RolesPage'
 
 // import Dashboard from '../Pages/Dashboard/Dashboard'
@@ -149,14 +150,21 @@ const AdminRoutes = () => {
             {/* Activities */}
             <Route path="/admin/activities/cultural-list" element={<ActivityListView roleKey="admin" activityType="cultural" />} />
             <Route path="/admin/activities/add-cultural" element={<AddActivityForm roleKey="admin" activityType="cultural" />} />
+            <Route path="/admin/activities/view-cultural/:id" element={<ViewActivityPage roleKey="admin" activityType="cultural" />} />
+            <Route path="/admin/activities/edit-cultural/:id" element={<AddActivityForm roleKey="admin" activityType="cultural" mode="edit" />} />
             <Route path="/admin/activities/sports-list" element={<ActivityListView roleKey="admin" activityType="sports" />} />
             <Route path="/admin/activities/add-sports" element={<AddActivityForm roleKey="admin" activityType="sports" />} />
+            <Route path="/admin/activities/view-sports/:id" element={<ViewActivityPage roleKey="admin" activityType="sports" />} />
+            <Route path="/admin/activities/edit-sports/:id" element={<AddActivityForm roleKey="admin" activityType="sports" mode="edit" />} />
             <Route path="/admin/activities/competitions-list" element={<ActivityListView roleKey="admin" activityType="competition" />} />
             <Route path="/admin/activities/add-competition" element={<AddActivityForm roleKey="admin" activityType="competition" />} />
+            <Route path="/admin/activities/view-competition/:id" element={<ViewActivityPage roleKey="admin" activityType="competition" />} />
+            <Route path="/admin/activities/edit-competition/:id" element={<AddActivityForm roleKey="admin" activityType="competition" mode="edit" />} />
 
             {/* Documents */}
             <Route path="/admin/documents/student-documents" element={<StudentDocuments />} />
             <Route path="/admin/documents/add-student-documents" element={<AddStudentDocuments />} />
+            <Route path="/admin/documents/view-student-documents/:id" element={<ViewStudentDocuments />} />
             <Route path="/admin/documents/edit-student-documents/:id" element={<EditStudentDocuments />} />
             <Route path="/admin/documents/employee-documents" element={<EmployeeDocuments />} />
             <Route path="/admin/documents/add-employee-documents" element={<AddEmployeeDocuments />} />
@@ -229,7 +237,6 @@ const AdminRoutes = () => {
             {/* RBAC */}
             <Route path='/admin/rbac/user-creation' element={<UserCreationPage />} />
             <Route path='/admin/rbac/user-creation/add' element={<CreateUserPage />} />
-            <Route path='/admin/rbac/permissions' element={<PermissionsPage />} />
             <Route path='/admin/rbac/roles' element={<RolesPage />} />
         </ReactRoutes>
     )

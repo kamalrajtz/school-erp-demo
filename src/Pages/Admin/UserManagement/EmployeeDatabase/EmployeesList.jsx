@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useEffect, useMemo, useState } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Calendar, ChevronLeft, ChevronRight, Download, EllipsisIcon } from 'lucide-react'
@@ -9,21 +9,27 @@ import ExportModal from '../../../../Common/CommonComponents/ExportModal'
 import { DEPARTMENTS, EMPLOYEES_LIST, ROUTE_BASE } from './employeeDatabaseData'
 
 const EmployeesList = () => {
+    const location = useLocation()
     const [fromDate, setFromDate] = useState(new Date())
     const [toDate, setToDate] = useState(new Date())
     const [exportModal, setExportModal] = useState(false)
     const [search, setSearch] = useState('')
     const [departmentFilter, setDepartmentFilter] = useState('')
+    const [employees, setEmployees] = useState(() => [...EMPLOYEES_LIST])
+
+    useEffect(() => {
+        setEmployees([...EMPLOYEES_LIST])
+    }, [location.key])
 
     const filteredEmployees = useMemo(() => {
         const query = search.trim().toLowerCase()
-        return EMPLOYEES_LIST.filter((employee) => {
+        return employees.filter((employee) => {
             if (departmentFilter && employee.department !== departmentFilter) return false
             if (!query) return true
             const haystack = `${employee.employeeId} ${employee.name} ${employee.department} ${employee.role} ${employee.email}`.toLowerCase()
             return haystack.includes(query)
         })
-    }, [search, departmentFilter])
+    }, [employees, search, departmentFilter])
 
     return (
         <section>
@@ -69,7 +75,7 @@ const EmployeesList = () => {
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
                     <div>
                         <h2 className='text-xl font-medium text-black'>Employee Database</h2>
-                        <p className='text-sm text-[#667085] mt-1'>All employees across departments in the ERP.</p>
+                        <p className='text-sm text-[#667085] mt-1'>Employees created through User Creation appear here automatically.</p>
                     </div>
                     <button type='button' onClick={() => setExportModal(true)} className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'>
                         <Download size={16} />
@@ -106,7 +112,7 @@ const EmployeesList = () => {
                                 filteredEmployees.map((employee) => (
                                     <tr key={employee.id} className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7]'>
                                         <td className='px-2 py-4 flex justify-center rounded-s-lg'>
-                                            <img src={mo_user} alt='' className='w-9 h-9 rounded-full object-cover' />
+                                            <img src={employee.profileImage || mo_user} alt='' className='w-9 h-9 rounded-full object-cover' />
                                         </td>
                                         <td className='px-2 py-4'>{employee.employeeId}</td>
                                         <td className='px-2 py-4 font-medium text-[#1E1E1E]'>{employee.name}</td>
@@ -135,7 +141,7 @@ const EmployeesList = () => {
             </div>
 
             <div className='flex justify-between items-center px-4 mt-4'>
-                <p className='text-sm font-medium text-[#515DEF]'>Showing {filteredEmployees.length} of {EMPLOYEES_LIST.length} entries</p>
+                <p className='text-sm font-medium text-[#515DEF]'>Showing {filteredEmployees.length} of {employees.length} entries</p>
                 <div className='flex gap-x-2'>
                     <button type='button' className='size-8 flex justify-center items-center p-2 bg-white text-[#515DEF] border border-[#E2E8F0] hover:bg-[#515DEF] hover:text-white rounded-full cursor-pointer'><ChevronLeft size={16} /></button>
                     <button type='button' className='size-8 flex justify-center items-center p-2 bg-[#515DEF] text-white border border-[#515DEF] rounded-full cursor-pointer'>1</button>

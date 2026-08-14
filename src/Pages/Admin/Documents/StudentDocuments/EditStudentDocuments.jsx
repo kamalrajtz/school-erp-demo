@@ -5,7 +5,6 @@ import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import { Calendar } from 'lucide-react'
 import StudentDocumentFields from './Components/StudentDocumentFields'
 import {
-    CLASS_OPTIONS,
     formatPlanDate,
     getStudentDocumentRecordById,
     parsePlanDateString,
@@ -14,6 +13,7 @@ import {
     STUDENT_DOCUMENT_TYPES,
     updateStudentDocumentRecord,
 } from './studentDocumentsData'
+import { getClassSelectOptions } from '../../../../Common/RBAC/academicsCatalogData'
 
 const inputClass =
     'text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full bg-white'
@@ -129,9 +129,9 @@ const EditStudentDocuments = () => {
                             className={inputClass}
                         >
                             <option value=''>Select class</option>
-                            {CLASS_OPTIONS.map((option) => (
-                                <option key={option} value={option}>
-                                    {option}
+                            {getClassSelectOptions().map((option) => (
+                                <option key={option.value} value={option.value}>
+                                    {option.label}
                                 </option>
                             ))}
                         </select>

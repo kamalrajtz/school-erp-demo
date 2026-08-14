@@ -1,3 +1,5 @@
+import { getActivityCalendarItems } from '../Activities/activitiesData'
+
 export const ACADEMIC_EVENT_TYPES = {
     holiday: {
         key: 'holiday',
@@ -22,7 +24,6 @@ export const ACADEMIC_EVENT_TYPES = {
     },
 }
 
-/** Shared academic calendar items (display-only). Ranges use YYYY-MM-DD. */
 export const ACADEMIC_CALENDAR_ITEMS = [
     {
         id: 'hol-1',
@@ -160,6 +161,12 @@ export const ACADEMIC_CALENDAR_ITEMS = [
         endDate: '2026-11-28',
         description: 'School-wide science fair and project showcase.',
     },
+]
+
+/** Static holidays/exams/events plus Cultural, Sports & Competition activities. */
+export const getAllCalendarItems = () => [
+    ...ACADEMIC_CALENDAR_ITEMS,
+    ...getActivityCalendarItems(),
 ]
 
 export const ACADEMIC_CALENDAR_ROLE_CONFIG = {

@@ -1,4 +1,4 @@
-import { ROLES, ROLE_HOME_PATHS } from '../../context/AuthContext'
+import { ROLES } from '../../context/AuthContext'
 
 const STORAGE_KEY = 'schoolerp-role-permissions'
 
@@ -104,9 +104,6 @@ export const getAllRolesForManagement = () =>
     Object.values(ROLES).map((role) => ({
         id: role,
         label: ROLE_LABELS[role] || role,
-        pathPrefix: ROLE_HOME_PATHS[role] || '—',
-        permissionCount: getPermissionCount(role),
-        totalModules: getSelectableModuleCount(),
     }))
 
 /** Teacher sidebar id → permission module key. Unmapped ids stay visible when filtering. */

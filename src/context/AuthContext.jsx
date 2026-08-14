@@ -10,35 +10,11 @@ import {
     findActiveCreatedUserByEmail,
     getCreatedUserByEmail,
     setActiveCreatedUserSession,
+    CREATABLE_ROLES,
 } from '../Common/RBAC/createdUsersData'
+import { ROLES } from '../constants/roles'
 
-export const ROLES = {
-    SUPER_ADMIN: 'superadmin',
-    ADMIN: 'admin',
-    STUDENT: 'student',
-    PARENT: 'parent',
-    LIBRARIAN: 'librarian',
-    PRM: 'prm',
-    GATEKEEPER: 'gatekeeper',
-    GATEKEEPER_MANAGER: 'gatekeepermanager',
-    DIRECTOR: 'director',
-    PRINCIPAL: 'principal',
-    CANTEEN_MANAGER: 'canteenmanager',
-    IT_SUPPORT_MANAGER: 'itsupportmanager',
-    STATIONERY_STORE_MANAGER: 'stationerystoremanager',
-    HOUSEKEEPING_MANAGER: 'housekeepingmanager',
-    TRANSPORT_MANAGER: 'transportmanager',
-    TEACHER: 'teacher',
-    COORDINATOR: 'coordinator',
-    JOINT_DIRECTOR: 'jointdirector',
-    JOINT_DIRECTOR_ASSISTANT: 'jointdirectorassistant',
-    JOINT_DIRECTOR_AUDIT: 'jointdirectoraudit',
-    PROCESS_AUDITOR: 'processauditor',
-    QUALITY_AUDITOR: 'qualityauditor',
-    HR: 'hr',
-    ACCOUNT_HEAD: 'accounthead',
-    DRIVER: 'driver',
-}
+export { ROLES }
 
 export const FAKE_CREDENTIALS = {
     [ROLES.SUPER_ADMIN]: { email: 'superadmin@school.com' },
@@ -98,12 +74,7 @@ export const ROLE_HOME_PATHS = {
 
 const STORAGE_KEY = 'schoolerp_auth'
 
-const CREATABLE_LOGIN_ROLES = new Set([
-    ROLES.TEACHER,
-    ROLES.STUDENT,
-    ROLES.PRM,
-    ROLES.COORDINATOR,
-])
+const CREATABLE_LOGIN_ROLES = new Set(CREATABLE_ROLES)
 
 const readStoredAuth = () => {
     try {

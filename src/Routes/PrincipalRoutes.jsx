@@ -36,6 +36,8 @@ import AnnouncementList from '../Pages/Principal/Announcement/AnnouncementList'
 import AddAnnouncement from '../Pages/Principal/Announcement/AddAnnouncement'
 import ViewAnnouncement from '../Pages/Principal/Announcement/ViewAnnouncement'
 import MyAttendance from '../Pages/Principal/Attendance/MyAttendance'
+import PrincipalStudentAllocationApproval from '../Pages/Principal/StudentAllocation/PrincipalStudentAllocationApproval'
+import StudentAllocationDetail from '../Common/StudentAllocation/StudentAllocationDetail'
 
 const PrincipalRoutes = () => {
     return (
@@ -83,6 +85,8 @@ const PrincipalRoutes = () => {
             <Route path="/principal/academic/teacher-allocation/allocate/:employeeId" element={<AllocateTeacher />} />
             <Route path="/principal/academic/teacher-allocation/view/:employeeId" element={<ViewTeacherAllocation />} />
             <Route path="/principal/academic/teacher-allocation/edit/:employeeId" element={<EditTeacherAllocation />} />
+            <Route path="/principal/student-allocation-approval" element={<PrincipalStudentAllocationApproval />} />
+            <Route path="/principal/student-allocation-approval/review/:id" element={<StudentAllocationDetail />} />
             <Route path="/principal/communication" element={<Navigate to="/principal/communication/inbox" replace />} />
             <Route path="/principal/communication/inbox" element={<CommunicationInbox />} />
             <Route path="/principal/communication/inbox/:conversationId" element={<CommunicationInbox />} />

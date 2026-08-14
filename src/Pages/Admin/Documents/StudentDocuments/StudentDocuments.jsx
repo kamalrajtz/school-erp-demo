@@ -225,12 +225,12 @@ const StudentDocuments = () => {
                                             <Dropdown
                                                 buttonContent={<EllipsisIcon size={16} className='text-black' />}
                                             >
-                                                <button
-                                                    type='button'
-                                                    className='w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
+                                                <NavLink
+                                                    to={`/admin/documents/view-student-documents/${record.id}`}
+                                                    className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
                                                 >
                                                     View
-                                                </button>
+                                                </NavLink>
                                                 <NavLink
                                                     to={`/admin/documents/edit-student-documents/${record.id}`}
                                                     className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'

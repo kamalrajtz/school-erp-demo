@@ -50,6 +50,8 @@ import MyAttendance from '../Pages/FrontOffice/Attendance/MyAttendance'
 import TcRequestList from '../Pages/FrontOffice/TcRequest/TcRequestList'
 import ViewTcRequest from '../Pages/FrontOffice/TcRequest/ViewTcRequest'
 import { TaskManagementRoutes } from '../Common/TaskManagement/TaskManagementRoutes'
+import AnnouncementList from '../Pages/FrontOffice/Announcement/AnnouncementList'
+import ViewAnnouncement from '../Pages/FrontOffice/Announcement/ViewAnnouncement'
 
 const FrontOfficeRoutes = () => {
     return (
@@ -70,9 +72,10 @@ const FrontOfficeRoutes = () => {
             <Route path="/front-office/student-management" element={<StudentsList />} />
             <Route path="/front-office/student-management/view/:id" element={<ViewStudent />} />
             <Route path="/front-office/teacher-management" element={<TeachersList />} />
+            <Route path="/front-office/teacher-management/view/:id" element={<ViewTeacher />} />
             <Route path="/front-office/parent-management" element={<ParentsList />} />
             <Route path="/front-office/view-student" element={<Navigate to="/front-office/student-management" replace />} />
-            <Route path="/front-office/view-teacher" element={<ViewTeacher />} />
+            <Route path="/front-office/view-teacher" element={<Navigate to="/front-office/teacher-management" replace />} />
             <Route path="/front-office/view-parent" element={<ViewParent />} />
             <Route path="/front-office/student-transfer" element={<StudentTransfer />} />
             <Route path="/front-office/student-transfer/add" element={<AddStudentTransfer />} />
@@ -99,6 +102,8 @@ const FrontOfficeRoutes = () => {
             <Route path="/front-office/goods-received-pass/view/:id" element={<ViewGoodsReceivedPass />} />
             <Route path="/front-office/goods-received-pass/edit/:id" element={<EditGoodsReceivedPass />} />
             <Route path="/front-office/academic-calendar" element={<AcademicCalendar />} />
+            <Route path="/front-office/announcement" element={<AnnouncementList />} />
+            <Route path="/front-office/announcement/view/:id" element={<ViewAnnouncement />} />
             <Route path="/front-office/notifications" element={<Notifications />} />
             <Route path="/front-office/leave-request/my-requests" element={<MyLeaveRequests />} />
             <Route path="/front-office/leave-request/my-requests/add" element={<AddLeaveRequest />} />

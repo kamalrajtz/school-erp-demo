@@ -11,6 +11,7 @@ import ViewReceivedLeaveRequest from '../Pages/GateKeeperManager/LeaveRequest/Vi
 import IncidentsList from '../Pages/GateKeeperManager/IncidentManagement/IncidentsList'
 import GatekeeperAnnouncementList from '../Pages/GateKeeperManager/GatekeeperAnnouncement/GatekeeperAnnouncementList'
 import AddGatekeeperAnnouncement from '../Pages/GateKeeperManager/GatekeeperAnnouncement/AddGatekeeperAnnouncement'
+import ViewGatekeeperAnnouncement from '../Pages/GateKeeperManager/GatekeeperAnnouncement/ViewGatekeeperAnnouncement'
 import EscalationList from '../Pages/GateKeeperManager/EscalationManagement/EscalationList'
 import AddEscalation from '../Pages/GateKeeperManager/EscalationManagement/AddEscalation'
 import ViewEscalation from '../Pages/GateKeeperManager/EscalationManagement/ViewEscalation'
@@ -44,6 +45,7 @@ const GateKeeperManagerRoutes = () => {
             <Route path="/gatekeeper-manager/incidents-list" element={<IncidentsList />} />
             <Route path="/gatekeeper-manager/gatekeeper-broadcast-list" element={<GatekeeperAnnouncementList />} />
             <Route path="/gatekeeper-manager/add-gatekeeper-broadcast" element={<AddGatekeeperAnnouncement />} />
+            <Route path="/gatekeeper-manager/gatekeeper-broadcast-list/view/:id" element={<ViewGatekeeperAnnouncement />} />
             <Route path="/gatekeeper-manager/attendance" element={<Navigate to="/gatekeeper-manager/attendance/my-attendance" replace />} />
             <Route path="/gatekeeper-manager/attendance/my-attendance" element={<MyAttendance />} />
             <Route path="/gatekeeper-manager/attendance/gatekeepers-attendance" element={<GatekeepersAttendance />} />

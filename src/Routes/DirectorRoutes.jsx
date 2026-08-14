@@ -27,6 +27,7 @@ import RedirectLegacyDirectMessages from '../Common/Communication/RedirectLegacy
 import AcademicCalendar from '../Pages/Director/AcademicCalendar/AcademicCalendar'
 import ActivityListView from '../Common/Activities/ActivityListView'
 import AddActivityForm from '../Common/Activities/AddActivityForm'
+import ViewActivityPage from '../Common/Activities/ViewActivityPage'
 import MyLeaveRequests from '../Pages/Director/LeaveRequest/MyLeaveRequests'
 import AddLeaveRequest from '../Pages/Director/LeaveRequest/AddLeaveRequest'
 import ViewMyLeaveRequest from '../Pages/Director/LeaveRequest/ViewMyLeaveRequest'
@@ -65,10 +66,16 @@ const DirectorRoutes = () => {
             <Route path="/director/student-transfer/add" element={<Navigate to='/front-office/student-transfer/add' replace />} />
             <Route path="/director/activities/cultural-list" element={<ActivityListView roleKey="director" activityType="cultural" />} />
             <Route path="/director/activities/add-cultural" element={<AddActivityForm roleKey="director" activityType="cultural" />} />
+            <Route path="/director/activities/view-cultural/:id" element={<ViewActivityPage roleKey="director" activityType="cultural" />} />
+            <Route path="/director/activities/edit-cultural/:id" element={<AddActivityForm roleKey="director" activityType="cultural" mode="edit" />} />
             <Route path="/director/activities/sports-list" element={<ActivityListView roleKey="director" activityType="sports" />} />
             <Route path="/director/activities/add-sports" element={<AddActivityForm roleKey="director" activityType="sports" />} />
+            <Route path="/director/activities/view-sports/:id" element={<ViewActivityPage roleKey="director" activityType="sports" />} />
+            <Route path="/director/activities/edit-sports/:id" element={<AddActivityForm roleKey="director" activityType="sports" mode="edit" />} />
             <Route path="/director/activities/competitions-list" element={<ActivityListView roleKey="director" activityType="competition" />} />
             <Route path="/director/activities/add-competition" element={<AddActivityForm roleKey="director" activityType="competition" />} />
+            <Route path="/director/activities/view-competition/:id" element={<ViewActivityPage roleKey="director" activityType="competition" />} />
+            <Route path="/director/activities/edit-competition/:id" element={<AddActivityForm roleKey="director" activityType="competition" mode="edit" />} />
             <Route path="/director/lms/student-lms" element={<StudentLMS />} />
             <Route path="/director/lms/view-student-lms" element={<ViewStudentLMS />} />
             <Route path="/director/lms/teacher-lms" element={<TeacherLMS />} />

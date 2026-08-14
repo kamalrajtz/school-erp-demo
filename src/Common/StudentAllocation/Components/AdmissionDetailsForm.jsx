@@ -1,5 +1,5 @@
 import React from 'react'
-import { SECTION_OPTIONS } from '../studentAllocationData'
+import { getSectionOptions } from '../studentAllocationData'
 
 const readOnlyClass =
     'text-sm font-normal text-[#667085] border border-[#D9D9D9] rounded-md px-2 py-3 w-full bg-[#F9FAFB] cursor-not-allowed'
@@ -37,7 +37,7 @@ const AdmissionDetailsForm = ({ record, section, onSectionChange, sectionEditabl
                             className={editableClass}
                         >
                             <option value=''>Select Section</option>
-                            {SECTION_OPTIONS.map((item) => (
+                            {getSectionOptions().map((item) => (
                                 <option key={item} value={item}>
                                     {item}
                                 </option>
