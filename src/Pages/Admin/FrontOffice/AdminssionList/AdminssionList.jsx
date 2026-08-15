@@ -59,7 +59,13 @@ const AdminssionList = () => {
             return
         }
         refresh()
-        toast.success(`${getStudentDisplayName(record)} enrolled as student.`)
+        if (result.parentCreated) {
+            toast.success(`${getStudentDisplayName(record)} enrolled. Parent account created.`)
+        } else if (result.parentMapped) {
+            toast.success(`${getStudentDisplayName(record)} enrolled and linked to existing parent account.`)
+        } else {
+            toast.success(`${getStudentDisplayName(record)} enrolled as student.`)
+        }
     }
 
     return (

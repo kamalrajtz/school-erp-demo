@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { Navigate, NavLink } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Calendar, ChevronLeft, ChevronRight, Download, EllipsisIcon, Plus } from 'lucide-react'
@@ -9,6 +9,7 @@ import EditRequestModal from '../CommonComponents/EditRequestModal'
 import DeleteRequestModal from '../CommonComponents/DeleteRequestModal'
 import { getTasksAssignedByRole } from './taskManagementData'
 import {
+    canAssignTasks,
     formatAssignedTo,
     getAssignableRoles,
     getRoleLabel,
@@ -47,6 +48,10 @@ const AssignTasksPage = () => {
             )
         })
     }, [tasks, search, roleFilter, statusFilter])
+
+    if (!canAssignTasks(roleKey)) {
+        return <Navigate to={paths.myTasks} replace />
+    }
 
     return (
         <section>

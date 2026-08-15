@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext'
 import { useParentChild } from '../../context/ParentChildContext'
 import { formatGradeSection } from '../Student/studentPortalConfig'
 import { PARENT_DASHBOARD_ROUTE } from './parentPortalConfig'
-import logo from '../../assets/images/demo-logo2.svg'
+import { PORTAL_LOGO, PORTAL_LOGO_ALT } from '../../constants/portalLogo'
 
 const ChildSelection = () => {
     const navigate = useNavigate()
@@ -26,7 +26,7 @@ const ChildSelection = () => {
 
             <div className='relative z-10 max-w-3xl mx-auto px-4 py-10 min-h-screen flex flex-col'>
                 <div className='flex justify-between items-center mb-10'>
-                    <img src={logo} alt='logo' className='w-44' />
+                    <img src={PORTAL_LOGO} alt={PORTAL_LOGO_ALT} className='h-14 w-auto object-contain' />
                     <button
                         type='button'
                         onClick={() => {

@@ -1,17 +1,50 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import EscalationForm from './Components/EscalationForm'
 import { createEscalation, emptyEscalationForm } from './escalationData'
 import { getRoleConfig } from './escalationRoleConfig'
+import {
+    getEscalationRecipientById,
+    getEscalationRecipientSelectOptions,
+} from './escalationUsersData'
+import { useEscalationContext } from './useEscalationContext'
 
 const AddEscalationPage = ({ roleKey }) => {
     const navigate = useNavigate()
     const roleConfig = getRoleConfig(roleKey)
-    const [form, setForm] = useState(emptyEscalationForm())
+    const { currentUser } = useEscalationContext(roleKey)
+
+    const defaultRecipientId = useMemo(
+        () => getEscalationRecipientSelectOptions(roleConfig?.escalatesToRoleKey)?.[0]?.value || '',
+        [roleConfig?.escalatesToRoleKey],
+    )
+
+    const [form, setForm] = useState(() => emptyEscalationForm(defaultRecipientId))
 
     const handleSave = () => {
-        if (!form.description.trim()) return
-        createEscalation(roleKey, form, roleConfig)
+        if (!form.description.trim()) {
+            toast.error('Description is required.')
+            return
+        }
+
+        const recipientUser = getEscalationRecipientById(
+            roleConfig.escalatesToRoleKey,
+            form.recipientUserId,
+        )
+
+        if (!recipientUser) {
+            toast.error(`Please select a ${roleConfig.escalatesTo.toLowerCase()} recipient.`)
+            return
+        }
+
+        const result = createEscalation(roleKey, form, roleConfig, currentUser, recipientUser)
+        if (!result.success) {
+            toast.error(result.message)
+            return
+        }
+
+        toast.success(`Escalation routed to ${roleConfig.escalatesTo} · ${recipientUser.name}.`)
         navigate(roleConfig.routeBase)
     }
 

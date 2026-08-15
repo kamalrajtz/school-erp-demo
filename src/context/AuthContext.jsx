@@ -12,6 +12,7 @@ import {
     setActiveCreatedUserSession,
     CREATABLE_ROLES,
 } from '../Common/RBAC/createdUsersData'
+import { findActiveParentByEmail } from '../Common/ParentAccounts/parentAccountsData'
 import { ROLES } from '../constants/roles'
 
 export { ROLES }
@@ -138,6 +139,9 @@ export const AuthProvider = ({ children }) => {
         const createdUser = CREATABLE_LOGIN_ROLES.has(expectedRole)
             ? findActiveCreatedUserByEmail(normalizedEmail, expectedRole)
             : null
+        const registeredParent = expectedRole === ROLES.PARENT
+            ? findActiveParentByEmail(normalizedEmail)
+            : null
 
         if (expectedRole === ROLES.ADMIN) {
             const defaultEmail = creds.email.toLowerCase()
@@ -153,6 +157,14 @@ export const AuthProvider = ({ children }) => {
                 return {
                     success: false,
                     message: `Use ${creds.email} or a user created by Admin for this profile.`,
+                }
+            }
+        } else if (expectedRole === ROLES.PARENT) {
+            const defaultEmail = creds.email.toLowerCase()
+            if (normalizedEmail !== defaultEmail && !registeredParent) {
+                return {
+                    success: false,
+                    message: `Use ${creds.email} or a parent account created during admission enrollment.`,
                 }
             }
         } else if (normalizedEmail !== creds.email) {
@@ -173,6 +185,7 @@ export const AuthProvider = ({ children }) => {
 
         const sessionName = createdUser?.name
             || createdAdmin?.name
+            || registeredParent?.name
             || null
 
         setIsAuthenticated(true)

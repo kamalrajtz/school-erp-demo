@@ -6,7 +6,7 @@ import React, {
     useMemo,
     useState,
 } from 'react'
-import { FAKE_CREDENTIALS, ROLES, useAuth } from './AuthContext'
+import { ROLES, useAuth } from './AuthContext'
 import { getParentByEmail } from '../Pages/Parent/parentData'
 import {
     getMappedStudentsForParent,
@@ -39,12 +39,11 @@ const writeStoredChildId = (parentId, studentId) => {
 }
 
 export const ParentChildProvider = ({ children }) => {
-    const { role } = useAuth()
+    const { role, email } = useAuth()
     const parentAccount = useMemo(() => {
-        if (role !== ROLES.PARENT) return null
-        const email = FAKE_CREDENTIALS[ROLES.PARENT]?.email
-        return email ? getParentByEmail(email) : null
-    }, [role])
+        if (role !== ROLES.PARENT || !email) return null
+        return getParentByEmail(email)
+    }, [role, email])
 
     const [activeStudentId, setActiveStudentId] = useState(null)
     const [initialized, setInitialized] = useState(false)

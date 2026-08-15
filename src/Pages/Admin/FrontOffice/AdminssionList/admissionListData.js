@@ -1,5 +1,12 @@
 import noProfile from '../../../../assets/images/no-profile.png'
-import { createEnrolledStudentFromAdmission } from '../../../../Common/StudentDatabase/enrolledStudentsData'
+import {
+    ensureParentForEnrolledStudent,
+    validateAdmissionAccountFields,
+} from '../../../../Common/ParentAccounts/parentAccountsData'
+import {
+    createEnrolledStudentFromAdmission,
+    updateEnrolledStudentRecord,
+} from '../../../../Common/StudentDatabase/enrolledStudentsData'
 import { ensureStudentAllocationRecord } from '../../../../Common/StudentAllocation/studentAllocationData'
 
 const STORAGE_KEY = 'schoolerp-admin-admissions'
@@ -59,6 +66,8 @@ export const DEFAULT_ADMISSION_FORM = {
     parentMobileNumber: '',
     parentAltMobileNumber: '',
     parentEmail: '',
+    parentAccountEmail: '',
+    parentAccountPassword: '',
     feesGroup: '',
     status: 'Active',
     enrolledStudentId: '',
@@ -152,6 +161,9 @@ const buildAdmissionRecord = (payload, existing = null) => {
     if (!mobileNumber) return { success: false, message: 'Mobile number is required.' }
     if (!payload.className) return { success: false, message: 'Class is required.' }
 
+    const accountValidation = validateAdmissionAccountFields(payload, existing)
+    if (!accountValidation.success) return accountValidation
+
     const ids = existing
         ? {
             id: existing.id,
@@ -213,6 +225,10 @@ const buildAdmissionRecord = (payload, existing = null) => {
             parentMobileNumber: String(payload.parentMobileNumber || '').trim(),
             parentAltMobileNumber: String(payload.parentAltMobileNumber || '').trim(),
             parentEmail: String(payload.parentEmail || '').trim(),
+            parentAccountEmail: String(payload.parentAccountEmail || '').trim().toLowerCase(),
+            parentAccountPassword: String(payload.parentAccountPassword || '').trim()
+                || existing?.parentAccountPassword
+                || '',
             feesGroup: payload.feesGroup || '',
             status: existing?.status || 'Active',
             enrolledStudentId: existing?.enrolledStudentId || '',
@@ -260,6 +276,13 @@ export const enrollAdmissionAsStudent = (id) => {
     const enrollResult = createEnrolledStudentFromAdmission(records[index])
     if (!enrollResult.success) return enrollResult
 
+    const parentResult = ensureParentForEnrolledStudent(records[index], enrollResult.record.id)
+    if (!parentResult.success) return parentResult
+
+    if (parentResult.parent?.id) {
+        updateEnrolledStudentRecord(enrollResult.record.id, { parentId: parentResult.parent.id })
+    }
+
     records[index] = {
         ...records[index],
         status: 'Enrolled',
@@ -268,7 +291,15 @@ export const enrollAdmissionAsStudent = (id) => {
     }
     saveAdmissions(records)
     ensureStudentAllocationRecord(enrollResult.record)
-    return { success: true, record: records[index], student: enrollResult.record }
+    return {
+        success: true,
+        record: records[index],
+        student: enrollResult.record,
+        parent: parentResult.parent ?? null,
+        parentCreated: Boolean(parentResult.created),
+        parentMapped: Boolean(parentResult.parentMapped),
+        parentSkipped: Boolean(parentResult.skipped),
+    }
 }
 
 export const toAdmissionFormState = (record) => ({

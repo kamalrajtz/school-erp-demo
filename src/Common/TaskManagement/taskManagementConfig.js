@@ -10,19 +10,23 @@ export const statusBadgeColor = {
     Incomplete: 'bg-[#FF000033] text-[#FF0000]',
 }
 
-/** Who each role may assign tasks to (direct reports only) */
+/**
+ * Who each role may assign tasks to (direct reports only).
+ * Flow A: Super Admin → Admin → Director → Principal → Coordinator / Teacher / Librarian
+ * Flow B: Director → PRM → Gate Keeper Manager → Gate Keeper
+ */
 export const ASSIGNMENT_HIERARCHY = {
-    [ROLES.SUPER_ADMIN]: [ROLES.ADMIN, ROLES.DIRECTOR, ROLES.JOINT_DIRECTOR, ROLES.JOINT_DIRECTOR_AUDIT, ROLES.ACCOUNT_HEAD],
-    [ROLES.ADMIN]: [ROLES.DIRECTOR, ROLES.JOINT_DIRECTOR, ROLES.JOINT_DIRECTOR_AUDIT, ROLES.ACCOUNT_HEAD],
+    [ROLES.SUPER_ADMIN]: [ROLES.ADMIN],
+    [ROLES.ADMIN]: [ROLES.DIRECTOR],
     [ROLES.DIRECTOR]: [ROLES.PRINCIPAL, ROLES.PRM],
-    [ROLES.PRINCIPAL]: [ROLES.COORDINATOR, ROLES.LIBRARIAN],
+    [ROLES.PRINCIPAL]: [ROLES.COORDINATOR, ROLES.TEACHER, ROLES.LIBRARIAN],
     [ROLES.PRM]: [ROLES.GATEKEEPER_MANAGER],
-    [ROLES.COORDINATOR]: [ROLES.TEACHER],
     [ROLES.GATEKEEPER_MANAGER]: [ROLES.GATEKEEPER],
 }
 
-/** Roles that can only view/update tasks assigned to them */
+/** Roles that can only view/update tasks assigned to them (no assign-tasks access) */
 export const VIEW_ONLY_ROLES = [
+    ROLES.COORDINATOR,
     ROLES.TEACHER,
     ROLES.LIBRARIAN,
     ROLES.GATEKEEPER,
@@ -131,6 +135,12 @@ export const isViewOnlyRole = (roleKey) => VIEW_ONLY_ROLES.includes(roleKey)
 export const getAssignableRoles = (assignerRole) => {
     const keys = ASSIGNMENT_HIERARCHY[assignerRole] ?? []
     return keys.map((key) => ({ key, label: getRoleLabel(key) }))
+}
+
+export const canAssignToRole = (assignerRole, assigneeRole) => {
+    if (!assignerRole || !assigneeRole) return false
+    const allowed = ASSIGNMENT_HIERARCHY[assignerRole] ?? []
+    return allowed.includes(assigneeRole)
 }
 
 export const getRouteBase = (roleKey) => ROUTE_BASE_BY_ROLE[roleKey] ?? ''

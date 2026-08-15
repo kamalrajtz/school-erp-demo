@@ -1,7 +1,11 @@
-import { ROLES } from '../../context/AuthContext'
-import { DEMO_USER_ID_BY_ROLE, getRoleLabel, getUsersByRole } from './taskManagementConfig'
+import {
+    canAssignToRole,
+    DEMO_USER_ID_BY_ROLE,
+    getRoleLabel,
+    getUsersByRole,
+} from './taskManagementConfig'
 
-const STORAGE_KEY = 'school-erp-task-management'
+export const STORAGE_KEY = 'school-erp-task-management'
 
 const formatDate = (date) => {
     const d = date instanceof Date ? date : new Date(date)
@@ -11,187 +15,17 @@ const formatDate = (date) => {
     return `${day}-${month}-${year}`
 }
 
-const buildTask = ({
-    id,
-    title,
-    description,
-    assigneeRole,
-    assigneeUserIds,
-    assignedByRole,
-    assignedBy,
-    priority,
-    assignedDate,
-    dueDate,
-    status,
-}) => {
-    const users = getUsersByRole(assigneeRole)
-    const allSelected =
-        users.length > 0 && users.every((user) => assigneeUserIds.includes(user.id))
-    const assigneeNames = allSelected
-        ? ['All']
-        : users.filter((user) => assigneeUserIds.includes(user.id)).map((user) => user.name)
-
-    return {
-        id,
-        taskId: id,
-        title,
-        description,
-        assigneeRole,
-        assigneeUserIds,
-        assigneeNames,
-        assignedByRole,
-        assignedBy,
-        priority,
-        assignedDate,
-        dueDate,
-        status,
-    }
-}
-
-const DEFAULT_TASKS = [
-    buildTask({
-        id: 'ADM-TASK-001',
-        title: 'Prepare Term 2 Fee Report',
-        description: 'Compile and submit the Term 2 fee collection summary for all departments.',
-        assigneeRole: ROLES.ACCOUNT_HEAD,
-        assigneeUserIds: ['AH-001'],
-        assignedByRole: ROLES.ADMIN,
-        assignedBy: 'Admin',
-        priority: 'High',
-        assignedDate: '10-03-2026',
-        dueDate: '18-03-2026',
-        status: 'In Progress',
-    }),
-    buildTask({
-        id: 'ADM-TASK-002',
-        title: 'Review Academic Compliance',
-        description: 'Review quarterly academic compliance checklist and sign off.',
-        assigneeRole: ROLES.DIRECTOR,
-        assigneeUserIds: ['DIR-001'],
-        assignedByRole: ROLES.ADMIN,
-        assignedBy: 'Admin',
-        priority: 'High',
-        assignedDate: '08-03-2026',
-        dueDate: '15-03-2026',
-        status: 'Pending',
-    }),
-    buildTask({
-        id: 'ADM-TASK-003',
-        title: 'Audit Operations Review',
-        description: 'Joint Director (Audit) to complete operations audit summary.',
-        assigneeRole: ROLES.JOINT_DIRECTOR_AUDIT,
-        assigneeUserIds: ['JDA-001'],
-        assignedByRole: ROLES.ADMIN,
-        assignedBy: 'Admin',
-        priority: 'Medium',
-        assignedDate: '05-03-2026',
-        dueDate: '20-03-2026',
-        status: 'Pending',
-    }),
-    buildTask({
-        id: 'DIR-TASK-001',
-        title: 'Coordinate Board Exam Logistics',
-        description: 'Principal to coordinate exam hall setup and invigilation roster.',
-        assigneeRole: ROLES.PRINCIPAL,
-        assigneeUserIds: ['PRIN-001'],
-        assignedByRole: ROLES.DIRECTOR,
-        assignedBy: 'Director of Academics',
-        priority: 'High',
-        assignedDate: '09-03-2026',
-        dueDate: '19-03-2026',
-        status: 'In Progress',
-    }),
-    buildTask({
-        id: 'DIR-TASK-002',
-        title: 'Front Office Admission Drive',
-        description: 'PRM team to prepare admission enquiry follow-up report.',
-        assigneeRole: ROLES.PRM,
-        assigneeUserIds: ['FO-001', 'FO-002'],
-        assignedByRole: ROLES.DIRECTOR,
-        assignedBy: 'Director of Academics',
-        priority: 'Medium',
-        assignedDate: '11-03-2026',
-        dueDate: '22-03-2026',
-        status: 'Pending',
-    }),
-    buildTask({
-        id: 'PRIN-TASK-001',
-        title: 'Lesson Plan Review – Term 2',
-        description: 'Coordinators to review and submit lesson plan compliance report.',
-        assigneeRole: ROLES.COORDINATOR,
-        assigneeUserIds: ['CRD-001', 'CRD-002'],
-        assignedByRole: ROLES.PRINCIPAL,
-        assignedBy: 'Dr. Meera Nair',
-        priority: 'High',
-        assignedDate: '12-03-2026',
-        dueDate: '25-03-2026',
-        status: 'Pending',
-    }),
-    buildTask({
-        id: 'PRIN-TASK-002',
-        title: 'Library Inventory Audit',
-        description: 'Conduct a full inventory audit of library assets and submit discrepancy report.',
-        assigneeRole: ROLES.LIBRARIAN,
-        assigneeUserIds: ['LIB-001'],
-        assignedByRole: ROLES.PRINCIPAL,
-        assignedBy: 'Dr. Meera Nair',
-        priority: 'Medium',
-        assignedDate: '05-03-2026',
-        dueDate: '20-03-2026',
-        status: 'In Progress',
-    }),
-    buildTask({
-        id: 'PRM-TASK-001',
-        title: 'Gate Duty Roster Update',
-        description: 'Gate Keeper Manager to update weekly duty roster.',
-        assigneeRole: ROLES.GATEKEEPER_MANAGER,
-        assigneeUserIds: ['GKM-001'],
-        assignedByRole: ROLES.PRM,
-        assignedBy: 'Ravi Kumar',
-        priority: 'Medium',
-        assignedDate: '14-03-2026',
-        dueDate: '17-03-2026',
-        status: 'Pending',
-    }),
-    buildTask({
-        id: 'CRD-TASK-001',
-        title: 'Submit Unit Test Marks',
-        description: 'Teachers to upload unit test marks for Class 10 sections.',
-        assigneeRole: ROLES.TEACHER,
-        assigneeUserIds: ['TCH-001'],
-        assignedByRole: ROLES.COORDINATOR,
-        assignedBy: 'Priya Nair',
-        priority: 'High',
-        assignedDate: '13-03-2026',
-        dueDate: '21-03-2026',
-        status: 'Pending',
-    }),
-    buildTask({
-        id: 'GKM-TASK-001',
-        title: 'Morning Gate Checklist',
-        description: 'Complete morning gate security checklist before 8:00 AM.',
-        assigneeRole: ROLES.GATEKEEPER,
-        assigneeUserIds: ['GK-001'],
-        assignedByRole: ROLES.GATEKEEPER_MANAGER,
-        assignedBy: 'Vignesh S.',
-        priority: 'High',
-        assignedDate: '15-03-2026',
-        dueDate: '16-03-2026',
-        status: 'Pending',
-    }),
-]
-
 const readTasks = () => {
     try {
         const raw = localStorage.getItem(STORAGE_KEY)
         if (raw) {
             const parsed = JSON.parse(raw)
-            if (Array.isArray(parsed) && parsed.length) return parsed
+            if (Array.isArray(parsed)) return parsed
         }
     } catch {
         // ignore invalid storage
     }
-    return DEFAULT_TASKS
+    return []
 }
 
 const writeTasks = (tasks) => {
@@ -215,6 +49,17 @@ export const getMyTasks = (roleKey, userId) =>
 export const getTaskById = (taskId) => readTasks().find((task) => task.id === taskId)
 
 export const addTask = (payload) => {
+    if (!canAssignToRole(payload.assignedByRole, payload.assigneeRole)) {
+        return null
+    }
+
+    const allowedUsers = getUsersByRole(payload.assigneeRole)
+    const allowedUserIds = new Set(allowedUsers.map((user) => user.id))
+    const validAssigneeIds = (payload.assigneeUserIds ?? []).filter((id) => allowedUserIds.has(id))
+    if (!validAssigneeIds.length) {
+        return null
+    }
+
     const tasks = readTasks()
     const prefix = payload.assignedByRole?.slice(0, 3).toUpperCase() ?? 'TSK'
     const nextNum = tasks.length + 1
@@ -233,7 +78,7 @@ export const addTask = (payload) => {
         title: payload.title,
         description: payload.description,
         assigneeRole: payload.assigneeRole,
-        assigneeUserIds: payload.assigneeUserIds,
+        assigneeUserIds: validAssigneeIds,
         assigneeNames,
         assignedByRole: payload.assignedByRole,
         assignedBy: payload.assignedBy,

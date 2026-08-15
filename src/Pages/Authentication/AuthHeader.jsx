@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import logo from '../../assets/images/demo-logo2.svg'
+import { PORTAL_LOGO, PORTAL_LOGO_ALT } from '../../constants/portalLogo'
 
 const AuthHeader = () => {
     const [scrolled, setScrolled] = useState(false)
@@ -20,7 +20,7 @@ const AuthHeader = () => {
                 scrolled ? 'bg-white shadow-sm' : 'bg-transparent'
             }`}
         >
-            <img src={logo} alt="logo" className="w-52" />
+            <img src={PORTAL_LOGO} alt={PORTAL_LOGO_ALT} className="h-14 w-auto object-contain" />
         </header>
     )
 }

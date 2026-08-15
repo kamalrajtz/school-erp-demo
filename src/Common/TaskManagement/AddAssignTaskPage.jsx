@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Calendar } from 'lucide-react'
@@ -7,6 +7,8 @@ import AttachmentsUpload from './Components/AttachmentsUpload'
 import UserMultiSelect from './Components/UserMultiSelect'
 import { addTask } from './taskManagementData'
 import {
+    canAssignTasks,
+    canAssignToRole,
     getAssignableRoles,
     getRoleLabel,
     getTaskManagementPaths,
@@ -51,7 +53,12 @@ const AddAssignTaskPage = () => {
             return
         }
 
-        addTask({
+        if (!canAssignToRole(roleKey, assigneeRole)) {
+            alert('You are not allowed to assign tasks to the selected role.')
+            return
+        }
+
+        const created = addTask({
             title: title.trim(),
             description: description.trim(),
             assigneeRole,
@@ -64,7 +71,16 @@ const AddAssignTaskPage = () => {
             status: 'Pending',
         })
 
+        if (!created) {
+            alert('Unable to assign task. Check the selected role and users.')
+            return
+        }
+
         navigate(paths.assignTasks)
+    }
+
+    if (!canAssignTasks(roleKey)) {
+        return <Navigate to={paths.myTasks} replace />
     }
 
     return (

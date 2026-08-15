@@ -1247,12 +1247,8 @@ export const coordinatorSidebarLinks = [
     {
         id: 5,
         title: "Task Management",
-        to: "#0",
+        to: "/coordinator/task-management/my-tasks",
         icon: ClipboardList,
-        subLinks: [
-            { icon: UserPlus, title: "Assign Tasks", to: "/coordinator/task-management/assign-tasks" },
-            { icon: ListChecks, title: "My Tasks", to: "/coordinator/task-management/my-tasks" },
-        ],
     },
     {
         id: 6,

@@ -1,22 +1,28 @@
+import { getEnrolledStudentById } from '../../Common/StudentDatabase/enrolledStudentsData'
+import { getMappedStudentIds as getParentMappedStudentIds } from '../../Common/ParentAccounts/parentAccountsData'
 import { STUDENTS_LIST } from '../Teacher/StudentsList/studentsListData'
 import { PARENT_CHILD_PROFILES } from './parentStudentProfiles'
 
-/** Maps each parent account to allowed student IDs. */
-export const PARENT_STUDENT_MAPPINGS = [
-    {
-        parentId: 'PAR-001',
-        studentIds: ['STU-PAR-001', 'STU-PAR-002', 'STU-PAR-003'],
-    },
-    {
-        parentId: 'PAR-002',
-        studentIds: ['STU-2024-1042'],
-    },
-]
+export const toParentPortalStudentProfile = (enrolledRecord) => {
+    if (!enrolledRecord) return null
 
-export const getMappedStudentIds = (parentId) => {
-    const mapping = PARENT_STUDENT_MAPPINGS.find((item) => item.parentId === parentId)
-    return mapping?.studentIds ?? []
+    const rollNumber = enrolledRecord.rollNumber || ''
+    const sectionMatch = rollNumber.match(/-([A-Za-z]+)-/)
+    const section = sectionMatch?.[1] || '—'
+    const className = enrolledRecord.className || '—'
+
+    return {
+        id: enrolledRecord.id,
+        name: enrolledRecord.name,
+        className,
+        section,
+        classSection: `${className}-${section}`,
+        rollNumber,
+        admissionNumber: enrolledRecord.admissionNumber || enrolledRecord.id,
+    }
 }
+
+export const getMappedStudentIds = (parentId) => getParentMappedStudentIds(parentId)
 
 export const isStudentMappedToParent = (parentId, studentId) =>
     getMappedStudentIds(parentId).includes(studentId)
@@ -24,6 +30,11 @@ export const isStudentMappedToParent = (parentId, studentId) =>
 export const getStudentProfileById = (studentId) => {
     if (PARENT_CHILD_PROFILES[studentId]) {
         return PARENT_CHILD_PROFILES[studentId]
+    }
+
+    const enrolled = getEnrolledStudentById(studentId)
+    if (enrolled) {
+        return toParentPortalStudentProfile(enrolled)
     }
 
     const fromTeacherList = STUDENTS_LIST.find((student) => student.id === studentId)

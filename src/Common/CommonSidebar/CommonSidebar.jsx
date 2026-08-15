@@ -1,8 +1,7 @@
 ﻿import React, { useState, useEffect, useRef, useMemo } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { ChevronLeft, ChevronDown } from "lucide-react"
-import logo from "../../assets/images/demo-logo.svg"
-import logoMini from "../../assets/images/demo-logo-mini.svg"
+import { PORTAL_LOGO, PORTAL_LOGO_ICON, PORTAL_LOGO_ALT } from "../../constants/portalLogo"
 import { superAdminSidebarLinks, canteenManagerSidebarLinks, gateKeeperManagerSidebarLinks, gateKeeperSidebarLinks, directorSidebarLinks, principalSidebarLinks, librarianSidebarLinks, prmSidebarLinks, studentSidebarLinks, parentSidebarLinks, teacherSidebarLinks, coordinatorSidebarLinks, itSupportManagerSidebarLinks, stationeryStoreManagerSidebarLinks, housekeepingManagerSidebarLinks, transportManagerSidebarLinks, jointDirectorSidebarLinks, jointDirectorAssistantSidebarLinks, jointDirectorAuditSidebarLinks, processAuditorSidebarLinks, qualityAuditorSidebarLinks, hrSidebarLinks, accountHeadSidebarLinks, driverSidebarLinks } from './Components/sidebarLinks'
 import { getFilteredAdminSidebarLinks } from '../../Pages/SuperAdmin/UserCreation/adminUsersData'
 import {
@@ -123,12 +122,25 @@ const CommonSidebar = ({ sidebarHidden, toggleSidebar }) => {
             {/* Scrollable Links Container */}
             <div className={`flex-1 px-2 pb-4 lg:pt-0 flex flex-col gap-y-3 ${sidebarHidden ? "overflow-visible" : "overflow-y-auto sidebar-scroll-hide"}`}>
 
-                <div className="overflow-hidden border-b border-[#e4e7ec] shrink-0">
-                    {sidebarHidden ? (
-                        <img src={logoMini} className='p-4 mx-auto w-fit h-fit' alt="logo" />
-                    ) : (
-                        <img src={logo} className='p-4 min-w-full h-fit' alt="logo" />
-                    )}
+                <div className="relative shrink-0 overflow-hidden border-b border-[#e4e7ec] h-32">
+                    <img
+                        src={PORTAL_LOGO}
+                        alt={PORTAL_LOGO_ALT}
+                        className={`absolute inset-0 h-full w-full p-4 object-cover object-left transition-all duration-300 ease-in-out ${
+                            sidebarHidden
+                                ? "opacity-0 scale-95 pointer-events-none"
+                                : "opacity-100 scale-100"
+                        }`}
+                    />
+                    <img
+                        src={PORTAL_LOGO_ICON}
+                        alt={PORTAL_LOGO_ALT}
+                        className={`absolute inset-0 h-full w-full p-3 object-contain transition-all duration-300 ease-in-out ${
+                            sidebarHidden
+                                ? "opacity-100 scale-100"
+                                : "opacity-0 scale-95 pointer-events-none"
+                        }`}
+                    />
                 </div>
 
                 <ul className="flex flex-col gap-y-2" ref={flyoutRef}>

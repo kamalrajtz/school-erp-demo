@@ -16,9 +16,9 @@ export const ESCALATION_ROLE_CONFIG = {
     prm: {
         roleLabel: 'PRM (Front Office)',
         routeBase: '/front-office/escalation-management',
-        escalatesTo: 'Principal',
-        escalatesToRoleKey: 'principal',
-        hierarchyLabel: 'PRM (Front Office) → Principal',
+        escalatesTo: 'Director of Academics',
+        escalatesToRoleKey: 'director',
+        hierarchyLabel: 'PRM (Front Office) → Director of Academics',
     },
     student: {
         roleLabel: 'Student',
@@ -30,9 +30,16 @@ export const ESCALATION_ROLE_CONFIG = {
     teacher: {
         roleLabel: 'Teacher',
         routeBase: '/teacher/escalation-management',
-        escalatesTo: 'Co-ordinator',
+        escalatesTo: 'Coordinator',
         escalatesToRoleKey: 'coordinator',
-        hierarchyLabel: 'Teacher → Co-ordinator',
+        hierarchyLabel: 'Teacher → Coordinator',
+    },
+    coordinator: {
+        roleLabel: 'Coordinator',
+        routeBase: '/coordinator/escalation-management',
+        escalatesTo: 'Principal',
+        escalatesToRoleKey: 'principal',
+        hierarchyLabel: 'Coordinator → Principal',
     },
     librarian: {
         roleLabel: 'Librarian',
@@ -72,3 +79,12 @@ export const ESCALATION_ROLE_CONFIG = {
 }
 
 export const getRoleConfig = (roleKey) => ESCALATION_ROLE_CONFIG[roleKey]
+
+export const getEscalationTargetForRole = (roleKey) => {
+    const config = getRoleConfig(roleKey)
+    if (!config?.escalatesToRoleKey) return null
+    return {
+        roleKey: config.escalatesToRoleKey,
+        roleLabel: config.escalatesTo,
+    }
+}

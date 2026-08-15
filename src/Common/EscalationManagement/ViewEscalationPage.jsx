@@ -14,6 +14,8 @@ import {
     updateEscalation,
 } from './escalationData'
 import { getRoleConfig } from './escalationRoleConfig'
+import { formatEscalatedToDisplay } from './escalationUsersData'
+import { useEscalationContext } from './useEscalationContext'
 
 const Section = ({ title, children }) => (
     <div className='bg-white rounded-2xl shadow-md p-4'>
@@ -33,6 +35,7 @@ const ViewEscalationPage = ({ roleKey }) => {
     const navigate = useNavigate()
     const { id } = useParams()
     const roleConfig = getRoleConfig(roleKey)
+    const { currentUser } = useEscalationContext(roleKey)
     const [escalation, setEscalation] = useState(() => getEscalationById(roleKey, id))
 
     useEffect(() => {
@@ -40,8 +43,8 @@ const ViewEscalationPage = ({ roleKey }) => {
     }, [roleKey, id])
 
     const isReceived = useMemo(
-        () => (escalation ? isReceivedEscalation(escalation, roleKey) : false),
-        [escalation, roleKey],
+        () => (escalation ? isReceivedEscalation(escalation, roleKey, currentUser) : false),
+        [escalation, roleKey, currentUser],
     )
 
     const resolveByDate = useMemo(
@@ -58,7 +61,7 @@ const ViewEscalationPage = ({ roleKey }) => {
         const status = event.target.value
         const updates = {
             status,
-            resolvedAt: status === 'Resolved' ? new Date().toISOString() : null,
+            resolvedAt: ['Resolved', 'Rejected'].includes(status) ? new Date().toISOString() : null,
         }
         const updated = updateEscalation(roleKey, id, updates)
         if (updated) setEscalation(updated)
@@ -100,7 +103,9 @@ const ViewEscalationPage = ({ roleKey }) => {
                         {isReceived ? (
                             <p className='text-xs text-[#515DEF] mt-1 font-medium'>Received escalation</p>
                         ) : (
-                            <p className='text-xs text-[#808080] mt-1'>Escalated to {escalation.escalatedTo}</p>
+                            <p className='text-xs text-[#808080] mt-1'>
+                                Routed to {escalation.escalatedTo} — track status below
+                            </p>
                         )}
                     </div>
                     <div className='flex flex-wrap gap-2 self-start'>
@@ -130,7 +135,7 @@ const ViewEscalationPage = ({ roleKey }) => {
                                 ))}
                             </select>
                             <span className='text-xs text-[#667085]'>
-                                Select Resolved to mark this escalation as completed.
+                                Update status as you review this escalation. Select Resolved or Rejected when complete.
                             </span>
                         </div>
                         <Field
@@ -175,7 +180,7 @@ const ViewEscalationPage = ({ roleKey }) => {
                     <Field label='Escalation date' value={escalation.escalationDate} />
                     <Field label='Escalated by' value={escalation.escalatedBy} />
                     <Field label='Role' value={escalation.escalatedByRole} />
-                    <Field label='Escalated to' value={escalation.escalatedTo} />
+                    <Field label='Escalated to' value={formatEscalatedToDisplay(escalation)} />
                 </div>
             </Section>
 

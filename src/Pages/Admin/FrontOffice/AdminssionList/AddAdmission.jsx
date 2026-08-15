@@ -5,6 +5,7 @@ import AdmissionInfo from './Components/AdmissionInfo'
 import StudentInfo from './Components/StudentInfo'
 import TransportInfo from './Components/TransportInfo'
 import ParentsInfo from './Components/ParentsInfo'
+import AccountInformation from './Components/AccountInformation'
 import FeesTimeLine from './Components/FeesTimeLine'
 import {
     buildInitialAdmissionForm,
@@ -96,6 +97,15 @@ const AddAdmission = () => {
             <div className='bg-white rounded-2xl shadow-md p-4 mt-6'>
                 <h2 className='text-xl font-semibold text-black'>Parents Information</h2>
                 <ParentsInfo form={form} onChange={updateField} />
+            </div>
+
+            <div className='bg-white rounded-2xl shadow-md p-4 mt-6'>
+                <h2 className='text-xl font-semibold text-black'>Account Information</h2>
+                <AccountInformation
+                    form={form}
+                    onChange={updateField}
+                    isEnrolled={form.status === 'Enrolled'}
+                />
             </div>
 
             <div className='bg-white rounded-2xl shadow-md p-4 mt-6'>

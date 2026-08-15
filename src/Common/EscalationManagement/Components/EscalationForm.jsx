@@ -1,4 +1,5 @@
 import React from 'react'
+import RecipientSelect from './RecipientSelect'
 
 const EscalationForm = ({ form, onChange, roleConfig, readOnly = false }) => {
     const handleChange = (field) => (event) => {
@@ -11,8 +12,13 @@ const EscalationForm = ({ form, onChange, roleConfig, readOnly = false }) => {
 
     return (
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6'>
+            {!readOnly && roleConfig?.hierarchyLabel && (
+                <div className='sm:col-span-2 rounded-lg border border-[#515DEF33] bg-[#F8F9FF] px-4 py-3 text-sm text-[#667085]'>
+                    Escalations are routed automatically: {roleConfig.hierarchyLabel}
+                </div>
+            )}
             <div className='flex flex-col gap-y-2'>
-                <label className={labelClass}>Escalated To</label>
+                <label className={labelClass}>Recipient Role</label>
                 <input
                     type='text'
                     value={roleConfig?.escalatesTo ?? form.escalatedTo ?? '—'}
@@ -30,6 +36,24 @@ const EscalationForm = ({ form, onChange, roleConfig, readOnly = false }) => {
                     className={inputClass}
                 />
             </div>
+            {!readOnly && roleConfig?.escalatesToRoleKey ? (
+                <RecipientSelect
+                    targetRoleKey={roleConfig.escalatesToRoleKey}
+                    roleLabel={roleConfig.escalatesTo}
+                    value={form.recipientUserId || ''}
+                    onChange={(recipientUserId) => onChange?.({ ...form, recipientUserId })}
+                />
+            ) : (
+                <div className='flex flex-col gap-y-2 sm:col-span-2'>
+                    <label className={labelClass}>Assigned Recipient</label>
+                    <input
+                        type='text'
+                        value={form.escalatedToUserName || form.escalatedTo || '—'}
+                        disabled
+                        className={inputClass}
+                    />
+                </div>
+            )}
             <div className='flex flex-col gap-y-2 sm:col-span-2'>
                 <label className={labelClass}>Description</label>
                 <input

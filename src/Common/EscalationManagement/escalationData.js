@@ -1,15 +1,22 @@
-const STORAGE_PREFIX = 'escalation-management-'
+import { matchesEscalationUser } from './escalationUsersData'
 
-export const ESCALATION_STATUSES = ['Open', 'In Review', 'Resolved', 'Closed']
+const UNIFIED_STORAGE_KEY = 'schoolerp-escalations'
+const LEGACY_STORAGE_PREFIX = 'escalation-management-'
 
-export const RECEIVED_RESOLUTION_STATUSES = ['Open', 'In Review', 'Resolved']
+export { UNIFIED_STORAGE_KEY as ESCALATION_STORAGE_KEY, LEGACY_STORAGE_PREFIX as ESCALATION_LEGACY_STORAGE_PREFIX }
+
+export const ESCALATION_STATUSES = ['Pending', 'In Review', 'Resolved', 'Rejected', 'Closed']
+
+export const RECEIVED_RESOLUTION_STATUSES = ['Pending', 'In Review', 'Resolved', 'Rejected']
 
 export const RESOLUTION_SLA_HOURS = 24
 
 export const statusBadgeColor = {
+    Pending: 'bg-[#FF980033] text-[#FF9800]',
     Open: 'bg-[#FF980033] text-[#FF9800]',
     'In Review': 'bg-[#2196F333] text-[#2196F3]',
     Resolved: 'bg-[#4CAF5033] text-[#4CAF50]',
+    Rejected: 'bg-[#FF000033] text-[#FF0000]',
     Closed: 'bg-[#66708533] text-[#667085]',
 }
 
@@ -19,8 +26,34 @@ export const priorityBadgeColor = {
     Low: 'bg-[#4CAF5033] text-[#4CAF50]',
 }
 
-export const isReceivedEscalation = (escalation, roleKey) =>
-    escalation?.escalatedToRoleKey === roleKey
+const normalizeStatus = (status) => (status === 'Open' ? 'Pending' : status)
+
+const normalizeEscalation = (record) => ({
+    ...record,
+    status: normalizeStatus(record.status),
+})
+
+export const isSentEscalation = (escalation, roleKey, currentUser = null) => {
+    if (escalation?.escalatedByRoleKey !== roleKey) return false
+    if (!currentUser) return true
+    if (!escalation?.escalatedByUserId && !escalation?.escalatedByUserEmail) return true
+    return matchesEscalationUser(
+        escalation.escalatedByUserId,
+        escalation.escalatedByUserEmail,
+        currentUser,
+    )
+}
+
+export const isReceivedEscalation = (escalation, roleKey, currentUser = null) => {
+    if (escalation?.escalatedToRoleKey !== roleKey) return false
+    if (!currentUser) return true
+    if (!escalation?.escalatedToUserId && !escalation?.escalatedToUserEmail) return true
+    return matchesEscalationUser(
+        escalation.escalatedToUserId,
+        escalation.escalatedToUserEmail,
+        currentUser,
+    )
+}
 
 export const parseEscalationDate = (dateStr) => {
     if (!dateStr) return new Date()
@@ -54,197 +87,62 @@ export const formatDateTime = (date) => {
 }
 
 export const isResolutionOverdue = (escalation) => {
-    if (['Resolved', 'Closed'].includes(escalation.status)) return false
+    if (['Resolved', 'Rejected', 'Closed'].includes(escalation.status)) return false
     return getResolveByDate(escalation).getTime() < Date.now()
 }
 
-const DEFAULT_ESCALATIONS = [
-    {
-        id: 'ESC-2026-001',
-        escalatedBy: 'Ravi Kumar',
-        escalatedByRole: 'Gate Keeper',
-        escalatedByRoleKey: 'gateKeeper',
-        escalatedTo: 'Gate Keeper Manager',
-        escalatedToRoleKey: 'gateKeeperManager',
-        description: 'Unauthorized vehicle entry attempt at main gate during evening shift.',
-        escalationDate: '08-03-2026',
-        escalatedDepartment: 'Security',
-        status: 'Open',
-        escalatedAt: '2026-03-08T09:30:00.000Z',
-        fullDescription: 'Security guard reported repeated unauthorized entry attempts. Requires manager review and updated visitor protocol.',
-        remarks: 'Incident logged in gate register.',
-    },
-    {
-        id: 'ESC-2026-002',
-        escalatedBy: 'Meena Das',
-        escalatedByRole: 'Gate Keeper Manager',
-        escalatedByRoleKey: 'gateKeeperManager',
-        escalatedTo: 'PRM (Front Office)',
-        escalatedToRoleKey: 'prm',
-        description: 'Parent dispute at gate regarding early student pickup without authorization.',
-        escalationDate: '09-03-2026',
-        escalatedDepartment: 'Front Office',
-        status: 'In Review',
-        escalatedAt: '2026-03-09T11:15:00.000Z',
-        fullDescription: 'Forwarded from gate team after failed resolution. Parent insists on immediate pickup without ID verification.',
-        remarks: 'Gate Keeper escalation ESC-2026-001 related follow-up.',
-    },
-    {
-        id: 'ESC-2026-003',
-        escalatedBy: 'Front Office Desk',
-        escalatedByRole: 'PRM (Front Office)',
-        escalatedByRoleKey: 'prm',
-        escalatedTo: 'Principal',
-        escalatedToRoleKey: 'principal',
-        description: 'Bulk admission enquiry backlog affecting response SLA.',
-        escalationDate: '10-03-2026',
-        escalatedDepartment: 'Administration',
-        status: 'Open',
-        escalatedAt: '2026-03-10T08:00:00.000Z',
-        fullDescription: 'Admission enquiry volume exceeded front office capacity. Requires principal approval for temporary staff support.',
-        remarks: '45 pending enquiries as of 10-03-2026.',
-    },
-    {
-        id: 'ESC-2026-004',
-        escalatedBy: 'Arjun Patel',
-        escalatedByRole: 'Student',
-        escalatedByRoleKey: 'student',
-        escalatedTo: 'Teacher',
-        escalatedToRoleKey: 'teacher',
-        description: 'Unable to access uploaded assignment materials for Mathematics.',
-        escalationDate: '11-03-2026',
-        escalatedDepartment: 'Mathematics',
-        status: 'Open',
-        escalatedAt: '2026-03-11T14:20:00.000Z',
-        fullDescription: 'Class 10-A student reports LMS link broken for quadratic equations worksheet.',
-        remarks: 'Roll No: STU-2024-1042',
-    },
-    {
-        id: 'ESC-2026-005',
-        escalatedBy: 'Anita Verma',
-        escalatedByRole: 'Teacher',
-        escalatedByRoleKey: 'teacher',
-        escalatedTo: 'Co-ordinator',
-        escalatedToRoleKey: 'coordinator',
-        description: 'Shortage of mathematics reference books for Class 10 board batch.',
-        escalationDate: '09-03-2026',
-        escalatedDepartment: 'Mathematics',
-        status: 'Open',
-        escalatedAt: '2026-03-09T10:45:00.000Z',
-        fullDescription: 'Current stock covers only 60% of enrolled students. Requesting coordinator to escalate for procurement.',
-        remarks: 'Student escalation forwarded after verification.',
-    },
-    {
-        id: 'ESC-2026-006',
-        escalatedBy: 'Sandy Selva',
-        escalatedByRole: 'Co-ordinator',
-        escalatedByRoleKey: 'coordinator',
-        escalatedTo: 'Principal',
-        escalatedToRoleKey: 'principal',
-        description: 'Repeated student discipline issues in Class 9-A science lab sessions.',
-        escalationDate: '08-03-2026',
-        escalatedDepartment: 'Science',
-        status: 'Open',
-        escalatedAt: '2026-03-08T07:30:00.000Z',
-        fullDescription: 'Multiple instances of lab equipment misuse. Parent meetings attempted at department level without resolution.',
-        remarks: 'Forwarded from teacher Anita Verma on 07-03-2026.',
-    },
-    {
-        id: 'ESC-2026-007',
-        escalatedBy: 'Lakshmi Iyer',
-        escalatedByRole: 'Librarian',
-        escalatedByRoleKey: 'librarian',
-        escalatedTo: 'Principal',
-        escalatedToRoleKey: 'principal',
-        description: 'Library AC failure affecting reading room during exam week.',
-        escalationDate: '12-03-2026',
-        escalatedDepartment: 'Library',
-        status: 'In Review',
-        escalatedAt: '2026-03-12T06:00:00.000Z',
-        fullDescription: 'AC units non-functional since 10-03-2026. Students unable to use silent study area.',
-        remarks: 'Maintenance ticket #LIB-4421 raised.',
-    },
-    {
-        id: 'ESC-2026-008',
-        escalatedBy: 'Dr. James Wilson',
-        escalatedByRole: 'Principal',
-        escalatedByRoleKey: 'principal',
-        escalatedTo: 'Director of Academics',
-        escalatedToRoleKey: 'director',
-        description: 'Board exam seating plan conflict across two senior batches.',
-        escalationDate: '13-03-2026',
-        escalatedDepartment: 'Administration',
-        status: 'Open',
-        escalatedAt: '2026-03-13T09:00:00.000Z',
-        fullDescription: 'Exam hall allocation overlap for Class 10 and Class 12 mock tests on 18-03-2026.',
-        remarks: 'Requires academic calendar adjustment.',
-    },
-    {
-        id: 'ESC-2026-009',
-        escalatedBy: 'Director of Academics',
-        escalatedByRole: 'Director of Academics',
-        escalatedByRoleKey: 'director',
-        escalatedTo: 'Admin',
-        escalatedToRoleKey: 'admin',
-        description: 'Policy approval needed for revised internal assessment weightage.',
-        escalationDate: '14-03-2026',
-        escalatedDepartment: 'Administration',
-        status: 'Open',
-        escalatedAt: '2026-03-14T11:30:00.000Z',
-        fullDescription: 'Academic council approved revised weightage. Admin sign-off required before publishing to departments.',
-        remarks: 'Effective from Term 2.',
-    },
-    {
-        id: 'ESC-2026-010',
-        escalatedBy: 'Admin',
-        escalatedByRole: 'Admin',
-        escalatedByRoleKey: 'admin',
-        escalatedTo: 'Super Admin',
-        escalatedToRoleKey: 'superAdmin',
-        description: 'Infrastructure budget approval pending for auditorium renovation.',
-        escalationDate: '15-03-2026',
-        escalatedAt: '2026-03-15T10:00:00.000Z',
-        status: 'Open',
-        fullDescription: 'Auditorium renovation quote exceeds delegated admin approval limit. Super Admin sign-off required before vendor engagement.',
-        remarks: 'Forwarded after finance review on 14-03-2026.',
-    },
-]
+const saveAllEscalations = (records) => {
+    localStorage.setItem(UNIFIED_STORAGE_KEY, JSON.stringify(records))
+}
 
-const storageKey = (roleKey) => `${STORAGE_PREFIX}${roleKey}`
-
-export const getEscalations = (roleKey) => {
+export const getAllEscalations = () => {
     try {
-        const stored = localStorage.getItem(storageKey(roleKey))
-        if (stored) return JSON.parse(stored)
+        const stored = localStorage.getItem(UNIFIED_STORAGE_KEY)
+        if (stored !== null) {
+            const parsed = JSON.parse(stored)
+            if (Array.isArray(parsed)) {
+                return parsed.map(normalizeEscalation)
+            }
+        }
     } catch {
         /* ignore */
     }
-    return DEFAULT_ESCALATIONS.filter(
-        (item) => item.escalatedByRoleKey === roleKey || item.escalatedToRoleKey === roleKey,
+
+    saveAllEscalations([])
+    return []
+}
+
+/** @deprecated Use getSentEscalations / getReceivedEscalations — kept for compatibility */
+export const getEscalations = (roleKey) => {
+    const all = getAllEscalations()
+    return all.filter(
+        (item) => isSentEscalation(item, roleKey) || isReceivedEscalation(item, roleKey),
     )
 }
 
-export const saveEscalations = (roleKey, records) => {
-    localStorage.setItem(storageKey(roleKey), JSON.stringify(records))
-}
+export const getSentEscalations = (roleKey, currentUser = null) =>
+    getAllEscalations().filter((item) => isSentEscalation(item, roleKey, currentUser))
 
-export const getEscalationById = (roleKey, id) =>
-    getEscalations(roleKey).find((item) => item.id === id) ?? null
+export const getReceivedEscalations = (roleKey, currentUser = null) =>
+    getAllEscalations().filter((item) => isReceivedEscalation(item, roleKey, currentUser))
 
-export const updateEscalation = (roleKey, id, updates) => {
-    const list = getEscalations(roleKey)
+export const getEscalationById = (_roleKey, id) =>
+    getAllEscalations().find((item) => item.id === id) ?? null
+
+export const updateEscalation = (_roleKey, id, updates) => {
+    const list = getAllEscalations()
     let updatedRecord = null
     const nextList = list.map((item) => {
         if (item.id !== id) return item
-        updatedRecord = { ...item, ...updates }
+        updatedRecord = normalizeEscalation({ ...item, ...updates })
         return updatedRecord
     })
-    saveEscalations(roleKey, nextList)
+    saveAllEscalations(nextList)
     return updatedRecord
 }
 
-export const generateEscalationId = (roleKey) => {
-    const list = getEscalations(roleKey)
+export const generateEscalationId = () => {
+    const list = getAllEscalations()
     const max = list.reduce((acc, item) => {
         const num = Number(item.id.split('-').pop())
         return Number.isFinite(num) ? Math.max(acc, num) : acc
@@ -252,34 +150,46 @@ export const generateEscalationId = (roleKey) => {
     return `ESC-2026-${String(max + 1).padStart(3, '0')}`
 }
 
-export const emptyEscalationForm = () => ({
+export const emptyEscalationForm = (defaultRecipientUserId = '') => ({
     escalationDate: '',
     description: '',
     fullDescription: '',
     remarks: '',
+    recipientUserId: defaultRecipientUserId,
 })
 
-export const createEscalation = (roleKey, form, roleConfig) => {
+export const createEscalation = (roleKey, form, roleConfig, senderUser, recipientUser) => {
+    if (!roleConfig?.escalatesToRoleKey) {
+        return { success: false, message: 'This role cannot create escalations.' }
+    }
+    if (!recipientUser?.id) {
+        return { success: false, message: 'Please select a recipient for this escalation.' }
+    }
+
     const escalationDate = form.escalationDate
         || new Date().toLocaleDateString('en-GB').replace(/\//g, '-')
     const escalatedAt = new Date().toISOString()
 
-    const record = {
-        id: generateEscalationId(roleKey),
-        escalatedBy: roleConfig.roleLabel,
+    const record = normalizeEscalation({
+        id: generateEscalationId(),
+        escalatedBy: senderUser?.name || roleConfig.roleLabel,
         escalatedByRole: roleConfig.roleLabel,
         escalatedByRoleKey: roleKey,
+        escalatedByUserId: senderUser?.id || '',
+        escalatedByUserEmail: senderUser?.email || '',
         escalatedTo: roleConfig.escalatesTo,
         escalatedToRoleKey: roleConfig.escalatesToRoleKey,
-        description: form.description,
+        escalatedToUserId: recipientUser.id,
+        escalatedToUserName: recipientUser.name,
+        escalatedToUserEmail: recipientUser.email || '',
+        description: form.description.trim(),
         escalationDate,
         escalatedAt,
-        status: 'Open',
-        fullDescription: form.fullDescription || form.description,
-        remarks: form.remarks || '',
-    }
+        status: 'Pending',
+        fullDescription: form.fullDescription?.trim() || form.description.trim(),
+        remarks: form.remarks?.trim() || '',
+    })
 
-    const existing = getEscalations(roleKey)
-    saveEscalations(roleKey, [record, ...existing])
-    return record
+    saveAllEscalations([record, ...getAllEscalations()])
+    return { success: true, record }
 }

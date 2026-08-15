@@ -11,6 +11,8 @@ import { runFrontOfficePassWipeIfNeeded } from './Common/FrontOffice/frontOffice
 import { runActivitiesWipeIfNeeded } from './Common/Activities/activitiesWipe.js'
 import { runAnnouncementsWipeIfNeeded } from './Common/Announcement/announcementsWipe.js'
 import { runLeaveRequestWipeIfNeeded } from './Common/LeaveRequest/leaveRequestWipe.js'
+import { runTaskManagementWipeIfNeeded } from './Common/TaskManagement/taskManagementWipe.js'
+import { runEscalationManagementWipeIfNeeded } from './Common/EscalationManagement/escalationManagementWipe.js'
 import {
     migrateLegacyLeaveRequestsIfNeeded,
     migrateSessionLeaveRequestsToLocalIfNeeded,
@@ -21,6 +23,8 @@ runFrontOfficePassWipeIfNeeded()
 runActivitiesWipeIfNeeded()
 runAnnouncementsWipeIfNeeded()
 runLeaveRequestWipeIfNeeded()
+runTaskManagementWipeIfNeeded()
+runEscalationManagementWipeIfNeeded()
 migrateLegacyLeaveRequestsIfNeeded()
 migrateSessionLeaveRequestsToLocalIfNeeded()
 

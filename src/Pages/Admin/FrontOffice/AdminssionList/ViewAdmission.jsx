@@ -122,6 +122,15 @@ const ViewAdmission = () => {
                     <Field label='Parent Email' value={record.parentEmail} />
                 </div>
 
+                <h3 className='text-lg font-semibold text-black mb-4'>Account Information</h3>
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8'>
+                    <Field label='Parent Username / Email ID' value={record.parentAccountEmail} />
+                    <Field
+                        label='Password'
+                        value={record.parentAccountPassword ? '••••••••' : '—'}
+                    />
+                </div>
+
                 <h3 className='text-lg font-semibold text-black mb-4'>Fees</h3>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
                     <Field label='Fees Group' value={record.feesGroup} />
