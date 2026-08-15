@@ -1,5 +1,11 @@
 import { adminSidebarLinks } from '../../../Common/CommonSidebar/Components/sidebarLinks'
-import { ROLES } from '../../../context/AuthContext'
+import { ROLES } from '../../../constants/roles'
+import {
+    buildUserDisplayName,
+    DEFAULT_USER_FORM,
+    formatUserDateOfBirth,
+    validateUserCreationForm,
+} from '../../../Common/RBAC/createdUsersData'
 
 const STORAGE_KEY = 'schoolerp-super-admin-admin-users'
 const ACTIVE_ADMIN_KEY = 'schoolerp_active_admin_user'
@@ -117,25 +123,65 @@ export const getPermissionCount = (permissions = {}) =>
 
 export const createAdminUser = (payload) => {
     const records = loadAdminUsers()
-    const email = payload.email.trim().toLowerCase()
+    const email = payload.email?.trim().toLowerCase()
+    const validation = validateUserCreationForm(payload)
+
+    if (!validation.success) {
+        return validation
+    }
+
+    if (!payload.password?.trim()) {
+        return { success: false, message: 'Password is required.' }
+    }
 
     if (records.some((user) => user.email.toLowerCase() === email)) {
         return { success: false, message: 'An admin user with this email already exists.' }
     }
 
     const id = generateAdminUserId()
+    const name = buildUserDisplayName(payload)
+    const username = payload.username?.trim() || email.split('@')[0]
+
     const nextUser = {
         id,
         employeeId: payload.employeeId?.trim() || id,
-        name: payload.name.trim(),
+        name,
+        firstName: payload.firstName?.trim() || '',
+        middleName: payload.middleName?.trim() || '',
+        lastName: payload.lastName?.trim() || '',
         email,
         mobileNumber: payload.mobileNumber?.trim() || '—',
+        alternativeMobileNumber: payload.alternativeMobileNumber?.trim() || '',
         department: payload.department?.trim() || 'Administration',
         role: ROLES.ADMIN,
         roleLabel: ADMIN_ROLE_LABEL,
-        status: payload.status || 'Active',
-        username: payload.username.trim(),
+        status: payload.status === 'Inactive' ? 'Inactive' : 'Active',
+        username,
         password: payload.password.trim(),
+        profileImage: payload.profileImage || '',
+        street: payload.street?.trim() || '',
+        city: payload.city?.trim() || '',
+        state: payload.state?.trim() || '',
+        country: payload.country?.trim() || '',
+        pincode: payload.pincode?.trim() || '',
+        religion: payload.religion?.trim() || '',
+        caste: payload.caste?.trim() || '',
+        dateOfBirth: formatUserDateOfBirth(payload.dateOfBirth),
+        bloodGroup: payload.bloodGroup || '',
+        height: payload.height?.trim() || '',
+        weight: payload.weight?.trim() || '',
+        medicalHistory: payload.medicalHistory?.trim() || '',
+        fatherName: payload.fatherName?.trim() || '',
+        motherName: payload.motherName?.trim() || '',
+        familyContactNumber: payload.familyContactNumber?.trim() || '',
+        qualification: payload.qualification?.trim() || '',
+        yearsOfExperience: payload.yearsOfExperience?.trim() || '',
+        previousSchool: payload.previousSchool?.trim() || '',
+        joiningDate: formatUserDateOfBirth(payload.joiningDate),
+        gender: payload.gender || '',
+        idProofFile: payload.idProofFile?.trim() || '',
+        qualificationCertificateFile: payload.qualificationCertificateFile?.trim() || '',
+        experienceCertificateFile: payload.experienceCertificateFile?.trim() || '',
         permissions: { ...buildDefaultPermissions(false), ...payload.permissions },
         createdBy: 'Super Admin',
         createdAt: new Date().toLocaleDateString('en-GB').replace(/\//g, '-'),
@@ -251,5 +297,13 @@ export const DEFAULT_ADMIN_FORM = {
     username: '',
     password: '',
     status: 'Active',
+    permissions: buildDefaultPermissions(false),
+}
+
+export const DEFAULT_ADMIN_USER_FORM = {
+    ...DEFAULT_USER_FORM,
+    role: ROLES.ADMIN,
+    department: 'Administration',
+    employeeId: '',
     permissions: buildDefaultPermissions(false),
 }

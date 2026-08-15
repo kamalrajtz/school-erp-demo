@@ -34,26 +34,37 @@ const Field = ({ label, htmlFor, children }) => (
     </div>
 )
 
-const UserCreationForm = ({ form, onChange }) => {
+const UserCreationForm = ({ form, onChange, fixedRole, fixedRoleLabel }) => {
     const updateField = (key, value) => onChange?.(key, value)
+    const roleLabel = fixedRoleLabel || CREATABLE_ROLE_LABELS[fixedRole || form.role] || form.role
 
     return (
         <div>
             <FormSection title='Account Details'>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
                     <Field label='Role' htmlFor='role'>
-                        <select
-                            id='role'
-                            value={form.role}
-                            onChange={(e) => updateField('role', e.target.value)}
-                            className={inputClass}
-                        >
-                            {CREATABLE_ROLES.map((role) => (
-                                <option key={role} value={role}>
-                                    {CREATABLE_ROLE_LABELS[role]}
-                                </option>
-                            ))}
-                        </select>
+                        {fixedRole ? (
+                            <input
+                                id='role'
+                                type='text'
+                                value={roleLabel}
+                                readOnly
+                                className={`${inputClass} bg-[#FAFBFF] text-[#515DEF] font-semibold cursor-not-allowed`}
+                            />
+                        ) : (
+                            <select
+                                id='role'
+                                value={form.role}
+                                onChange={(e) => updateField('role', e.target.value)}
+                                className={inputClass}
+                            >
+                                {CREATABLE_ROLES.map((role) => (
+                                    <option key={role} value={role}>
+                                        {CREATABLE_ROLE_LABELS[role]}
+                                    </option>
+                                ))}
+                            </select>
+                        )}
                     </Field>
                     <Field label='Status' htmlFor='status'>
                         <select
