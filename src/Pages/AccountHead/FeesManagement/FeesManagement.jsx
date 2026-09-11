@@ -19,14 +19,16 @@ import {
 import ExportModal from '../../../Common/CommonComponents/ExportModal'
 import DefineFeeStructureModal from './Components/DefineFeeStructureModal'
 import ConfigureFeeStructureModal from './Components/ConfigureFeeStructureModal'
-import CollectFeeModal from './Components/CollectFeeModal'
+import { toast } from 'react-toastify'
 import FeeCollectionTab from './Components/FeeCollectionTab'
+import { useFinance } from '../financeDomain/FinanceContext'
+import { FEE_FREQUENCIES } from '../financeDomain/financeConstants'
+import { formatCurrency } from '../financeDomain/financeHelpers'
 import ConcessionsWaiversTab from './Components/ConcessionsWaiversTab'
 import DefaultersTab from './Components/DefaultersTab'
 import ReceiptManagementTab from './Components/ReceiptManagementTab'
 import {
     ACADEMIC_YEARS,
-    FEE_STRUCTURES,
     FEE_TABS,
     GRADES,
     QUICK_STATS,
@@ -37,14 +39,12 @@ import {
 const thClass = 'px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'
 const tdClass = 'px-2 py-4 text-[#667085]'
 
-const TabPlaceholder = ({ title }) => (
-    <div className='bg-white rounded-2xl shadow-md p-8 text-center'>
-        <h3 className='text-lg font-semibold text-black'>{title}</h3>
-        <p className='text-sm text-[#667085] mt-2'>This section will be implemented next.</p>
-    </div>
-)
+const FeeStructureTab = ({ exportModal, setExportModal }) => {
+    const { feeStructures, feeCategories } = useFinance()
+    const categoryName = (id) => feeCategories.find((item) => item.id === id)?.name ?? id
+    const frequencyLabel = (id) => FEE_FREQUENCIES.find((item) => item.id === id)?.label ?? id
 
-const FeeStructureTab = ({ exportModal, setExportModal }) => (
+    return (
     <div className='space-y-6'>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
             <div className='bg-white rounded-2xl shadow-md p-5'>
@@ -170,27 +170,29 @@ const FeeStructureTab = ({ exportModal, setExportModal }) => (
                 <table className='w-full text-sm text-left'>
                     <thead className='text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg'>
                         <tr>
-                            <th className={`${thClass} rounded-s-lg`}>Grade</th>
-                            <th className={thClass}>Term</th>
-                            <th className={thClass}>Tuition Fee</th>
-                            <th className={thClass}>Exam Fee</th>
-                            <th className={thClass}>Lab Fee</th>
-                            <th className={thClass}>Activity Fee</th>
-                            <th className={thClass}>Total</th>
+                            <th className={`${thClass} rounded-s-lg`}>Academic Year</th>
+                            <th className={thClass}>Class</th>
+                            <th className={thClass}>Category</th>
+                            <th className={thClass}>Fee Head</th>
+                            <th className={thClass}>Frequency</th>
+                            <th className={thClass}>Amount</th>
+                            <th className={thClass}>Due Day</th>
+                            <th className={thClass}>Mandatory</th>
                             <th className={thClass}>Status</th>
                             <th className={`${thClass} rounded-e-lg`}>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {FEE_STRUCTURES.map((row) => (
+                        {feeStructures.map((row) => (
                             <tr key={row.id} className='border-b border-[#f2f4f7] hover:bg-[#f2f4f7]'>
-                                <td className={`${tdClass} font-medium text-[#1E1E1E] rounded-s-lg`}>{row.grade}</td>
-                                <td className={tdClass}>{row.term}</td>
-                                <td className={tdClass}>{row.tuitionFee}</td>
-                                <td className={tdClass}>{row.examFee}</td>
-                                <td className={tdClass}>{row.labFee}</td>
-                                <td className={tdClass}>{row.activityFee}</td>
-                                <td className={`${tdClass} font-semibold text-[#515DEF]`}>{row.total}</td>
+                                <td className={`${tdClass} font-medium text-[#1E1E1E] rounded-s-lg`}>{row.academicYear}</td>
+                                <td className={tdClass}>{row.className}</td>
+                                <td className={tdClass}>{categoryName(row.feeCategoryId)}</td>
+                                <td className={tdClass}>{row.feeHead}</td>
+                                <td className={tdClass}>{frequencyLabel(row.frequency)}</td>
+                                <td className={`${tdClass} font-semibold text-[#515DEF]`}>{formatCurrency(row.amount)}</td>
+                                <td className={tdClass}>{row.dueDayOfMonth ? `${row.dueDayOfMonth}` : '—'}</td>
+                                <td className={tdClass}>{row.mandatory ? 'Yes' : 'Optional'}</td>
                                 <td className={tdClass}>
                                     <span className={`px-2 py-1 rounded-lg text-xs font-semibold ${feeStructureStatusBadgeColor[row.status]}`}>
                                         {row.status}
@@ -213,7 +215,7 @@ const FeeStructureTab = ({ exportModal, setExportModal }) => (
             </div>
 
             <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-4 pt-2'>
-                <p className='text-sm text-[#667085]'>Showing 3 of 30 structures</p>
+                <p className='text-sm text-[#667085]'>Showing {feeStructures.length} structures</p>
                 <div className='flex items-center gap-2'>
                     <button type='button' className='size-8 flex items-center justify-center rounded-md border border-[#E2E8F0] text-[#515DEF] hover:bg-[#515DEF] hover:text-white transition-colors cursor-pointer'>
                         <ChevronLeft size={16} />
@@ -240,14 +242,15 @@ const FeeStructureTab = ({ exportModal, setExportModal }) => (
 
         <ExportModal exportModal={exportModal} setExportModal={setExportModal} />
     </div>
-)
+    )
+}
 
 const FeesManagement = () => {
     const [activeTab, setActiveTab] = useState('fee-structure')
     const [exportModal, setExportModal] = useState(false)
     const [defineFeeModal, setDefineFeeModal] = useState(false)
     const [configureFeeModal, setConfigureFeeModal] = useState(false)
-    const [collectFeeModal, setCollectFeeModal] = useState(false)
+    const { addFeeStructure, addFeeCategory } = useFinance()
 
     const activeTabLabel = activeTab === 'defaulters'
         ? 'Defaulters Management'
@@ -304,7 +307,7 @@ const FeesManagement = () => {
                             </button>
                             <button
                                 type='button'
-                                onClick={() => setCollectFeeModal(true)}
+                                onClick={() => toast.info('Search a student below, select unpaid instalments, then use Pay / Collect.')}
                                 className='inline-flex items-center gap-2 bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all cursor-pointer'
                             >
                                 <Plus size={16} />
@@ -407,9 +410,7 @@ const FeesManagement = () => {
                 <FeeStructureTab exportModal={exportModal} setExportModal={setExportModal} />
             )}
 
-            {activeTab === 'fee-collection' && (
-                <FeeCollectionTab exportModal={exportModal} setExportModal={setExportModal} />
-            )}
+            {activeTab === 'fee-collection' && <FeeCollectionTab />}
             {activeTab === 'concessions-waivers' && (
                 <ConcessionsWaiversTab exportModal={exportModal} setExportModal={setExportModal} />
             )}
@@ -420,17 +421,17 @@ const FeesManagement = () => {
                 <ReceiptManagementTab exportModal={exportModal} setExportModal={setExportModal} />
             )}
 
-            <DefineFeeStructureModal
-                isOpen={defineFeeModal}
-                onClose={() => setDefineFeeModal(false)}
-            />
+            {defineFeeModal && (
+                <DefineFeeStructureModal
+                    isOpen
+                    onClose={() => setDefineFeeModal(false)}
+                    onSave={addFeeStructure}
+                    onAddCategory={addFeeCategory}
+                />
+            )}
             <ConfigureFeeStructureModal
                 isOpen={configureFeeModal}
                 onClose={() => setConfigureFeeModal(false)}
-            />
-            <CollectFeeModal
-                isOpen={collectFeeModal}
-                onClose={() => setCollectFeeModal(false)}
             />
         </section>
     )

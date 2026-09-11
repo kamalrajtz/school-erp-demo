@@ -1,37 +1,13 @@
 const STORAGE_KEY = 'schoolErpAdminEmployeeDocuments'
 const TYPES_STORAGE_KEY = 'schoolErpAdminEmployeeDocumentTypes'
 
-const seedDocumentTypes = [
+export const EMPLOYEE_DOCUMENTS_STORAGE_KEY = STORAGE_KEY
+export const EMPLOYEE_DOCUMENT_TYPES_STORAGE_KEY = TYPES_STORAGE_KEY
+
+const defaultDocumentTypes = [
     { id: 'doc-aadhaar', label: 'Aadhaar Card' },
     { id: 'doc-exp', label: 'Experience Letter' },
     { id: 'doc-pan', label: 'PAN Card' },
-]
-
-const seedRecords = [
-    {
-        id: 'EDOC-001',
-        employeeId: 'TEA-1001',
-        employeeName: 'Sandy Selva',
-        submittedDate: '02-07-2025',
-        status: 'In Progress',
-        documents: {
-            'doc-aadhaar': { fileName: 'aadhaar_sandy.pdf', status: 'Approved' },
-            'doc-exp': { fileName: 'experience_sandy.pdf', status: 'Approved' },
-            'doc-pan': { fileName: '', status: 'Pending' },
-        },
-    },
-    {
-        id: 'EDOC-002',
-        employeeId: 'TEA-1002',
-        employeeName: 'John Milton',
-        submittedDate: '05-07-2025',
-        status: 'Completed',
-        documents: {
-            'doc-aadhaar': { fileName: 'aadhaar_john.pdf', status: 'Approved' },
-            'doc-exp': { fileName: 'experience_john.pdf', status: 'Approved' },
-            'doc-pan': { fileName: 'pan_john.pdf', status: 'Approved' },
-        },
-    },
 ]
 
 export const DOCUMENT_STATUS_OPTIONS = ['Approved', 'Pending']
@@ -61,13 +37,13 @@ const writeJson = (key, value) => {
     localStorage.setItem(key, JSON.stringify(value))
 }
 
-export const getDocumentTypes = () => readJson(TYPES_STORAGE_KEY, seedDocumentTypes)
+export const getDocumentTypes = () => readJson(TYPES_STORAGE_KEY, defaultDocumentTypes)
 
 export const saveDocumentTypes = (types) => {
     writeJson(TYPES_STORAGE_KEY, types)
 }
 
-export const getEmployeeDocumentRecords = () => readJson(STORAGE_KEY, seedRecords)
+export const getEmployeeDocumentRecords = () => readJson(STORAGE_KEY, [])
 
 export const saveEmployeeDocumentRecords = (records) => {
     writeJson(STORAGE_KEY, records)

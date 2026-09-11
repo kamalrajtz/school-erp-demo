@@ -6,7 +6,9 @@ import {
     BANK_RECONCILIATION_BANKS,
 } from '../accountingData'
 import { SummaryCards, TableCard, TablePagination, tdClass, thClass } from './AccountingShared'
-import ReconciliationDrawer from './ReconciliationDrawer'
+import { useFinance } from '../../financeDomain/FinanceContext'
+import { CHEQUE_STATUSES, chequeStatusBadgeColor } from '../../financeDomain/financeConstants'
+import { formatCurrency } from '../../financeDomain/financeHelpers'
 
 const STATUS_FILTERS = ['All Status', 'Matched', 'Unmatched', 'Pending Reconciliation']
 
@@ -185,6 +187,7 @@ const BankReconciliationTab = ({
         return true
     }), [entries, bankFilter, statusFilter, dateFilter])
 
+    const { cheques, settleCheque } = useFinance()
     const pendingCount = entries.filter((row) => row.status !== 'Matched').length
 
     return (
@@ -281,6 +284,46 @@ const BankReconciliationTab = ({
                                 </tr>
                             ))
                         )}
+                    </tbody>
+                </table>
+            </TableCard>
+
+            <TableCard title='Cheque / PDC lifecycle'>
+                <table className='w-full text-sm text-left mt-4 min-w-[720px]'>
+                    <thead className='text-xs bg-[#EDEEF5]'>
+                        <tr>
+                            <th className={`${thClass} rounded-s-lg`}>Cheque</th>
+                            <th className={thClass}>Bank</th>
+                            <th className={thClass}>Date</th>
+                            <th className={thClass}>Amount</th>
+                            <th className={thClass}>Status</th>
+                            <th className={`${thClass} rounded-e-lg`}>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {cheques.length === 0 ? (
+                            <tr><td colSpan={6} className='px-2 py-6 text-center text-[#667085]'>No cheques in process.</td></tr>
+                        ) : cheques.map((cheque) => (
+                            <tr key={cheque.id} className='border-b border-[#f2f4f7]'>
+                                <td className={`${tdClass} rounded-s-lg font-mono text-xs`}>{cheque.chequeNo}</td>
+                                <td className={tdClass}>{cheque.bank}</td>
+                                <td className={tdClass}>{cheque.chequeDate}</td>
+                                <td className={tdClass}>{formatCurrency(cheque.amount)}</td>
+                                <td className={tdClass}>
+                                    <span className={`px-2 py-1 rounded-lg text-xs font-semibold ${chequeStatusBadgeColor[cheque.status]}`}>{cheque.status}</span>
+                                </td>
+                                <td className={`${tdClass} rounded-e-lg`}>
+                                    <div className='flex flex-wrap gap-1'>
+                                        {cheque.status !== CHEQUE_STATUSES.CLEARED && cheque.status !== CHEQUE_STATUSES.BOUNCED && (
+                                            <button type='button' onClick={() => settleCheque(cheque.id, CHEQUE_STATUSES.CLEARED, 'Marked cleared in BRS')} className='text-xs border border-[#4CAF50] text-[#4CAF50] px-2 py-1 rounded cursor-pointer'>Mark Cleared</button>
+                                        )}
+                                        {cheque.status !== CHEQUE_STATUSES.BOUNCED && cheque.status !== CHEQUE_STATUSES.CLEARED && (
+                                            <button type='button' onClick={() => settleCheque(cheque.id, CHEQUE_STATUSES.BOUNCED, 'Returned by bank')} className='text-xs border border-[#FF5722] text-[#FF5722] px-2 py-1 rounded cursor-pointer'>Mark Bounced</button>
+                                        )}
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </TableCard>

@@ -28,6 +28,7 @@ import AcademicCalendar from '../Pages/Director/AcademicCalendar/AcademicCalenda
 import ActivityListView from '../Common/Activities/ActivityListView'
 import AddActivityForm from '../Common/Activities/AddActivityForm'
 import ViewActivityPage from '../Common/Activities/ViewActivityPage'
+import ChessResultPage from '../Common/Activities/ChessResultPage'
 import MyLeaveRequests from '../Pages/Director/LeaveRequest/MyLeaveRequests'
 import AddLeaveRequest from '../Pages/Director/LeaveRequest/AddLeaveRequest'
 import ViewMyLeaveRequest from '../Pages/Director/LeaveRequest/ViewMyLeaveRequest'
@@ -72,6 +73,7 @@ const DirectorRoutes = () => {
             <Route path="/director/activities/add-sports" element={<AddActivityForm roleKey="director" activityType="sports" />} />
             <Route path="/director/activities/view-sports/:id" element={<ViewActivityPage roleKey="director" activityType="sports" />} />
             <Route path="/director/activities/edit-sports/:id" element={<AddActivityForm roleKey="director" activityType="sports" mode="edit" />} />
+            <Route path="/director/activities/chess-result" element={<ChessResultPage />} />
             <Route path="/director/activities/competitions-list" element={<ActivityListView roleKey="director" activityType="competition" />} />
             <Route path="/director/activities/add-competition" element={<AddActivityForm roleKey="director" activityType="competition" />} />
             <Route path="/director/activities/view-competition/:id" element={<ViewActivityPage roleKey="director" activityType="competition" />} />

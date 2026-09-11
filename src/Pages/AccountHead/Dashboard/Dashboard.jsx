@@ -18,6 +18,8 @@ import {
 } from 'lucide-react'
 import ExportModal from '../../../Common/CommonComponents/ExportModal'
 import Dropdown from '../../../Common/CommonComponents/Dropdown'
+import { useFinance } from '../financeDomain/FinanceContext'
+import { formatCurrency, formatDisplayDate, parseRupeeAmount } from '../financeDomain/financeHelpers'
 import {
     APPROVAL_STATUS,
     CHART_COLORS,
@@ -117,6 +119,36 @@ const Dashboard = () => {
     const [incomeExpensePeriod, setIncomeExpensePeriod] = useState('Daily')
     const [approvalPeriod, setApprovalPeriod] = useState('Daily')
     const [exportModal, setExportModal] = useState(false)
+    const { dashboardMetrics, receipts, students } = useFinance()
+
+    const liveKpis = KPI_CARDS.map((card) => {
+        if (card.label === "Today's Collection") {
+            const seed = parseRupeeAmount(card.value)
+            return { ...card, value: formatCurrency(seed + (dashboardMetrics.todaysCollection || 0)) }
+        }
+        if (card.label === 'Pending Fees') {
+            return { ...card, label: 'Current Fee Due', value: formatCurrency(dashboardMetrics.currentDue), badge: 'DUE' }
+        }
+        return card
+    })
+
+    const recentCollectionRows = [
+        ...receipts.slice(0, 6).map((item) => {
+            const student = students.find((row) => row.id === item.studentId)
+            return {
+                id: item.receiptNo,
+                student: student?.name ?? 'Student',
+                studentId: student?.admissionNo ?? item.studentId,
+                category: (item.feeHeads || []).join(', ') || 'Student Fees',
+                amount: formatCurrency(item.amountPaid),
+                status: 'SUCCESS',
+                paymentMode: item.paymentMode,
+                collectedBy: item.collectedBy || 'Finance',
+                collectionDate: formatDisplayDate(item.paymentDate),
+            }
+        }),
+        ...RECENT_COLLECTIONS,
+    ]
 
     const incomeExpenseData = useMemo(() => {
         if (incomeExpensePeriod === 'Weekly') return INCOME_EXPENSE_WEEKLY
@@ -302,7 +334,7 @@ const Dashboard = () => {
             </div>
 
             <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4'>
-                {KPI_CARDS.map((card) => {
+                {liveKpis.map((card) => {
                     const Icon = KPI_ICONS[card.label] ?? Wallet
                     return (
                         <div key={card.label} className='bg-white rounded-2xl shadow-md p-4'>
@@ -334,6 +366,25 @@ const Dashboard = () => {
                         </div>
                     )
                 })}
+            </div>
+
+            <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4'>
+                <div className='bg-white rounded-2xl shadow-md p-4'>
+                    <p className='text-xs text-[#808080]'>Overdue Fee</p>
+                    <p className='text-xl font-semibold text-[#FF5722] mt-1'>{formatCurrency(dashboardMetrics.overdue)}</p>
+                </div>
+                <div className='bg-white rounded-2xl shadow-md p-4'>
+                    <p className='text-xs text-[#808080]'>Cheque Pending Clearance</p>
+                    <p className='text-xl font-semibold text-[#FF9800] mt-1'>{formatCurrency(dashboardMetrics.chequePending)}</p>
+                </div>
+                <div className='bg-white rounded-2xl shadow-md p-4'>
+                    <p className='text-xs text-[#808080]'>Collection Efficiency</p>
+                    <p className='text-xl font-semibold text-[#515DEF] mt-1'>{dashboardMetrics.collectionEfficiency.toFixed(1)}%</p>
+                </div>
+                <div className='bg-white rounded-2xl shadow-md p-4'>
+                    <p className='text-xs text-[#808080]'>Live Fee Receipts</p>
+                    <p className='text-xl font-semibold text-[#1E1E1E] mt-1'>{receipts.length}</p>
+                </div>
             </div>
 
             <div className='grid grid-cols-1 xl:grid-cols-3 gap-6'>
@@ -418,7 +469,7 @@ const Dashboard = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {RECENT_COLLECTIONS.map((row) => (
+                            {recentCollectionRows.map((row) => (
                                 <tr key={row.id} className='border-b border-[#f2f4f7] hover:bg-[#f2f4f7]'>
                                     <td className={`${tdClass} font-medium text-[#515DEF] rounded-s-lg`}>#{row.id}</td>
                                     <td className={tdClass}>

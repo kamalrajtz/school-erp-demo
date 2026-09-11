@@ -1,5 +1,6 @@
 import React from 'react'
-import { Banknote, Search } from 'lucide-react'
+import { toast } from 'react-toastify'
+import { Banknote, Download, Mail, MessageCircle, Search } from 'lucide-react'
 import {
     PAYROLL_STAFF,
     SALARY_SUMMARY,
@@ -60,7 +61,8 @@ const StaffSalariesTab = () => (
                         <th className={thClass}>Allowance</th>
                         <th className={thClass}>Deductions</th>
                         <th className={thClass}>Net Pay</th>
-                        <th className={`${thClass} rounded-e-lg`}>Status</th>
+                        <th className={thClass}>Status</th>
+                        <th className={`${thClass} rounded-e-lg`}>Payslip</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -74,10 +76,18 @@ const StaffSalariesTab = () => (
                             <td className={tdClass}>{row.allowance}</td>
                             <td className={tdClass}>{row.deductions}</td>
                             <td className={`${tdClass} font-semibold text-[#1E1E1E]`}>{row.netPay}</td>
-                            <td className={`${tdClass} rounded-e-lg`}>
+                            <td className={tdClass}>
                                 <span className={`px-2 py-1 rounded-lg text-xs font-semibold ${payrollStatusBadgeColor[row.status]}`}>
                                     {row.status}
                                 </span>
+                            </td>
+                            <td className={`${tdClass} rounded-e-lg`}>
+                                <div className='flex gap-1'>
+                                    <button type='button' onClick={() => toast.info(`Payslip preview for ${row.name} is mocked.`)} className='text-xs text-[#515DEF] cursor-pointer'>View</button>
+                                    <button type='button' onClick={() => toast.info('PDF download mocked until payroll service is connected.')} className='text-[#515DEF] cursor-pointer' aria-label='Download'><Download size={14} /></button>
+                                    <button type='button' onClick={() => toast.success('Mock payslip email sent.')} className='text-[#515DEF] cursor-pointer' aria-label='Email'><Mail size={14} /></button>
+                                    <button type='button' onClick={() => toast.success('Mock WhatsApp payslip sent.')} className='text-[#515DEF] cursor-pointer' aria-label='WhatsApp'><MessageCircle size={14} /></button>
+                                </div>
                             </td>
                         </tr>
                     ))}

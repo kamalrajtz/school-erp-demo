@@ -2,6 +2,7 @@ export const REPORTS_TABS = [
     { id: 'financial-overview', label: 'Financial Overview' },
     { id: 'income-reports', label: 'Income Reports' },
     { id: 'expenditure-reports', label: 'Expenditure Reports' },
+    { id: 'fee-comparison', label: 'Fee Collection Comparison' },
     { id: 'trends-patterns', label: 'Trends & Patterns' },
 ]
 

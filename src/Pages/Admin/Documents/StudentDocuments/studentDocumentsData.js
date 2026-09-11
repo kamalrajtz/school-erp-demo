@@ -4,6 +4,8 @@ import { getAllCreatedUsers } from '../../../../Common/RBAC/createdUsersData'
 
 const STORAGE_KEY = 'schoolErpAdminStudentDocuments'
 
+export const STUDENT_DOCUMENTS_STORAGE_KEY = STORAGE_KEY
+
 export const STUDENT_DOCUMENT_TYPES = [
     { id: 'doc-aadhaar', label: 'Aadhaar/ID Proof' },
     { id: 'doc-birth', label: 'Birth Certificate' },
@@ -25,41 +27,6 @@ export const recordStatusBadgeColor = {
     Completed: 'bg-[#4CAF5033] text-[#4CAF50]',
 }
 
-const seedRecords = [
-    {
-        id: 'SDOC-001',
-        studentId: 'STU-0001',
-        admissionNumber: 'ADM-NO1845',
-        studentName: 'Sandy Selva',
-        className: 'Class-12',
-        section: 'A',
-        submittedDate: '02-07-2025',
-        status: 'In Progress',
-        documents: {
-            'doc-aadhaar': { fileName: 'aadhaar_sandy.pdf', status: 'Submitted' },
-            'doc-birth': { fileName: 'birth_sandy.pdf', status: 'Submitted' },
-            'doc-tc': { fileName: '', status: 'Pending' },
-            'doc-marksheet': { fileName: '', status: 'Pending' },
-        },
-    },
-    {
-        id: 'SDOC-002',
-        studentId: 'STU-0002',
-        admissionNumber: 'ADM-NO1846',
-        studentName: 'Priya Kumar',
-        className: 'Class-12',
-        section: 'B',
-        submittedDate: '02-07-2025',
-        status: 'Completed',
-        documents: {
-            'doc-aadhaar': { fileName: 'aadhaar_priya.pdf', status: 'Submitted' },
-            'doc-birth': { fileName: 'birth_priya.pdf', status: 'Submitted' },
-            'doc-tc': { fileName: 'tc_priya.pdf', status: 'Submitted' },
-            'doc-marksheet': { fileName: 'marksheet_priya.pdf', status: 'Submitted' },
-        },
-    },
-]
-
 const readJson = (key, fallback) => {
     try {
         const raw = localStorage.getItem(key)
@@ -74,7 +41,7 @@ const writeJson = (key, value) => {
     localStorage.setItem(key, JSON.stringify(value))
 }
 
-export const getStudentDocumentRecords = () => readJson(STORAGE_KEY, seedRecords)
+export const getStudentDocumentRecords = () => readJson(STORAGE_KEY, [])
 
 export const saveStudentDocumentRecords = (records) => {
     writeJson(STORAGE_KEY, records)

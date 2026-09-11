@@ -12,7 +12,7 @@ export const ACCOUNTING_SECTIONS = [
 
 export const DEFAULT_ACCOUNTING_SECTION = 'day-book'
 
-export const ACCOUNTING_YEARS = ['2025–26', '2024–25', '2023–24']
+export const ACCOUNTING_YEARS = ['2026–27', '2025–26', '2024–25', '2023–24']
 
 export const GENERAL_LEDGER_ACCOUNTS = [
     'All Accounts',
@@ -804,6 +804,8 @@ export const INCOME_EXPENDITURE = PROFIT_LOSS_STATEMENT
 
 export const DAY_BOOK_PAYMENT_METHODS = ['All Methods', 'Cash', 'Cheque', 'DD', 'NEFT (Manual)', 'Petty Cash']
 export const DAY_BOOK_TRANSACTION_TYPES = ['All Types', 'Income', 'Expense']
+export const DAY_BOOK_CHANNELS = ['All Channels', 'Cash', 'Bank']
+export const DAY_BOOK_STATUS_FILTERS = ['All Status', 'Posted', 'Draft', 'Pending Verification', 'Pending Clearance']
 export const DAY_BOOK_DEPARTMENTS = ['All Departments', 'Fees', 'Transport', 'Admin', 'Facilities', 'Payroll', 'General']
 export const DAY_BOOK_LEDGER_ACCOUNTS = [
     'Cash in Hand',
@@ -948,6 +950,8 @@ export const dayBookStatusBadgeColor = {
     Posted: 'bg-[#4CAF5033] text-[#4CAF50]',
     Draft: 'bg-[#FF980033] text-[#FF9800]',
     'Pending Verification': 'bg-[#515DEF33] text-[#515DEF]',
+    'Pending Clearance': 'bg-[#FF980033] text-[#FF9800]',
+    DRAFT: 'bg-[#FF980033] text-[#FF9800]',
 }
 
 export const parseRupeeAmount = (value) => Number(String(value).replace(/[₹,\s]/g, '')) || 0

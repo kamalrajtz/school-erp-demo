@@ -23,6 +23,8 @@ import {
     concessionDedBadgeColor,
     concessionStatusBadgeColor,
 } from '../feesManagementData'
+import { useFinance } from '../../financeDomain/FinanceContext'
+import { formatCurrency } from '../../financeDomain/financeHelpers'
 
 const thClass = 'px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'
 const tdClass = 'px-2 py-4 text-[#667085]'
@@ -56,6 +58,35 @@ const Panel = ({ title, subtitle, children, action, className = '' }) => (
 const ConcessionsWaiversTab = ({ exportModal, setExportModal }) => {
     const [selectedConcession, setSelectedConcession] = useState(null)
     const [detailsOpen, setDetailsOpen] = useState(false)
+    const { concessions, students, feeCategories, getStudentSummary } = useFinance()
+
+    const liveConcessionRows = concessions.map((item) => {
+        const student = students.find((row) => row.id === item.studentId)
+        const category = feeCategories.find((row) => row.id === item.feeCategoryId)
+        const summary = student ? getStudentSummary(student.id, item.academicYear) : null
+        return {
+            id: item.id,
+            student: student?.name ?? 'Student',
+            studentId: student?.admissionNo ?? item.studentId,
+            className: student ? `${student.className}-${student.section}` : '—',
+            avatarColor: 'bg-[#515DEF]',
+            concessionType: item.type,
+            feeHead: category?.name || item.feeCategoryId,
+            originalAmount: formatCurrency(summary?.totalFee || 0),
+            deduction: formatCurrency(item.amount),
+            dedPercent: summary?.totalFee ? `${Math.round((item.amount / summary.totalFee) * 100)}%` : '—',
+            dedTone: 'success',
+            netFee: formatCurrency(summary?.netPayable || 0),
+            status: item.status,
+            rollNumber: student?.rollNo,
+            gradeSection: student ? `${student.className} - ${student.section}` : '—',
+            policyId: item.id,
+            approvalDate: 'Live',
+            totalSavings: `-${formatCurrency(item.amount)}`,
+            documents: [],
+        }
+    })
+    const concessionRows = [...liveConcessionRows, ...CONCESSIONS_REGISTER]
 
     const openDetails = (row) => {
         setSelectedConcession(row)
@@ -246,7 +277,7 @@ const ConcessionsWaiversTab = ({ exportModal, setExportModal }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {CONCESSIONS_REGISTER.map((row) => (
+                            {concessionRows.map((row) => (
                                 <tr key={row.id} className='border-b border-[#f2f4f7] hover:bg-[#f2f4f7]'>
                                     <td className={`${tdClass} rounded-s-lg`}>
                                         <div className='flex items-center gap-3'>

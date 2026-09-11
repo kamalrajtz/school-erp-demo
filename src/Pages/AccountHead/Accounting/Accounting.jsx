@@ -1,7 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react'
 import { BookOpen, Check, Download, FileSpreadsheet, Plus, Printer, RefreshCw, ArrowRightLeft, Upload, FileText } from 'lucide-react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
-import ExportModal from '../../../Common/CommonComponents/ExportModal'
+import { useFinance } from '../financeDomain/FinanceContext'
 import DayBookTab, { appendDayBookEntry, buildDayBookSummary } from './Components/DayBookTab'
 import AddOfflineEntryModal from './Components/AddOfflineEntryModal'
 import OnlineBookTab, { buildOnlineBookSummary, syncOnlineTransaction } from './Components/OnlineBookTab'
@@ -61,6 +61,7 @@ const Accounting = () => {
     const [newVoucherModal, setNewVoucherModal] = useState(false)
     const [addOfflineModal, setAddOfflineModal] = useState(false)
     const [dayBookEntries, setDayBookEntries] = useState(DAY_BOOK_REGISTER)
+    const finance = useFinance()
     const [onlineBookEntries, setOnlineBookEntries] = useState(ONLINE_BOOK_REGISTER)
     const [selectedOnlineTransaction, setSelectedOnlineTransaction] = useState(null)
     const [isSyncing, setIsSyncing] = useState(false)
@@ -103,29 +104,50 @@ const Accounting = () => {
     const activeLabel = ACCOUNTING_SECTIONS.find((item) => item.id === activeSection)?.label ?? 'Accounting'
     const sectionSubtitle = SECTION_SUBTITLES[activeSection] ?? `Academic Year ${academicYear} · Books as of 26 Jun 2026`
 
+    const mergedDayBook = useMemo(
+        () => [...finance.dayBookEntries, ...dayBookEntries],
+        [finance.dayBookEntries, dayBookEntries],
+    )
+    const mergedOnlineBook = useMemo(
+        () => [...finance.onlineBookEntries, ...onlineBookEntries],
+        [finance.onlineBookEntries, onlineBookEntries],
+    )
+    const mergedGeneralLedger = useMemo(
+        () => [...finance.glEntries, ...generalLedgerEntries],
+        [finance.glEntries, generalLedgerEntries],
+    )
+    const mergedCashBook = useMemo(
+        () => [...finance.cashBookEntries, ...cashBookEntries],
+        [finance.cashBookEntries, cashBookEntries],
+    )
+    const mergedBankBook = useMemo(
+        () => [...finance.bankBookEntries, ...bankBookEntries],
+        [finance.bankBookEntries, bankBookEntries],
+    )
+
     const dayBookSummary = useMemo(
-        () => buildDayBookSummary(dayBookEntries, DAY_BOOK_OPENING_BALANCE),
-        [dayBookEntries],
+        () => buildDayBookSummary(mergedDayBook, DAY_BOOK_OPENING_BALANCE),
+        [mergedDayBook],
     )
 
     const onlineBookSummary = useMemo(
-        () => buildOnlineBookSummary(onlineBookEntries),
-        [onlineBookEntries],
+        () => buildOnlineBookSummary(mergedOnlineBook),
+        [mergedOnlineBook],
     )
 
     const generalLedgerSummary = useMemo(
-        () => buildGeneralLedgerSummary(generalLedgerEntries),
-        [generalLedgerEntries],
+        () => buildGeneralLedgerSummary(mergedGeneralLedger),
+        [mergedGeneralLedger],
     )
 
     const cashBookSummary = useMemo(
-        () => buildCashBookSummary(cashBookEntries, CASH_BOOK_OPENING_BALANCE),
-        [cashBookEntries],
+        () => buildCashBookSummary(mergedCashBook, CASH_BOOK_OPENING_BALANCE),
+        [mergedCashBook],
     )
 
     const bankBookSummary = useMemo(
-        () => buildBankBookSummary(bankBookEntries, BANK_BOOK_OPENING_BALANCE),
-        [bankBookEntries],
+        () => buildBankBookSummary(mergedBankBook, BANK_BOOK_OPENING_BALANCE),
+        [mergedBankBook],
     )
 
     const coaSummary = useMemo(
@@ -145,6 +167,15 @@ const Accounting = () => {
 
     const handleAddOfflineEntry = (entry) => {
         setDayBookEntries((prev) => appendDayBookEntry(prev, DAY_BOOK_OPENING_BALANCE, entry))
+        finance.addManualEntry({
+            date: entry.date,
+            amount: entry.debit !== '—' ? entry.debit : entry.credit,
+            paymentMode: entry.paymentMethod === 'Cash' ? 'CASH' : 'BANK_TRANSFER',
+            narration: entry.description,
+            category: entry.ledgerHead,
+            entryType: entry.transactionType,
+            status: 'DRAFT',
+        })
     }
 
     const handlePrintDayBook = () => {
@@ -573,11 +604,15 @@ const Accounting = () => {
             </div>
 
             {activeSection === 'day-book' && (
-                <DayBookTab entries={dayBookEntries} summary={dayBookSummary} />
+                <DayBookTab
+                    entries={mergedDayBook}
+                    summary={dayBookSummary}
+                    onEditNarration={finance.editNarration}
+                />
             )}
             {activeSection === 'online-book' && (
                 <OnlineBookTab
-                    entries={onlineBookEntries}
+                    entries={mergedOnlineBook}
                     summary={onlineBookSummary}
                     selectedTransaction={selectedOnlineTransaction}
                     onSelectTransaction={setSelectedOnlineTransaction}
@@ -586,16 +621,16 @@ const Accounting = () => {
             )}
             {activeSection === 'general-ledger' && (
                 <GeneralLedgerTab
-                    entries={generalLedgerEntries}
+                    entries={mergedGeneralLedger}
                     summary={generalLedgerSummary}
                     registerRef={ledgerRegisterRef}
                 />
             )}
             {activeSection === 'cash-book' && (
-                <CashBookTab entries={cashBookEntries} summary={cashBookSummary} />
+                <CashBookTab entries={mergedCashBook} summary={cashBookSummary} />
             )}
             {activeSection === 'bank-book' && (
-                <BankBookTab entries={bankBookEntries} summary={bankBookSummary} />
+                <BankBookTab entries={mergedBankBook} summary={bankBookSummary} />
             )}
             {activeSection === 'chart-of-accounts' && (
                 <ChartOfAccountsTab accounts={coaAccounts} summary={coaSummary} />

@@ -12,17 +12,57 @@ export const mdApprovalBadgeColor = {
     Rejected: 'bg-[#FF000033] text-[#FF0000]',
 }
 
-const DEFAULT_ACTIVITIES = []
+const DEFAULT_ACTIVITIES = [
+    {
+        id: 'ACT-SPT-001',
+        type: 'sports',
+        eventName: 'APAR SPORTS ACADEMY 3rd DISTRICT LEVEL OPEN & CHILDRENs CHESS TOURNAMENT',
+        eventType: 'Chess Tournament',
+        className: 'All Students',
+        eventDate: '15-08-2025',
+        startTime: '09:00 AM',
+        endTime: '05:00 PM',
+        venue: 'APAR Sports Academy Indoor Hall',
+        coordinator: '',
+        coach: 'APAR Sports Academy',
+        description: 'District level open and children chess tournament.',
+        submittedBy: 'Admin',
+        mdApprovalStatus: MD_APPROVAL_STATUS.APPROVED,
+        submittedDate: '01-08-2025',
+        players: [
+            { id: 'PLY-001', rank: 1, name: 'Kabir Singh', category: 'Open', className: 'Class 10 - A', school: 'APAR Sports Academy', rating: '1325', score: '5.5/6', tieBreak: '24.0', result: 'Winner' },
+            { id: 'PLY-002', rank: 2, name: 'Meera Nair', category: 'Open', className: 'Class 11 - B', school: 'APAR Sports Academy', rating: '1262', score: '5/6', tieBreak: '22.5', result: 'Runner Up' },
+            { id: 'PLY-003', rank: 3, name: 'Ananya Iyer', category: 'Under 15', className: 'Class 9 - C', school: 'APAR Sports Academy', rating: '1210', score: '4.5/6', tieBreak: '21.0', result: 'Third Place' },
+            { id: 'PLY-004', rank: 4, name: 'Vivaan Rao', category: 'Under 13', className: 'Class 7 - A', school: 'APAR Sports Academy', rating: '1188', score: '4/6', tieBreak: '19.5', result: 'Completed' },
+            { id: 'PLY-005', rank: 5, name: 'Diya Patel', category: 'Under 11', className: 'Class 5 - B', school: 'APAR Sports Academy', rating: '1024', score: '3.5/6', tieBreak: '18.0', result: 'Completed' },
+            { id: 'PLY-006', rank: 6, name: 'Aarav Sharma', category: 'Under 09', className: 'Class 3 - A', school: 'APAR Sports Academy', rating: 'Unrated', score: '3/6', tieBreak: '16.5', result: 'Completed' },
+        ],
+    },
+]
+
+const mergeDefaultActivities = (records) => {
+    const existingIds = new Set(records.map((item) => item.id))
+    const missingDefaults = DEFAULT_ACTIVITIES.filter((item) => !existingIds.has(item.id))
+    return missingDefaults.length > 0 ? [...missingDefaults, ...records] : records
+}
 
 export const getActivities = () => {
     try {
         const stored = localStorage.getItem(STORAGE_KEY)
-        if (stored) return JSON.parse(stored)
+        if (stored) {
+            const parsed = JSON.parse(stored)
+            const records = Array.isArray(parsed) ? parsed : []
+            const merged = mergeDefaultActivities(records)
+            if (merged.length !== records.length) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(merged))
+            }
+            return merged
+        }
     } catch {
         /* ignore */
     }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_ACTIVITIES))
-    return [...DEFAULT_ACTIVITIES]
+    return DEFAULT_ACTIVITIES.map((activity) => ({ ...activity }))
 }
 
 export const saveActivities = (records) => {
@@ -31,6 +71,13 @@ export const saveActivities = (records) => {
 
 export const getActivitiesByType = (type) =>
     getActivities().filter((item) => item.type === type)
+
+export const getChessResultActivities = () =>
+    getActivitiesByType('sports').filter((item) => {
+        const eventName = String(item.eventName || '').toLowerCase()
+        const eventType = String(item.eventType || '').toLowerCase()
+        return eventName.includes('chess') || eventType.includes('chess')
+    })
 
 export const getActivityById = (id) =>
     getActivities().find((item) => item.id === id) ?? null
@@ -170,6 +217,7 @@ export const addActivity = (payload) => {
         submittedBy: payload.submittedBy,
         mdApprovalStatus: payload.mdApprovalStatus,
         submittedDate: payload.submittedDate || formatSubmittedDate(),
+        players: Array.isArray(payload.players) ? payload.players : [],
     }
     saveActivities([record, ...getActivities()])
     notifyCalendarUpdated()
@@ -194,6 +242,7 @@ export const updateActivity = (id, payload) => {
         coach: payload.coach ?? records[index].coach,
         description: payload.description,
         mdApprovalStatus: payload.mdApprovalStatus ?? records[index].mdApprovalStatus,
+        players: Array.isArray(payload.players) ? payload.players : records[index].players || [],
     }
 
     records[index] = updated

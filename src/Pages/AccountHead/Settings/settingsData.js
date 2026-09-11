@@ -1,6 +1,12 @@
 export const SETTINGS_TABS = [
     { id: 'general', label: 'General' },
     { id: 'payment-configuration', label: 'Payment Configuration' },
+    { id: 'fine-rules', label: 'Fine Rules' },
+    { id: 'bank-accounts', label: 'Bank Accounts' },
+    { id: 'pos-terminals', label: 'POS Terminals' },
+    { id: 'roles-permissions', label: 'Roles & Permissions' },
+    { id: 'notifications', label: 'Communication' },
+    { id: 'integrations', label: 'Integrations' },
 ]
 
 export const GENERAL_SETTINGS = {
@@ -172,6 +178,14 @@ export const INTEGRATIONS = [
         status: 'Connected',
         action: 'Manage',
         icon: 'fingerprint',
+    },
+    {
+        id: 'tally-zoho',
+        service: 'Tally / Zoho Books',
+        purpose: 'External BRS review — integration-ready placeholder',
+        status: 'Not configured',
+        action: 'Set up',
+        icon: 'spreadsheet',
     },
     {
         id: 'gst-api',

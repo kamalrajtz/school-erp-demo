@@ -58,6 +58,7 @@ export default function ActivityListView({ roleKey, activityType }) {
 
     const personLabel = config.personLabel
     const approvalStatusHeader = roleKey === 'admin' ? 'Super Admin Approval Status' : 'MD Approval Status'
+    const showPlayersColumn = activityType === 'sports'
 
     return (
         <section>
@@ -192,6 +193,9 @@ export default function ActivityListView({ roleKey, activityType }) {
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>End Time</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Venue</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>{personLabel}</th>
+                                {showPlayersColumn && (
+                                    <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Players</th>
+                                )}
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Submitted By</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>{approvalStatusHeader}</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>Actions</th>
@@ -200,7 +204,7 @@ export default function ActivityListView({ roleKey, activityType }) {
                         <tbody>
                             {filteredActivities.length === 0 ? (
                                 <tr>
-                                    <td colSpan={11} className='px-2 py-8 text-center text-[#667085]'>
+                                    <td colSpan={showPlayersColumn ? 12 : 11} className='px-2 py-8 text-center text-[#667085]'>
                                         No activities found.
                                     </td>
                                 </tr>
@@ -215,6 +219,9 @@ export default function ActivityListView({ roleKey, activityType }) {
                                         <td className='px-2 py-4'>{activity.endTime}</td>
                                         <td className='px-2 py-4'>{activity.venue}</td>
                                         <td className='px-2 py-4'>{getPersonInCharge(activity, config.personField)}</td>
+                                        {showPlayersColumn && (
+                                            <td className='px-2 py-4'>{activity.players?.length || 0}</td>
+                                        )}
                                         <td className='px-2 py-4'>{activity.submittedBy}</td>
                                         <td className='px-2 py-4'>
                                             <span className={`px-2 py-1 rounded-lg text-xs font-semibold whitespace-nowrap ${mdApprovalBadgeColor[activity.mdApprovalStatus]}`}>

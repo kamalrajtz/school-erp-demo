@@ -7,6 +7,8 @@ import RechargeRecordsTab from './Components/RechargeRecordsTab'
 import SpendingHistoryTab from './Components/SpendingHistoryTab'
 import RechargeOptionsTab, { AddRechargeMethodModal } from './Components/RechargeOptionsTab'
 import RechargeWalletModal from './Components/RechargeWalletModal'
+import { useFinance } from '../financeDomain/FinanceContext'
+import { PAYMENT_MODES, SOURCE_MODULES } from '../financeDomain/financeConstants'
 import {
     RECHARGE_RECORDS,
     USER_WALLETS,
@@ -28,6 +30,7 @@ const formatRechargeDateTime = () => {
 }
 
 const WalletManagement = () => {
+    const { postExternalInflow } = useFinance()
     const [activeTab, setActiveTab] = useState('wallet-overview')
     const [roleFilter, setRoleFilter] = useState(WALLET_ROLE_FILTERS[0])
     const [exportModal, setExportModal] = useState(false)
@@ -72,6 +75,14 @@ const WalletManagement = () => {
             index === walletIndex ? updatedWallet : item
         )))
         setRechargeRecords((prev) => [newRecord, ...prev])
+        postExternalInflow({
+            amount,
+            category: 'Wallet Recharge',
+            paymentMode: PAYMENT_MODES.CASH,
+            reference: newRecord.id,
+            narration: `Offline wallet recharge — ${wallet.name}`,
+            sourceModule: SOURCE_MODULES.WALLET,
+        })
 
         return {
             success: true,

@@ -1,10 +1,9 @@
 import React from 'react'
 import { Download } from 'lucide-react'
-import {
-    INCOME_REGISTER,
-    MONEY_IN_SUMMARY,
-    incomeStatusBadgeColor,
-} from '../collectionsData'
+import { INCOME_REGISTER, MONEY_IN_SUMMARY, incomeStatusBadgeColor } from '../collectionsData'
+import { useFinance } from '../../financeDomain/FinanceContext'
+import { formatCurrency, formatDisplayDate } from '../../financeDomain/financeHelpers'
+import { paymentModeLabel, TRANSACTION_STATUSES } from '../../financeDomain/financeConstants'
 import {
     SummaryCards,
     TableCard,
@@ -13,7 +12,20 @@ import {
     thClass,
 } from './CollectionsShared'
 
-const MoneyInTab = () => (
+const MoneyInTab = () => {
+    const { postedInflow, students } = useFinance()
+    const liveRows = postedInflow.map((item) => ({
+        id: item.id,
+        date: formatDisplayDate(item.transactionDate),
+        source: item.category || 'Student Fees',
+        reference: item.receiptNo || item.transactionNo,
+        mode: paymentModeLabel(item.paymentMode),
+        amount: `+${formatCurrency(item.amount)}`,
+        status: item.status === TRANSACTION_STATUSES.POSTED ? 'Cleared' : item.status,
+        student: students.find((row) => row.id === item.studentId)?.name,
+    }))
+
+    return (
     <div className='space-y-6'>
         <SummaryCards cards={MONEY_IN_SUMMARY} />
 
@@ -53,7 +65,7 @@ const MoneyInTab = () => (
                     </tr>
                 </thead>
                 <tbody>
-                    {INCOME_REGISTER.map((row) => (
+                    { [...liveRows, ...INCOME_REGISTER].map((row) => (
                         <tr key={row.id} className='border-b border-[#f2f4f7] hover:bg-[#f2f4f7]'>
                             <td className={`${tdClass} rounded-s-lg`}>{row.date}</td>
                             <td className={`${tdClass} font-medium text-[#1E1E1E]`}>{row.source}</td>
@@ -71,6 +83,7 @@ const MoneyInTab = () => (
             </table>
         </TableCard>
     </div>
-)
+    )
+}
 
 export default MoneyInTab

@@ -4,6 +4,7 @@ import ExportModal from '../../../Common/CommonComponents/ExportModal'
 import FinancialOverviewTab from './Components/FinancialOverviewTab'
 import IncomeReportsTab from './Components/IncomeReportsTab'
 import ExpenditureReportsTab from './Components/ExpenditureReportsTab'
+import FeeComparisonTab from './Components/FeeComparisonTab'
 import TrendsPatternsTab from './Components/TrendsPatternsTab'
 import { REPORTS_PERIODS, REPORTS_TABS } from './reportsAnalyticsData'
 
@@ -66,6 +67,7 @@ const ReportsAnalytics = () => {
             {activeTab === 'financial-overview' && <FinancialOverviewTab />}
             {activeTab === 'income-reports' && <IncomeReportsTab />}
             {activeTab === 'expenditure-reports' && <ExpenditureReportsTab />}
+            {activeTab === 'fee-comparison' && <FeeComparisonTab />}
             {activeTab === 'trends-patterns' && <TrendsPatternsTab />}
 
             <ExportModal exportModal={exportModal} setExportModal={setExportModal} />

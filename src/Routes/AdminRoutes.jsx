@@ -75,6 +75,7 @@ import AcademicCalendar from '../Pages/Admin/AcademicCalendar/AcademicCalendar'
 import ActivityListView from '../Common/Activities/ActivityListView'
 import AddActivityForm from '../Common/Activities/AddActivityForm'
 import ViewActivityPage from '../Common/Activities/ViewActivityPage'
+import ChessResultPage from '../Common/Activities/ChessResultPage'
 import AdminStudentDatabaseList from '../Pages/Admin/UserManagement/StudentDatabase/StudentsList'
 import AdminViewStudentDatabase from '../Pages/Admin/UserManagement/StudentDatabase/ViewStudent'
 import AdminEmployeeDatabaseList from '../Pages/Admin/UserManagement/EmployeeDatabase/EmployeesList'
@@ -156,6 +157,7 @@ const AdminRoutes = () => {
             <Route path="/admin/activities/add-sports" element={<AddActivityForm roleKey="admin" activityType="sports" />} />
             <Route path="/admin/activities/view-sports/:id" element={<ViewActivityPage roleKey="admin" activityType="sports" />} />
             <Route path="/admin/activities/edit-sports/:id" element={<AddActivityForm roleKey="admin" activityType="sports" mode="edit" />} />
+            <Route path="/admin/activities/chess-result" element={<ChessResultPage />} />
             <Route path="/admin/activities/competitions-list" element={<ActivityListView roleKey="admin" activityType="competition" />} />
             <Route path="/admin/activities/add-competition" element={<AddActivityForm roleKey="admin" activityType="competition" />} />
             <Route path="/admin/activities/view-competition/:id" element={<ViewActivityPage roleKey="admin" activityType="competition" />} />

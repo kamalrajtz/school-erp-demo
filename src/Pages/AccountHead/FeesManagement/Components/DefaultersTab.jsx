@@ -26,6 +26,8 @@ import {
     defaulterSeverityBadgeColor,
     defaulterStatusBadgeColor,
 } from '../feesManagementData'
+import { useFinance } from '../../financeDomain/FinanceContext'
+import { formatCurrency } from '../../financeDomain/financeHelpers'
 
 const thClass = 'px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'
 const tdClass = 'px-2 py-4 text-[#667085]'
@@ -54,6 +56,27 @@ const Panel = ({ title, children, action }) => (
 )
 
 const DefaultersTab = ({ exportModal, setExportModal }) => {
+    const { installments, students } = useFinance()
+    const liveDefaulters = students.map((student) => {
+        const overdue = installments.filter((row) => row.studentId === student.id && (row.status === 'OVERDUE' || row.status === 'UNPAID' || row.status === 'PARTIALLY_PAID') && row.balanceAmount > 0)
+        if (!overdue.length) return null
+        const amount = overdue.reduce((sum, row) => sum + row.balanceAmount, 0)
+        const worst = overdue.some((row) => row.status === 'OVERDUE') ? 'OVERDUE' : overdue.some((row) => row.status === 'PARTIALLY_PAID') ? 'Partially Paid' : 'Pending'
+        return {
+            id: `LIVE-${student.id}`,
+            student: student.name,
+            studentId: student.admissionNo,
+            initials: student.initials,
+            avatarColor: 'bg-[#515DEF]',
+            className: `${student.className}-${student.section}`,
+            dueSince: overdue[0].dueDate,
+            daysOverdue: worst,
+            amount: formatCurrency(amount),
+            feeType: [...new Set(overdue.map((row) => row.feeHead))].join(', '),
+            severity: worst === 'OVERDUE' ? 'CRITICAL' : worst === 'Partially Paid' ? 'MODERATE' : 'HIGH',
+            status: worst === 'OVERDUE' ? 'FOLLOW-UP PENDING' : 'PARTIAL PAYMENT',
+        }
+    }).filter(Boolean)
     const maxOutstanding = Math.max(...OUTSTANDING_BY_GRADE.map((item) => item.value))
 
     const overdueAgingOption = useMemo(() => ({
@@ -255,7 +278,7 @@ const DefaultersTab = ({ exportModal, setExportModal }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {DEFAULTERS_REGISTER.map((row) => (
+                            {[...liveDefaulters, ...DEFAULTERS_REGISTER].map((row) => (
                                 <tr key={row.id} className='border-b border-[#f2f4f7] hover:bg-[#f2f4f7]'>
                                     <td className={`${tdClass} rounded-s-lg`}>
                                         <div className='flex items-center gap-3'>

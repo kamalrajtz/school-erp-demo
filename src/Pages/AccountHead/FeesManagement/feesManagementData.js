@@ -93,6 +93,7 @@ export const FEE_STRUCTURES = [
 export const feeStructureStatusBadgeColor = {
     ACTIVE: 'bg-[#4CAF5033] text-[#4CAF50]',
     DRAFT: 'bg-[#66708533] text-[#667085]',
+    INACTIVE: 'bg-[#66708533] text-[#667085]',
 }
 
 export const FEE_COLLECTION_SUMMARY = [
@@ -611,6 +612,9 @@ export const receiptStatusBadgeColor = {
     ACTIVE: 'bg-[#4CAF5033] text-[#4CAF50]',
     REPRINTED: 'bg-[#515DEF33] text-[#515DEF]',
     CANCELLED: 'bg-[#FF572233] text-[#FF5722]',
+    Generated: 'bg-[#4CAF5033] text-[#4CAF50]',
+    Issued: 'bg-[#4CAF5033] text-[#4CAF50]',
+    'Pending clearance': 'bg-[#FF980033] text-[#FF9800]',
 }
 
 export const reprintStatusBadgeColor = {

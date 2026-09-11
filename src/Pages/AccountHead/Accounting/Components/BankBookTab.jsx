@@ -66,36 +66,40 @@ const BankBookTab = ({ entries, summary }) => {
                 <table className='w-full text-sm text-left mt-4 min-w-[1100px]'>
                     <thead className='text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg'>
                         <tr>
-                            <th className={`${thClass} rounded-s-lg`}>Date</th>
-                            <th className={thClass}>Bank</th>
-                            <th className={thClass}>Account Number</th>
-                            <th className={thClass}>Voucher</th>
-                            <th className={thClass}>Deposit</th>
-                            <th className={thClass}>Withdrawal</th>
-                            <th className={thClass}>Balance</th>
-                            <th className={`${thClass} rounded-e-lg`}>Reference Number</th>
+                            <th className={`${thClass} rounded-s-lg`}>Sl No.</th>
+                            <th className={thClass}>Date</th>
+                            <th className={thClass}>Voucher No.</th>
+                            <th className={thClass}>Voucher Type</th>
+                            <th className={thClass}>Debit</th>
+                            <th className={thClass}>Credit</th>
+                            <th className={thClass}>Description</th>
+                            <th className={thClass}>Cheque No.</th>
+                            <th className={thClass}>Dr.</th>
+                            <th className={thClass}>Cr.</th>
+                            <th className={`${thClass} rounded-e-lg`}>Balance</th>
                         </tr>
                     </thead>
                     <tbody>
                         {filteredEntries.length === 0 ? (
                             <tr>
-                                <td colSpan={8} className='px-2 py-8 text-center text-[#667085]'>
+                                <td colSpan={11} className='px-2 py-8 text-center text-[#667085]'>
                                     No bank transactions match the selected filters.
                                 </td>
                             </tr>
                         ) : (
-                            filteredEntries.map((row) => (
+                            filteredEntries.map((row, index) => (
                                 <tr key={row.id} className='border-b border-[#f2f4f7] hover:bg-[#f2f4f7]'>
-                                    <td className={`${tdClass} rounded-s-lg whitespace-nowrap`}>{row.date}</td>
-                                    <td className={`${tdClass} font-medium text-[#1E1E1E]`}>{row.bank}</td>
-                                    <td className={`${tdClass} font-mono text-xs`}>{row.accountNumber}</td>
+                                    <td className={`${tdClass} rounded-s-lg`}>{index + 1}</td>
+                                    <td className={`${tdClass} whitespace-nowrap`}>{row.date}</td>
                                     <td className={`${tdClass} font-mono text-xs text-[#515DEF]`}>{row.voucher}</td>
+                                    <td className={tdClass}>{row.voucherType || 'Receipt'}</td>
                                     <td className={`${tdClass} text-[#4CAF50] font-medium`}>{row.deposit}</td>
                                     <td className={`${tdClass} text-[#FF5722] font-medium`}>{row.withdrawal}</td>
-                                    <td className={`${tdClass} font-semibold`}>{row.balance}</td>
-                                    <td className={`${tdClass} rounded-e-lg font-mono text-xs max-w-[180px] truncate`} title={row.referenceNumber}>
-                                        {row.referenceNumber}
-                                    </td>
+                                    <td className={tdClass}>{row.description || row.account}</td>
+                                    <td className={tdClass}>{row.chequeNo || '—'}</td>
+                                    <td className={tdClass}>{row.deposit}</td>
+                                    <td className={tdClass}>{row.withdrawal}</td>
+                                    <td className={`${tdClass} rounded-e-lg font-semibold`}>{row.balance}</td>
                                 </tr>
                             ))
                         )}

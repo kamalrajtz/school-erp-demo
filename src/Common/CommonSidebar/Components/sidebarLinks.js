@@ -262,6 +262,7 @@ export const adminSidebarLinks = [
         subLinks: [
             { icon: Palette, title: "Cultural", to: "/admin/activities/cultural-list" },
             { icon: Dumbbell, title: "Sports", to: "/admin/activities/sports-list" },
+            { icon: Trophy, title: "Chess Result", to: "/admin/activities/chess-result" },
             { icon: Award, title: "Competitions", to: "/admin/activities/competitions-list" },
         ],
     },
@@ -1988,6 +1989,7 @@ export const directorSidebarLinks = [
         subLinks: [
             { icon: Palette, title: "Cultural", to: "/director/activities/cultural-list" },
             { icon: Dumbbell, title: "Sports", to: "/director/activities/sports-list" },
+            { icon: Trophy, title: "Chess Result", to: "/director/activities/chess-result" },
             { icon: Award, title: "Competitions", to: "/director/activities/competitions-list" },
         ],
     },

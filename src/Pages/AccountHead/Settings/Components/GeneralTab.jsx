@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { toast } from 'react-toastify'
+import { RotateCcw } from 'lucide-react'
 import {
     ACADEMIC_YEARS,
     BOOKS_CLOSURE_TOGGLES,
@@ -16,10 +18,15 @@ import {
     SettingsPanel,
     fieldClass,
 } from './SettingsShared'
+import { useFinance } from '../../financeDomain/FinanceContext'
+import { formatDisplayDateTime } from '../../financeDomain/financeHelpers'
+
+const RESET_CONFIRMATION = 'This will remove all locally saved Finance demo transactions, receipts, cheque updates and manual changes. Continue?'
 
 const GeneralTab = () => {
     const [general, setGeneral] = useState(GENERAL_SETTINGS)
     const [booksClosure, setBooksClosure] = useState(BOOKS_CLOSURE_TOGGLES)
+    const { resetFinanceDemoData, financePersistence } = useFinance()
 
     const updateGeneral = (key, value) => {
         setGeneral((prev) => ({ ...prev, [key]: value }))
@@ -29,6 +36,12 @@ const GeneralTab = () => {
         setBooksClosure((prev) =>
             prev.map((item) => (item.id === id ? { ...item, enabled: !item.enabled } : item)),
         )
+    }
+
+    const handleResetDemoData = () => {
+        if (!window.confirm(RESET_CONFIRMATION)) return
+        resetFinanceDemoData()
+        toast.success('Finance demo data has been restored to the original seed.')
     }
 
     return (
@@ -135,6 +148,36 @@ const GeneralTab = () => {
                         onChange={() => toggleBooksClosure(item.id)}
                     />
                 ))}
+            </SettingsPanel>
+
+            <SettingsPanel
+                title='Demo data'
+                sub='Frontend demo persistence — localStorage. Not suitable for production financial data.'
+            >
+                <div className='space-y-3 text-sm text-[#667085]'>
+                    <p>Local demo persistence: <span className='font-medium text-[#1E1E1E]'>Enabled</span></p>
+                    <p>Storage key: <span className='font-mono text-xs text-[#1E1E1E]'>{financePersistence?.storageKey}</span></p>
+                    <p>
+                        Last saved:{' '}
+                        <span className='text-[#1E1E1E]'>
+                            {financePersistence?.lastSavedAt
+                                ? formatDisplayDateTime(financePersistence.lastSavedAt)
+                                : 'Not saved yet'}
+                        </span>
+                    </p>
+                    <p className='text-xs'>
+                        Clearing site data, using another browser, or another device removes this demo state.
+                        Real production data must live in a Finance API and database.
+                    </p>
+                    <button
+                        type='button'
+                        onClick={handleResetDemoData}
+                        className='inline-flex items-center gap-2 text-sm font-medium text-[#FF5722] border border-[#FF5722] px-4 py-2 rounded-md hover:bg-[#FF5722] hover:text-white transition-colors cursor-pointer'
+                    >
+                        <RotateCcw size={16} />
+                        Reset Finance Demo Data
+                    </button>
+                </div>
             </SettingsPanel>
         </div>
     )

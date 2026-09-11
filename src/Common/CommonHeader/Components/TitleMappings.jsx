@@ -124,6 +124,7 @@
     "/admin/activities/add-cultural": "Add Cultural Information",
     "/admin/activities/sports-list": "Sports List",
     "/admin/activities/add-sports": "Add Sports Information",
+    "/admin/activities/chess-result": "Chess Result",
     "/admin/activities/competitions-list": "Competitions List",
     "/admin/activities/add-competition": "Add Competition Information",
 
@@ -748,6 +749,7 @@
     "/director/activities/add-cultural": "Add Cultural Information",
     "/director/activities/sports-list": "Sports List",
     "/director/activities/add-sports": "Add Sports Information",
+    "/director/activities/chess-result": "Chess Result",
     "/director/activities/competitions-list": "Competitions List",
     "/director/activities/add-competition": "Add Competition Information",
     "/director/lms/student-lms": "Student Home Fun",

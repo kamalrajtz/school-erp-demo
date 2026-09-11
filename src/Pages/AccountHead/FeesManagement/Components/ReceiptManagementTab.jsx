@@ -13,6 +13,8 @@ import {
     TrendingUp,
 } from 'lucide-react'
 import ExportModal from '../../../../Common/CommonComponents/ExportModal'
+import { useFinance } from '../../financeDomain/FinanceContext'
+import { formatCurrency } from '../../financeDomain/financeHelpers'
 import {
     RECEIPT_ACTIVITY_LOG,
     RECEIPT_CLASSES,
@@ -62,6 +64,22 @@ const Panel = ({ title, action, children, className = '' }) => (
 
 const ReceiptManagementTab = ({ exportModal, setExportModal }) => {
     const [paymentPeriod, setPaymentPeriod] = useState('Monthly')
+    const { receipts, students } = useFinance()
+    const liveRows = receipts.map((item) => {
+        const student = students.find((row) => row.id === item.studentId)
+        return {
+            id: item.id,
+            receiptNo: item.receiptNo,
+            student: student?.name ?? 'Student',
+            studentId: student?.admissionNo ?? item.studentId,
+            initials: student?.initials ?? 'ST',
+            avatarColor: 'bg-[#515DEF]',
+            className: item.className || `${student?.className ?? ''}-${student?.section ?? ''}`,
+            feeHeads: (item.feeHeads || []).join(', '),
+            amount: formatCurrency(item.amountPaid),
+            status: item.status === 'Issued' ? 'Generated' : item.status,
+        }
+    })
 
     const generationTrendOption = useMemo(() => ({
         tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
@@ -259,7 +277,7 @@ const ReceiptManagementTab = ({ exportModal, setExportModal }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {RECEIPTS_REGISTER.map((row) => (
+                            {[...liveRows, ...RECEIPTS_REGISTER].map((row) => (
                                 <tr key={row.id} className='border-b border-[#f2f4f7] hover:bg-[#f2f4f7]'>
                                     <td className={`${tdClass} rounded-s-lg`}>
                                         <button type='button' className='text-[#515DEF] font-medium hover:underline cursor-pointer'>

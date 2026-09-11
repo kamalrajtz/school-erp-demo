@@ -14,14 +14,14 @@ const GeneralLedgerTab = ({ entries, summary, registerRef }) => {
     const [ledgerAccount, setLedgerAccount] = useState(GENERAL_LEDGER_ACCOUNTS[0])
     const [voucherType, setVoucherType] = useState(GENERAL_LEDGER_VOUCHER_TYPES[0])
     const [department, setDepartment] = useState(GENERAL_LEDGER_DEPARTMENTS[0])
-    const [financialYear, setFinancialYear] = useState(GENERAL_LEDGER_FINANCIAL_YEARS[0])
+    const [financialYear, setFinancialYear] = useState('All Years')
 
     const filteredEntries = useMemo(() => {
         return entries.filter((row) => {
             if (ledgerAccount !== 'All Accounts' && row.ledgerAccount !== ledgerAccount) return false
             if (voucherType !== 'All Types' && row.voucherType !== voucherType) return false
             if (department !== 'All Departments' && row.department !== department) return false
-            if (financialYear !== row.financialYear) return false
+            if (financialYear !== 'All Years' && financialYear !== row.financialYear) return false
             if (dateFilter && row.dateIso !== dateFilter) return false
             return true
         })
@@ -74,7 +74,7 @@ const GeneralLedgerTab = ({ entries, summary, registerRef }) => {
                                 onChange={(event) => setFinancialYear(event.target.value)}
                                 className='text-sm border border-[#D9D9D9] rounded-md px-3 py-2 min-w-[110px]'
                             >
-                                {GENERAL_LEDGER_FINANCIAL_YEARS.map((year) => (
+                                {['All Years', ...GENERAL_LEDGER_FINANCIAL_YEARS].map((year) => (
                                     <option key={year} value={year}>{year}</option>
                                 ))}
                             </select>
@@ -98,13 +98,14 @@ const GeneralLedgerTab = ({ entries, summary, registerRef }) => {
                                 <th className={thClass}>Debit</th>
                                 <th className={thClass}>Credit</th>
                                 <th className={thClass}>Balance</th>
-                                <th className={`${thClass} rounded-e-lg`}>Reference Module</th>
+                                <th className={thClass}>Reference Module</th>
+                                <th className={`${thClass} rounded-e-lg`}>Source</th>
                             </tr>
                         </thead>
                         <tbody>
                             {filteredEntries.length === 0 ? (
                                 <tr>
-                                    <td colSpan={8} className='px-2 py-8 text-center text-[#667085]'>
+                                    <td colSpan={9} className='px-2 py-8 text-center text-[#667085]'>
                                         No ledger entries match the selected filters.
                                     </td>
                                 </tr>
@@ -118,10 +119,13 @@ const GeneralLedgerTab = ({ entries, summary, registerRef }) => {
                                         <td className={`${tdClass} text-[#4CAF50] font-medium`}>{row.debit}</td>
                                         <td className={`${tdClass} text-[#FF5722] font-medium`}>{row.credit}</td>
                                         <td className={`${tdClass} font-semibold`}>{row.balance}</td>
-                                        <td className={`${tdClass} rounded-e-lg`}>
+                                        <td className={tdClass}>
                                             <span className='text-xs font-medium px-2 py-1 rounded bg-[#515DEF1A] text-[#515DEF] whitespace-nowrap'>
                                                 {row.referenceModule}
                                             </span>
+                                        </td>
+                                        <td className={`${tdClass} rounded-e-lg font-mono text-xs`}>
+                                            {row.referenceNo || row.sourceTransactionId || '—'}
                                         </td>
                                     </tr>
                                 ))
