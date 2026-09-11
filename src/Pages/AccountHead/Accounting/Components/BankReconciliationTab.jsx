@@ -6,6 +6,7 @@ import {
     BANK_RECONCILIATION_BANKS,
 } from '../accountingData'
 import { SummaryCards, TableCard, TablePagination, tdClass, thClass } from './AccountingShared'
+import ReconciliationDrawer from './ReconciliationDrawer'
 import { useFinance } from '../../financeDomain/FinanceContext'
 import { CHEQUE_STATUSES, chequeStatusBadgeColor } from '../../financeDomain/financeConstants'
 import { formatCurrency } from '../../financeDomain/financeHelpers'
