@@ -24,6 +24,7 @@ import ViewObservationReport from '../Pages/QualityAuditor/Reports/ObservationRe
 import ComplianceReports from '../Pages/QualityAuditor/Reports/ComplianceReports/ComplianceReports'
 import PendingActionsReport from '../Pages/QualityAuditor/Reports/ActionsReports/PendingActionsReport'
 import ClosedActionsReport from '../Pages/QualityAuditor/Reports/ActionsReports/ClosedActionsReport'
+import { AuditComponentsPage, SharedDeviationsPage } from '../Common/demoDomain/WorkflowScreens'
 
 const Placeholder = ({ title }) => (
     <div className='bg-white rounded-2xl shadow-md p-8 text-center'>
@@ -65,6 +66,8 @@ const QualityAuditorRoutes = () => {
             <Route path="/quality-auditor/reports/closed-actions" element={<ClosedActionsReport />} />
             <Route path="/quality-auditor/reports" element={<Navigate to="/quality-auditor/reports/audit-reports" replace />} />
             <Route path="/quality-auditor/communication" element={<Placeholder title="Communication" />} />
+            <Route path="/quality-auditor/components" element={<AuditComponentsPage />} />
+            <Route path="/quality-auditor/shared-deviations" element={<SharedDeviationsPage />} />
 
             <Route path="*" element={<Navigate to="/quality-auditor/dashboard" replace />} />
         </ReactRoutes>

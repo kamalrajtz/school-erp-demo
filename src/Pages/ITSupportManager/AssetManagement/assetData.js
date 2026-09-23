@@ -8,6 +8,7 @@ export const ASSET_CATEGORIES = [
     'Server',
     'Mobile Device',
     'Accessories',
+    'Others',
 ]
 
 export const BRAND_OPTIONS = [

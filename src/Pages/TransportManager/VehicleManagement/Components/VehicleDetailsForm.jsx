@@ -50,6 +50,29 @@ const VehicleDetailsForm = ({ vehicle }) => {
                 <input type='text' id='driver-contact' defaultValue={vehicle?.driverContact ?? ''} className={inputClass} />
             </div>
             <div className='flex flex-col gap-y-2'>
+                <label htmlFor='vehicle-category' className='text-base font-medium text-[#1E1E1E]'>Vehicle Category:</label>
+                <select id='vehicle-category' defaultValue={vehicle?.category ?? 'Bus'} className={selectClass}>
+                    <option value='Bus'>Bus</option>
+                    <option value='Car'>Car</option>
+                </select>
+            </div>
+            <div className='flex flex-col gap-y-2'>
+                <label htmlFor='conductor-name' className='text-base font-medium text-[#1E1E1E]'>Conductor Name:</label>
+                <input type='text' id='conductor-name' defaultValue={vehicle?.conductorName ?? ''} className={inputClass} />
+            </div>
+            <div className='flex flex-col gap-y-2'>
+                <label htmlFor='student-strength' className='text-base font-medium text-[#1E1E1E]'>Student Strength:</label>
+                <input type='number' id='student-strength' defaultValue={vehicle?.studentStrength ?? ''} className={inputClass} />
+            </div>
+            <div className='flex flex-col gap-y-2'>
+                <label htmlFor='staff-strength' className='text-base font-medium text-[#1E1E1E]'>Staff Strength:</label>
+                <input type='number' id='staff-strength' defaultValue={vehicle?.staffStrength ?? ''} className={inputClass} />
+            </div>
+            <div className='flex flex-col gap-y-2'>
+                <label htmlFor='odometer' className='text-base font-medium text-[#1E1E1E]'>Current Odometer:</label>
+                <input type='number' id='odometer' defaultValue={vehicle?.currentOdometer ?? ''} className={inputClass} />
+            </div>
+            <div className='flex flex-col gap-y-2'>
                 <label className='text-base font-medium text-[#1E1E1E]'>Insurance Expiry Date:</label>
                 <div className='relative'>
                     <DatePicker

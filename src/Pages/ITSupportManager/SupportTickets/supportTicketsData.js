@@ -2,7 +2,7 @@ export const ISSUE_TYPES = ['Hardware', 'Software', 'Network']
 
 export const PRIORITY_OPTIONS = ['Low', 'Medium', 'High', 'Critical']
 
-export const STATUS_OPTIONS = ['Open', 'In Progress', 'Closed']
+export const STATUS_OPTIONS = ['Open', 'Pending', 'In Progress', 'Resolved', 'Closed']
 
 export const priorityBadgeColor = {
     Low: 'bg-[#2196F333] text-[#2196F3]',
@@ -13,7 +13,9 @@ export const priorityBadgeColor = {
 
 export const statusBadgeColor = {
     Open: 'bg-[#FF980033] text-[#FF9800]',
+    Pending: 'bg-[#FF980033] text-[#FF9800]',
     'In Progress': 'bg-[#2196F333] text-[#2196F3]',
+    Resolved: 'bg-[#4CAF5033] text-[#4CAF50]',
     Closed: 'bg-[#4CAF5033] text-[#4CAF50]',
 }
 

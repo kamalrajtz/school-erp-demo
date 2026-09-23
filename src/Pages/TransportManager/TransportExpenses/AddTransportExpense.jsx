@@ -6,7 +6,7 @@ import OtherExpenseForm from './Components/OtherExpenseForm'
 
 const ADD_CONFIG = {
     fuel: {
-        title: 'Fuel Expense Information',
+        title: 'Fuel Management',
         Form: FuelExpenseForm,
     },
     service: {

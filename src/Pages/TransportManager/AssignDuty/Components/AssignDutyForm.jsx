@@ -45,6 +45,20 @@ const AssignDutyForm = ({ duty }) => {
     return (
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 lg:mt-8 mt-2'>
             <div className='flex flex-col gap-y-2'>
+                <label className='text-base font-medium text-[#1E1E1E]'>Vehicle Type:</label>
+                <select defaultValue={duty?.vehicleType ?? 'Bus'} className={selectClass}>
+                    <option>Bus</option>
+                    <option>Car</option>
+                </select>
+            </div>
+            <div className='flex flex-col gap-y-2'>
+                <label className='text-base font-medium text-[#1E1E1E]'>Duty Type:</label>
+                <select defaultValue={duty?.dutyType ?? 'Pickup'} className={selectClass}>
+                    <option>Pickup</option>
+                    <option>Drop</option>
+                </select>
+            </div>
+            <div className='flex flex-col gap-y-2'>
                 <label htmlFor='driver-name' className='text-base font-medium text-[#1E1E1E]'>Driver Name:</label>
                 <select id='driver-name' value={driverName} onChange={handleDriverChange} className={selectClass}>
                     <option value=''>--Select--</option>

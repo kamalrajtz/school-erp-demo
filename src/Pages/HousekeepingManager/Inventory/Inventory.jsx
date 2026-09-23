@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { Calendar, ChevronLeft, ChevronRight, Download, EllipsisIcon, Plus } from 'lucide-react'
+import { Calendar, ChevronLeft, ChevronRight, Download, EllipsisIcon } from 'lucide-react'
 import Dropdown from '../../../Common/CommonComponents/Dropdown'
 import ExportModal from '../../../Common/CommonComponents/ExportModal'
 import EditRequestModal from '../../../Common/CommonComponents/EditRequestModal'
@@ -57,12 +57,11 @@ const Inventory = () => {
 
             <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
-                    <h2 className='text-xl font-medium text-black'>Inventory</h2>
+                    <div>
+                        <h2 className='text-xl font-medium text-black'>Inventory</h2>
+                        <p className='text-xs text-[#667085]'>Read-only stock. Use Inventory Requirement to ask Stores for quantity.</p>
+                    </div>
                     <div className='flex gap-x-2'>
-                        <NavLink to="/housekeeping-manager/inventory/add-item" className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'>
-                            <Plus size={16} />
-                            Add Inventory
-                        </NavLink>
                         <button onClick={() => setExportModal(true)} className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'>
                             <Download size={16} />
                             Export

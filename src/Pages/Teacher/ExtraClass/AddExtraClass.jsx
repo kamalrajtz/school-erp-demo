@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import ExtraClassForm from './Components/ExtraClassForm'
 
-const AddExtraClass = () => {
+const AddExtraClass = ({ listPath = '/teacher/class/extra-class' }) => {
     const navigate = useNavigate()
 
     return (
@@ -15,7 +15,7 @@ const AddExtraClass = () => {
             <div className='flex sm:justify-end justify-center gap-x-4 mt-6'>
                 <button
                     type='button'
-                    onClick={() => navigate('/teacher/class/extra-class')}
+                    onClick={() => navigate(listPath)}
                     className='bg-white text-[#515DEF] text-sm text-center px-12 py-2 rounded-md border border-[#515DEF] hover:bg-[#515DEF] hover:text-white hover:border-[#515DEF] transition-all duration-200 cursor-pointer md:w-auto w-full'
                 >
                     Discard Changes

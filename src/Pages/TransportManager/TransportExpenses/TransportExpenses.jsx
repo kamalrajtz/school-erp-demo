@@ -17,7 +17,7 @@ import {
 } from './transportExpensesData'
 
 const TABS = [
-    { id: 1, label: 'Fuel Expenses', key: 'fuel' },
+    { id: 1, label: 'Fuel Management', key: 'fuel' },
     { id: 2, label: 'Service Expenses', key: 'service' },
     { id: 3, label: 'Other Expenses', key: 'other' },
 ]

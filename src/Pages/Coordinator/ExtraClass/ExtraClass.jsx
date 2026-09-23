@@ -94,13 +94,6 @@ const ExtraClass = () => {
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
                     <h2 className='text-xl font-medium text-black'>Extended Class List</h2>
                     <div className='flex gap-x-2'>
-                        <NavLink
-                            to='/coordinator/class/extra-class/add'
-                            className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
-                        >
-                            <Plus size={16} />
-                            Add Extended Class
-                        </NavLink>
                         <button
                             type='button'
                             onClick={() => setExportModal(true)}

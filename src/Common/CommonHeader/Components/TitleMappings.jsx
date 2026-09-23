@@ -975,5 +975,5 @@ export function getPageTitle(pathname) {
     const exact = singleTitleMapping[path]
     if (exact != null) return exact
     const hit = dynamicTitleMatchers.find((m) => m.test(path))
-    return hit?.title
+    return hit?.title || 'School ERP'
 }

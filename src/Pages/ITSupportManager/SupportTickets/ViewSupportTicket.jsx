@@ -1,12 +1,9 @@
 import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, CircleCheck } from 'lucide-react'
-import {
-    getTicketById,
-    STATUS_OPTIONS,
-    priorityBadgeColor,
-    statusBadgeColor,
-} from './supportTicketsData'
+import { toast } from 'react-toastify'
+import { getTicketById, updateTicket } from '../../../Common/demoDomain/itTickets'
+import { STATUS_OPTIONS, priorityBadgeColor, statusBadgeColor } from './supportTicketsData'
 
 const Section = ({ title, children }) => (
     <div className='bg-white rounded-2xl shadow-md p-4'>
@@ -28,13 +25,18 @@ const selectClass =
 const ViewSupportTicket = () => {
     const navigate = useNavigate()
     const { id } = useParams()
-    const ticket = getTicketById(id)
+    const [ticket, setTicket] = useState(() => getTicketById(id))
     const [status, setStatus] = useState(ticket?.status ?? 'Open')
+    const [remarks, setRemarks] = useState(ticket?.remarks ?? '')
+    const [outsideService, setOutsideService] = useState(Boolean(ticket?.outsideService))
+    const [printerMaintenance, setPrinterMaintenance] = useState(Boolean(ticket?.printerMaintenance))
     const [saved, setSaved] = useState(false)
 
     const handleUpdateStatus = () => {
+        const next = updateTicket(id, { status, remarks, outsideService, printerMaintenance })
+        setTicket(next)
         setSaved(true)
-        setTimeout(() => setSaved(false), 3000)
+        toast.success('Ticket updated. The requester sees the same record.')
     }
 
     return (
@@ -108,6 +110,20 @@ const ViewSupportTicket = () => {
                                 Update Status
                             </button>
                         </div>
+                        <label className='flex flex-col gap-2 mt-4 text-sm'>Remarks
+                            <textarea value={remarks} onChange={(event) => setRemarks(event.target.value)} rows={3} className='border border-[#D9D9D9] rounded-md px-2 py-2' />
+                        </label>
+                        <div className='flex gap-4 mt-3 text-sm'>
+                            <label className='flex items-center gap-2'><input type='checkbox' checked={outsideService} onChange={(event) => setOutsideService(event.target.checked)} /> Outside Service Maintenance</label>
+                            <label className='flex items-center gap-2'><input type='checkbox' checked={printerMaintenance} onChange={(event) => setPrinterMaintenance(event.target.checked)} /> Printer Maintenance</label>
+                        </div>
+                        {ticket.history?.length > 0 && (
+                            <ul className='mt-4 text-sm text-[#667085] space-y-1'>
+                                {ticket.history.map((event, index) => (
+                                    <li key={`${event.event}-${index}`}>{event.event}: {event.note}</li>
+                                ))}
+                            </ul>
+                        )}
                         {saved && (
                             <div className='flex items-center gap-2 mt-4 text-sm text-[#4CAF50] font-medium'>
                                 <CircleCheck size={18} />

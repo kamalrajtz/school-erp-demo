@@ -32,6 +32,8 @@ import AddLeaveRequest from '../Pages/Principal/LeaveRequest/AddLeaveRequest'
 import ViewMyLeaveRequest from '../Pages/Principal/LeaveRequest/ViewMyLeaveRequest'
 import ReceivedLeaveRequests from '../Pages/Principal/LeaveRequest/ReceivedLeaveRequests'
 import ViewReceivedLeaveRequest from '../Pages/Principal/LeaveRequest/ViewReceivedLeaveRequest'
+import ExtraClass from '../Pages/Teacher/ExtraClass/ExtraClass'
+import AddExtraClass from '../Pages/Teacher/ExtraClass/AddExtraClass'
 import AnnouncementList from '../Pages/Principal/Announcement/AnnouncementList'
 import AddAnnouncement from '../Pages/Principal/Announcement/AddAnnouncement'
 import ViewAnnouncement from '../Pages/Principal/Announcement/ViewAnnouncement'
@@ -100,6 +102,8 @@ const PrincipalRoutes = () => {
             <Route path="/principal/leave-request/my-requests/view/:id" element={<ViewMyLeaveRequest />} />
             <Route path="/principal/leave-request/received" element={<ReceivedLeaveRequests />} />
             <Route path="/principal/leave-request/received/view/:id" element={<ViewReceivedLeaveRequest />} />
+            <Route path="/principal/class/extra-class" element={<ExtraClass canCreate listPath="/principal/class/extra-class" addPath="/principal/class/extra-class/add" />} />
+            <Route path="/principal/class/extra-class/add" element={<AddExtraClass listPath="/principal/class/extra-class" />} />
             <Route path="*" element={<Navigate to="/principal/dashboard" replace />} />
         </ReactRoutes>
     )

@@ -12,6 +12,9 @@ import ViewRequest from '../Pages/ITSupportManager/RequestsApprovals/ViewRequest
 import Reports from '../Pages/ITSupportManager/Reports/Reports'
 import AnnouncementList from '../Pages/ITSupportManager/Announcement/AnnouncementList'
 import ViewAnnouncement from '../Pages/ITSupportManager/Announcement/ViewAnnouncement'
+import AddAnnouncement from '../Pages/ITSupportManager/Announcement/AddAnnouncement'
+import { AssetImportPage } from '../Common/demoDomain/DemoScreens'
+import { ProcurementBoard } from '../Common/demoDomain/WorkflowScreens'
 
 const ITSupportManagerRoutes = () => {
     return (
@@ -28,6 +31,9 @@ const ITSupportManagerRoutes = () => {
             <Route path="/it-support-manager/reports" element={<Reports />} />
             <Route path="/it-support-manager/broadcast" element={<AnnouncementList />} />
             <Route path="/it-support-manager/broadcast/view-broadcast/:id" element={<ViewAnnouncement />} />
+            <Route path="/it-support-manager/broadcast/add-broadcast" element={<AddAnnouncement />} />
+            <Route path="/it-support-manager/data-import" element={<AssetImportPage />} />
+            <Route path="/it-support-manager/purchase-workflow" element={<ProcurementBoard department="IT Support" requestedBy="IT Support Manager" />} />
             <Route path="*" element={<Navigate to="/it-support-manager/dashboard" replace />} />
         </ReactRoutes>
     )

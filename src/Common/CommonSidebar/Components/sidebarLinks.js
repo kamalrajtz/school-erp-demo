@@ -207,7 +207,20 @@ export const superAdminSidebarLinks = [
             { icon: ClipboardCheck, title: "Approval Actions", to: "/super-admin/activity-logs/approval-actions" },
             { icon: ShieldCheck, title: "Audit Logs", to: "/super-admin/activity-logs/audit-logs" },
             { icon: AlertTriangle, title: "Failed Logins", to: "/super-admin/activity-logs/failed-logins" },
+            { icon: History, title: "Demo Activity", to: "/super-admin/activity-logs/demo-activity" },
         ],
+    },
+    {
+        id: 19,
+        title: "Re-entry Approvals",
+        to: "/super-admin/reentry",
+        icon: ClipboardCheck,
+    },
+    {
+        id: 20,
+        title: "Module Health",
+        to: "/super-admin/module-health",
+        icon: HeartPulse,
     },
 ];
 
@@ -821,6 +834,30 @@ export const gateKeeperSidebarLinks = [
         to: "/gate-keeper/escalation-management",
         icon: ShieldAlert,
     },
+    {
+        id: 13,
+        title: "Visitors",
+        to: "/gate-keeper/visitors",
+        icon: UserRound,
+    },
+    {
+        id: 14,
+        title: "Inward / Outward",
+        to: "/gate-keeper/registers",
+        icon: ArrowRightLeft,
+    },
+    {
+        id: 15,
+        title: "Handover",
+        to: "/gate-keeper/handover",
+        icon: ShieldCheck,
+    },
+    {
+        id: 16,
+        title: "Vendors",
+        to: "/gate-keeper/vendors",
+        icon: Briefcase,
+    },
 ];
 
 export const gateKeeperManagerSidebarLinks = [
@@ -901,7 +938,7 @@ export const gateKeeperManagerSidebarLinks = [
 export const canteenManagerSidebarLinks = [
     {
         id: 1,
-        title: "Dashboard",
+        title: "Café",
         to: "/canteen-manager/dashboard",
         icon: LayoutDashboard,
     },
@@ -958,7 +995,7 @@ export const itSupportManagerSidebarLinks = [
     },
     {
         id: 3,
-        title: "Support Tickets",
+        title: "Tickets",
         to: "/it-support-manager/support-tickets",
         icon: Ticket,
     },
@@ -980,6 +1017,18 @@ export const itSupportManagerSidebarLinks = [
         to: "/it-support-manager/broadcast",
         icon: Rss,
     },
+    {
+        id: 7,
+        title: "Data Import",
+        to: "/it-support-manager/data-import",
+        icon: FileText,
+    },
+    {
+        id: 8,
+        title: "Purchase Workflow",
+        to: "/it-support-manager/purchase-workflow",
+        icon: ClipboardCheck,
+    },
 ];
 
 export const stationeryStoreManagerSidebarLinks = [
@@ -991,7 +1040,7 @@ export const stationeryStoreManagerSidebarLinks = [
     },
     {
         id: 2,
-        title: "Inventory",
+        title: "Stores",
         to: "/stationery-store-manager/inventory",
         icon: Package,
     },
@@ -1018,6 +1067,30 @@ export const stationeryStoreManagerSidebarLinks = [
         title: "Announcement",
         to: "/stationery-store-manager/broadcast",
         icon: Rss,
+    },
+    {
+        id: 7,
+        title: "Requirements",
+        to: "/stationery-store-manager/requirements",
+        icon: ClipboardList,
+    },
+    {
+        id: 8,
+        title: "Stock Issue",
+        to: "/stationery-store-manager/stock-issue",
+        icon: ArrowRightLeft,
+    },
+    {
+        id: 9,
+        title: "Critical Alerts",
+        to: "/stationery-store-manager/critical-alerts",
+        icon: AlertTriangle,
+    },
+    {
+        id: 10,
+        title: "Purchase Workflow",
+        to: "/stationery-store-manager/purchase-workflow",
+        icon: ClipboardCheck,
     },
 ];
 
@@ -1058,6 +1131,48 @@ export const housekeepingManagerSidebarLinks = [
         to: "/housekeeping-manager/broadcast",
         icon: Rss,
     },
+    {
+        id: 7,
+        title: "Duty Allotment",
+        to: "/housekeeping-manager/duty-allotment",
+        icon: ClipboardList,
+    },
+    {
+        id: 8,
+        title: "Schedules",
+        to: "/housekeeping-manager/schedules",
+        icon: CalendarDays,
+    },
+    {
+        id: 9,
+        title: "Star of the Month",
+        to: "/housekeeping-manager/star-of-the-month",
+        icon: Star,
+    },
+    {
+        id: 10,
+        title: "RO Testing",
+        to: "/housekeeping-manager/ro-testing",
+        icon: ClipboardCheck,
+    },
+    {
+        id: 11,
+        title: "Lost & Found",
+        to: "/housekeeping-manager/lost-found",
+        icon: Package,
+    },
+    {
+        id: 12,
+        title: "Inventory Requirement",
+        to: "/housekeeping-manager/inventory-requirement",
+        icon: ShoppingCart,
+    },
+    {
+        id: 13,
+        title: "Purchase Workflow",
+        to: "/housekeeping-manager/purchase-workflow",
+        icon: ClipboardCheck,
+    },
 ];
 
 export const teacherSidebarLinks = [
@@ -1075,6 +1190,7 @@ export const teacherSidebarLinks = [
         subLinks: [
             { icon: UserRound, title: "My Attendance", to: "/teacher/attendance/my-attendance" },
             { icon: ClipboardList, title: "Class Attendance", to: "/teacher/attendance/class-attendance" },
+            { icon: HeartPulse, title: "Biometric Attendance", to: "/teacher/attendance/biometric" },
         ],
     },
     {
@@ -1084,18 +1200,12 @@ export const teacherSidebarLinks = [
         icon: School,
         subLinks: [
             { icon: CalendarDays, title: "Class Timetable", to: "/teacher/class/class-routine" },
+            { icon: NotebookPen, title: "Lesson Plan", to: "/teacher/lesson-plan/my-lesson-plan" },
+            { icon: ClipboardCheck, title: "Lesson Plan Approval", to: "/teacher/lesson-plan-approval" },
+            { icon: Sparkles, title: "Home Fun", to: "/teacher/student-deliverables/home-fun" },
+            { icon: BookOpenCheck, title: "Study Materials", to: "/teacher/student-deliverables/study-materials" },
             { icon: UserPlus, title: "Extended Class", to: "/teacher/class/extra-class" },
             { icon: MonitorPlay, title: "Online Class", to: "/teacher/class/online-class" },
-        ],
-    },
-    {
-        id: 4,
-        title: "Lesson Plan",
-        to: "#0",
-        icon: NotebookPen,
-        subLinks: [
-            { icon: ClipboardCheck, title: "Lesson Plan Approval", to: "/teacher/lesson-plan-approval" },
-            { icon: BookOpenCheck, title: "My Lesson Plan", to: "/teacher/lesson-plan/my-lesson-plan" },
         ],
     },
     {
@@ -1105,29 +1215,16 @@ export const teacherSidebarLinks = [
         icon: ClipboardList,
     },
     {
-        id: 6,
-        title: "Unit Test",
-        to: "/teacher/unit-tests",
-        icon: FileText,
-    },
-    {
         id: 7,
         title: "Student Evaluation",
         to: "#0",
         icon: Award,
         subLinks: [
+            { icon: FileText, title: "CA / RCT", to: "/teacher/unit-tests" },
+            { icon: CalendarCheck, title: "Exam", to: "/teacher/student-evaluation/exam" },
+            { icon: CircleHelp, title: "Question Bank", to: "/teacher/student-deliverables/sample-questions" },
             { icon: ClipboardPen, title: "Mark Entry", to: "/teacher/student-evaluation/mark-entry" },
-        ],
-    },
-    {
-        id: 8,
-        title: "Student Deliverables",
-        to: "#0",
-        icon: Package,
-        subLinks: [
-            { icon: Sparkles, title: "Home Fun", to: "/teacher/student-deliverables/home-fun" },
-            { icon: BookOpenCheck, title: "Study Materials", to: "/teacher/student-deliverables/study-materials" },
-            { icon: CircleHelp, title: "Sample Questions", to: "/teacher/student-deliverables/sample-questions" },
+            { icon: BarChart3, title: "Performance Analytics", to: "/teacher/student-evaluation/analytics" },
         ],
     },
     {
@@ -1151,10 +1248,10 @@ export const teacherSidebarLinks = [
         ],
     },
     {
-        id: 11,
-        title: "Student Allocation",
-        to: "/teacher/student-allocation",
-        icon: UserPlus,
+        id: 19,
+        title: "My Profile",
+        to: "/teacher/my-profile",
+        icon: UserRound,
     },
     {
         id: 12,
@@ -1231,18 +1328,12 @@ export const coordinatorSidebarLinks = [
         icon: School,
         subLinks: [
             { icon: CalendarDays, title: "Class Timetable", to: "/coordinator/class/class-routine" },
+            { icon: NotebookPen, title: "Lesson Plan", to: "/coordinator/lesson-plan/my-lesson-plan" },
+            { icon: ClipboardCheck, title: "Lesson Plan Approval", to: "/coordinator/lesson-plan-approval" },
+            { icon: Sparkles, title: "Home Fun", to: "/coordinator/student-deliverables/home-fun" },
+            { icon: BookOpenCheck, title: "Study Materials", to: "/coordinator/student-deliverables/study-materials" },
             { icon: UserPlus, title: "Extended Class", to: "/coordinator/class/extra-class" },
             { icon: MonitorPlay, title: "Online Class", to: "/coordinator/class/online-class" },
-        ],
-    },
-    {
-        id: 4,
-        title: "Lesson Plan",
-        to: "#0",
-        icon: NotebookPen,
-        subLinks: [
-            { icon: ClipboardCheck, title: "Lesson Plan Approval", to: "/coordinator/lesson-plan-approval" },
-            { icon: BookOpenCheck, title: "My Lesson Plan", to: "/coordinator/lesson-plan/my-lesson-plan" },
         ],
     },
     {
@@ -1252,29 +1343,17 @@ export const coordinatorSidebarLinks = [
         icon: ClipboardList,
     },
     {
-        id: 6,
-        title: "Unit Test",
-        to: "/coordinator/unit-tests",
-        icon: FileText,
-    },
-    {
         id: 7,
         title: "Student Evaluation",
         to: "#0",
         icon: Award,
         subLinks: [
+            { icon: FileText, title: "CA / RCT", to: "/coordinator/unit-tests" },
+            { icon: CalendarCheck, title: "Exam", to: "/coordinator/student-evaluation/exam" },
+            { icon: CircleHelp, title: "Question Bank", to: "/coordinator/student-deliverables/sample-questions" },
             { icon: ClipboardPen, title: "Mark Entry", to: "/coordinator/student-evaluation/mark-entry" },
-        ],
-    },
-    {
-        id: 8,
-        title: "Student Deliverables",
-        to: "#0",
-        icon: Package,
-        subLinks: [
-            { icon: Sparkles, title: "Home Fun", to: "/coordinator/student-deliverables/home-fun" },
-            { icon: BookOpenCheck, title: "Study Materials", to: "/coordinator/student-deliverables/study-materials" },
-            { icon: CircleHelp, title: "Sample Questions", to: "/coordinator/student-deliverables/sample-questions" },
+            { icon: BarChart3, title: "Performance Analytics", to: "/coordinator/student-evaluation/analytics" },
+            { icon: HeartPulse, title: "Biometric Attendance", to: "/coordinator/attendance/biometric" },
         ],
     },
     {
@@ -1298,10 +1377,10 @@ export const coordinatorSidebarLinks = [
         ],
     },
     {
-        id: 11,
-        title: "Student Allocation",
-        to: "/coordinator/student-allocation",
-        icon: UserPlus,
+        id: 19,
+        title: "My Profile",
+        to: "/coordinator/my-profile",
+        icon: UserRound,
     },
     {
         id: 12,
@@ -1420,6 +1499,12 @@ export const transportManagerSidebarLinks = [
         title: "Leave Request",
         to: "/transport-manager/leave-request",
         icon: FileX,
+    },
+    {
+        id: 13,
+        title: "Building Maintenance",
+        to: "/transport-manager/building-maintenance",
+        icon: Landmark,
     },
 ];
 
@@ -1663,7 +1748,6 @@ export const processAuditorSidebarLinks = [
         subLinks: [
             { icon: ClipboardList, title: "My Audits", to: "/process-auditor/audit-management/my-audits" },
             { icon: CalendarDays, title: "Audit Schedule", to: "/process-auditor/audit-management/audit-schedule" },
-            { icon: ClipboardCheck, title: "Execute Audit", to: "/process-auditor/audit-management/execute-audit" },
             { icon: History, title: "Audit History", to: "/process-auditor/audit-management/audit-history" },
         ],
     },
@@ -1707,6 +1791,18 @@ export const processAuditorSidebarLinks = [
         to: "/process-auditor/communication",
         icon: MessageCircle,
     },
+    {
+        id: 7,
+        title: "Components & Rubrics",
+        to: "/process-auditor/components",
+        icon: ClipboardList,
+    },
+    {
+        id: 8,
+        title: "Shared Deviations",
+        to: "/process-auditor/shared-deviations",
+        icon: ShieldAlert,
+    },
 ];
 
 export const qualityAuditorSidebarLinks = [
@@ -1724,7 +1820,6 @@ export const qualityAuditorSidebarLinks = [
         subLinks: [
             { icon: ClipboardList, title: "My Audits", to: "/quality-auditor/audit-management/my-audits" },
             { icon: CalendarDays, title: "Audit Schedule", to: "/quality-auditor/audit-management/audit-schedule" },
-            { icon: ClipboardCheck, title: "Execute Audit", to: "/quality-auditor/audit-management/execute-audit" },
             { icon: History, title: "Audit History", to: "/quality-auditor/audit-management/audit-history" },
         ],
     },
@@ -1767,6 +1862,18 @@ export const qualityAuditorSidebarLinks = [
         title: "Communication",
         to: "/quality-auditor/communication",
         icon: MessageCircle,
+    },
+    {
+        id: 7,
+        title: "Components & Rubrics",
+        to: "/quality-auditor/components",
+        icon: ClipboardList,
+    },
+    {
+        id: 8,
+        title: "Shared Deviations",
+        to: "/quality-auditor/shared-deviations",
+        icon: ShieldAlert,
     },
 ];
 
@@ -1908,6 +2015,24 @@ export const accountHeadSidebarLinks = [
         to: "/account-head/settings",
         icon: Settings,
     },
+    {
+        id: 11,
+        title: "Book Fee",
+        to: "/account-head/book-fee",
+        icon: BookOpen,
+    },
+    {
+        id: 12,
+        title: "Annual Budget",
+        to: "/account-head/annual-budget",
+        icon: Wallet,
+    },
+    {
+        id: 13,
+        title: "MFP Report",
+        to: "/account-head/mfp",
+        icon: FileText,
+    },
 ];
 
 export const driverSidebarLinks = [
@@ -1964,12 +2089,6 @@ export const directorSidebarLinks = [
             { icon: CalendarCheck, title: "Exam Timetable", to: "/director/examination-approvals" },
             { icon: CalendarDays, title: "Class Timetable", to: "/director/class-timetable-approvals" },
         ],
-    },
-    {
-        id: 4,
-        title: "Student Allocation Approval",
-        to: "/director/student-allocation-approval",
-        icon: UserPlus,
     },
     {
         id: 5,
@@ -2120,8 +2239,14 @@ export const principalSidebarLinks = [
     },
     {
         id: 7,
-        title: "Student Allocation Approval",
+        title: "Student Allocation",
         to: "/principal/student-allocation-approval",
+        icon: UserPlus,
+    },
+    {
+        id: 16,
+        title: "Extended Class",
+        to: "/principal/class/extra-class",
         icon: UserPlus,
     },
     {

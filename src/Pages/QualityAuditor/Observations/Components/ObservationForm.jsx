@@ -28,9 +28,11 @@ const ObservationForm = ({ form, onChange, readOnly = false }) => {
                 {[
                     ['Observation ID', form.observationId],
                     ['Audit Reference', form.auditReference],
-                    ['Department', form.department],
-                    ['Location', form.location],
-                    ['Category', form.category],
+                    ['Department', form.department || 'Academics'],
+                    ['Component', form.category],
+                    ['Grade', form.grade || 'NA'],
+                    ['Section', form.section || 'NA'],
+                    ['Subject', form.subject || 'NA'],
                     ['Priority', form.priority],
                     ['Severity', form.severity],
                     ['Responsible Department', form.responsibleDepartment],
@@ -67,22 +69,33 @@ const ObservationForm = ({ form, onChange, readOnly = false }) => {
                 </select>
             </Field>
             <Field label='Department'>
-                <select value={form.department} onChange={(e) => update('department', e.target.value)} className={inputClass}>
-                    <option value=''>Select department</option>
-                    {DEPARTMENTS.map((dept) => (
+                <select value={form.department || 'Academics'} onChange={(e) => update('department', e.target.value)} className={inputClass}>
+                    <option value='Academics'>Academics</option>
+                    {DEPARTMENTS.filter((dept) => dept !== 'Academics').map((dept) => (
                         <option key={dept} value={dept}>{dept}</option>
                     ))}
                 </select>
             </Field>
-            <Field label='Location'>
-                <input type='text' value={form.location} onChange={(e) => update('location', e.target.value)} placeholder='Building, floor, area...' className={inputClass} />
-            </Field>
-            <Field label='Category'>
+            <Field label='Component'>
                 <select value={form.category} onChange={(e) => update('category', e.target.value)} className={inputClass}>
-                    <option value=''>Select category</option>
+                    <option value=''>Select component</option>
                     {CATEGORIES.map((cat) => (
                         <option key={cat} value={cat}>{cat}</option>
                     ))}
+                </select>
+            </Field>
+            <Field label='Grade'>
+                <input type='text' value={form.grade || 'NA'} onChange={(e) => update('grade', e.target.value)} className={inputClass} />
+            </Field>
+            <Field label='Section'>
+                <input type='text' value={form.section || 'NA'} onChange={(e) => update('section', e.target.value)} className={inputClass} />
+            </Field>
+            <Field label='Subject'>
+                <input type='text' value={form.subject || 'NA'} onChange={(e) => update('subject', e.target.value)} className={inputClass} />
+            </Field>
+            <Field label='Rating (1-5)'>
+                <select value={form.rating || '3'} onChange={(e) => update('rating', e.target.value)} className={inputClass}>
+                    {['1', '2', '3', '4', '5'].map((score) => <option key={score}>{score}</option>)}
                 </select>
             </Field>
             <Field label='Priority'>
@@ -96,14 +109,6 @@ const ObservationForm = ({ form, onChange, readOnly = false }) => {
                 <select value={form.severity} onChange={(e) => update('severity', e.target.value)} className={inputClass}>
                     {SEVERITIES.map((s) => (
                         <option key={s} value={s}>{s}</option>
-                    ))}
-                </select>
-            </Field>
-            <Field label='Responsible Department'>
-                <select value={form.responsibleDepartment} onChange={(e) => update('responsibleDepartment', e.target.value)} className={inputClass}>
-                    <option value=''>Select department</option>
-                    {DEPARTMENTS.map((dept) => (
-                        <option key={dept} value={dept}>{dept}</option>
                     ))}
                 </select>
             </Field>

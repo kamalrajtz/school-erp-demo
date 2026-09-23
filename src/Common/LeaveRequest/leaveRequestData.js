@@ -18,6 +18,8 @@ export const LEAVE_TYPES = [
     'Emergency Leave',
     'Personal Leave',
     'Medical Leave',
+    'Week-Off',
+    'Permission',
 ]
 
 export const LEAVE_STATUSES = ['Pending', 'Approved', 'Rejected']

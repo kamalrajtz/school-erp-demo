@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
+import { logWhatsAppDelivery } from '../../../../Common/demoDomain/financeExtras'
 import { Download, Mail, MessageCircle, Printer, RotateCcw, X } from 'lucide-react'
 import { paymentModeLabel } from '../../financeDomain/financeConstants'
 import { formatCurrency, formatDisplayDate } from '../../financeDomain/financeHelpers'
@@ -75,8 +76,8 @@ const ReceiptDetailsDrawer = ({
                     <button type='button' onClick={() => { onSend({ receiptId: receipt.id, channel: 'email' }); toast.success('Mock email sent.') }} className='inline-flex items-center justify-center gap-2 text-sm border border-[#515DEF] text-[#515DEF] px-3 py-2 rounded-md cursor-pointer'>
                         <Mail size={14} /> Email
                     </button>
-                    <button type='button' onClick={() => { onSend({ receiptId: receipt.id, channel: 'whatsapp' }); toast.success('Mock WhatsApp sent.') }} className='col-span-2 inline-flex items-center justify-center gap-2 text-sm bg-[#515DEF] text-white px-3 py-2 rounded-md cursor-pointer'>
-                        <MessageCircle size={14} /> WhatsApp
+                    <button type='button' onClick={() => { onSend({ receiptId: receipt.id, channel: 'whatsapp' }); logWhatsAppDelivery(receipt.id); toast.success('Demo WhatsApp delivery recorded.') }} className='col-span-2 inline-flex items-center justify-center gap-2 text-sm bg-[#515DEF] text-white px-3 py-2 rounded-md cursor-pointer'>
+                        <MessageCircle size={14} /> Send to WhatsApp
                     </button>
                 </div>
             </div>

@@ -5,6 +5,7 @@ import MyAttendance from '../Pages/Coordinator/Attendance/MyAttendance'
 import ClassAttendance from '../Pages/Coordinator/Attendance/ClassAttendance'
 import ClassRoutine from '../Pages/Coordinator/ClassRoutine/ClassRoutine'
 import ExtraClass from '../Pages/Coordinator/ExtraClass/ExtraClass'
+import { BiometricAttendancePage, ExamTypesPage, MyProfilePage, StudentAnalyticsPage } from '../Common/demoDomain/DemoScreens'
 import AddExtraClass from '../Pages/Coordinator/ExtraClass/AddExtraClass'
 import ViewExtraClass from '../Pages/Coordinator/ExtraClass/ViewExtraClass'
 import OnlineClass from '../Pages/Coordinator/OnlineClass/OnlineClass'
@@ -111,6 +112,10 @@ const CoordinatorRoutes = () => {
             <Route path="/coordinator/escalation-management" element={<EscalationList />} />
             <Route path="/coordinator/escalation-management/add-escalation" element={<AddEscalation />} />
             <Route path="/coordinator/escalation-management/view/:id" element={<ViewEscalation />} />
+            <Route path="/coordinator/student-evaluation/exam" element={<ExamTypesPage />} />
+            <Route path="/coordinator/student-evaluation/analytics" element={<StudentAnalyticsPage />} />
+            <Route path="/coordinator/attendance/biometric" element={<BiometricAttendancePage />} />
+            <Route path="/coordinator/my-profile" element={<MyProfilePage roleLabel="Coordinator" />} />
             <Route path="*" element={<Navigate to="/coordinator/dashboard" replace />} />
         </ReactRoutes>
     )

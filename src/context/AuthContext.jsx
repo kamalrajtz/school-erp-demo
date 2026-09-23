@@ -14,8 +14,11 @@ import {
 } from '../Common/RBAC/createdUsersData'
 import { findActiveParentByEmail } from '../Common/ParentAccounts/parentAccountsData'
 import { ROLES } from '../constants/roles'
+import { deviceLabel, logActivity } from '../Common/demoDomain/activityLog'
 
 export { ROLES }
+
+const SUPER_ADMIN_EMAILS = ['superadmin@school.com', 'superadmin2@school.com']
 
 export const FAKE_CREDENTIALS = {
     [ROLES.SUPER_ADMIN]: { email: 'superadmin@school.com' },
@@ -167,6 +170,13 @@ export const AuthProvider = ({ children }) => {
                     message: `Use ${creds.email} or a parent account created during admission enrollment.`,
                 }
             }
+        } else if (expectedRole === ROLES.SUPER_ADMIN) {
+            if (!SUPER_ADMIN_EMAILS.includes(normalizedEmail)) {
+                return {
+                    success: false,
+                    message: `Use ${SUPER_ADMIN_EMAILS.join(' or ')} for this profile.`,
+                }
+            }
         } else if (normalizedEmail !== creds.email) {
             return {
                 success: false,
@@ -194,6 +204,14 @@ export const AuthProvider = ({ children }) => {
         setName(sessionName)
         setPendingRole(null)
         persistAuth(expectedRole, normalizedEmail, sessionName)
+        logActivity({
+            actor: sessionName || normalizedEmail,
+            role: expectedRole,
+            action: 'LOGIN',
+            module: 'Authentication',
+            details: `${deviceLabel()} · ${navigator.userAgent.split(' ').slice(-2).join(' ')}`,
+            recordId: crypto.randomUUID?.() || `SES-${Date.now()}`,
+        })
 
         clearActiveCreatedUserSession()
 
@@ -215,6 +233,7 @@ export const AuthProvider = ({ children }) => {
     }, [persistAuth])
 
     const logout = useCallback(() => {
+        logActivity({ actor: email || 'Demo User', role, action: 'LOGOUT', module: 'Authentication' })
         sessionStorage.removeItem(STORAGE_KEY)
         clearActiveAdminSession()
         clearActiveCreatedUserSession()
@@ -223,7 +242,7 @@ export const AuthProvider = ({ children }) => {
         setEmail(null)
         setName(null)
         setPendingRole(null)
-    }, [])
+    }, [email, role])
 
     const value = useMemo(
         () => ({

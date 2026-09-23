@@ -61,9 +61,25 @@ const ViewVehicle = () => {
                             <Field label='Capacity' value={vehicle.capacity} />
                             <Field label='Driver Name' value={vehicle.driverName} />
                             <Field label='Driver Contact' value={vehicle.driverContact} />
+                            <Field label='Category' value={vehicle.category || 'Bus'} />
+                            <Field label='Conductor Name' value={vehicle.conductorName} />
+                            <Field label='Student Strength' value={vehicle.studentStrength} />
+                            <Field label='Staff Strength' value={vehicle.staffStrength} />
+                            <Field label='Current Odometer' value={vehicle.currentOdometer} />
                             <Field label='Insurance Expiry Date' value={vehicle.insuranceExpiryDate} />
                             <Field label='Last Service Date' value={vehicle.lastServiceDate} />
                             <Field label='Next Service Date' value={vehicle.nextServiceDate} />
+                        </div>
+                    </Section>
+                    <Section title='Compliance history'>
+                        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-sm text-[#667085]'>
+                            <p><strong className='text-[#1E1E1E]'>FC:</strong> Valid with fitness renewal on the next service cycle.</p>
+                            <p><strong className='text-[#1E1E1E]'>RC:</strong> Registration current for {vehicle.vehicleNumber}.</p>
+                            <p><strong className='text-[#1E1E1E]'>Permit:</strong> School permit on file.</p>
+                            <p><strong className='text-[#1E1E1E]'>Service:</strong> Last {vehicle.lastServiceDate}, next {vehicle.nextServiceDate}.</p>
+                            <p><strong className='text-[#1E1E1E]'>FASTag:</strong> Active, linked to this vehicle.</p>
+                            <p><strong className='text-[#1E1E1E]'>PUCC:</strong> Current.</p>
+                            <p><strong className='text-[#1E1E1E]'>Insurance:</strong> Expires {vehicle.insuranceExpiryDate}.</p>
                         </div>
                     </Section>
                 </>

@@ -24,6 +24,7 @@ import ViewObservationReport from '../Pages/ProcessAuditor/Reports/ObservationRe
 import ComplianceReports from '../Pages/ProcessAuditor/Reports/ComplianceReports/ComplianceReports'
 import PendingActionsReport from '../Pages/ProcessAuditor/Reports/ActionsReports/PendingActionsReport'
 import ClosedActionsReport from '../Pages/ProcessAuditor/Reports/ActionsReports/ClosedActionsReport'
+import { AuditComponentsPage, SharedDeviationsPage } from '../Common/demoDomain/WorkflowScreens'
 
 const Placeholder = ({ title }) => (
     <div className='bg-white rounded-2xl shadow-md p-8 text-center'>
@@ -65,6 +66,8 @@ const ProcessAuditorRoutes = () => {
             <Route path="/process-auditor/reports/closed-actions" element={<ClosedActionsReport />} />
             <Route path="/process-auditor/reports" element={<Navigate to="/process-auditor/reports/audit-reports" replace />} />
             <Route path="/process-auditor/communication" element={<Placeholder title="Communication" />} />
+            <Route path="/process-auditor/components" element={<AuditComponentsPage />} />
+            <Route path="/process-auditor/shared-deviations" element={<SharedDeviationsPage />} />
 
             <Route path="*" element={<Navigate to="/process-auditor/dashboard" replace />} />
         </ReactRoutes>

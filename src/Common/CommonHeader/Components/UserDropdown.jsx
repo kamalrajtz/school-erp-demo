@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, Ticket } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import RaiseItTicketModal from '../../RaiseItTicket/RaiseItTicketModal'
 import { FAKE_CREDENTIALS, ROLES, useAuth } from '../../../context/AuthContext'
 import { useOptionalParentChild } from '../../../context/ParentChildContext'
 import { getParentByEmail } from '../../../Pages/Parent/parentData'
@@ -15,6 +16,7 @@ const UserDropdown = () => {
     const displayName = parentAccount?.name ?? 'Neil Sims'
 
     const [open, setOpen] = useState(false)
+    const [ticketOpen, setTicketOpen] = useState(false)
     const dropdownRef = useRef(null)
 
     const toggleDropdown = () => setOpen((prev) => !prev)
@@ -59,6 +61,18 @@ const UserDropdown = () => {
                         <ul className='py-1 text-gray-700'>
                             <li>
                                 <button
+                                    className='flex w-full items-center gap-2 text-left py-2 px-4 text-sm hover:bg-gray-100 cursor-pointer'
+                                    onClick={() => {
+                                        setTicketOpen(true)
+                                        setOpen(false)
+                                    }}
+                                >
+                                    <Ticket size={14} />
+                                    Raise IT Ticket
+                                </button>
+                            </li>
+                            <li>
+                                <button
                                     className='block w-full text-left py-2 px-4 text-sm hover:bg-gray-100 cursor-pointer'
                                     onClick={() => {
                                         logout()
@@ -73,6 +87,7 @@ const UserDropdown = () => {
                     </div>
                 )}
             </div>
+            <RaiseItTicketModal open={ticketOpen} onClose={() => setTicketOpen(false)} />
         </div>
     )
 }

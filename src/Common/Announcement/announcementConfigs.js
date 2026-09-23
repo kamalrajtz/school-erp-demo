@@ -64,6 +64,7 @@ export const ANNOUNCEMENT_ROUTE_CONFIG = {
     },
     itsupportmanager: {
         list: '/it-support-manager/broadcast',
+        add: '/it-support-manager/broadcast/add-broadcast',
         view: '/it-support-manager/broadcast/view-broadcast',
         sentByDefault: 'IT Support Manager',
     },
@@ -74,6 +75,7 @@ export const ANNOUNCEMENT_ROUTE_CONFIG = {
     },
     housekeepingmanager: {
         list: '/housekeeping-manager/broadcast',
+        add: '/housekeeping-manager/broadcast/add-broadcast',
         view: '/housekeeping-manager/broadcast/view-broadcast',
         sentByDefault: 'Housekeeping Manager',
     },

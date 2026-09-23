@@ -44,11 +44,7 @@ const AddIncidents = () => {
                     </div>
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor="" className='text-base font-medium text-[#1E1E1E]'>Location:</label>
-                        <select name="" id="" className='text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full'>
-                            <option value="">Male</option>
-                            <option value="">Female</option>
-                            <option value="">Others</option>
-                        </select>
+                        <input type="text" placeholder="Gate, block, or area" className='text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full' />
                     </div>
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor="" className='text-base font-medium text-[#1E1E1E]'>Description:</label>

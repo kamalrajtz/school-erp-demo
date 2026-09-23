@@ -24,6 +24,8 @@ import ViewGatePass from '../Pages/SuperAdmin/GatePass/ViewGatePass'
 import StarRatings from '../Pages/SuperAdmin/StarRatings/StarRatings'
 import ActivityLogList from '../Pages/SuperAdmin/ActivityLogs/ActivityLogList'
 import ViewActivityLog from '../Pages/SuperAdmin/ActivityLogs/ViewActivityLog'
+import { DemoActivityPage, ReentryPage } from '../Common/demoDomain/DemoScreens'
+import { CriticalInventoryPage } from '../Common/demoDomain/WorkflowScreens'
 import TransportOverview from '../Pages/SuperAdmin/TransportOverview/TransportOverview'
 import ApprovalsList from '../Pages/SuperAdmin/Approvals/ApprovalsList'
 import ViewApproval from '../Pages/SuperAdmin/Approvals/ViewApproval'
@@ -113,6 +115,9 @@ const SuperAdminRoutes = () => {
             <Route path="/super-admin/activity-logs/approval-actions" element={<ActivityLogList logType="approval-actions" />} />
             <Route path="/super-admin/activity-logs/audit-logs" element={<ActivityLogList logType="audit-logs" />} />
             <Route path="/super-admin/activity-logs/failed-logins" element={<ActivityLogList logType="failed-logins" />} />
+            <Route path="/super-admin/activity-logs/demo-activity" element={<DemoActivityPage />} />
+            <Route path="/super-admin/reentry" element={<ReentryPage />} />
+            <Route path="/super-admin/module-health" element={<CriticalInventoryPage />} />
             <Route path="/super-admin/activity-logs/view/:id" element={<ViewActivityLog />} />
 
             <Route path="*" element={<Navigate to="/super-admin/dashboard" replace />} />

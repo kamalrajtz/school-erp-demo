@@ -7,6 +7,7 @@ import {
     RcaEvidencePanel,
 } from './Components/RcaSections'
 import { getRcaById, priorityBadgeColor, statusBadgeColor } from './rcaData'
+import AuditReviewPanel from '../../../../Common/AuditReview/AuditReviewPanel'
 
 const Field = ({ label, value }) => (
     <div className='flex flex-col gap-y-1'>
@@ -100,6 +101,7 @@ const ViewRca = () => {
                 finalStatus={record.finalStatus}
                 statusBadgeColor={statusBadgeColor}
             />
+            <AuditReviewPanel recordId={record.id} kind="RCA" />
         </section>
     )
 }

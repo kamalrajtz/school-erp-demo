@@ -409,7 +409,7 @@ const Dashboard = () => {
                 </Panel>
 
                 <Panel
-                    title='Income vs Expense'
+                    title='Budgeted vs Actuals'
                     subtitle='Comparison of daily flow'
                     action={<PeriodToggle value={incomeExpensePeriod} onChange={setIncomeExpensePeriod} />}
                 >

@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { CURRENT_YEAR_FEE_STATS, PREVIOUS_YEAR_FEE_STATS } from '../../financeDomain/financeMasters'
 import { compareAcademicYears, formatCurrency } from '../../financeDomain/financeHelpers'
 import { TableCard, tdClass, thClass } from './ReportsShared'
+import { FeeProjectionPanel } from '../../../../Common/demoDomain/DemoScreens'
 
 const FeeComparisonTab = () => {
     const [klass, setKlass] = useState('All Classes')
@@ -86,6 +87,7 @@ const FeeComparisonTab = () => {
                     </tbody>
                 </table>
             </TableCard>
+            <FeeProjectionPanel />
             <p className='text-xs text-[#808080]'>TODO: MFP Report Solution / customized template — waiting on stakeholder specification. Do not invent this workflow.</p>
         </div>
     )

@@ -134,7 +134,8 @@ const UnitTestsList = ({ items }) => {
 
             <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
-                    <h2 className='text-xl font-medium text-black'>Unit Test List</h2>
+                    <h2 className='text-xl font-medium text-black'>CA / RCT</h2>
+                <p className='text-xs text-[#667085]'>Continuous Assessment / Regular Class Test</p>
                     <div className='flex gap-x-2'>
                         <NavLink
                             to={`${ROUTE_BASE}/add`}

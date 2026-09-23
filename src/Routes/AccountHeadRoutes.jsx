@@ -10,6 +10,7 @@ import Approvals from '../Pages/AccountHead/Approvals/Approvals'
 import ReportsAnalytics from '../Pages/AccountHead/ReportsAnalytics/ReportsAnalytics'
 import Settings from '../Pages/AccountHead/Settings/Settings'
 import { TaskManagementRoutes } from '../Common/TaskManagement/TaskManagementRoutes'
+import { BookFeePage, BudgetPage, FeeProjectionPanel, MfpPlaceholder } from '../Common/demoDomain/DemoScreens'
 
 const AccountHeadRoutes = () => {
     return (
@@ -24,6 +25,10 @@ const AccountHeadRoutes = () => {
             <Route path="/account-head/approvals" element={<Approvals />} />
             <Route path="/account-head/reports-analytics" element={<ReportsAnalytics />} />
             <Route path="/account-head/settings" element={<Settings />} />
+            <Route path="/account-head/book-fee" element={<BookFeePage />} />
+            <Route path="/account-head/annual-budget" element={<BudgetPage />} />
+            <Route path="/account-head/mfp" element={<MfpPlaceholder />} />
+            <Route path="/account-head/fee-projection" element={<FeeProjectionPanel />} />
             {TaskManagementRoutes({ basePath: '/account-head' })}
             <Route path="*" element={<Navigate to="/account-head/dashboard" replace />} />
         </ReactRoutes>

@@ -1,11 +1,11 @@
-export const ATTENDANCE_STATUSES = ['Present', 'Absent', 'Late', 'Half Day', 'On Leave']
+export const ATTENDANCE_STATUSES = ['Present', 'Absent', 'Late', 'Half Day', 'On Duty']
 
 export const attendanceStatusBadgeColor = {
     Present: 'bg-[#4CAF5033] text-[#4CAF50]',
     Absent: 'bg-[#FF572233] text-[#FF5722]',
     Late: 'bg-[#FF980033] text-[#FF9800]',
     'Half Day': 'bg-[#2196F333] text-[#2196F3]',
-    'On Leave': 'bg-[#66708533] text-[#667085]',
+    'On Duty': 'bg-[#66708533] text-[#667085]',
 }
 
 export const ATTENDANCE_RECORDS = [
@@ -37,7 +37,7 @@ export const ATTENDANCE_RECORDS = [
         checkIn: '—',
         checkOut: '—',
         workingHours: '—',
-        status: 'On Leave',
+        status: 'On Duty',
     },
     {
         id: 'ATT-2026-0409',

@@ -13,6 +13,9 @@ import ViewRequest from '../Pages/StationeryStoreManager/RequestsApprovals/ViewR
 import Reports from '../Pages/StationeryStoreManager/Reports/Reports'
 import AnnouncementList from '../Pages/StationeryStoreManager/Announcement/AnnouncementList'
 import ViewAnnouncement from '../Pages/StationeryStoreManager/Announcement/ViewAnnouncement'
+import { CriticalInventoryPage } from '../Common/demoDomain/WorkflowScreens'
+import { IssueStockPage, RequirementsPage } from '../Common/demoDomain/DemoScreens'
+import { ProcurementBoard } from '../Common/demoDomain/WorkflowScreens'
 
 const StationeryStoreManagerRoutes = () => {
     return (
@@ -30,6 +33,10 @@ const StationeryStoreManagerRoutes = () => {
             <Route path="/stationery-store-manager/reports" element={<Reports />} />
             <Route path="/stationery-store-manager/broadcast" element={<AnnouncementList />} />
             <Route path="/stationery-store-manager/broadcast/view-broadcast/:id" element={<ViewAnnouncement />} />
+            <Route path="/stationery-store-manager/requirements" element={<RequirementsPage department="Stores" requestedBy="Stores Manager" />} />
+            <Route path="/stationery-store-manager/stock-issue" element={<IssueStockPage />} />
+            <Route path="/stationery-store-manager/critical-alerts" element={<CriticalInventoryPage />} />
+            <Route path="/stationery-store-manager/purchase-workflow" element={<ProcurementBoard department="Stores" requestedBy="Stores Manager" />} />
             <Route path="*" element={<Navigate to="/stationery-store-manager/dashboard" replace />} />
         </ReactRoutes>
     )

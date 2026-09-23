@@ -22,6 +22,8 @@ export default function AddLeaveRequestForm({ roleKey: roleKeyProp }) {
     const [toDate, setToDate] = useState(new Date())
     const [leaveType, setLeaveType] = useState('')
     const [reason, setReason] = useState('')
+    const [fromTime, setFromTime] = useState('09:00')
+    const [toTime, setToTime] = useState('10:00')
 
     const totalDays = useMemo(() => calculateTotalDays(fromDate, toDate), [fromDate, toDate])
 
@@ -38,9 +40,14 @@ export default function AddLeaveRequestForm({ roleKey: roleKeyProp }) {
             toast.error('Please select valid from and to dates.')
             return
         }
-        if (totalDays <= 0) {
-            toast.error('To date must be on or after from date.')
-            return
+        if (leaveType === 'Permission') {
+            const [fromHour, fromMinute] = fromTime.split(':').map(Number)
+            const [toHour, toMinute] = toTime.split(':').map(Number)
+            const minutes = (toHour * 60 + toMinute) - (fromHour * 60 + fromMinute)
+            if (minutes <= 0 || minutes > 120) {
+                toast.error('Permission cannot exceed 2 hours.')
+                return
+            }
         }
 
         createLeaveRequest(
@@ -105,6 +112,18 @@ export default function AddLeaveRequestForm({ roleKey: roleKeyProp }) {
                         <label className='text-base font-medium text-[#1E1E1E]'>Total Days:</label>
                         <input type='text' readOnly value={totalDays || ''} placeholder='Auto-calculated' className={readOnlyInputClass} />
                     </div>
+                    {leaveType === 'Permission' && (
+                        <>
+                            <div className='flex flex-col gap-y-2'>
+                                <label className='text-base font-medium text-[#1E1E1E]'>From Time:</label>
+                                <input type='time' value={fromTime} onChange={(event) => setFromTime(event.target.value)} className={inputClass} />
+                            </div>
+                            <div className='flex flex-col gap-y-2'>
+                                <label className='text-base font-medium text-[#1E1E1E]'>To Time:</label>
+                                <input type='time' value={toTime} onChange={(event) => setToTime(event.target.value)} className={inputClass} />
+                            </div>
+                        </>
+                    )}
                     <div className='flex flex-col gap-y-2 lg:col-span-3'>
                         <label className='text-base font-medium text-[#1E1E1E]'>Reason:</label>
                         <textarea rows={3} value={reason} onChange={(event) => setReason(event.target.value)} className={inputClass} placeholder='Describe the reason for leave...' />

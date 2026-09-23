@@ -22,7 +22,7 @@ export const PRIORITIES = ['High', 'Medium', 'Low']
 
 export const STATUSES = ['Pending', 'In Progress', 'Completed', 'Overdue']
 
-export const FREQUENCIES = ['Monthly', 'Quarterly', 'Annual', 'Ad-hoc']
+export const FREQUENCIES = ['ONE_TIME', 'DAILY', 'WEEKLY', 'FORTNIGHTLY', 'MONTHLY', 'TERMLY', 'YEARLY', 'Quarterly', 'Ad-hoc']
 
 export const priorityBadgeColor = {
     High: 'bg-[#FF000033] text-[#FF0000]',

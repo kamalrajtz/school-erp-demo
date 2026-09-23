@@ -8,6 +8,7 @@ import {
     AtrStatusTimeline,
 } from './Components/AtrSections'
 import { getAtrById, statusBadgeColor } from './atrData'
+import AuditReviewPanel from '../../../../Common/AuditReview/AuditReviewPanel'
 
 const Field = ({ label, value }) => (
     <div className='flex flex-col gap-y-1'>
@@ -89,6 +90,7 @@ const ViewAtr = () => {
             <BeforeAfterEvidencePanel evidence={record.evidence} />
             <VerificationDetailsSection verification={record.verification} />
             <AtrStatusTimeline timeline={record.statusTimeline} />
+            <AuditReviewPanel recordId={record.id} kind="ATR" />
         </section>
     )
 }

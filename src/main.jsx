@@ -19,6 +19,7 @@ import {
     migrateLegacyLeaveRequestsIfNeeded,
     migrateSessionLeaveRequestsToLocalIfNeeded,
 } from './Common/LeaveRequest/leaveRequestData.js'
+import { bootstrapDemoStores } from './Common/demoDomain/bootstrap.js'
 
 runAcademicsWipeIfNeeded()
 runFrontOfficePassWipeIfNeeded()
@@ -30,6 +31,7 @@ runEscalationManagementWipeIfNeeded()
 runDocumentsWipeIfNeeded()
 migrateLegacyLeaveRequestsIfNeeded()
 migrateSessionLeaveRequestsToLocalIfNeeded()
+bootstrapDemoStores()
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

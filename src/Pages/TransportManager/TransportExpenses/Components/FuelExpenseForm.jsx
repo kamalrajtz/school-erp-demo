@@ -3,6 +3,8 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Calendar } from 'lucide-react'
 import { VEHICLE_OPTIONS, FUEL_STATIONS, PAYMENT_MODES } from '../transportExpensesData'
+import { addFuelEntry } from '../../../../Common/demoDomain/financeExtras'
+import { toast } from 'react-toastify'
 
 const inputClass =
     'text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full'
@@ -21,6 +23,31 @@ const FuelExpenseForm = ({ expense }) => {
     const [fuelDate, setFuelDate] = useState(() => parseDate(expense?.fuelDate))
     const [vehicleNumber, setVehicleNumber] = useState(expense?.vehicleNumber ?? '')
     const [driverName, setDriverName] = useState(expense?.driverName ?? '')
+
+    const [entryType, setEntryType] = useState('Inside')
+    const [quantity, setQuantity] = useState('')
+    const [rate, setRate] = useState('')
+    const [odometer, setOdometer] = useState('')
+    const [station, setStation] = useState('')
+    const [remarks, setRemarks] = useState('')
+
+    const saveEntry = () => {
+        if (!vehicleNumber || !quantity || !rate) {
+            toast.error('Vehicle, quantity, and rate are required.')
+            return
+        }
+        addFuelEntry({
+            vehicle: vehicleNumber,
+            quantity: Number(quantity),
+            rate: Number(rate),
+            odometer,
+            station: document.getElementById('fuel-station')?.value || station,
+            type: entryType,
+            remarks,
+            date: fuelDate ? fuelDate.toISOString().slice(0, 10) : '',
+        })
+        toast.success('Fuel entry saved locally.')
+    }
 
     const handleVehicleChange = (e) => {
         const selected = VEHICLE_OPTIONS.find((vehicle) => vehicle.label === e.target.value)
@@ -68,8 +95,28 @@ const FuelExpenseForm = ({ expense }) => {
                 </select>
             </div>
             <div className='flex flex-col gap-y-2'>
-                <label htmlFor='fuel-quantity' className='text-base font-medium text-[#1E1E1E]'>Fuel Quantity:</label>
-                <input type='text' id='fuel-quantity' defaultValue={expense?.fuelQuantity ?? ''} placeholder='e.g. 120 L' className={inputClass} />
+                <label className='text-base font-medium text-[#1E1E1E]'>Inside / Outside:</label>
+                <select value={entryType} onChange={(event) => setEntryType(event.target.value)} className={selectClass}>
+                    <option>Inside</option>
+                    <option>Outside</option>
+                </select>
+            </div>
+            <div className='flex flex-col gap-y-2'>
+                <label className='text-base font-medium text-[#1E1E1E]'>Quantity:</label>
+                <input value={quantity} onChange={(event) => setQuantity(event.target.value)} className={inputClass} />
+            </div>
+            <div className='flex flex-col gap-y-2'>
+                <label className='text-base font-medium text-[#1E1E1E]'>Rate:</label>
+                <input value={rate} onChange={(event) => setRate(event.target.value)} className={inputClass} />
+            </div>
+            <div className='flex flex-col gap-y-2'>
+                <label className='text-base font-medium text-[#1E1E1E]'>Odometer:</label>
+                <input value={odometer} onChange={(event) => setOdometer(event.target.value)} className={inputClass} />
+            </div>
+            <div className='flex flex-col gap-y-2 lg:col-span-3'>
+                <label className='text-base font-medium text-[#1E1E1E]'>Remarks:</label>
+                <input value={remarks} onChange={(event) => setRemarks(event.target.value)} className={inputClass} />
+                <button type='button' onClick={() => { setStation(document.getElementById('fuel-station')?.value || ''); saveEntry() }} className='mt-2 bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md w-fit cursor-pointer'>Add Entry</button>
             </div>
             <div className='flex flex-col gap-y-2'>
                 <label htmlFor='amount' className='text-base font-medium text-[#1E1E1E]'>Amount:</label>

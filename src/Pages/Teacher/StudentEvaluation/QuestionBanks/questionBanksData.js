@@ -1,6 +1,8 @@
 import { CLASSES, SECTIONS, SUBJECTS } from '../../AssignedClass/assignedClassData'
 
-export const EXAM_TYPES = ['Unit Test', 'Mid Term', 'Annual Exam', 'Pre-Board', 'Practice Test']
+import { EXAM_TYPES } from '../../../../Common/demoDomain/examTypes'
+
+export { EXAM_TYPES }
 
 const STORAGE_KEY = 'teacher-question-banks'
 
