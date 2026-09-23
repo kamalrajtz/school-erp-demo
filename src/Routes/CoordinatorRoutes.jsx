@@ -47,8 +47,6 @@ import LessonPlanGroupDetail from '../Common/LessonPlanApproval/Components/Lesso
 import AnnouncementList from '../Pages/Coordinator/Announcement/AnnouncementList'
 import ViewAnnouncement from '../Pages/Coordinator/Announcement/ViewAnnouncement'
 import MarkEntry from '../Pages/Coordinator/StudentEvaluation/MarkEntry/MarkEntry'
-import StudentAllocationList from '../Common/StudentAllocation/StudentAllocationList'
-import StudentAllocationDetail from '../Common/StudentAllocation/StudentAllocationDetail'
 import { TaskManagementRoutes } from '../Common/TaskManagement/TaskManagementRoutes'
 import { StudentStarRatingsRoutes } from '../Common/StudentStarRatings/StudentStarRatingsRoutes'
 
@@ -100,8 +98,8 @@ const CoordinatorRoutes = () => {
             <Route path="/coordinator/lesson-plan-approval/group/:teacherName/:subject" element={<LessonPlanGroupDetail />} />
             <Route path="/coordinator/lesson-plan/my-lesson-plan" element={<MyLessonPlan />} />
             <Route path="/coordinator/lesson-plan/my-lesson-plan/group/:teacherName/:subject" element={<LessonPlanGroupDetail />} />
-            <Route path="/coordinator/student-allocation" element={<StudentAllocationList />} />
-            <Route path="/coordinator/student-allocation/allocate/:id" element={<StudentAllocationDetail />} />
+            <Route path="/coordinator/student-allocation" element={<Navigate to="/coordinator/dashboard" replace />} />
+            <Route path="/coordinator/student-allocation/allocate/:id" element={<Navigate to="/coordinator/dashboard" replace />} />
             {TaskManagementRoutes({ basePath: '/coordinator' })}
             {StudentStarRatingsRoutes({ basePath: '/coordinator' })}
             <Route path="/coordinator/communication" element={<Navigate to="/coordinator/communication/inbox" replace />} />

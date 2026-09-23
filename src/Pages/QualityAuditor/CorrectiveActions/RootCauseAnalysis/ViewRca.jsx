@@ -101,7 +101,7 @@ const ViewRca = () => {
                 finalStatus={record.finalStatus}
                 statusBadgeColor={statusBadgeColor}
             />
-            <AuditReviewPanel recordId={record.id} kind="RCA" />
+            <AuditReviewPanel recordId={record.id} kind="RCA" stream="QUALITY" originalSummary={record.rca?.rootCause || record.observationTitle} />
         </section>
     )
 }

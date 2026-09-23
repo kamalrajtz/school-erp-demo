@@ -90,7 +90,7 @@ const ViewAtr = () => {
             <BeforeAfterEvidencePanel evidence={record.evidence} />
             <VerificationDetailsSection verification={record.verification} />
             <AtrStatusTimeline timeline={record.statusTimeline} />
-            <AuditReviewPanel recordId={record.id} kind="ATR" />
+            <AuditReviewPanel recordId={record.id} kind="ATR" stream="QUALITY" originalSummary={record.actionTaken?.description || record.observationTitle} />
         </section>
     )
 }

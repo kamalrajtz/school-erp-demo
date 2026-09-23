@@ -498,6 +498,7 @@ export const parentSidebarLinks = [
         subLinks: [
             { icon: ClipboardCheck, title: "Exam Result", to: "/parent/student-evaluation/exam-result" },
             { icon: CalendarDays, title: "Exam Schedule", to: "/parent/student-evaluation/exam-schedule" },
+            { icon: BarChart3, title: "Performance Analytics", to: "/parent/student-evaluation/analytics" },
         ],
     },
     {
@@ -2017,6 +2018,12 @@ export const accountHeadSidebarLinks = [
     },
     {
         id: 11,
+        title: "Payment Vouchers",
+        to: "/account-head/payment-vouchers",
+        icon: Receipt,
+    },
+    {
+        id: 15,
         title: "Book Fee",
         to: "/account-head/book-fee",
         icon: BookOpen,
@@ -2087,7 +2094,6 @@ export const directorSidebarLinks = [
         icon: CalendarCheck,
         subLinks: [
             { icon: CalendarCheck, title: "Exam Timetable", to: "/director/examination-approvals" },
-            { icon: CalendarDays, title: "Class Timetable", to: "/director/class-timetable-approvals" },
         ],
     },
     {

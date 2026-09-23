@@ -12,8 +12,8 @@ import {
     parsePlanDateString,
     SECTION_OPTIONS,
     SUBJECT_OPTIONS,
-    TEACHER_NAME,
-    TEACHER_ROLE,
+    COORDINATOR_NAME,
+    COORDINATOR_ROLE,
 } from '../../../Common/LessonPlanApproval/lessonPlanApprovalData'
 import QueuedPlansPanel from '../../../Common/LessonPlanApproval/Components/QueuedPlansPanel'
 
@@ -66,8 +66,8 @@ const AddLessonPlan = () => {
         fromDate: formatPlanDate(row.fromDate),
         toDate: formatPlanDate(row.toDate),
         attachment: attachmentName,
-        submitterName: TEACHER_NAME,
-        submitterRole: TEACHER_ROLE,
+        submitterName: COORDINATOR_NAME,
+        submitterRole: COORDINATOR_ROLE,
     })
 
     const handleAddMore = () => {
@@ -154,7 +154,7 @@ const AddLessonPlan = () => {
                         <input
                             id='teacher-name'
                             type='text'
-                            value={TEACHER_NAME}
+                            value={COORDINATOR_NAME}
                             readOnly
                             className={`${inputClass} bg-[#F9FAFB] text-[#667085] cursor-not-allowed`}
                         />

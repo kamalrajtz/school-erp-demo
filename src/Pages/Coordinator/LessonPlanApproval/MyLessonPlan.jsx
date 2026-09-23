@@ -15,7 +15,7 @@ import {
     markLessonPlanAsDone,
     SECTION_OPTIONS,
     SUBJECT_OPTIONS,
-    TEACHER_NAME,
+    COORDINATOR_NAME,
 } from '../../../Common/LessonPlanApproval/lessonPlanApprovalData'
 
 const filterInputClass =
@@ -23,7 +23,7 @@ const filterInputClass =
 
 const MyLessonPlan = () => {
     const location = useLocation()
-    const [plans, setPlans] = useState(() => getApprovedLessonPlansBySubmitter(TEACHER_NAME))
+    const [plans, setPlans] = useState(() => getApprovedLessonPlansBySubmitter(COORDINATOR_NAME))
     const [filters, setFilters] = useState(emptyLessonPlanFilters)
     const [exportModal, setExportModal] = useState(false)
     const [confirmPlan, setConfirmPlan] = useState(null)
@@ -32,11 +32,11 @@ const MyLessonPlan = () => {
     const activeFilterLabels = useMemo(() => getActiveFilterLabels(filters), [filters])
 
     useEffect(() => {
-        setPlans(getApprovedLessonPlansBySubmitter(TEACHER_NAME))
+        setPlans(getApprovedLessonPlansBySubmitter(COORDINATOR_NAME))
     }, [location.key])
 
     const refreshPlans = () => {
-        setPlans(getApprovedLessonPlansBySubmitter(TEACHER_NAME))
+        setPlans(getApprovedLessonPlansBySubmitter(COORDINATOR_NAME))
     }
 
     const updateFilter = (key, value) => {

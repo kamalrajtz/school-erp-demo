@@ -1,6 +1,6 @@
 import noProfile from '../../assets/images/no-profile.png'
 import { getAdmissionById } from '../../Pages/Admin/FrontOffice/AdminssionList/admissionListData'
-import { getSections } from '../RBAC/academicsCatalogData'
+import { getClasses, getSections } from '../RBAC/academicsCatalogData'
 import {
     getAllEnrolledStudents,
     updateEnrolledStudentRecord,
@@ -45,6 +45,50 @@ const displayValue = (value) => {
 export const getSectionOptions = () => {
     const catalogSections = getSections()
     return catalogSections.length > 0 ? catalogSections : SECTION_OPTIONS
+}
+
+export const getClassOptions = () => {
+    const classes = getClasses()
+    return classes.length > 0 ? classes : ['Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12']
+}
+
+export const completeStudentAllocation = (id, className, section) => {
+    const records = getStudentAllocations()
+    const target = records.find((item) => item.id === id)
+    if (!target || !className || !section) return records
+
+    const approvedRoll = target.rollNo || target.admission?.admissionRollNumber || target.studentId
+    updateEnrolledStudentRecord(target.studentId, {
+        section,
+        rollNumber: approvedRoll,
+        className,
+    })
+
+    const updated = records.map((item) => {
+        if (item.id !== id) return item
+        return {
+            ...item,
+            rollNo: approvedRoll,
+            className,
+            classSection: section,
+            proposedSection: section,
+            allocationStatus: 'Allocated',
+            submittedBy: 'Principal',
+            submittedByRole: 'Principal',
+            submittedAt: new Date().toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+            }).toUpperCase(),
+            admission: {
+                ...item.admission,
+                className,
+                classSection: section,
+            },
+        }
+    })
+    saveStudentAllocations(updated)
+    return updated
 }
 
 const resolveAdmissionSource = (enrolled) => {
@@ -359,7 +403,8 @@ export const getStudentAllocationContext = (pathname) => {
         return {
             routePrefix: '/principal',
             listPath: PRINCIPAL_APPROVAL_LIST_PATH,
-            isApprover: true,
+            isApprover: false,
+            isAllocator: true,
         }
     }
 
@@ -369,8 +414,9 @@ export const getStudentAllocationContext = (pathname) => {
     ) {
         return {
             routePrefix: '/director',
-            listPath: DIRECTOR_APPROVAL_LIST_PATH,
-            isApprover: true,
+            listPath: '/director/dashboard',
+            isApprover: false,
+            isAllocator: false,
         }
     }
 

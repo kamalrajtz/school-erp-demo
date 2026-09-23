@@ -8,6 +8,8 @@ import {
     formatRupeeAmount,
     generateOfflineVoucherNo,
 } from '../accountingData'
+import EntryClosureGate from '../../../../Common/demoDomain/EntryClosureGate'
+import { entryBlocked } from '../../../../Common/demoDomain/governance'
 
 const inputClass =
     'text-sm border border-[#D9D9D9] rounded-md px-3 py-2.5 w-full focus:outline-none focus:border-[#515DEF]'
@@ -41,6 +43,7 @@ const AddOfflineEntryModal = ({ isOpen, onClose, onSubmit }) => {
 
     const handleSubmit = () => {
         const amount = Number(form.amount)
+        if (entryBlocked('Finance', 'Account Head')) return
         if (!form.date || !form.ledgerAccount || !amount || !form.description.trim()) {
             return
         }
@@ -83,7 +86,8 @@ const AddOfflineEntryModal = ({ isOpen, onClose, onSubmit }) => {
                 </div>
 
                 <div className='px-6 py-5'>
-                    <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                    <EntryClosureGate moduleName='Finance' actor='Account Head' />
+                    <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4'>
                         <div className='flex flex-col gap-y-2'>
                             <label htmlFor='offline-entry-date' className='text-sm font-medium text-[#808080]'>Date</label>
                             <input

@@ -70,6 +70,10 @@ const StarRatings = ({ view = 'som' }) => {
         () => getStarOfYear(academicYear),
         [academicYear],
     )
+    const soyRows = useMemo(
+        () => getConsolidatedSoyRatings(academicYear).map((entry, index) => ({ ...entry, rank: index + 1 })),
+        [academicYear],
+    )
 
     const clearFilters = () => {
         setSearch('')
@@ -208,6 +212,34 @@ const StarRatings = ({ view = 'som' }) => {
                             <StarRatingDisplay rating={starOfYear.annualRating} />
                         </div>
                     </div>
+                </div>
+            )}
+
+            {!isSom && (
+                <div className='bg-white rounded-2xl shadow-md p-4 mt-6 overflow-x-auto'>
+                    <h2 className='text-lg font-semibold'>SOY consolidation</h2>
+                    <p className='text-sm text-[#667085] mt-1 mb-3'>Derived from monthly SOM ratings for {academicYear}. Consolidated score is the average of months that have a rating. Official QMIS SOY format is still pending.</p>
+                    {soyRows.length === 0 && <p className='text-sm text-[#667085]'>No monthly ratings yet. Add Star of the Month ratings to produce a consolidation.</p>}
+                    {soyRows.length > 0 && (
+                        <table className='w-full text-sm'>
+                            <thead className='text-xs bg-[#EDEEF5]'>
+                                <tr>{['Rank', 'Name', 'Class', 'Month-wise scores', 'Months', 'Consolidated', 'Result'].map((label) => <th key={label} className='px-2 py-3 text-left'>{label}</th>)}</tr>
+                            </thead>
+                            <tbody>
+                                {soyRows.map((row) => (
+                                    <tr key={row.studentId} className='border-b border-[#f2f4f7]'>
+                                        <td className='px-2 py-3'>{row.rank}</td>
+                                        <td className='px-2 py-3'>{row.studentName}</td>
+                                        <td className='px-2 py-3'>{row.classSection}</td>
+                                        <td className='px-2 py-3'>{row.monthlyRatings.map((item) => `${item.month}: ${item.rating}`).join(', ')}</td>
+                                        <td className='px-2 py-3'>{row.monthsRated}</td>
+                                        <td className='px-2 py-3'>{row.averageRating}</td>
+                                        <td className='px-2 py-3'>{row.rank === 1 ? 'Star of the Year' : 'Considered'}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
                 </div>
             )}
 

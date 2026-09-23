@@ -277,6 +277,31 @@ export const getMyLeaveRequestsForRole = (submitterRole) => {
     return loadFromStorage().filter((request) => resolveRoleKey(request.submitterRole) === resolvedRole)
 }
 
+export const ensureTeacherStudentLeaveSeed = () => {
+    const current = loadFromStorage()
+    if (current.some((request) => resolveRoleKey(request.approverRole) === ROLES.TEACHER)) return current
+    const seed = {
+        id: 'LV-STU-001',
+        employeeId: 'STU-2024-1042',
+        requestedBy: 'Arjun Sharma',
+        submitterRole: 'student',
+        approverRole: ROLES.TEACHER,
+        requestedTo: 'Teacher',
+        role: 'Student',
+        department: 'Grade 10-A',
+        leaveType: 'Sick Leave',
+        fromDate: '20-09-2026',
+        toDate: '21-09-2026',
+        totalDays: 2,
+        reason: 'Fever',
+        status: 'Pending',
+        approverRemarks: '',
+    }
+    const next = [seed, ...current]
+    saveToStorage(next)
+    return next
+}
+
 export const getReceivedLeaveRequestsForRole = (approverRole) => {
     const resolvedRole = resolveRoleKey(approverRole)
     return loadFromStorage().filter((request) => resolveRoleKey(request.approverRole) === resolvedRole)

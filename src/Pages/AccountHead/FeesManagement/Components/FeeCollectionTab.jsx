@@ -14,6 +14,8 @@ import PaymentHistoryDrawer from './PaymentHistoryDrawer'
 import PaymentLinkModal from './PaymentLinkModal'
 import ReceiptDetailsDrawer from './ReceiptDetailsDrawer'
 import CheckoutMockModal from './CheckoutMockModal'
+import EntryClosureGate from '../../../../Common/demoDomain/EntryClosureGate'
+import { entryBlocked } from '../../../../Common/demoDomain/governance'
 
 const FeeCollectionTab = () => {
     const {
@@ -89,12 +91,15 @@ const FeeCollectionTab = () => {
         setPartials((prev) => ({ ...prev, [row.id]: row.balanceAmount }))
     }
 
-    const confirmPayment = (payload) => collectFeePayment({
+    const confirmPayment = (payload) => {
+        if (entryBlocked('Finance', 'Account Head')) return { success: false }
+        return collectFeePayment({
         studentId: activeStudent.id,
         allocations,
         ...payload,
         collectedBy: payload.details?.receivedBy || 'Finance Head',
-    })
+        })
+    }
 
     const handleCollectResult = (payload) => {
         const result = confirmPayment(payload)
@@ -107,6 +112,7 @@ const FeeCollectionTab = () => {
     }
 
     const handleWaive = (installmentId) => {
+        if (entryBlocked('Finance', 'Account Head')) return
         const result = waiveFine({ installmentId, reason: waiverReason })
         if (!result.success) toast.error(result.message)
         else {
@@ -117,6 +123,7 @@ const FeeCollectionTab = () => {
 
     return (
         <div className='space-y-6'>
+            <EntryClosureGate moduleName='Finance' actor='Account Head' />
             <StudentSearch
                 students={students}
                 academicYear={academicYear}

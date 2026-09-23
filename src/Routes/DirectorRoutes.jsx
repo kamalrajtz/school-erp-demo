@@ -18,7 +18,6 @@ import ViewStudentLMS from '../Pages/Director/LMS/ViewStudentLMS'
 import ViewTeacherLMS from '../Pages/Director/LMS/ViewTeacherLMS'
 import RequestApprovals from '../Pages/Director/Request-Approvals/RequestApprovals'
 import ViewRequestApproval from '../Pages/Director/Request-Approvals/ViewRequestApproval'
-import ClassTimetableApprovals from '../Pages/Director/ClassTimetable/ClassTimetableApprovals'
 import EscalationList from '../Pages/Director/EscalationManagement/EscalationList'
 import AddEscalation from '../Pages/Director/EscalationManagement/AddEscalation'
 import ViewEscalation from '../Pages/Director/EscalationManagement/ViewEscalation'
@@ -36,8 +35,6 @@ import ReceivedLeaveRequests from '../Pages/Director/LeaveRequest/ReceivedLeaveR
 import ViewReceivedLeaveRequest from '../Pages/Director/LeaveRequest/ViewReceivedLeaveRequest'
 import LessonPlanApproval from '../Pages/Director/LessonPlanApproval/LessonPlanApproval'
 import LessonPlanGroupDetail from '../Common/LessonPlanApproval/Components/LessonPlanGroupDetail'
-import StudentAllocationApproval from '../Common/StudentAllocation/StudentAllocationApproval'
-import StudentAllocationDetail from '../Common/StudentAllocation/StudentAllocationDetail'
 import Notifications from '../Pages/Director/Notifications/Notifications'
 import MyAttendance from '../Pages/Director/Attendance/MyAttendance'
 import MarkEntryApproval from '../Pages/Director/MarkEntryApproval/MarkEntryApproval'
@@ -58,7 +55,7 @@ const DirectorRoutes = () => {
             <Route path="/director/star-ratings/add-ratings" element={<AddRatings />} />
             <Route path="/director/star-ratings-list" element={<Navigate to="/director/star-ratings/star-of-month" replace />} />
             <Route path="/director/examination-approvals" element={<ExamApprovals />} />
-            <Route path="/director/class-timetable-approvals" element={<ClassTimetableApprovals />} />
+            <Route path="/director/class-timetable-approvals" element={<Navigate to="/director/examination-approvals" replace />} />
             <Route path="/director/user-management/student-database" element={<StudentDatabaseList />} />
             <Route path="/director/user-management/student-database/view/:id" element={<ViewStudentDatabase />} />
             <Route path="/director/user-management/employee-database" element={<EmployeeDatabaseList />} />
@@ -103,11 +100,11 @@ const DirectorRoutes = () => {
             <Route path="/director/lesson-plan-approval/group/:teacherName/:subject" element={<LessonPlanGroupDetail />} />
             <Route path="/director/mark-entry-approval" element={<MarkEntryApproval />} />
             <Route path="/director/mark-entry-approval/review/:contextKey" element={<MarkEntryReview />} />
-            <Route path="/director/student-allocation-approval" element={<StudentAllocationApproval />} />
-            <Route path="/director/student-allocation-approval/review/:id" element={<StudentAllocationDetail />} />
-            <Route path="/director/student-allocation" element={<Navigate to="/director/student-allocation-approval" replace />} />
-            <Route path="/director/student-allocation/review/:id" element={<StudentAllocationDetail />} />
-            <Route path="/director/student-allocation/allocate/:id" element={<StudentAllocationDetail />} />
+            <Route path="/director/student-allocation-approval" element={<Navigate to="/director/dashboard" replace />} />
+            <Route path="/director/student-allocation-approval/review/:id" element={<Navigate to="/director/dashboard" replace />} />
+            <Route path="/director/student-allocation" element={<Navigate to="/director/dashboard" replace />} />
+            <Route path="/director/student-allocation/review/:id" element={<Navigate to="/director/dashboard" replace />} />
+            <Route path="/director/student-allocation/allocate/:id" element={<Navigate to="/director/dashboard" replace />} />
             <Route path="*" element={<Navigate to="/director/dashboard" replace />} />
         </ReactRoutes>
     )

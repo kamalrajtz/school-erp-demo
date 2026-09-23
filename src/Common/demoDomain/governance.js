@@ -7,6 +7,9 @@ export const APPROVER_KEY = 'schoolerp-department-approvers-v1'
 export const CLOSURE_SEED = [
     { id: 'CLS-0001', module: 'Mark Entry', entryType: 'CA / RCT', period: 'September 2026', closureDate: '2026-09-01', closureTime: '18:00', status: 'Closed' },
     { id: 'CLS-0002', module: 'Attendance', entryType: 'Class attendance', period: 'September 2026', closureDate: '2026-09-30', closureTime: '20:00', status: 'Open' },
+    { id: 'CLS-0003', module: 'Finance', entryType: 'Fee collection', period: 'September 2026', closureDate: '2026-09-30', closureTime: '18:00', status: 'Open' },
+    { id: 'CLS-0004', module: 'Audit', entryType: 'Observation', period: 'September 2026', closureDate: '2026-09-30', closureTime: '18:00', status: 'Open' },
+    { id: 'CLS-0005', module: 'Inventory', entryType: 'Stock issue', period: 'September 2026', closureDate: '2026-09-30', closureTime: '18:00', status: 'Open' },
 ]
 
 export const APPROVER_SEED = [
@@ -18,7 +21,13 @@ export const APPROVER_SEED = [
 ]
 
 export function getClosureRules() {
-    return ensureSeed(CLOSURE_KEY, CLOSURE_SEED)
+    const stored = ensureSeed(CLOSURE_KEY, CLOSURE_SEED)
+    const ids = new Set(stored.map((rule) => rule.id))
+    const missing = CLOSURE_SEED.filter((rule) => !ids.has(rule.id))
+    if (!missing.length) return stored
+    const next = [...stored, ...missing]
+    saveJson(CLOSURE_KEY, next)
+    return next
 }
 
 export function getApprovers() {
@@ -27,6 +36,10 @@ export function getApprovers() {
 
 export function getReentryRequests() {
     return ensureSeed(REENTRY_KEY, [])
+}
+
+export function entryBlocked(moduleName, actor) {
+    return isEntryClosed(moduleName) && !hasUnlock(moduleName, actor)
 }
 
 export function isEntryClosed(moduleName) {

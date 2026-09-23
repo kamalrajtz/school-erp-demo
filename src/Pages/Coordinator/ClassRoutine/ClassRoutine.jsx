@@ -1,5 +1,6 @@
 import React from 'react'
 import TeacherWeeklyTimetable from './Components/TeacherWeeklyTimetable'
+import TimetableChangePanel from '../../../Common/ClassTimetable/TimetableChangePanel'
 import { TEACHER_TIMETABLE_INFO } from './classRoutineData'
 
 const ClassRoutine = () => {
@@ -12,6 +13,7 @@ const ClassRoutine = () => {
                 </p>
             </div>
 
+            <TimetableChangePanel requestedBy='Priya Nair' requestedByRole='Coordinator' />
             <TeacherWeeklyTimetable />
         </section>
     )

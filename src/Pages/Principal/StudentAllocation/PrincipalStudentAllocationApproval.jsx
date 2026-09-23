@@ -4,9 +4,9 @@ import { PRINCIPAL_APPROVAL_LIST_PATH } from '../../../Common/StudentAllocation/
 
 const PrincipalStudentAllocationApproval = () => (
     <StudentAllocationList
-        mode='approver'
+        mode='allocator'
         listPath={PRINCIPAL_APPROVAL_LIST_PATH}
-        defaultStatusFilter='Pending Approval'
+        defaultStatusFilter='Pending Allocation'
     />
 )
 

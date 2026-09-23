@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import AttendanceCalendar from './Components/AttendanceCalendar'
 import { NavLink } from 'react-router-dom'
+import { useActiveStudent } from '../../../context/ActiveStudentContext'
 
 const attendanceStats = {
     percentage: 75,
@@ -37,7 +38,7 @@ const recentStatusStyles = {
 }
 
 const AttendanceDetails = () => {
-
+    const { routePrefix } = useActiveStudent()
     const [selectMonth, setSelectMonth] = useState(new Date());
 
     const attendanceChartOption = useMemo(() => ({
@@ -274,7 +275,7 @@ const AttendanceDetails = () => {
                             ))}
                         </div>
 
-                        <NavLink to="/student/class/attendance-report" className='flex justify-center items-center gap-1.5 text-base font-medium text-[#515DEF] text-center underline-offset-8 underline decoration-[#515DEF] mt-6 hover:opacity-80 transition-opacity cursor-pointer'>
+                        <NavLink to={`${routePrefix}/class/attendance-report`} className='flex justify-center items-center gap-1.5 text-base font-medium text-[#515DEF] text-center underline-offset-8 underline decoration-[#515DEF] mt-6 hover:opacity-80 transition-opacity cursor-pointer'>
                             View Full Report
                             <ArrowRight className='w-4 h-4' />
                         </NavLink>

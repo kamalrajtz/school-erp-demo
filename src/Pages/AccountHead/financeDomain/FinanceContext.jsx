@@ -33,6 +33,7 @@ import {
     toIsoDate,
     validatePaymentInput,
 } from './financeHelpers'
+import { BUDGET_SEED } from '../../../Common/demoDomain/financeExtras'
 import {
     BANK_ACCOUNTS,
     FEE_CATEGORIES,
@@ -102,6 +103,7 @@ export const FinanceProvider = ({ children }) => {
     const [posTerminals, setPosTerminals] = useState(() => initialPersistedList(saved, 'posTerminals', POS_TERMINALS))
     const [concessions, setConcessions] = useState(() => initialPersistedList(saved, 'concessions', FEE_CONCESSIONS))
     const [installments, setInstallments] = useState(() => initialPersistedList(saved, 'installments', FEE_INSTALLMENTS))
+    const [annualBudget, setAnnualBudget] = useState(() => initialPersistedList(saved, 'annualBudget', BUDGET_SEED))
     const [transactions, setTransactions] = useState(() => initialPersistedList(saved, 'transactions', []))
     const [receipts, setReceipts] = useState(() => initialPersistedList(saved, 'receipts', SEED_RECEIPTS))
     const [cheques, setCheques] = useState(() => initialPersistedList(saved, 'cheques', SEED_CHEQUES))
@@ -763,6 +765,7 @@ export const FinanceProvider = ({ children }) => {
             posTerminals,
             concessions,
             installments,
+            annualBudget,
             transactions,
             receipts,
             cheques,
@@ -778,6 +781,7 @@ export const FinanceProvider = ({ children }) => {
         })
         if (payload?.savedAt) setLastSavedAt(payload.savedAt)
     }, [
+        annualBudget,
         auditLog,
         bankAccounts,
         bankBookEntries,
@@ -808,6 +812,25 @@ export const FinanceProvider = ({ children }) => {
         concessions,
         installments: hydratedInstallments,
         rawInstallments: installments,
+        annualBudget,
+        updateAnnualBudget: (id, field, value) => {
+            setAnnualBudget((prev) => prev.map((row) => (
+                row.id === id ? { ...row, [field]: Number(value) || 0 } : row
+            )))
+        },
+        recordVoucherAction: (transactionId, action) => {
+            setTransactions((prev) => prev.map((item) => (
+                item.id === transactionId
+                    ? {
+                        ...item,
+                        voucherStatus: 'Issued',
+                        preparedBy: item.preparedBy || item.createdBy || 'Finance Head',
+                        voucherAction: action,
+                        voucherActionAt: new Date().toISOString(),
+                    }
+                    : item
+            )))
+        },
         transactions,
         receipts,
         cheques,
@@ -857,6 +880,7 @@ export const FinanceProvider = ({ children }) => {
         },
         cloneSeed: () => clone(FEE_INSTALLMENTS),
     }), [
+        annualBudget,
         addFeeCategory,
         addFeeStructure,
         addManualEntry,

@@ -5,6 +5,8 @@ const STORAGE_KEY = 'school-erp-lesson-plan-approvals'
 
 export const TEACHER_NAME = 'Mr. Anil Kumar'
 export const TEACHER_ROLE = 'Teacher'
+export const COORDINATOR_NAME = 'Ms. Priya Nair'
+export const COORDINATOR_ROLE = 'Coordinator'
 
 export const SUBJECT_OPTIONS = SUBJECTS
 export const getClassOptions = () => getClasses().map((item) => `Grade ${item}`)

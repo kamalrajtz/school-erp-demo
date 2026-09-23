@@ -25,9 +25,6 @@ import {
     CHART_COLORS,
     CHART_PERIODS,
     COLLECTION_SPLIT,
-    INCOME_EXPENSE_DAILY,
-    INCOME_EXPENSE_MONTHLY,
-    INCOME_EXPENSE_WEEKLY,
     KPI_CARDS,
     RECENT_COLLECTIONS,
     RECENT_EXPENSES,
@@ -116,10 +113,9 @@ const Panel = ({ title, subtitle, action, children }) => (
 const Dashboard = () => {
     const [timeFilter, setTimeFilter] = useState('Today')
     const [customDate, setCustomDate] = useState(new Date())
-    const [incomeExpensePeriod, setIncomeExpensePeriod] = useState('Daily')
     const [approvalPeriod, setApprovalPeriod] = useState('Daily')
     const [exportModal, setExportModal] = useState(false)
-    const { dashboardMetrics, receipts, students } = useFinance()
+    const { dashboardMetrics, receipts, students, annualBudget } = useFinance()
 
     const liveKpis = KPI_CARDS.map((card) => {
         if (card.label === "Today's Collection") {
@@ -149,12 +145,6 @@ const Dashboard = () => {
         }),
         ...RECENT_COLLECTIONS,
     ]
-
-    const incomeExpenseData = useMemo(() => {
-        if (incomeExpensePeriod === 'Weekly') return INCOME_EXPENSE_WEEKLY
-        if (incomeExpensePeriod === 'Monthly') return INCOME_EXPENSE_MONTHLY
-        return INCOME_EXPENSE_DAILY
-    }, [incomeExpensePeriod])
 
     const collectionSplitOption = useMemo(() => ({
         tooltip: { trigger: 'item', formatter: '{b}: ₹{c}' },
@@ -194,17 +184,19 @@ const Dashboard = () => {
         }],
     }), [])
 
-    const incomeExpenseOption = useMemo(() => ({
+    const incomeExpenseOption = useMemo(() => {
+        const rows = annualBudget || []
+        return {
         tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
         legend: {
-            data: ['Income', 'Expense'],
+            data: ['Budget', 'Actual'],
             bottom: 0,
             textStyle: { color: '#667085', fontSize: 11 },
         },
         grid: { left: 48, right: 16, top: 16, bottom: 48 },
         xAxis: {
             type: 'category',
-            data: incomeExpenseData.labels,
+            data: rows.map((row) => row.department),
             axisLine: { lineStyle: { color: '#E0E0E0' } },
             axisLabel: { color: '#667085', fontSize: 11 },
         },
@@ -219,21 +211,22 @@ const Dashboard = () => {
         },
         series: [
             {
-                name: 'Income',
+                name: 'Budget',
                 type: 'bar',
                 barWidth: 14,
-                data: incomeExpenseData.income,
-                itemStyle: { color: CHART_COLORS.income, borderRadius: [4, 4, 0, 0] },
+                data: rows.map((row) => row.budget),
+                itemStyle: { color: '#515DEF', borderRadius: [4, 4, 0, 0] },
             },
             {
-                name: 'Expense',
+                name: 'Actual',
                 type: 'bar',
                 barWidth: 14,
-                data: incomeExpenseData.expense,
-                itemStyle: { color: CHART_COLORS.expense, borderRadius: [4, 4, 0, 0] },
+                data: rows.map((row) => row.actual),
+                itemStyle: { color: '#8E9BFF', borderRadius: [4, 4, 0, 0] },
             },
         ],
-    }), [incomeExpenseData])
+    }
+    }, [annualBudget])
 
     const approvalStatusOption = useMemo(() => ({
         tooltip: { trigger: 'item', formatter: '{b}: {c}' },
@@ -411,7 +404,7 @@ const Dashboard = () => {
                 <Panel
                     title='Budgeted vs Actuals'
                     subtitle='Comparison of daily flow'
-                    action={<PeriodToggle value={incomeExpensePeriod} onChange={setIncomeExpensePeriod} />}
+                    action={null}
                 >
                     <ReactECharts option={incomeExpenseOption} style={{ height: 260 }} opts={{ renderer: 'svg' }} />
                 </Panel>

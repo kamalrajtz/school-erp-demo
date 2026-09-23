@@ -88,6 +88,7 @@ const PrincipalRoutes = () => {
             <Route path="/principal/academic/teacher-allocation/view/:employeeId" element={<ViewTeacherAllocation />} />
             <Route path="/principal/academic/teacher-allocation/edit/:employeeId" element={<EditTeacherAllocation />} />
             <Route path="/principal/student-allocation-approval" element={<PrincipalStudentAllocationApproval />} />
+            <Route path="/principal/student-allocation-approval/allocate/:id" element={<StudentAllocationDetail />} />
             <Route path="/principal/student-allocation-approval/review/:id" element={<StudentAllocationDetail />} />
             <Route path="/principal/communication" element={<Navigate to="/principal/communication/inbox" replace />} />
             <Route path="/principal/communication/inbox" element={<CommunicationInbox />} />

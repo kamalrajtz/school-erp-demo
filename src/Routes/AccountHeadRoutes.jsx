@@ -11,6 +11,7 @@ import ReportsAnalytics from '../Pages/AccountHead/ReportsAnalytics/ReportsAnaly
 import Settings from '../Pages/AccountHead/Settings/Settings'
 import { TaskManagementRoutes } from '../Common/TaskManagement/TaskManagementRoutes'
 import { BookFeePage, BudgetPage, FeeProjectionPanel, MfpPlaceholder } from '../Common/demoDomain/DemoScreens'
+import PaymentVouchers from '../Pages/AccountHead/PaymentVouchers/PaymentVouchers'
 
 const AccountHeadRoutes = () => {
     return (
@@ -25,6 +26,7 @@ const AccountHeadRoutes = () => {
             <Route path="/account-head/approvals" element={<Approvals />} />
             <Route path="/account-head/reports-analytics" element={<ReportsAnalytics />} />
             <Route path="/account-head/settings" element={<Settings />} />
+            <Route path="/account-head/payment-vouchers" element={<PaymentVouchers />} />
             <Route path="/account-head/book-fee" element={<BookFeePage />} />
             <Route path="/account-head/annual-budget" element={<BudgetPage />} />
             <Route path="/account-head/mfp" element={<MfpPlaceholder />} />

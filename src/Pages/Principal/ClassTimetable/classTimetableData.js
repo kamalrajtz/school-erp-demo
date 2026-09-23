@@ -1,4 +1,5 @@
 const STORAGE_KEY = 'principal-class-timetables'
+const CHANGE_KEY = 'principal-class-timetable-change-requests'
 
 export const ROUTE_BASE = '/principal/class-timetable'
 export const CREATE_ROUTE = '/principal/create-class-timetable'
@@ -149,3 +150,103 @@ export const buildClassGridFromTimelines = (timelines = []) => {
 
 export const getClassSectionLabel = (record) =>
     `${record.className} - ${record.section}`
+
+const readChanges = () => {
+    try {
+        const stored = localStorage.getItem(CHANGE_KEY)
+        if (stored) return JSON.parse(stored)
+    } catch {
+        /* ignore */
+    }
+    return []
+}
+
+export const getTimetableChangeRequests = () => readChanges()
+
+export const addTimetableChangeRequest = (payload) => {
+    const items = readChanges()
+    const record = {
+        id: `TCR-${Date.now()}`,
+        timetableId: payload.timetableId || '',
+        className: payload.className,
+        section: payload.section,
+        day: payload.day,
+        periodNumber: payload.periodNumber || '',
+        currentSubject: payload.currentSubject || '',
+        requestedSubject: payload.requestedSubject,
+        requestedTeacher: payload.requestedTeacher || '',
+        reason: payload.reason,
+        requestedBy: payload.requestedBy,
+        requestedByRole: payload.requestedByRole,
+        status: 'Pending',
+        reviewedBy: '',
+        reviewedAt: '',
+        rejectionReason: '',
+    }
+    localStorage.setItem(CHANGE_KEY, JSON.stringify([record, ...items]))
+    return record
+}
+
+const applyChangeToTimetable = (request) => {
+    const timetables = getClassTimetables()
+    const match = timetables.find((item) => (
+        item.id === request.timetableId
+        || (item.className === request.className && item.section === request.section)
+    ))
+    const row = {
+        id: `TL-${Date.now()}`,
+        periodNumber: request.periodNumber || '1',
+        day: request.day,
+        subject: request.requestedSubject,
+        teacher: request.requestedTeacher || '—',
+        startTime: '09:00',
+        endTime: '09:45',
+    }
+    if (!match) {
+        addClassTimetable({
+            className: request.className,
+            section: request.section,
+            academicYear: '2025-2026',
+            term: 'Term 1',
+            timelines: [row],
+        })
+        const created = getClassTimetables()[0]
+        if (created) {
+            saveClassTimetables(getClassTimetables().map((item) => (
+                item.id === created.id ? { ...item, approvalStatus: 'Approved' } : item
+            )))
+        }
+        return
+    }
+    const timelines = match.timelines.map((item) => (
+        item.day === request.day && (!request.periodNumber || item.periodNumber === request.periodNumber)
+            ? { ...item, subject: request.requestedSubject, teacher: request.requestedTeacher || item.teacher }
+            : item
+    ))
+    const changed = timelines.some((item, index) => item !== match.timelines[index])
+    saveClassTimetables(timetables.map((item) => (
+        item.id === match.id
+            ? { ...item, timelines: changed ? timelines : [...timelines, row], approvalStatus: 'Approved' }
+            : item
+    )))
+}
+
+export const decideTimetableChangeRequest = (id, approved, reviewer, rejectionReason = '') => {
+    const items = readChanges()
+    const target = items.find((item) => item.id === id)
+    if (!target || target.status !== 'Pending') return items
+    if (approved) applyChangeToTimetable(target)
+    const next = items.map((item) => (
+        item.id === id
+            ? {
+                ...item,
+                status: approved ? 'Approved' : 'Rejected',
+                reviewedBy: reviewer,
+                reviewedAt: new Date().toISOString(),
+                rejectionReason: approved ? '' : rejectionReason,
+            }
+            : item
+    ))
+    localStorage.setItem(CHANGE_KEY, JSON.stringify(next))
+    return next
+}

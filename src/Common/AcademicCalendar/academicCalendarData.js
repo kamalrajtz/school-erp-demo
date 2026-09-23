@@ -180,6 +180,7 @@ export const ACADEMIC_CALENDAR_ROLE_CONFIG = {
     principal: { roleLabel: 'Principal', routeBase: '/principal/academic-calendar' },
     student: { roleLabel: 'Student', routeBase: '/student/academic-calendar', pageTitle: 'Calendar' },
     teacher: { roleLabel: 'Teacher', routeBase: '/teacher/academic-calendar', pageTitle: 'Calendar' },
+    coordinator: { roleLabel: 'Coordinator', routeBase: '/coordinator/academic-calendar', pageTitle: 'Calendar' },
 }
 
 export const getAcademicCalendarRoleConfig = (roleKey) => ACADEMIC_CALENDAR_ROLE_CONFIG[roleKey]

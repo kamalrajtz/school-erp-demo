@@ -9,6 +9,9 @@ import CheckoutMockModal from '../../AccountHead/FeesManagement/Components/Check
 import PaymentHistoryDrawer from '../../AccountHead/FeesManagement/Components/PaymentHistoryDrawer'
 import ReceiptDetailsDrawer from '../../AccountHead/FeesManagement/Components/ReceiptDetailsDrawer'
 import StudentFeeSummary from '../../AccountHead/FeesManagement/Components/StudentFeeSummary'
+import { useActiveStudent } from '../../../context/ActiveStudentContext'
+import EntryClosureGate from '../../../Common/demoDomain/EntryClosureGate'
+import { entryBlocked } from '../../../Common/demoDomain/governance'
 
 const FeesPayemnt = () => {
     const {
@@ -21,7 +24,13 @@ const FeesPayemnt = () => {
         sendReceipt,
     } = useFinance()
 
-    const student = students[0]
+    const { activeStudent } = useActiveStudent()
+    const admissionNumber = activeStudent?.admissionNumber || activeStudent?.admissionNo
+    const student = students.find((item) => (
+        item.id === activeStudent?.id
+        || item.admissionNo === admissionNumber
+        || item.admissionNumber === admissionNumber
+    )) || null
     const [academicYear] = useState(student?.academicYear || DEFAULT_ACADEMIC_YEAR)
     const [view, setView] = useState('pay')
     const [selectedIds, setSelectedIds] = useState([])
@@ -41,6 +50,7 @@ const FeesPayemnt = () => {
     const totalAmount = allocations.reduce((sum, item) => sum + item.amount, 0)
 
     const payNow = (payload) => {
+        if (!student || entryBlocked('Finance', activeStudent?.name || 'Student')) return { success: false }
         const result = collectFeePayment({
             studentId: student.id,
             allocations,
@@ -78,6 +88,12 @@ const FeesPayemnt = () => {
                 </div>
             </div>
 
+            <EntryClosureGate moduleName='Finance' actor={activeStudent?.name || 'Student'} />
+            {!student && (
+                <div className='bg-white rounded-2xl shadow-md p-8 text-center text-[#667085]'>
+                    Fee information is not available for the selected student.
+                </div>
+            )}
             {view === 'pay' && student && (
                 <>
                     <StudentFeeSummary summary={summary} />
@@ -116,7 +132,7 @@ const FeesPayemnt = () => {
                 </>
             )}
 
-            {view === 'history' && (
+            {view === 'history' && student && (
                 <div className='bg-white rounded-2xl shadow-md p-4 space-y-3'>
                     {studentReceipts.length === 0 && <p className='text-sm text-[#667085]'>No transactions yet.</p>}
                     {studentReceipts.map((item) => (

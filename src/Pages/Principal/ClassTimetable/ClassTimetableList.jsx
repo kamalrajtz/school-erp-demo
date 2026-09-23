@@ -10,12 +10,16 @@ import {
     CREATE_ROUTE,
     approvalStatusColor,
     getClassSectionLabel,
+    decideTimetableChangeRequest,
     getClassTimetables,
+    getTimetableChangeRequests,
 } from './classTimetableData'
 
 const ClassTimetableList = () => {
     const location = useLocation()
     const [records, setRecords] = useState(() => getClassTimetables())
+    const [changes, setChanges] = useState(() => getTimetableChangeRequests())
+    const [rejectReason, setRejectReason] = useState('')
     const [editRequestModal, setEditRequestModal] = useState(false)
     const [deleteRequestModal, setDeleteRequestModal] = useState(false)
     const [exportModal, setExportModal] = useState(false)
@@ -26,7 +30,16 @@ const ClassTimetableList = () => {
 
     useEffect(() => {
         setRecords(getClassTimetables())
+        setChanges(getTimetableChangeRequests())
     }, [location.key])
+
+    const reviewChange = (id, approved) => {
+        if (!approved && !rejectReason.trim()) return
+        decideTimetableChangeRequest(id, approved, 'Principal', rejectReason.trim())
+        setChanges(getTimetableChangeRequests())
+        setRecords(getClassTimetables())
+        setRejectReason('')
+    }
 
     const filteredRecords = useMemo(() => {
         const query = search.trim().toLowerCase()
@@ -83,11 +96,31 @@ const ClassTimetableList = () => {
             </div>
 
             <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
+                <h2 className='text-xl font-medium text-black'>Timetable change requests</h2>
+                <p className='text-sm text-[#667085] mt-1 mb-3'>Only the Principal approves or rejects these requests.</p>
+                <input value={rejectReason} onChange={(event) => setRejectReason(event.target.value)} placeholder='Rejection reason' className='text-sm border border-[#D9D9D9] rounded-md px-2 py-2 w-full max-w-md mb-3' />
+                {changes.length === 0 && <p className='text-sm text-[#667085]'>No change requests yet.</p>}
+                <ul className='space-y-2'>
+                    {changes.map((item) => (
+                        <li key={item.id} className='border border-[#EDEEF5] rounded-md p-3 text-sm flex flex-wrap justify-between gap-2'>
+                            <span>{item.requestedByRole} · {item.className} {item.section} · {item.day} · {item.currentSubject} → {item.requestedSubject} · {item.status}</span>
+                            {item.status === 'Pending' && (
+                                <span className='flex gap-2'>
+                                    <button type='button' onClick={() => reviewChange(item.id, true)} className='text-[#515DEF] cursor-pointer'>Approve</button>
+                                    <button type='button' onClick={() => reviewChange(item.id, false)} className='text-[#FF5722] cursor-pointer'>Reject</button>
+                                </span>
+                            )}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+            <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
                 <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
                     <div>
                         <h2 className='text-xl font-medium text-black'>Class Timetable List</h2>
                         <p className='text-sm text-[#667085] mt-1'>
-                            Create class timetables for Director approval.
+                            Class timetables are owned by the Principal. Teacher and Coordinator change requests are approved here.
                         </p>
                     </div>
                     <div className='flex gap-x-2'>

@@ -8,6 +8,7 @@ import AttendanceDetails from '../Pages/Student/Class/AttendanceDetails'
 import AttendanceReport from '../Pages/Student/Class/AttendanceReport'
 import ExamSchedule from '../Pages/Student/StudentEvaluation/ExamSchedule'
 import ResultDetails from '../Pages/Student/Results/ResultDetails'
+import { StudentAnalyticsPage } from '../Common/demoDomain/DemoScreens'
 import BorrowedBooksList from '../Pages/Student/Library/BorrowedBooksList'
 import BusRouteDetails from '../Pages/Student/Transport/BusRouteDetails'
 import TrackBus from '../Pages/Student/Transport/TrackBus'
@@ -67,6 +68,7 @@ const StudentPortalRoutes = ({
 
             <Route path={`${routePrefix}/student-evaluation/exam-result`} element={<ResultDetails />} />
             <Route path={`${routePrefix}/student-evaluation/exam-schedule`} element={<ExamSchedule />} />
+            <Route path={`${routePrefix}/student-evaluation/analytics`} element={<StudentAnalyticsPage />} />
 
             <Route path={homeFunRoute} element={<HomeFun routeBase={homeFunRoute} viewMode="student" />} />
             <Route path={`${homeFunRoute}/view/:id`} element={<ViewHomeFun routeBase={homeFunRoute} viewMode="student" />} />

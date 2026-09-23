@@ -16,6 +16,8 @@ export const LEAVE_ROUTE_CONFIG = {
         myList: '/teacher/leave-request/my-requests',
         add: '/teacher/leave-request/my-requests/add',
         myView: '/teacher/leave-request/my-requests/view',
+        receivedList: '/teacher/leave-request/received',
+        receivedView: '/teacher/leave-request/received/view',
     },
     coordinator: {
         myList: '/coordinator/leave-request/my-requests',
@@ -176,6 +178,7 @@ export const APPROVER_DECISION_TITLES = {
     [ROLES.ADMIN]: 'Admin Decision',
     [ROLES.GATEKEEPER_MANAGER]: 'Manager Decision',
     [ROLES.PRINCIPAL]: 'Principal Decision',
+    [ROLES.TEACHER]: 'Teacher Decision',
     [ROLES.DIRECTOR]: 'Director Decision',
     [ROLES.TRANSPORT_MANAGER]: 'Transport Manager Decision',
 }

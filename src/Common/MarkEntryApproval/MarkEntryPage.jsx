@@ -3,6 +3,8 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Calendar, Download, Upload } from 'lucide-react'
 import ExportModal from '../CommonComponents/ExportModal'
+import EntryClosureGate from '../demoDomain/EntryClosureGate'
+import { entryBlocked } from '../demoDomain/governance'
 import IncompleteMarksModal from '../../Pages/Teacher/StudentEvaluation/MarkEntry/Components/IncompleteMarksModal'
 import SubmitMarksConfirmModal from '../../Pages/Teacher/StudentEvaluation/MarkEntry/Components/SubmitMarksConfirmModal'
 import {
@@ -151,6 +153,7 @@ const MarkEntryPage = ({ submittedByRole = 'Teacher' }) => {
     }
 
     const handleSaveDraft = () => {
+        if (entryBlocked('Mark Entry', submittedByRole)) return
         if (!session || isLocked) return
         const saved = saveMarkEntrySession({ ...session, status: 'draft', approvalStatus: null })
         setSession(saved)
@@ -167,6 +170,7 @@ const MarkEntryPage = ({ submittedByRole = 'Teacher' }) => {
     }
 
     const handleConfirmSubmit = () => {
+        if (entryBlocked('Mark Entry', submittedByRole)) return
         if (!session) return
         const submitted = submitMarkEntrySession(session, { submittedByRole })
         setSession(submitted)
@@ -177,6 +181,7 @@ const MarkEntryPage = ({ submittedByRole = 'Teacher' }) => {
 
     return (
         <section className='space-y-6'>
+            <EntryClosureGate moduleName='Mark Entry' actor={submittedByRole} />
             <div>
                 <h1 className='text-2xl font-semibold text-black'>Mark Entry</h1>
                 <p className='text-sm text-[#667085] mt-1'>

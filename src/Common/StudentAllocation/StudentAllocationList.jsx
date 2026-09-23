@@ -92,9 +92,11 @@ const StudentAllocationList = ({
         <section>
             <div className='bg-white rounded-2xl shadow-md p-4'>
                 <p className='text-sm text-[#667085] mb-4'>
-                    {isApprover
-                        ? 'Review section allocations submitted by Teachers and Coordinators.'
-                        : 'Assign enrolled students to a class section and submit for Principal approval.'}
+                    {routePrefix === '/principal'
+                        ? 'Pending students are allocated by the Principal. Choose a class and section to complete allocation.'
+                        : isApprover
+                          ? 'Review section allocations submitted by Teachers and Coordinators.'
+                          : 'Assign enrolled students to a class section and submit for Principal approval.'}
                 </p>
                 {isApprover && pendingApprovalCount > 0 ? (
                     <button

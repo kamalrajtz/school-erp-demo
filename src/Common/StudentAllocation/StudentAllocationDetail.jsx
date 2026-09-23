@@ -3,6 +3,8 @@ import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 import AdmissionDetailsForm from './Components/AdmissionDetailsForm'
 import {
     approveStudentAllocation,
+    completeStudentAllocation,
+    getClassOptions,
     getStudentAllocationById,
     getStudentAllocationContext,
     getSubmitterIdentity,
@@ -15,6 +17,7 @@ const StudentAllocationDetail = () => {
     const location = useLocation()
     const navigate = useNavigate()
     const { routePrefix, listPath, isApprover } = getStudentAllocationContext(location.pathname)
+    const isPrincipal = routePrefix === '/principal'
 
     const record = getStudentAllocationById(id)
     const initialSection =
@@ -24,15 +27,22 @@ const StudentAllocationDetail = () => {
               ? record.classSection || ''
               : ''
     const [section, setSection] = useState(initialSection)
+    const [className, setClassName] = useState(record?.className || record?.sourceClassName || '')
 
     if (!record) {
         return <Navigate to={listPath} replace />
     }
 
     const readOnly =
-        isApprover ||
+        (!isPrincipal && isApprover) ||
         record.allocationStatus === 'Pending Approval' ||
         record.allocationStatus === 'Allocated'
+
+    const handleComplete = () => {
+        if (!className || !section) return
+        completeStudentAllocation(record.id, className, section)
+        navigate(listPath)
+    }
 
     const handleSubmit = () => {
         if (!section) return
@@ -51,11 +61,13 @@ const StudentAllocationDetail = () => {
         navigate(listPath)
     }
 
-    const pageTitle = isApprover
-        ? 'Review Student Allocation'
-        : readOnly
-          ? 'View Student Allocation'
-          : 'Allocate Student Section'
+    const pageTitle = isPrincipal
+        ? 'Allocate Student'
+        : isApprover
+          ? 'Review Student Allocation'
+          : readOnly
+            ? 'View Student Allocation'
+            : 'Allocate Student Section'
 
     const showApproveReject = isApprover && record.allocationStatus === 'Pending Approval'
 
@@ -64,7 +76,12 @@ const StudentAllocationDetail = () => {
             <div className='bg-white rounded-2xl shadow-md p-4'>
                 <h2 className='text-xl font-semibold text-black'>{pageTitle}</h2>
                 <p className='text-sm text-[#667085] mt-1'>
-                    {isApprover ? (
+                    {isPrincipal && record.allocationStatus !== 'Allocated' ? (
+                        <>
+                            Assign class and section for{' '}
+                            <span className='font-medium text-[#1E1E1E]'>{record.studentName}</span>.
+                        </>
+                    ) : isApprover ? (
                         <>
                             Review the proposed section for{' '}
                             <span className='font-medium text-[#1E1E1E]'>{record.studentName}</span> and approve or reject.
@@ -88,11 +105,20 @@ const StudentAllocationDetail = () => {
                 </p>
                 <div className='lg:mt-8 mt-4'>
                     <h3 className='text-lg font-semibold text-black mb-4'>Admission Information</h3>
+                    {isPrincipal && record.allocationStatus !== 'Allocated' && (
+                        <div className='mb-4 max-w-sm'>
+                            <label className='text-base font-medium text-[#1E1E1E]'>Class</label>
+                            <select value={className} onChange={(event) => setClassName(event.target.value)} className='mt-2 text-sm border border-[#D9D9D9] rounded-md px-2 py-3 w-full'>
+                                <option value=''>Select class</option>
+                                {getClassOptions().map((item) => <option key={item} value={item}>{item}</option>)}
+                            </select>
+                        </div>
+                    )}
                     <AdmissionDetailsForm
                         record={record}
                         section={section}
                         onSectionChange={setSection}
-                        sectionEditable={!readOnly && !isApprover}
+                        sectionEditable={isPrincipal ? record.allocationStatus !== 'Allocated' : !readOnly && !isApprover}
                     />
                 </div>
             </div>
@@ -123,7 +149,17 @@ const StudentAllocationDetail = () => {
                         </button>
                     </>
                 ) : null}
-                {!isApprover && !readOnly ? (
+                {isPrincipal && record.allocationStatus !== 'Allocated' ? (
+                    <button
+                        type='button'
+                        onClick={handleComplete}
+                        disabled={!className || !section}
+                        className='bg-[#515DEF] text-white text-sm text-center px-12 py-2 rounded-md border border-[#515DEF] hover:opacity-90 transition-all duration-200 cursor-pointer md:w-auto w-full disabled:opacity-50 disabled:cursor-not-allowed'
+                    >
+                        Complete allocation
+                    </button>
+                ) : null}
+                {!isPrincipal && !isApprover && !readOnly ? (
                     <button
                         type='button'
                         onClick={handleSubmit}

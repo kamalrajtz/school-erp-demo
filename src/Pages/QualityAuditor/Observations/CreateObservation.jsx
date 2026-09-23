@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import ObservationForm from './Components/ObservationForm'
 import { emptyObservationForm, createObservation } from './observationsData'
+import EntryClosureGate from '../../../Common/demoDomain/EntryClosureGate'
+import { entryBlocked } from '../../../Common/demoDomain/governance'
 
 const CreateObservation = () => {
     const navigate = useNavigate()
@@ -10,6 +12,7 @@ const CreateObservation = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        if (entryBlocked('Audit', 'Quality Auditor')) return
         const record = createObservation(form)
         navigate(`/quality-auditor/observations/view/${record.id}`)
     }
@@ -30,6 +33,7 @@ const CreateObservation = () => {
                 <p className='text-sm text-[#667085] mb-6'>
                     Raise a new observation when an audit process fails or non-compliance is identified.
                 </p>
+                <EntryClosureGate moduleName='Audit' actor='Quality Auditor' />
                 <form onSubmit={handleSubmit}>
                     <ObservationForm form={form} onChange={setForm} />
                     <div className='flex justify-end gap-3 mt-6 pt-6 border-t border-[#EDEEF5]'>
