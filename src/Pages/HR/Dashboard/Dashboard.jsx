@@ -1,202 +1,86 @@
 import React, { useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import ReactECharts from 'echarts-for-react'
-import {
-    LayoutDashboard,
-    Users,
-    UserCheck,
-    UserPlus,
-    ClipboardList,
-    Briefcase,
-    CalendarOff,
-    GraduationCap,
-    Star,
-} from 'lucide-react'
-import {
-    KPI_CARDS,
-    DEPARTMENT_EMPLOYEES,
-    RECRUITMENT_STATUS,
-    MONTHLY_JOINING_TREND,
-    LEAVE_DISTRIBUTION,
-    CHART_COLORS,
-    PIE_COLORS,
-} from './dashboardData'
+import { Briefcase, CalendarOff, ClipboardList, GraduationCap, Star, UserCheck, UserPlus, Users, Wallet } from 'lucide-react'
+import { getAdvances, getCandidates, getDisciplinary, getEmployees, getExits, getJobs, getLeaveBundle, getOnboarding, getPerformance, getTraining, completionOf } from '../domain/hrStore'
+import { useHrTick } from '../components/HrUi'
 
-const KPI_ICONS = {
-    'Total Employees': Users,
-    'Active Employees': UserCheck,
-    'New Joiners': UserPlus,
-    'Pending Onboarding': ClipboardList,
-    'Open Vacancies': Briefcase,
-    'Employees on Leave': CalendarOff,
-    'Upcoming Trainings': GraduationCap,
-    'Pending Performance Reviews': Star,
-}
-
-const Panel = ({ title, children, className = '' }) => (
-    <div className={`bg-white rounded-2xl shadow-md p-4 h-full ${className}`}>
+const Panel = ({ title, children }) => (
+    <div className='bg-white rounded-2xl shadow-md p-4 h-full'>
         <h3 className='text-lg font-semibold text-black mb-4'>{title}</h3>
         {children}
     </div>
 )
 
 const Dashboard = () => {
-    const departmentEmployeesOption = useMemo(() => ({
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: { type: 'shadow' },
-        },
-        grid: { left: 48, right: 24, top: 16, bottom: 48 },
-        xAxis: {
-            type: 'category',
-            data: DEPARTMENT_EMPLOYEES.map((item) => item.department),
-            axisLabel: { color: '#667085', fontSize: 10, rotate: 30 },
-            axisLine: { lineStyle: { color: '#E0E0E0' } },
-        },
-        yAxis: {
-            type: 'value',
-            axisLabel: { color: '#667085', fontSize: 11 },
-            splitLine: { lineStyle: { color: '#F2F4F7' } },
-        },
-        series: [{
-            type: 'bar',
-            data: DEPARTMENT_EMPLOYEES.map((item) => item.count),
-            barWidth: 32,
-            itemStyle: {
-                color: CHART_COLORS.primary,
-                borderRadius: [4, 4, 0, 0],
-            },
-            label: {
-                show: true,
-                position: 'top',
-                color: '#667085',
-                fontSize: 11,
-            },
-        }],
-    }), [])
+    const tick = useHrTick()
+    const navigate = useNavigate()
+    const data = useMemo(() => {
+        const employees = getEmployees()
+        const jobs = getJobs().filter((item) => item.status === 'Open')
+        const candidates = getCandidates().filter((item) => ['Interview', 'Screening'].includes(item.status))
+        const onboarding = getOnboarding().filter((item) => item.overallStatus !== 'Completed')
+        const training = getTraining().filter((item) => item.startDate.includes('09-2026') || item.status === 'Scheduled')
+        const reviews = getPerformance().filter((item) => item.status === 'Pending')
+        const advances = getAdvances().filter((item) => !['APPROVED', 'REJECTED', 'CLOSED'].includes(item.status))
+        const disciplinary = getDisciplinary().filter((item) => item.status !== 'APPROVED')
+        const exiting = getExits().filter((item) => item.status !== 'Completed' && item.status !== 'Cancelled')
+        const departments = [...new Set(employees.map((item) => item.department))].map((department) => ({ department, count: employees.filter((item) => item.department === department).length }))
+        const funnel = ['Applied', 'Screening', 'Interview', 'Selected'].map((status) => ({ status, count: getCandidates().filter((item) => item.status === status || (status === 'Applied' && item.status === 'Applied')).length }))
+        const ratings = ['Above Average', 'Average', 'Below Average'].map((rating) => ({ rating, count: getPerformance().filter((item) => item.rating === rating).length }))
+        return {
+            cards: [
+                { label: 'Total Employees', value: employees.length, to: '/hr/employee-management/employees' },
+                { label: 'Active Employees', value: employees.filter((item) => item.status === 'Active').length, to: '/hr/employee-management/employees' },
+                { label: 'New Joiners', value: employees.filter((item) => item.joiningDate.endsWith('2026') && ['06', '08', '09'].some((month) => item.joiningDate.includes(`-${month}-`))).length, to: '/hr/onboarding-checklist' },
+                { label: 'Employees on Leave', value: employees.filter((item) => item.status === 'On Leave').length + getLeaveBundle().requests.filter((item) => item.status === 'Approved').length, to: '/hr/leave-management' },
+                { label: 'Open Positions', value: jobs.length, to: '/hr/recruitment/job-openings' },
+                { label: 'Candidates in Interview', value: candidates.length, to: '/hr/recruitment/interviews' },
+                { label: 'Pending Onboarding', value: onboarding.length, to: '/hr/onboarding-checklist' },
+                { label: 'Training This Month', value: training.length, to: '/hr/training' },
+                { label: 'Pending Performance Reviews', value: reviews.length, to: '/hr/performance' },
+                { label: 'Salary Advance Requests', value: advances.length, to: '/hr/payroll/salary-advance' },
+                { label: 'Pending Disciplinary Actions', value: disciplinary.length, to: '/hr/disciplinary' },
+                { label: 'Employees Exiting', value: exiting.length, to: '/hr/exit' },
+            ],
+            departments,
+            funnel,
+            ratings,
+            completion: Math.round(getTraining().reduce((sum, item) => sum + (item.status === 'Completed' ? 1 : 0), 0) / Math.max(getTraining().length, 1) * 100),
+            onboardingRate: Math.round(getOnboarding().reduce((sum, item) => sum + completionOf(item), 0) / Math.max(getOnboarding().length, 1)),
+        }
+    }, [tick])
 
-    const recruitmentStatusOption = useMemo(() => ({
-        tooltip: { trigger: 'item', formatter: '{b}: {c} ({d}%)' },
-        legend: {
-            orient: 'vertical',
-            right: 0,
-            top: 'center',
-            textStyle: { color: '#667085', fontSize: 11 },
-        },
-        series: [{
-            type: 'pie',
-            radius: ['42%', '68%'],
-            center: ['38%', '50%'],
-            avoidLabelOverlap: true,
-            itemStyle: { borderRadius: 6, borderColor: '#fff', borderWidth: 2 },
-            label: { show: false },
-            data: RECRUITMENT_STATUS.map((item, index) => ({
-                name: item.status,
-                value: item.count,
-                itemStyle: { color: PIE_COLORS[index % PIE_COLORS.length] },
-            })),
-        }],
-    }), [])
-
-    const monthlyJoiningOption = useMemo(() => ({
+    const icons = { 'Total Employees': Users, 'Active Employees': UserCheck, 'New Joiners': UserPlus, 'Employees on Leave': CalendarOff, 'Open Positions': Briefcase, 'Candidates in Interview': ClipboardList, 'Pending Onboarding': ClipboardList, 'Training This Month': GraduationCap, 'Pending Performance Reviews': Star, 'Salary Advance Requests': Wallet, 'Pending Disciplinary Actions': ClipboardList, 'Employees Exiting': UserPlus }
+    const bar = (labels, values) => ({
         tooltip: { trigger: 'axis' },
-        grid: { left: 48, right: 24, top: 24, bottom: 32 },
-        xAxis: {
-            type: 'category',
-            data: MONTHLY_JOINING_TREND.labels,
-            axisLine: { lineStyle: { color: '#E0E0E0' } },
-            axisLabel: { color: '#667085', fontSize: 11 },
-        },
-        yAxis: {
-            type: 'value',
-            axisLabel: { color: '#667085', fontSize: 11 },
-            splitLine: { lineStyle: { color: '#F2F4F7' } },
-        },
-        series: [{
-            name: 'New Joinings',
-            type: 'line',
-            smooth: true,
-            data: MONTHLY_JOINING_TREND.joinings,
-            areaStyle: { color: 'rgba(81, 93, 239, 0.12)' },
-            lineStyle: { color: CHART_COLORS.primary, width: 2 },
-            itemStyle: { color: CHART_COLORS.primary },
-            symbol: 'circle',
-            symbolSize: 6,
-        }],
-    }), [])
-
-    const leaveDistributionOption = useMemo(() => ({
-        tooltip: { trigger: 'item', formatter: '{b}: {c} employees ({d}%)' },
-        legend: {
-            bottom: 0,
-            textStyle: { color: '#667085', fontSize: 11 },
-        },
-        series: [{
-            type: 'pie',
-            radius: '62%',
-            center: ['50%', '44%'],
-            itemStyle: { borderRadius: 6, borderColor: '#fff', borderWidth: 2 },
-            label: {
-                formatter: '{b}\n{d}%',
-                color: '#667085',
-                fontSize: 11,
-            },
-            data: LEAVE_DISTRIBUTION.map((item, index) => ({
-                name: item.type,
-                value: item.count,
-                itemStyle: { color: PIE_COLORS[index % PIE_COLORS.length] },
-            })),
-        }],
-    }), [])
+        grid: { left: 40, right: 16, top: 16, bottom: 48 },
+        xAxis: { type: 'category', data: labels, axisLabel: { color: '#667085', fontSize: 10, rotate: 20 } },
+        yAxis: { type: 'value', axisLabel: { color: '#667085' } },
+        series: [{ type: 'bar', data: values, itemStyle: { color: '#515DEF', borderRadius: [4, 4, 0, 0] } }],
+    })
 
     return (
         <section className='space-y-6'>
             <div className='bg-white rounded-2xl shadow-md p-4'>
-                <div className='flex items-center gap-3'>
-                    <div className='p-2.5 rounded-xl bg-[#515DEF]/10 text-[#515DEF]'>
-                        <LayoutDashboard size={22} />
-                    </div>
-                    <div>
-                        <h2 className='text-xl font-semibold text-black'>HR Dashboard</h2>
-                        <p className='text-sm text-[#667085] mt-0.5'>
-                            Workforce overview, recruitment pipeline, and leave activity at a glance.
-                        </p>
-                    </div>
-                </div>
+                <h2 className='text-xl font-semibold'>HR Dashboard</h2>
+                <p className='text-sm text-[#667085]'>Counts come from the HR records stored in this browser.</p>
             </div>
-
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
-                {KPI_CARDS.map((card) => {
-                    const Icon = KPI_ICONS[card.label] ?? Users
+            <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4'>
+                {data.cards.map((card) => {
+                    const Icon = icons[card.label] || Users
                     return (
-                        <div key={card.label} className='bg-white rounded-2xl shadow-md p-4'>
-                            <div className='flex items-start justify-between gap-2'>
-                                <div className='min-w-0'>
-                                    <p className='text-xs text-[#808080]'>{card.label}</p>
-                                    <p className='text-xl font-semibold text-[#1E1E1E] mt-1'>{card.value}</p>
-                                    <p className='text-xs text-[#667085] mt-1'>{card.sub}</p>
-                                </div>
-                                <div className='p-2 rounded-xl bg-[#515DEF]/10 text-[#515DEF] shrink-0'>
-                                    <Icon size={18} />
-                                </div>
-                            </div>
-                        </div>
+                        <button key={card.label} type='button' onClick={() => navigate(card.to)} className='bg-white rounded-2xl shadow-md p-4 text-left cursor-pointer hover:ring-1 hover:ring-[#515DEF]'>
+                            <div className='flex justify-between'><div><p className='text-xs text-[#808080]'>{card.label}</p><p className='text-xl font-semibold mt-1'>{card.value}</p></div><Icon size={18} className='text-[#515DEF]' /></div>
+                        </button>
                     )
                 })}
             </div>
-
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
-                <Panel title='Department-wise Employees'>
-                    <ReactECharts option={departmentEmployeesOption} style={{ height: 320 }} opts={{ renderer: 'svg' }} />
-                </Panel>
-                <Panel title='Recruitment Status'>
-                    <ReactECharts option={recruitmentStatusOption} style={{ height: 320 }} opts={{ renderer: 'svg' }} />
-                </Panel>
-                <Panel title='Monthly Joining Trend'>
-                    <ReactECharts option={monthlyJoiningOption} style={{ height: 320 }} opts={{ renderer: 'svg' }} />
-                </Panel>
-                <Panel title='Leave Distribution'>
-                    <ReactECharts option={leaveDistributionOption} style={{ height: 320 }} opts={{ renderer: 'svg' }} />
-                </Panel>
+                <Panel title='Department-wise Employee Count'><ReactECharts option={bar(data.departments.map((item) => item.department), data.departments.map((item) => item.count))} style={{ height: 300 }} /></Panel>
+                <Panel title='Recruitment Funnel'><ReactECharts option={bar(data.funnel.map((item) => item.status), data.funnel.map((item) => item.count))} style={{ height: 300 }} /></Panel>
+                <Panel title='Performance Distribution'><ReactECharts option={bar(data.ratings.map((item) => item.rating), data.ratings.map((item) => item.count))} style={{ height: 280 }} /></Panel>
+                <Panel title='Training Completion'><p className='text-3xl font-semibold text-[#515DEF]'>{data.completion}%</p><p className='text-sm text-[#667085] mt-2'>Onboarding average completion {data.onboardingRate}%.</p></Panel>
             </div>
         </section>
     )

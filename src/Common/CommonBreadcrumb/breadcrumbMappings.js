@@ -12,6 +12,7 @@ import {
     gateKeeperManagerSidebarLinks,
     directorSidebarLinks,
     principalSidebarLinks,
+    hrSidebarLinks,
 } from '../CommonSidebar/Components/sidebarLinks'
 
 const ROLE_ROUTE_CONFIG = [
@@ -25,6 +26,7 @@ const ROLE_ROUTE_CONFIG = [
     { prefix: '/librarian', role: ROLES.LIBRARIAN, links: librarianSidebarLinks },
     { prefix: '/director', role: ROLES.DIRECTOR, links: directorSidebarLinks },
     { prefix: '/principal', role: ROLES.PRINCIPAL, links: principalSidebarLinks },
+    { prefix: '/hr', role: ROLES.HR, links: hrSidebarLinks },
     { prefix: '/admin', role: ROLES.ADMIN, links: adminSidebarLinks },
 ]
 

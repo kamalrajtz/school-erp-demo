@@ -1879,68 +1879,78 @@ export const qualityAuditorSidebarLinks = [
 ];
 
 export const hrSidebarLinks = [
+    { id: 1, title: "Dashboard", to: "/hr/dashboard", icon: LayoutDashboard },
     {
-        id: 1,
-        title: "Dashboard",
-        to: "/hr/dashboard",
-        icon: LayoutDashboard,
-    },
-    {
-        id: 2,
-        title: "Employee Management",
-        to: "#0",
-        icon: UsersRound,
+        id: 2, title: "Staff Management", to: "#0", icon: UsersRound,
         subLinks: [
             { icon: Users, title: "Employees", to: "/hr/employee-management/employees" },
-            { icon: FileText, title: "Documents", to: "/hr/employee-management/documents" },
+            { icon: FileText, title: "Employee Documents", to: "/hr/employee-management/documents" },
         ],
     },
     {
-        id: 3,
-        title: "Recruitment",
-        to: "#0",
-        icon: Briefcase,
+        id: 3, title: "Recruitment", to: "#0", icon: Briefcase,
         subLinks: [
             { icon: ClipboardList, title: "Job Openings", to: "/hr/recruitment/job-openings" },
             { icon: UserRoundSearch, title: "Candidates", to: "/hr/recruitment/candidates" },
             { icon: CalendarCheck, title: "Interviews", to: "/hr/recruitment/interviews" },
+            { icon: ClipboardPen, title: "Interview Feedback", to: "/hr/recruitment/interview-feedback" },
         ],
     },
     {
-        id: 4,
-        title: "Onboarding",
-        to: "/hr/onboarding",
-        icon: UserPlus,
+        id: 4, title: "Onboarding", to: "#0", icon: UserPlus,
+        subLinks: [
+            { icon: FileText, title: "Offer / Appointment", to: "/hr/onboarding/offers" },
+            { icon: UserRound, title: "New Joiner Details", to: "/hr/onboarding/joiners" },
+            { icon: ClipboardCheck, title: "New Joinee Observation", to: "/hr/onboarding/observations" },
+            { icon: Users, title: "Shadow Mentor", to: "/hr/onboarding/shadow-mentor" },
+            { icon: ListChecks, title: "Checklist", to: "/hr/onboarding-checklist" },
+        ],
     },
     {
-        id: 5,
-        title: "Attendance",
-        to: "/hr/attendance",
-        icon: CalendarCheck,
+        id: 5, title: "Attendance & Leave", to: "#0", icon: CalendarCheck,
+        subLinks: [
+            { icon: CalendarCheck, title: "Attendance", to: "/hr/attendance" },
+            { icon: CalendarOff, title: "Leave Management", to: "/hr/leave-management" },
+            { icon: FileText, title: "Leave Policies", to: "/hr/leave-management/policies" },
+        ],
     },
     {
-        id: 6,
-        title: "Leave Management",
-        to: "/hr/leave-management",
-        icon: CalendarOff,
+        id: 6, title: "Training", to: "#0", icon: GraduationCap,
+        subLinks: [
+            { icon: CalendarDays, title: "Training Schedule", to: "/hr/training" },
+            { icon: ClipboardList, title: "Training Records", to: "/hr/training-records" },
+            { icon: Star, title: "Training Feedback", to: "/hr/training-feedback" },
+        ],
     },
     {
-        id: 7,
-        title: "Training",
-        to: "/hr/training",
-        icon: GraduationCap,
+        id: 7, title: "Performance", to: "#0", icon: Star,
+        subLinks: [
+            { icon: Star, title: "Performance Review", to: "/hr/performance-review" },
+            { icon: BarChart3, title: "Performance Comparison", to: "/hr/performance-comparison" },
+            { icon: ClipboardCheck, title: "BSC / Audit Score", to: "/hr/performance-bsc" },
+            { icon: BadgeDollarSign, title: "Increment / Promotion", to: "/hr/performance-increment" },
+        ],
     },
     {
-        id: 8,
-        title: "Performance",
-        to: "/hr/performance",
-        icon: Star,
+        id: 8, title: "Payroll & Benefits", to: "#0", icon: Wallet,
+        subLinks: [
+            { icon: BadgeDollarSign, title: "Salary Statement", to: "/hr/payroll/salary-statement" },
+            { icon: Receipt, title: "Payslip", to: "/hr/payroll/payslip" },
+            { icon: Wallet, title: "Salary Advance / Loan", to: "/hr/payroll/salary-advance" },
+            { icon: Landmark, title: "CTC", to: "/hr/payroll/ctc" },
+            { icon: Users, title: "Referral Bonus", to: "/hr/payroll/referral-bonus" },
+            { icon: HeartPulse, title: "Employee Child Concession", to: "/hr/payroll/child-concession" },
+        ],
     },
+    { id: 9, title: "Disciplinary Action", to: "/hr/disciplinary", icon: ShieldAlert },
+    { id: 10, title: "Exit Formalities", to: "/hr/exit", icon: DoorOpen },
+    { id: 11, title: "Reports", to: "/hr/reports", icon: BarChart3 },
     {
-        id: 9,
-        title: "Reports",
-        to: "/hr/reports",
-        icon: BarChart3,
+        id: 12, title: "Notifications / Announcements", to: "#0", icon: BellDot,
+        subLinks: [
+            { icon: BellDot, title: "Notifications", to: "/hr/notifications" },
+            { icon: Rss, title: "Announcements", to: "/hr/announcements" },
+        ],
     },
 ];
 

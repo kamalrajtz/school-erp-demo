@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { X } from 'lucide-react'
 
 const ExportModal = ({
     exportModal,
     setExportModal,
+    onExport,
     exportDescription = (
         <>
             You are exporting 05 records{' '}
@@ -11,6 +12,7 @@ const ExportModal = ({
         </>
     ),
 }) => {
+    const [format, setFormat] = useState('csv')
     return (
         <div>
             {exportModal && (
@@ -34,15 +36,15 @@ const ExportModal = ({
                                 <label htmlFor="" className='text-base font-medium text-[#1E1E1E] my-4'>Choose Format</label>
                                 <div className='flex justify-between w-full items-center gap-x-2'>
                                     <div className='flex items-center gap-x-2'>
-                                        <input type="radio" name="format" id="csv" className='w-4 h-4 cursor-pointer border-[#515DEF] text-[#515DEF]' />
+                                        <input type="radio" name="format" id="csv" checked={format === 'csv'} onChange={() => setFormat('csv')} className='w-4 h-4 cursor-pointer border-[#515DEF] text-[#515DEF]' />
                                         <label htmlFor="csv">CSV</label>
                                     </div>
                                     <div className='flex items-center gap-x-2'>
-                                        <input type="radio" name="format" id="excel" className='w-4 h-4 cursor-pointer border-[#515DEF] text-[#515DEF]' />
+                                        <input type="radio" name="format" id="excel" checked={format === 'excel'} onChange={() => setFormat('excel')} className='w-4 h-4 cursor-pointer border-[#515DEF] text-[#515DEF]' />
                                         <label htmlFor="excel">Excel (XLSX)</label>
                                     </div>
                                     <div className='flex items-center gap-x-2'>
-                                        <input type="radio" name="format" id="pdf" className='w-4 h-4 cursor-pointer border-[#515DEF] text-[#515DEF]' />
+                                        <input type="radio" name="format" id="pdf" checked={format === 'pdf'} onChange={() => setFormat('pdf')} className='w-4 h-4 cursor-pointer border-[#515DEF] text-[#515DEF]' />
                                         <label htmlFor="pdf">PDF</label>
                                     </div>
                                 </div>
@@ -52,7 +54,11 @@ const ExportModal = ({
                                 <button onClick={() => setExportModal(false)} className='bg-white text-[#77767A] text-sm text-center px-4 py-2.5 rounded-md border border-[#77767A] hover:bg-[#515DEF] hover:text-white hover:border-[#515DEF] transition-all duration-200 cursor-pointer w-full'>
                                     Cancel
                                 </button>
-                                <button className='bg-[#515DEF] text-white text-sm text-center px-4 py-2.5 rounded-md border border-[#515DEF] hover:opacity-90 transition-all duration-200 cursor-pointer w-full'>
+                                <button
+                                    type='button'
+                                    onClick={() => onExport?.(format)}
+                                    className='bg-[#515DEF] text-white text-sm text-center px-4 py-2.5 rounded-md border border-[#515DEF] hover:opacity-90 transition-all duration-200 cursor-pointer w-full'
+                                >
                                     Export
                                 </button>
                             </div>

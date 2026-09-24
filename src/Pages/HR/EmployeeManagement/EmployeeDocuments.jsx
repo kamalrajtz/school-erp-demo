@@ -1,105 +1,68 @@
-import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, Download, EllipsisIcon } from 'lucide-react'
-import Dropdown from '../../../Common/CommonComponents/Dropdown'
-import ExportModal from '../../../Common/CommonComponents/ExportModal'
-import { ALL_EMPLOYEE_DOCUMENTS, documentStatusBadgeColor } from './employeeData'
+import React, { useMemo, useState } from 'react'
+import { toast } from 'react-toastify'
+import { getDocuments, getEmployees, nextId, saveDocuments } from '../domain/hrStore'
+import { Badge, HrExport, Modal, PageIntro, PrimaryButton, SearchBox, Select, TableWrap, inputClass, td, th, useFilters, useHrTick, matches } from '../components/HrUi'
+
+const empty = { employeeId: '', type: 'ID Proof', name: '', fileName: '', fileSize: '', expiryDate: '', status: 'Pending' }
 
 const EmployeeDocuments = () => {
-    const [exportModal, setExportModal] = useState(false)
+    const tick = useHrTick()
+    const rows = useMemo(() => getDocuments(), [tick])
+    const employees = useMemo(() => getEmployees(), [tick])
+    const { filters, set } = useFilters({ search: '', status: '' })
+    const [form, setForm] = useState(null)
+    const [preview, setPreview] = useState('')
+    const [exportOpen, setExportOpen] = useState(false)
+    const filtered = rows.filter((row) => (!filters.status || row.status === filters.status) && matches(`${row.name} ${row.fileName} ${row.employeeId}`, filters.search))
+
+    const onFile = (event) => {
+        const file = event.target.files?.[0]
+        if (!file) return
+        if (preview) URL.revokeObjectURL(preview)
+        const url = file.type.startsWith('image/') ? URL.createObjectURL(file) : ''
+        setPreview(url)
+        setForm((current) => ({ ...current, fileName: file.name, fileSize: `${Math.ceil(file.size / 1024)} KB`, name: current.name || file.name }))
+    }
+
+    const save = (event) => {
+        event.preventDefault()
+        if (!form.employeeId || !form.type || !form.fileName) return toast.error('Employee, type, and file are required.')
+        const employee = employees.find((item) => item.id === form.employeeId)
+        saveDocuments([{ id: nextId('DOC', rows), uploadedDate: '24-09-2026', uploadedBy: 'HR', employeeId: employee.id, ...form }, ...getDocuments()])
+        toast.success('Document metadata saved. File binary is not stored.')
+        setForm(null)
+        if (preview) URL.revokeObjectURL(preview)
+        setPreview('')
+    }
 
     return (
         <section>
-            <div className='bg-white rounded-2xl shadow-md p-4'>
-                <p className='text-sm text-[#667085] mb-4'>
-                    Central repository of employee documents across the organization.
-                </p>
-                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
-                    <div className='flex flex-col gap-y-2'>
-                        <label className='text-base font-medium text-[#808080]'>Search</label>
-                        <input type='text' placeholder='Employee ID, document type...' className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full' />
-                    </div>
-                    <div className='flex flex-col gap-y-2'>
-                        <label className='text-base font-medium text-[#808080]'>Status</label>
-                        <select className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full'>
-                            <option value=''>All</option>
-                            <option value='Verified'>Verified</option>
-                            <option value='Pending'>Pending</option>
-                            <option value='Expired'>Expired</option>
-                        </select>
-                    </div>
+            <PageIntro text='Document metadata is saved in this browser. File contents stay in the current session only.'>
+                <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                    <SearchBox value={filters.search} onChange={set('search')} placeholder='Document or employee' />
+                    <Select label='Status' value={filters.status} onChange={set('status')} options={['Verified', 'Pending', 'Expired']} />
                 </div>
-            </div>
-
-            <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
-                <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
-                    <h2 className='text-xl font-medium text-black'>Documents List</h2>
-                    <button
-                        type='button'
-                        onClick={() => setExportModal(true)}
-                        className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 cursor-pointer flex items-center gap-x-2'
-                    >
-                        <Download size={16} />
-                        Export
-                    </button>
-                </div>
-                <div className='relative overflow-x-auto'>
-                    <table className='w-full text-sm text-left'>
-                        <thead className='text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg'>
-                            <tr>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>Employee ID</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Employee Name</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Document Type</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Uploaded Date</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Status</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {ALL_EMPLOYEE_DOCUMENTS.map((doc) => (
-                                <tr key={`${doc.employeeId}-${doc.id}`} className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7]'>
-                                    <td className='px-2 py-4 font-medium text-[#1E1E1E] rounded-s-lg'>{doc.employeeId}</td>
-                                    <td className='px-2 py-4 whitespace-nowrap'>{doc.employeeName}</td>
-                                    <td className='px-2 py-4'>{doc.type}</td>
-                                    <td className='px-2 py-4 whitespace-nowrap'>{doc.uploadedDate}</td>
-                                    <td className='px-2 py-4'>
-                                        <span className={`px-2 py-1 rounded-lg text-xs font-semibold whitespace-nowrap ${documentStatusBadgeColor[doc.status]}`}>
-                                            {doc.status}
-                                        </span>
-                                    </td>
-                                    <td className='px-2 py-4 text-center rounded-e-lg'>
-                                        <Dropdown buttonContent={<EllipsisIcon size={16} className='text-black' />}>
-                                            <NavLink
-                                                to={`/hr/employee-management/employee-profile/${doc.employeeId}`}
-                                                className='block w-full text-left p-2 hover:bg-[#515DEF] hover:text-white rounded cursor-pointer'
-                                            >
-                                                View Profile
-                                            </NavLink>
-                                        </Dropdown>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div className='flex justify-between items-center px-4 mt-4'>
-                <p className='text-sm font-medium text-[#515DEF]'>Showing 1 to {ALL_EMPLOYEE_DOCUMENTS.length} of {ALL_EMPLOYEE_DOCUMENTS.length} entries</p>
-                <div className='flex justify-center gap-x-2 flex-wrap'>
-                    <button type='button' className='size-8 flex justify-center items-center p-2 bg-white text-[#515DEF] border border-[#E2E8F0] hover:bg-[#515DEF] hover:text-white rounded-full cursor-pointer'>
-                        <ChevronLeft size={16} />
-                    </button>
-                    <button type='button' className='size-8 flex justify-center items-center p-2 bg-[#EDEDF5] text-[#515DEF] hover:bg-[#515DEF] hover:text-white border border-[#E2E8F0] rounded-full cursor-pointer'>
-                        1
-                    </button>
-                    <button type='button' className='size-8 flex justify-center items-center p-2 bg-white text-[#515DEF] border border-[#E2E8F0] hover:bg-[#515DEF] hover:text-white rounded-full cursor-pointer'>
-                        <ChevronRight size={16} />
-                    </button>
-                </div>
-            </div>
-
-            <ExportModal exportModal={exportModal} setExportModal={setExportModal} />
+            </PageIntro>
+            <TableWrap title='Employee Documents' action={<><PrimaryButton onClick={() => setForm({ ...empty, employeeId: employees[0]?.id || '' })}>Add Document</PrimaryButton><PrimaryButton onClick={() => setExportOpen(true)}>Export</PrimaryButton></>}>
+                <table className='w-full text-left'><thead className='bg-[#EDEEF5]'><tr>{['Employee', 'Type', 'Name', 'File', 'Size', 'Uploaded', 'Expiry', 'Status'].map((h) => <th key={h} className={th}>{h}</th>)}</tr></thead>
+                    <tbody>{filtered.map((row) => {
+                        const employee = employees.find((item) => item.id === row.employeeId)
+                        return <tr key={row.id} className='border-b border-[#f2f4f7]'><td className={td}>{employee?.name}<div className='text-xs'>{row.employeeId}</div></td><td className={td}>{row.type}</td><td className={td}>{row.name}</td><td className={td}>{row.fileName}</td><td className={td}>{row.fileSize}</td><td className={td}>{row.uploadedDate}</td><td className={td}>{row.expiryDate || '—'}</td><td className={td}><Badge value={row.status} /></td></tr>
+                    })}</tbody>
+                </table>
+            </TableWrap>
+            {form && <Modal title='Document metadata' onClose={() => setForm(null)}>
+                <form onSubmit={save} className='grid gap-3'>
+                    <Select label='Employee' value={form.employeeId} onChange={(e) => setForm({ ...form, employeeId: e.target.value })} options={employees.map((item) => item.id)} allLabel='Select' />
+                    <input className={inputClass} placeholder='Document type' value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })} />
+                    <input className={inputClass} placeholder='Document name' value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+                    <input type='file' onChange={onFile} />
+                    <input className={inputClass} type='date' value={form.expiryDate} onChange={(e) => setForm({ ...form, expiryDate: e.target.value })} />
+                    {preview && <img src={preview} alt='Preview' className='max-h-40 object-contain' />}
+                    <PrimaryButton type='submit'>Save metadata</PrimaryButton>
+                </form>
+            </Modal>}
+            <HrExport open={exportOpen} setOpen={setExportOpen} filename='hr-documents' rows={filtered} />
         </section>
     )
 }

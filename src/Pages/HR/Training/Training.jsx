@@ -1,81 +1,78 @@
-import React, { useState } from 'react'
-import { Download } from 'lucide-react'
-import ExportModal from '../../../Common/CommonComponents/ExportModal'
-import { TRAINING_SESSIONS, DEPARTMENTS } from './trainingData'
+import React, { useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { DEPARTMENTS } from '../domain/hrStatus'
+import { employeeName, getEmployees, getTraining, nextId, pushNotification, saveTraining } from '../domain/hrStore'
+import { Badge, Modal, PageIntro, PrimaryButton, TableWrap, inputClass, td, th, useHrTick } from '../components/HrUi'
 
 const Training = () => {
-    const [exportModal, setExportModal] = useState(false)
+    const path = useLocation().pathname
+    const mode = path.includes('feedback') ? 'feedback' : path.includes('records') ? 'records' : 'schedule'
+    const tick = useHrTick()
+    const rows = useMemo(() => getTraining().filter((row) => row?.id), [tick])
+    const employees = useMemo(() => getEmployees().filter((row) => row?.id), [tick])
+    const [form, setForm] = useState(null)
+    const [feedback, setFeedback] = useState(null)
+
+    const save = (event) => {
+        event.preventDefault()
+        if (!form?.title || !form.startDate) return toast.error('Title and date are required.')
+        const participantIds = String(form.participants || '').split(',').map((item) => item.trim()).filter(Boolean)
+        const record = { id: nextId('TRN-2026', rows), title: form.title, category: form.category || 'General', trainer: form.trainer, department: form.department, participantIds, startDate: form.startDate, endDate: form.endDate || form.startDate, time: form.time, location: form.location, mode: form.mode, description: form.description, status: 'Scheduled', photos: form.photoName ? [{ name: form.photoName, size: form.photoSize }] : [], attendance: {}, feedback: [] }
+        saveTraining([record, ...getTraining()])
+        pushNotification({ type: 'Training', title: 'Upcoming Training', message: `${record.title} on ${record.startDate} at ${record.time}.`, relatedDate: record.startDate })
+        toast.success('Training scheduled and notification created.')
+        setForm(null)
+    }
+
+    const mark = (session, employeeId, status) => {
+        if (!session) return
+        saveTraining(getTraining().filter(Boolean).map((item) => item.id === session.id ? { ...item, attendance: { ...(item.attendance || {}), [employeeId]: status } } : item))
+    }
+
+    const saveFeedback = (event) => {
+        event.preventDefault()
+        if (!feedback) return
+        const entry = { employeeId: feedback.employeeId, relevance: Number(feedback.relevance), trainer: Number(feedback.trainer), content: Number(feedback.content), usefulness: Number(feedback.usefulness), overall: Number(feedback.overall), comments: feedback.comments || '' }
+        saveTraining(getTraining().filter(Boolean).map((item) => item.id === feedback.trainingId ? { ...item, feedback: [...(item.feedback || []).filter((row) => row && row.employeeId !== entry.employeeId), entry] } : item))
+        toast.success('Feedback stored.')
+        setFeedback(null)
+    }
+
+    const completed = rows.filter((item) => item?.status === 'Completed').length
 
     return (
         <section>
-            <div className='bg-white rounded-2xl shadow-md p-4'>
-                <p className='text-sm text-[#667085] mb-4'>
-                    Schedule and track staff training sessions, attendance, and feedback.
-                </p>
-                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
-                    <div className='flex flex-col gap-y-2'>
-                        <label className='text-base font-medium text-[#808080]'>Search</label>
-                        <input type='text' placeholder='Training name, trainer...' className='text-sm border border-[#D9D9D9] rounded-md px-2 py-2 w-full' />
-                    </div>
-                    <div className='flex flex-col gap-y-2'>
-                        <label className='text-base font-medium text-[#808080]'>Department</label>
-                        <select className='text-sm border border-[#D9D9D9] rounded-md px-2 py-2 w-full'>
-                            <option value=''>All</option>
-                            {DEPARTMENTS.map((dept) => (
-                                <option key={dept} value={dept}>{dept}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className='flex flex-col gap-y-2'>
-                        <label className='text-base font-medium text-[#808080]'>Date</label>
-                        <input type='date' className='text-sm border border-[#D9D9D9] rounded-md px-2 py-2 w-full' />
-                    </div>
-                </div>
-            </div>
-
-            <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
-                <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
-                    <h2 className='text-xl font-medium text-black'>Training Sessions</h2>
-                    <button type='button' onClick={() => setExportModal(true)} className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 flex items-center gap-x-2 cursor-pointer'>
-                        <Download size={16} /> Export
-                    </button>
-                </div>
-                <div className='relative overflow-x-auto'>
-                    <table className='w-full text-sm text-left'>
-                        <thead className='text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg'>
-                            <tr>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>Training Name</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Department</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Trainer</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Date</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Attendance</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>Feedback</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {TRAINING_SESSIONS.map((session) => (
-                                <tr key={session.id} className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7]'>
-                                    <td className='px-2 py-4 font-medium text-[#1E1E1E] rounded-s-lg max-w-[220px] truncate' title={session.trainingName}>{session.trainingName}</td>
-                                    <td className='px-2 py-4'>{session.department}</td>
-                                    <td className='px-2 py-4 max-w-[180px] truncate' title={session.trainer}>{session.trainer}</td>
-                                    <td className='px-2 py-4 whitespace-nowrap'>{session.date}</td>
-                                    <td className='px-2 py-4 whitespace-nowrap'>{session.attendance}</td>
-                                    <td className='px-2 py-4 rounded-e-lg max-w-[200px] truncate' title={session.feedback}>{session.feedback}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div className='flex justify-between items-center px-4 mt-4'>
-                <p className='text-sm font-medium text-[#515DEF]'>Showing 1 to {TRAINING_SESSIONS.length} of {TRAINING_SESSIONS.length} entries</p>
-                <div className='flex gap-x-2'>
-                    <button type='button' className='size-8 flex justify-center items-center p-2 bg-[#EDEDF5] text-[#515DEF] rounded-full cursor-pointer'>1</button>
-                </div>
-            </div>
-
-            <ExportModal exportModal={exportModal} setExportModal={setExportModal} />
+            <PageIntro text={`Training completion: ${completed} of ${rows.length} sessions completed. Photos keep file metadata only.`}>
+                {mode === 'schedule' && <PrimaryButton onClick={() => setForm({ title: '', category: 'Soft Skills', trainer: '', department: 'Academic', participants: employees.slice(0, 2).map((item) => item?.id).filter(Boolean).join(', '), startDate: '2026-09-25', endDate: '2026-09-25', time: '10:00 AM', location: 'Seminar Hall', mode: 'In Person', description: '' })}>Schedule Training</PrimaryButton>}
+            </PageIntro>
+            <TableWrap title={mode === 'feedback' ? 'Training Feedback' : mode === 'records' ? 'Training Records' : 'Training Schedule'}>
+                <table className='w-full text-left'><thead className='bg-[#EDEEF5]'><tr>{['Title', 'Department', 'When', 'Participants', 'Status', ''].map((h) => <th key={h} className={th}>{h}</th>)}</tr></thead>
+                    <tbody>{rows.map((row) => {
+                        if (!row) return null
+                        const participants = row.participantIds || []
+                        const attendance = row.attendance || {}
+                        const feedbackRows = (row.feedback || []).filter((entry) => entry && typeof entry === 'object')
+                        return <tr key={row.id} className='border-b border-[#f2f4f7] align-top'><td className={td}>{row.title}<div className='text-xs'>{row.category} · {row.trainer}</div></td><td className={td}>{row.department}</td><td className={td}>{row.startDate} {row.time}</td><td className={td}>{participants.map((id) => employeeName(id)).join(', ')}{mode === 'records' && <div className='mt-2 space-y-1'>{participants.map((id) => <div key={id} className='flex gap-2 items-center'><span>{employeeName(id)}</span><select className='border rounded px-1' value={attendance[id] || ''} onChange={(e) => mark(row, id, e.target.value)}><option value=''>Mark</option><option>Present</option><option>Absent</option></select></div>)}</div>}</td><td className={td}><Badge value={row.status} /><div className='text-xs mt-1'>{feedbackRows.length} feedback</div></td><td className={td}>{mode === 'feedback' && <button type='button' className='text-[#515DEF]' onClick={() => setFeedback({ trainingId: row.id, employeeId: participants[0] || employees[0]?.id || '', relevance: 3, trainer: 3, content: 3, usefulness: 3, overall: 3, comments: '' })}>Add feedback</button>}</td></tr>
+                    })}</tbody>
+                </table>
+            </TableWrap>
+            {form && <Modal title='Schedule training' onClose={() => setForm(null)}>
+                <form onSubmit={save} className='grid gap-3'>
+                    {['title', 'category', 'trainer', 'participants', 'startDate', 'time', 'location', 'description'].map((key) => <input key={key} className={inputClass} placeholder={key} value={form[key]} onChange={(e) => setForm({ ...form, [key]: e.target.value })} />)}
+                    <select className={inputClass} value={form.department} onChange={(e) => setForm({ ...form, department: e.target.value })}>{DEPARTMENTS.map((item) => <option key={item}>{item}</option>)}</select>
+                    <input type='file' accept='image/*' onChange={(e) => { const file = e.target.files?.[0]; if (file) setForm({ ...form, photoName: file.name, photoSize: `${Math.ceil(file.size / 1024)} KB` }) }} />
+                    <PrimaryButton type='submit'>Save</PrimaryButton>
+                </form>
+            </Modal>}
+            {feedback && <Modal title='Training feedback' onClose={() => setFeedback(null)}>
+                <form onSubmit={saveFeedback} className='grid gap-3'>
+                    <select className={inputClass} value={feedback.employeeId} onChange={(e) => setFeedback({ ...feedback, employeeId: e.target.value })}>{employees.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select>
+                    {['relevance', 'trainer', 'content', 'usefulness', 'overall'].map((key) => <select key={key} className={inputClass} value={feedback[key]} onChange={(e) => setFeedback({ ...feedback, [key]: Number(e.target.value) })}>{[1, 2, 3].map((n) => <option key={n} value={n}>{key} {n}</option>)}</select>)}
+                    <input className={inputClass} placeholder='Comments' value={feedback.comments} onChange={(e) => setFeedback({ ...feedback, comments: e.target.value })} />
+                    <PrimaryButton type='submit'>Save</PrimaryButton>
+                </form>
+            </Modal>}
         </section>
     )
 }

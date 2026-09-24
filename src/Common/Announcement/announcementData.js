@@ -8,6 +8,11 @@ export const CATEGORY_OPTIONS = [
     'Examination',
     'General Announcement',
     'Emergency',
+    'Policy Update',
+    'Holiday Announcement',
+    'Training Announcement',
+    'Internal Job Opening',
+    'HR Circular',
 ]
 
 export const CREATOR_ROLE_KEYS = new Set([
@@ -16,6 +21,7 @@ export const CREATOR_ROLE_KEYS = new Set([
     ROLES.GATEKEEPER_MANAGER,
     ROLES.IT_SUPPORT_MANAGER,
     ROLES.HOUSEKEEPING_MANAGER,
+    ROLES.HR,
 ])
 
 export const DEFAULT_BROADCAST_AUDIENCE = [

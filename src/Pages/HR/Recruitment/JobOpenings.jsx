@@ -1,89 +1,57 @@
-import React, { useState } from 'react'
-import { Download } from 'lucide-react'
-import ExportModal from '../../../Common/CommonComponents/ExportModal'
-import {
-    JOB_OPENINGS,
-    DEPARTMENTS,
-    JOB_STATUSES,
-    jobStatusBadgeColor,
-} from './recruitmentData'
+import React, { useMemo, useState } from 'react'
+import { toast } from 'react-toastify'
+import { DEPARTMENTS } from '../domain/hrStatus'
+import { getJobs, nextId, pushNotification, saveJobs } from '../domain/hrStore'
+import { Badge, HrExport, Modal, PageIntro, PrimaryButton, SearchBox, Select, TableWrap, inputClass, td, th, useFilters, useHrTick, matches } from '../components/HrUi'
+
+const STATUSES = ['Draft', 'Open', 'On Hold', 'Closed', 'Filled']
+const empty = { position: '', department: 'Academic', designation: '', openings: 1, employmentType: 'Full Time', experience: '', qualification: '', location: 'Main Campus', postedDate: '2026-09-24', closingDate: '', hiringManager: '', status: 'Draft', description: '', internalPosting: false }
 
 const JobOpenings = () => {
-    const [exportModal, setExportModal] = useState(false)
+    const tick = useHrTick()
+    const rows = useMemo(() => getJobs(), [tick])
+    const { filters, set } = useFilters({ search: '', department: '', status: '' })
+    const [form, setForm] = useState(null)
+    const [exportOpen, setExportOpen] = useState(false)
+    const filtered = rows.filter((row) => (!filters.department || row.department === filters.department) && (!filters.status || row.status === filters.status) && matches(`${row.id} ${row.position}`, filters.search))
+
+    const save = (event) => {
+        event.preventDefault()
+        if (!form.position || !form.closingDate) return toast.error('Position and closing date are required.')
+        const record = { ...form, openings: Number(form.openings) || 1, internalPosting: Boolean(form.internalPosting), id: form.id || nextId('JOB-2026', rows) }
+        saveJobs(form.id ? getJobs().map((row) => (row.id === form.id ? record : row)) : [record, ...getJobs()])
+        if (record.internalPosting && record.status === 'Open') {
+            pushNotification({ type: 'Internal Job', title: 'Internal Job Opening', message: `${record.position} is open for internal applicants until ${record.closingDate}.`, relatedDate: record.closingDate })
+        }
+        toast.success('Job opening saved.')
+        setForm(null)
+    }
 
     return (
         <section>
-            <div className='bg-white rounded-2xl shadow-md p-4'>
-                <p className='text-sm text-[#667085] mb-4'>Manage open positions and hiring requirements.</p>
-                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
-                    <div className='flex flex-col gap-y-2'>
-                        <label className='text-base font-medium text-[#808080]'>Search</label>
-                        <input type='text' placeholder='Job title, ID...' className='text-sm border border-[#D9D9D9] rounded-md px-2 py-2 w-full' />
-                    </div>
-                    <div className='flex flex-col gap-y-2'>
-                        <label className='text-base font-medium text-[#808080]'>Department</label>
-                        <select className='text-sm border border-[#D9D9D9] rounded-md px-2 py-2 w-full'>
-                            <option value=''>All</option>
-                            {DEPARTMENTS.map((dept) => (
-                                <option key={dept} value={dept}>{dept}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className='flex flex-col gap-y-2'>
-                        <label className='text-base font-medium text-[#808080]'>Status</label>
-                        <select className='text-sm border border-[#D9D9D9] rounded-md px-2 py-2 w-full'>
-                            <option value=''>All</option>
-                            {JOB_STATUSES.map((status) => (
-                                <option key={status} value={status}>{status}</option>
-                            ))}
-                        </select>
-                    </div>
+            <PageIntro text='Internal postings create an HR notification for staff. No external job board is called.'>
+                <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                    <SearchBox value={filters.search} onChange={set('search')} placeholder='Job title or ID' />
+                    <Select label='Department' value={filters.department} onChange={set('department')} options={DEPARTMENTS} />
+                    <Select label='Status' value={filters.status} onChange={set('status')} options={STATUSES} />
                 </div>
-            </div>
-
-            <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
-                <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
-                    <h2 className='text-xl font-medium text-black'>Job Openings List</h2>
-                    <button type='button' onClick={() => setExportModal(true)} className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 flex items-center gap-x-2 cursor-pointer'>
-                        <Download size={16} /> Export
-                    </button>
-                </div>
-                <div className='relative overflow-x-auto'>
-                    <table className='w-full text-sm text-left'>
-                        <thead className='text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg'>
-                            <tr>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>Job Title</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Department</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>No. of Positions</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Status</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>Closing Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {JOB_OPENINGS.map((job) => (
-                                <tr key={job.id} className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7]'>
-                                    <td className='px-2 py-4 font-medium text-[#1E1E1E] rounded-s-lg max-w-[220px] truncate' title={job.jobTitle}>{job.jobTitle}</td>
-                                    <td className='px-2 py-4'>{job.department}</td>
-                                    <td className='px-2 py-4 text-center'>{job.positions}</td>
-                                    <td className='px-2 py-4'>
-                                        <span className={`px-2 py-1 rounded-lg text-xs font-semibold ${jobStatusBadgeColor[job.status]}`}>{job.status}</span>
-                                    </td>
-                                    <td className='px-2 py-4 whitespace-nowrap rounded-e-lg'>{job.closingDate}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div className='flex justify-between items-center px-4 mt-4'>
-                <p className='text-sm font-medium text-[#515DEF]'>Showing 1 to {JOB_OPENINGS.length} of {JOB_OPENINGS.length} entries</p>
-                <div className='flex gap-x-2'>
-                    <button type='button' className='size-8 flex justify-center items-center p-2 bg-[#EDEDF5] text-[#515DEF] rounded-full cursor-pointer'>1</button>
-                </div>
-            </div>
-
-            <ExportModal exportModal={exportModal} setExportModal={setExportModal} />
+            </PageIntro>
+            <TableWrap title='Job Openings' action={<><PrimaryButton onClick={() => setForm(empty)}>Add Opening</PrimaryButton><PrimaryButton onClick={() => setExportOpen(true)}>Export</PrimaryButton></>}>
+                <table className='w-full text-left'><thead className='bg-[#EDEEF5]'><tr>{['Job ID', 'Position', 'Department', 'Openings', 'Internal', 'Status', 'Closing', ''].map((h) => <th key={h} className={th}>{h}</th>)}</tr></thead>
+                    <tbody>{filtered.map((row) => <tr key={row.id} className='border-b border-[#f2f4f7]'><td className={td}>{row.id}</td><td className={td}>{row.position}</td><td className={td}>{row.department}</td><td className={td}>{row.openings}</td><td className={td}>{row.internalPosting ? 'Yes' : 'No'}</td><td className={td}><Badge value={row.status} /></td><td className={td}>{row.closingDate}</td><td className={td}><button type='button' className='text-[#515DEF]' onClick={() => setForm(row)}>Edit</button></td></tr>)}</tbody>
+                </table>
+            </TableWrap>
+            {form && <Modal title='Job Opening' onClose={() => setForm(null)} wide>
+                <form onSubmit={save} className='grid md:grid-cols-2 gap-3'>
+                    {['position', 'designation', 'experience', 'qualification', 'location', 'postedDate', 'closingDate', 'hiringManager', 'description'].map((key) => <input key={key} className={inputClass} placeholder={key} value={form[key] || ''} onChange={(e) => setForm({ ...form, [key]: e.target.value })} />)}
+                    <input className={inputClass} type='number' min='1' value={form.openings} onChange={(e) => setForm({ ...form, openings: e.target.value })} />
+                    <Select label='Department' value={form.department} onChange={(e) => setForm({ ...form, department: e.target.value })} options={DEPARTMENTS} allLabel='Select' />
+                    <Select label='Status' value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })} options={STATUSES} allLabel='Select' />
+                    <label className='text-sm flex items-center gap-2'><input type='checkbox' checked={!!form.internalPosting} onChange={(e) => setForm({ ...form, internalPosting: e.target.checked })} /> Internal job posting</label>
+                    <PrimaryButton type='submit'>Save</PrimaryButton>
+                </form>
+            </Modal>}
+            <HrExport open={exportOpen} setOpen={setExportOpen} filename='job-openings' rows={filtered} />
         </section>
     )
 }

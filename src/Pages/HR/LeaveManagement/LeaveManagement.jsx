@@ -1,98 +1,80 @@
-import React, { useState } from 'react'
-import { Download } from 'lucide-react'
-import ExportModal from '../../../Common/CommonComponents/ExportModal'
-import {
-    LEAVE_REQUESTS,
-    LEAVE_TYPES,
-    LEAVE_STATUSES,
-    leaveStatusBadgeColor,
-} from './leaveData'
+import React, { useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { EMPLOYEE_CATEGORIES } from '../domain/hrStatus'
+import { employeeName, getEmployees, getLeaveBundle, nextId, pushNotification, saveLeaveBundle } from '../domain/hrStore'
+import { Badge, Modal, PageIntro, PrimaryButton, Select, TableWrap, inputClass, td, th, useHrTick } from '../components/HrUi'
 
 const LeaveManagement = () => {
-    const [exportModal, setExportModal] = useState(false)
+    const policiesMode = useLocation().pathname.includes('policies')
+    const tick = useHrTick()
+    const bundle = useMemo(() => getLeaveBundle(), [tick])
+    const employees = useMemo(() => getEmployees(), [tick])
+    const [status, setStatus] = useState('')
+    const [form, setForm] = useState(null)
+    const requests = bundle.requests.filter((item) => !status || item.status === status)
+
+    const decide = (request, next) => {
+        const requestsNext = getLeaveBundle().requests.map((item) => item.id === request.id ? { ...item, status: next, approvedBy: next === 'Approved' ? 'Reporting Manager' : item.approvedBy } : item)
+        saveLeaveBundle({ ...getLeaveBundle(), requests: requestsNext })
+        if (next === 'Pending') pushNotification({ type: 'Leave', title: 'Leave Approval Pending', message: `${employeeName(request.employeeId)} requested ${request.leaveType}.`, relatedDate: request.fromDate })
+        toast.success(`Leave ${next.toLowerCase()}.`)
+    }
+
+    const savePolicy = (event) => {
+        event.preventDefault()
+        if (!form.name || !(Number(form.entitlement) >= 0)) return toast.error('Policy name and entitlement are required.')
+        const policies = [{ ...form, id: nextId('POL', bundle.policies), entitlement: Number(form.entitlement), maxConsecutive: Number(form.maxConsecutive) || 1, carryForward: form.carryForward === true || form.carryForward === 'true', paid: true, approvalRequired: true, active: true }, ...getLeaveBundle().policies]
+        saveLeaveBundle({ ...getLeaveBundle(), policies })
+        toast.success('Leave policy saved.')
+        setForm(null)
+    }
+
+    const saveRequest = (event) => {
+        event.preventDefault()
+        if (!form.employeeId || !form.fromDate) return toast.error('Employee and dates are required.')
+        const requestsNext = [{ id: nextId('LVE', bundle.requests), ...form, days: Number(form.days) || 1, status: 'Pending', approvedBy: '' }, ...getLeaveBundle().requests]
+        saveLeaveBundle({ ...getLeaveBundle(), requests: requestsNext })
+        pushNotification({ type: 'Leave', title: 'Leave Approval Pending', message: `${employeeName(form.employeeId)} submitted ${form.leaveType}.`, relatedDate: form.fromDate })
+        toast.success('Leave request submitted for manager approval.')
+        setForm(null)
+    }
 
     return (
         <section>
-            <div className='bg-white rounded-2xl shadow-md p-4'>
-                <p className='text-sm text-[#667085] mb-4'>
-                    Track employee leave requests, approvals, and leave balances.
-                </p>
-                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
-                    <div className='flex flex-col gap-y-2'>
-                        <label className='text-base font-medium text-[#808080]'>Search</label>
-                        <input type='text' placeholder='Employee name, ID...' className='text-sm border border-[#D9D9D9] rounded-md px-2 py-2 w-full' />
-                    </div>
-                    <div className='flex flex-col gap-y-2'>
-                        <label className='text-base font-medium text-[#808080]'>Leave Type</label>
-                        <select className='text-sm border border-[#D9D9D9] rounded-md px-2 py-2 w-full'>
-                            <option value=''>All</option>
-                            {LEAVE_TYPES.map((type) => (
-                                <option key={type} value={type}>{type}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className='flex flex-col gap-y-2'>
-                        <label className='text-base font-medium text-[#808080]'>Status</label>
-                        <select className='text-sm border border-[#D9D9D9] rounded-md px-2 py-2 w-full'>
-                            <option value=''>All</option>
-                            {LEAVE_STATUSES.map((status) => (
-                                <option key={status} value={status}>{status}</option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
-                <div className='flex justify-between items-center sm:flex-row flex-col gap-y-2 mb-4'>
-                    <h2 className='text-xl font-medium text-black'>Leave Requests</h2>
-                    <button type='button' onClick={() => setExportModal(true)} className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md hover:opacity-90 flex items-center gap-x-2 cursor-pointer'>
-                        <Download size={16} /> Export
-                    </button>
-                </div>
-                <div className='relative overflow-x-auto'>
-                    <table className='w-full text-sm text-left'>
-                        <thead className='text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg'>
-                            <tr>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>Leave Type</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>From Date</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>To Date</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Reason</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Status</th>
-                                <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>Approved By</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {LEAVE_REQUESTS.map((request) => (
-                                <tr key={request.id} className='border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7]'>
-                                    <td className='px-2 py-4 rounded-s-lg'>
-                                        <div className='font-medium text-[#1E1E1E]'>{request.leaveType}</div>
-                                        <div className='text-xs mt-0.5'>{request.employee} · {request.employeeId}</div>
-                                    </td>
-                                    <td className='px-2 py-4 whitespace-nowrap'>{request.fromDate}</td>
-                                    <td className='px-2 py-4 whitespace-nowrap'>{request.toDate}</td>
-                                    <td className='px-2 py-4 max-w-[220px] truncate' title={request.reason}>{request.reason}</td>
-                                    <td className='px-2 py-4'>
-                                        <span className={`px-2 py-1 rounded-lg text-xs font-semibold ${leaveStatusBadgeColor[request.status]}`}>
-                                            {request.status}
-                                        </span>
-                                    </td>
-                                    <td className='px-2 py-4 rounded-e-lg max-w-[180px] truncate' title={request.approvedBy}>{request.approvedBy}</td>
-                                </tr>
-                            ))}
-                        </tbody>
+            <PageIntro text='Leave requests move from employee submission to manager decision and stay visible to HR for attendance and payroll.'>
+                {!policiesMode && <Select label='Status' value={status} onChange={(e) => setStatus(e.target.value)} options={['Pending', 'Approved', 'Rejected']} />}
+            </PageIntro>
+            {policiesMode ? (
+                <TableWrap title='Leave Policies' action={<PrimaryButton onClick={() => setForm({ name: '', category: 'Academics', leaveType: 'Casual Leave', entitlement: 12, maxConsecutive: 3, carryForward: false })}>Add Policy</PrimaryButton>}>
+                    <table className='w-full text-left'><thead className='bg-[#EDEEF5]'><tr>{['Policy', 'Category', 'Type', 'Entitlement', 'Carry Forward', 'Max Days'].map((h) => <th key={h} className={th}>{h}</th>)}</tr></thead>
+                        <tbody>{bundle.policies.map((row) => <tr key={row.id} className='border-b border-[#f2f4f7]'><td className={td}>{row.name}</td><td className={td}>{row.category}</td><td className={td}>{row.leaveType}</td><td className={td}>{row.entitlement}</td><td className={td}>{row.carryForward ? 'Yes' : 'No'}</td><td className={td}>{row.maxConsecutive}</td></tr>)}</tbody>
                     </table>
-                </div>
-            </div>
-
-            <div className='flex justify-between items-center px-4 mt-4'>
-                <p className='text-sm font-medium text-[#515DEF]'>Showing 1 to {LEAVE_REQUESTS.length} of {LEAVE_REQUESTS.length} entries</p>
-                <div className='flex gap-x-2'>
-                    <button type='button' className='size-8 flex justify-center items-center p-2 bg-[#EDEDF5] text-[#515DEF] rounded-full cursor-pointer'>1</button>
-                </div>
-            </div>
-
-            <ExportModal exportModal={exportModal} setExportModal={setExportModal} />
+                </TableWrap>
+            ) : (
+                <TableWrap title='Leave Requests' action={<PrimaryButton onClick={() => employees[0] && setForm({ employeeId: employees[0].id, leaveType: 'Casual Leave', fromDate: '2026-09-28', toDate: '2026-09-28', days: 1, reason: '' })}>Add Request</PrimaryButton>}>
+                    <table className='w-full text-left'><thead className='bg-[#EDEEF5]'><tr>{['Employee', 'Type', 'Dates', 'Reason', 'Status', ''].map((h) => <th key={h} className={th}>{h}</th>)}</tr></thead>
+                        <tbody>{requests.map((row) => <tr key={row.id} className='border-b border-[#f2f4f7]'><td className={td}>{employeeName(row.employeeId)}</td><td className={td}>{row.leaveType}</td><td className={td}>{row.fromDate} – {row.toDate}</td><td className={td}>{row.reason}</td><td className={td}><Badge value={row.status} /></td><td className={td}>{row.status === 'Pending' && <><button type='button' className='text-[#4CAF50] mr-2' onClick={() => decide(row, 'Approved')}>Approve</button><button type='button' className='text-red-500' onClick={() => decide(row, 'Rejected')}>Reject</button></>}</td></tr>)}</tbody>
+                    </table>
+                </TableWrap>
+            )}
+            {form && <Modal title={policiesMode ? 'Leave policy' : 'Leave request'} onClose={() => setForm(null)}>
+                <form onSubmit={policiesMode ? savePolicy : saveRequest} className='grid gap-3'>
+                    {policiesMode ? <>
+                        <input className={inputClass} placeholder='Policy name' value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+                        <select className={inputClass} value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}>{[...new Set(['Academics', 'Admin', 'Support / Operations', ...EMPLOYEE_CATEGORIES])].map((item) => <option key={item}>{item}</option>)}</select>
+                        <input className={inputClass} placeholder='Leave type' value={form.leaveType} onChange={(e) => setForm({ ...form, leaveType: e.target.value })} />
+                        <input className={inputClass} type='number' placeholder='Entitlement' value={form.entitlement} onChange={(e) => setForm({ ...form, entitlement: e.target.value })} />
+                    </> : <>
+                        <select className={inputClass} value={form.employeeId} onChange={(e) => setForm({ ...form, employeeId: e.target.value })}>{employees.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select>
+                        <input className={inputClass} value={form.leaveType} onChange={(e) => setForm({ ...form, leaveType: e.target.value })} />
+                        <input className={inputClass} value={form.fromDate} onChange={(e) => setForm({ ...form, fromDate: e.target.value })} />
+                        <input className={inputClass} value={form.toDate} onChange={(e) => setForm({ ...form, toDate: e.target.value })} />
+                        <input className={inputClass} placeholder='Reason' value={form.reason} onChange={(e) => setForm({ ...form, reason: e.target.value })} />
+                    </>}
+                    <PrimaryButton type='submit'>Save</PrimaryButton>
+                </form>
+            </Modal>}
         </section>
     )
 }

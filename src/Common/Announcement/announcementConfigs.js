@@ -89,6 +89,12 @@ export const ANNOUNCEMENT_ROUTE_CONFIG = {
         view: '/joint-director-assistant/broadcast/view-broadcast',
         sentByDefault: 'Joint Director Assistant',
     },
+    hr: {
+        list: '/hr/announcements',
+        add: '/hr/announcements/add',
+        view: '/hr/announcements/view',
+        sentByDefault: 'HR',
+    },
     jointdirectoraudit: {
         list: '/joint-director-audit/broadcast',
         view: '/joint-director-audit/broadcast/view-broadcast',
