@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { getCandidates, getJobs, nextId, saveCandidates } from '../domain/hrStore'
 import { Badge, HrExport, Modal, PageIntro, PrimaryButton, SearchBox, Select, TableWrap, inputClass, td, th, useFilters, useHrTick, matches } from '../components/HrUi'
@@ -9,9 +10,10 @@ const empty = { jobId: '', name: '', dateOfBirth: '', gender: '', maritalStatus:
 
 const Candidates = () => {
     const tick = useHrTick()
+    const [params] = useSearchParams()
     const rows = useMemo(() => getCandidates(), [tick])
     const jobs = useMemo(() => getJobs(), [tick])
-    const { filters, set } = useFilters({ search: '', source: '', status: '' })
+    const { filters, set } = useFilters({ search: '', source: '', status: params.get('status') || '' })
     const [form, setForm] = useState(null)
     const [selected, setSelected] = useState(null)
     const [exportOpen, setExportOpen] = useState(false)

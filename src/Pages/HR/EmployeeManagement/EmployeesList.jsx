@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useSearchParams } from 'react-router-dom'
 import { Download, EllipsisIcon } from 'lucide-react'
 import Dropdown from '../../../Common/CommonComponents/Dropdown'
 import { toast } from 'react-toastify'
@@ -16,8 +16,9 @@ const emptyForm = {
 
 const EmployeesList = () => {
     const tick = useHrTick()
+    const [params] = useSearchParams()
     const rows = useMemo(() => getEmployees(), [tick])
-    const { filters, set, clear } = useFilters({ search: '', department: '', status: '', category: '' })
+    const { filters, set, clear } = useFilters({ search: '', department: params.get('department') || '', status: '', category: '' })
     const [exportOpen, setExportOpen] = useState(false)
     const [form, setForm] = useState(null)
 

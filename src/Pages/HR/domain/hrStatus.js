@@ -9,6 +9,9 @@ export const hrBadge = (status) => {
     if (['rejected', 'inactive', 'absent', 'expired', 'cancelled', 'blocked', 'failed', 'no show'].includes(key)) {
         return 'bg-[#FF000033] text-[#FF0000]'
     }
+    if (['high priority'].includes(key)) return 'bg-[#FDECEC] text-[#B42318]'
+    if (['attention'].includes(key)) return 'bg-[#FFFAEB] text-[#B54708]'
+    if (['stable', 'normal'].includes(key)) return 'bg-[#ECFDF3] text-[#027A48]'
     if (['open', 'issued', 'selected', 'next round', 'demo_sent'].includes(key)) {
         return 'bg-[#2196F333] text-[#2196F3]'
     }
