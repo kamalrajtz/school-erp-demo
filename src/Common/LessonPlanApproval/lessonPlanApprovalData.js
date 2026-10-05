@@ -13,7 +13,7 @@ export const getClassOptions = () => getClasses().map((item) => `Grade ${item}`)
 export const CLASS_OPTIONS = liveArray(() => getClasses().map((item) => `Grade ${item}`))
 export const SECTION_OPTIONS = SECTIONS
 
-export const ACADEMIC_YEAR_OPTIONS = ['2024-2025', '2025-2026', '2026-2027']
+export const ACADEMIC_YEAR_OPTIONS = ['2026-27', '2024-2025', '2025-2026', '2026-2027']
 export const MONTH_OPTIONS = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December',
@@ -82,6 +82,9 @@ const buildLessonPlanRecord = (plans, payload, submittedAt) => {
         return match ? Math.max(max, Number(match[1])) : max
     }, 0) + 1
 
+    const planningRows = Array.isArray(payload.planningRows) ? payload.planningRows : []
+    const chapterName = (payload.chapterName || payload.title || '').trim()
+    const description = (payload.description || planningRows.map((row) => row.mainConcepts).filter(Boolean).join('; ') || chapterName).trim()
     return {
         id: `LP-${String(nextNumber).padStart(3, '0')}`,
         subject: payload.subject,
@@ -89,17 +92,31 @@ const buildLessonPlanRecord = (plans, payload, submittedAt) => {
         submitterRole: payload.submitterRole,
         className: payload.className,
         section: payload.section,
-        title: payload.title?.trim() ?? '',
+        title: chapterName || `Week ${payload.weekNo || ''}`.trim(),
         academicYear: payload.academicYear ?? '',
         month: payload.month ?? '',
-        description: payload.description.trim(),
+        weekNo: payload.weekNo ?? '',
+        numberOfSessions: payload.numberOfSessions ?? '',
+        chapterName,
+        planningRows,
+        specialAttention: payload.specialAttention ?? '',
+        classroomSetup: payload.classroomSetup ?? '',
+        teacherNotes: payload.teacherNotes ?? '',
+        reflection: payload.reflection ?? '',
+        subjectMentor: payload.subjectMentor ?? '',
+        evaluator: payload.evaluator ?? '',
+        coordinatorSignoff: payload.coordinatorSignoff ?? '',
+        sdgPlanned: payload.sdgPlanned ?? '',
+        sdcPlanned: payload.sdcPlanned ?? '',
+        worksheetsPlanned: payload.worksheetsPlanned ?? '',
+        description,
         fromDate: payload.fromDate,
         toDate: payload.toDate,
         submittedAt,
         approvalStatus: 'Pending',
         trackStatus: 'On Track',
         markAsDone: false,
-        attachment: payload.attachment || 'lesson-plan.pdf',
+        attachment: payload.attachment || '',
     }
 }
 

@@ -29,4 +29,4 @@ export const EMPLOYEE_CATEGORIES = [
 
 export const DEPARTMENTS = ['Academic', 'Administration', 'Finance', 'HR', 'IT Support', 'Transport', 'Housekeeping', 'Security', 'Hostel']
 
-export const EMPLOYEE_STATUSES = ['Active', 'On Leave', 'Probation', 'Inactive']
+export const EMPLOYEE_STATUSES = ['Active', 'On Leave', 'Probation', 'Inactive', 'Relieved', 'Terminated']

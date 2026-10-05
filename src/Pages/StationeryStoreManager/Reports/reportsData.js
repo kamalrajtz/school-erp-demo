@@ -22,11 +22,11 @@ export const CONSUMPTION_REPORT = [
 ]
 
 export const EXPENSE_REPORT = [
-    { invoiceNo: 'INV-OM-8821', vendor: 'Office Mart India', amount: '₹5,400', date: '15-03-2026' },
-    { invoiceNo: 'INV-PP-4412', vendor: 'PaperPro Supplies', amount: '₹2,240', date: '02-05-2026' },
-    { invoiceNo: 'INV-PT-1109', vendor: 'PrintTech Solutions', amount: '₹20,400', date: '10-01-2026' },
-    { invoiceNo: 'INV-CW-3301', vendor: 'Classmate Wholesale', amount: '₹48,750', date: '08-06-2026' },
-    { invoiceNo: 'INV-CS-7701', vendor: 'Creative Stationers', amount: '₹1,260', date: '01-06-2026' },
+    { invoiceNo: 'INV-OM-8821', productName: 'A4 Paper Ream', vendor: 'Office Mart India', amount: '₹5,400', date: '15-03-2026' },
+    { invoiceNo: 'INV-PP-4412', productName: 'Blue Ballpoint Pen', vendor: 'PaperPro Supplies', amount: '₹2,240', date: '02-05-2026' },
+    { invoiceNo: 'INV-PT-1109', productName: 'HP 803 Black Ink Cartridge', vendor: 'PrintTech Solutions', amount: '₹20,400', date: '10-01-2026' },
+    { invoiceNo: 'INV-CW-3301', productName: 'Spiral Notebook — 200 pages', vendor: 'Classmate Wholesale', amount: '₹48,750', date: '08-06-2026' },
+    { invoiceNo: 'INV-CS-7701', productName: 'Whiteboard Marker — Black', vendor: 'Creative Stationers', amount: '₹1,260', date: '01-06-2026' },
 ]
 
 export const LOW_STOCK_REPORT = [

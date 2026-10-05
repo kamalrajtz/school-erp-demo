@@ -91,7 +91,16 @@ export const saveReferrals = (rows) => write(HR_KEYS.referrals, rows)
 export const getConcessions = () => read(HR_KEYS.concessions, SEED.concessions)
 export const saveConcessions = (rows) => write(HR_KEYS.concessions, rows)
 
-export const getDisciplinary = () => read(HR_KEYS.disciplinary, SEED.disciplinary)
+export const getDisciplinary = () => {
+    const rows = read(HR_KEYS.disciplinary, SEED.disciplinary)
+    const ids = new Set(rows.map((item) => item.id))
+    const missing = (SEED.disciplinary || []).filter((item) => item?.id && !ids.has(item.id))
+    if (!missing.length) return rows
+    const next = [...rows, ...missing]
+    cache[HR_KEYS.disciplinary] = next
+    saveHrCollection(HR_KEYS.disciplinary, next)
+    return next
+}
 export const saveDisciplinary = (rows) => write(HR_KEYS.disciplinary, rows)
 
 export const getExits = () => read(HR_KEYS.exit, SEED.exits)
@@ -151,6 +160,9 @@ export const salaryRows = (month, year, filters = {}) => {
             employee,
             attendance: monthRow(employee.id, month, year),
             advances: getAdvances(),
+            disciplinaryActions: getDisciplinary(),
+            month,
+            year,
         }))
 }
 

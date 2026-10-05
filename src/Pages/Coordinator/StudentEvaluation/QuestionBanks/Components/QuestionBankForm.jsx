@@ -26,6 +26,8 @@ const QuestionBankForm = ({ onSubmit }) => {
             subject: formData.get('subject'),
             className: formData.get('className'),
             section: formData.get('section'),
+            chapter: formData.get('chapter'),
+            questions: formData.get('questions'),
             paperTitle: formData.get('paperTitle'),
             description: formData.get('description'),
             examType: formData.get('examType'),
@@ -67,6 +69,14 @@ const QuestionBankForm = ({ onSubmit }) => {
                 <div className='flex flex-col gap-y-2 lg:col-span-2'>
                     <label htmlFor='paper-title' className='text-base font-medium text-[#1E1E1E]'>Paper Title:</label>
                     <input type='text' id='paper-title' name='paperTitle' required placeholder='e.g. Quadratic Equations — Question Paper' className={inputClass} />
+                </div>
+                <div className='flex flex-col gap-y-2'>
+                    <label htmlFor='chapter' className='text-base font-medium text-[#1E1E1E]'>Chapter:</label>
+                    <input type='text' id='chapter' name='chapter' placeholder='Chapter name' className={inputClass} />
+                </div>
+                <div className='flex flex-col gap-y-2 lg:col-span-3'>
+                    <label htmlFor='questions' className='text-base font-medium text-[#1E1E1E]'>Questions (one per line):</label>
+                    <textarea id='questions' name='questions' placeholder={'1. Question text\n2. Question text'} className={textareaClass} />
                 </div>
                 <div className='flex flex-col gap-y-2 lg:col-span-3'>
                     <label htmlFor='description' className='text-base font-medium text-[#1E1E1E]'>Description:</label>

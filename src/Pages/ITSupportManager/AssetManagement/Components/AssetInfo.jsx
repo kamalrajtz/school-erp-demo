@@ -5,7 +5,7 @@ import { Calendar, Upload } from 'lucide-react'
 import {
     ASSET_CATEGORIES,
     BRAND_OPTIONS,
-    STATUS_OPTIONS,
+    ADD_ASSET_STATUSES,
 } from '../assetData'
 
 const inputClass =
@@ -26,11 +26,11 @@ const AssetInfo = () => {
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
                     <div className='lg:col-span-2 flex flex-col gap-y-2'>
                         <label htmlFor="asset-name" className='text-base font-medium text-[#1E1E1E]'>Asset Name *</label>
-                        <input type="text" id="asset-name" placeholder="Enter asset name" className={inputClass} />
+                        <input type="text" id="asset-name" name="assetName" placeholder="Enter asset name" className={inputClass} required />
                     </div>
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor="asset-category" className='text-base font-medium text-[#1E1E1E]'>Asset Category *</label>
-                        <select id="asset-category" className={selectClass} defaultValue="">
+                        <select id="asset-category" name="category" className={selectClass} defaultValue="" required>
                             <option value="" disabled>Select category</option>
                             {ASSET_CATEGORIES.map((category) => (
                                 <option key={category} value={category}>{category}</option>
@@ -39,7 +39,7 @@ const AssetInfo = () => {
                     </div>
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor="brand" className='text-base font-medium text-[#1E1E1E]'>Brand *</label>
-                        <select id="brand" className={selectClass} defaultValue="">
+                        <select id="brand" name="brand" className={selectClass} defaultValue="">
                             <option value="" disabled>Select brand</option>
                             {BRAND_OPTIONS.map((brand) => (
                                 <option key={brand} value={brand}>{brand}</option>
@@ -48,15 +48,15 @@ const AssetInfo = () => {
                     </div>
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor="model" className='text-base font-medium text-[#1E1E1E]'>Model *</label>
-                        <input type="text" id="model" placeholder="Enter model number" className={inputClass} />
+                        <input type="text" id="model" name="model" placeholder="Enter model number" className={inputClass} />
                     </div>
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor="serial-number" className='text-base font-medium text-[#1E1E1E]'>Serial Number *</label>
-                        <input type="text" id="serial-number" placeholder="Enter serial number" className={inputClass} />
+                        <input type="text" id="serial-number" name="serialNumber" placeholder="Enter serial number" className={inputClass} />
                     </div>
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor="asset-tag" className='text-base font-medium text-[#1E1E1E]'>Asset Tag Number *</label>
-                        <input type="text" id="asset-tag" placeholder="e.g. TAG-IT-0142" className={inputClass} />
+                        <input type="text" id="asset-tag" name="assetTag" placeholder="e.g. TAG-IT-0142" className={inputClass} />
                     </div>
                 </div>
             </div>
@@ -66,7 +66,7 @@ const AssetInfo = () => {
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor="vendor-name" className='text-base font-medium text-[#1E1E1E]'>Vendor Name</label>
-                        <input type="text" id="vendor-name" placeholder="Enter vendor name" className={inputClass} />
+                        <input type="text" id="vendor-name" name="vendorName" placeholder="Enter vendor name" className={inputClass} />
                     </div>
                     <div className='flex flex-col gap-y-2'>
                         <label className='text-base font-medium text-[#1E1E1E]'>Purchase Date</label>
@@ -84,11 +84,11 @@ const AssetInfo = () => {
                     </div>
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor="purchase-cost" className='text-base font-medium text-[#1E1E1E]'>Purchase Cost</label>
-                        <input type="text" id="purchase-cost" placeholder="e.g. ₹68,500" className={inputClass} />
+                        <input type="text" id="purchase-cost" name="purchaseCost" placeholder="e.g. ₹68,500" className={inputClass} />
                     </div>
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor="invoice-number" className='text-base font-medium text-[#1E1E1E]'>Invoice Number</label>
-                        <input type="text" id="invoice-number" placeholder="Enter invoice number" className={inputClass} />
+                        <input type="text" id="invoice-number" name="invoiceNumber" placeholder="Enter invoice number" className={inputClass} />
                     </div>
                 </div>
             </div>
@@ -130,7 +130,7 @@ const AssetInfo = () => {
             <div>
                 <h3 className='text-base font-semibold text-[#1E1E1E] mb-4'>Status</h3>
                 <div className='flex flex-wrap gap-3'>
-                    {STATUS_OPTIONS.map((status) => (
+                    {ADD_ASSET_STATUSES.map((status) => (
                         <label key={status} className='flex items-center gap-x-2 text-sm text-[#1E1E1E] cursor-pointer border border-[#D9D9D9] rounded-md px-4 py-2.5 hover:border-[#515DEF]'>
                             <input type="radio" name="status" value={status} defaultChecked={status === 'Active'} className='accent-[#515DEF]' />
                             {status}

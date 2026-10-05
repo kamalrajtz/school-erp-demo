@@ -30,6 +30,7 @@ export const SUPPORT_TICKETS = [
         assignedTo: 'Ravi Kumar',
         status: 'Open',
         createdDate: '10-06-2026',
+        assetId: 'AST-2026-0125',
         subject: 'Projector not working — Room 204',
         description: 'The ceiling-mounted projector in Room 204 does not power on. Tried different power outlet and remote — no response.',
         location: 'Room 204, Academic Block',
@@ -104,7 +105,42 @@ export const SUPPORT_TICKETS = [
         description: 'Student requested hostel Wi-Fi credentials reset after device change.',
         location: 'Boys Hostel Block A',
     },
+    {
+        ticketId: 'TKT-2026-1019',
+        assetId: 'AST-2026-0142',
+        requesterName: 'Priya Nair',
+        requesterRole: 'Teacher',
+        department: 'Mathematics',
+        issueType: 'Hardware',
+        priority: 'Medium',
+        assignedTo: 'Ravi Kumar',
+        status: 'Resolved',
+        createdDate: '18-03-2026',
+        updatedDate: '19-03-2026',
+        subject: 'Laptop battery drains quickly',
+        description: 'Staff laptop battery lasts under one hour.',
+        location: 'Mathematics staff room',
+    },
+    {
+        ticketId: 'TKT-2026-1008',
+        assetId: 'AST-2026-0142',
+        requesterName: 'Priya Nair',
+        requesterRole: 'Teacher',
+        department: 'Mathematics',
+        issueType: 'Hardware',
+        priority: 'Low',
+        assignedTo: 'Anita Desai',
+        status: 'Closed',
+        createdDate: '02-06-2026',
+        updatedDate: '02-06-2026',
+        subject: 'Laptop keyboard sticky keys',
+        description: 'Keys stick after classroom dust.',
+        location: 'Mathematics staff room',
+    },
 ]
+
+export const getTicketsForAsset = (assetId) =>
+    SUPPORT_TICKETS.filter((ticket) => ticket.assetId && ticket.assetId === assetId)
 
 export const getTicketById = (id) =>
     SUPPORT_TICKETS.find((entry) => entry.ticketId === id)

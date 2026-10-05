@@ -71,7 +71,7 @@ const DisciplineForm = ({ form, employees, rows, setForm }) => {
         <Modal title='Disciplinary notice' onClose={() => setForm(null)}>
             <form onSubmit={save} className='grid gap-3'>
                 <select className={inputClass} value={form.employeeId} onChange={(e) => setForm({ ...form, employeeId: e.target.value })}>{employees.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select>
-                <select className={inputClass} value={form.actionType} onChange={(e) => setForm({ ...form, actionType: e.target.value })}><option>Warning</option><option>Memo</option><option>Suspension</option></select>
+                <select className={inputClass} value={form.actionType} onChange={(e) => setForm({ ...form, actionType: e.target.value })}><option>Warning</option><option>Memo</option><option>Suspended</option></select>
                 <input className={inputClass} placeholder='Deviation / incident' value={form.incident} onChange={(e) => setForm({ ...form, incident: e.target.value })} />
                 <input className={inputClass} placeholder='Details' value={form.details} onChange={(e) => setForm({ ...form, details: e.target.value })} />
                 <PrimaryButton type='submit'>Save</PrimaryButton>

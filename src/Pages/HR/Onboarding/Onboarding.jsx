@@ -120,7 +120,9 @@ const Onboarding = () => {
                             <select className={inputClass} value={form.mentorId} onChange={(e) => setForm({ ...form, mentorId: e.target.value })}>{employees.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select>
                             {['startDate', 'endDate', 'duration', 'menteeResponse', 'practicalDifficulties', 'bestQualities', 'generalComments', 'mentorRemarks', 'reviewerRemarks'].map((key) => <input key={key} className={inputClass} placeholder={key} value={form[key] || ''} onChange={(e) => setForm({ ...form, [key]: e.target.value })} />)}
                             {['schoolEthos', 'adaptability', 'acceptance'].map((key) => <select key={key} className={inputClass} value={form[key]} onChange={(e) => setForm({ ...form, [key]: e.target.value })}>{[1, 2, 3].map((n) => <option key={n} value={n}>{key} {n}</option>)}</select>)}
-                            <select className={inputClass} value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}><option>In Progress</option><option>Completed</option></select>
+                            <select className={inputClass} value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}><option>In Progress</option><option>Completed</option><option>Closed</option></select>
+                            <p className='md:col-span-2 text-xs text-[#667085]'>Principal, Director Academics, JD Admin, and JD Audit can record a remark. Closing the record makes that remark visible on this HR screen.</p>
+                            {['Principal', 'Director Academics', 'JD Admin', 'JD Audit'].map((role) => <input key={role} className={inputClass} placeholder={`${role} remark`} value={form.reviewerComments?.[role] || ''} onChange={(e) => setForm({ ...form, reviewerComments: { ...(form.reviewerComments || {}), [role]: e.target.value } })} />)}
                             <PrimaryButton type='submit'>Save</PrimaryButton>
                         </form>
                     </Modal>}

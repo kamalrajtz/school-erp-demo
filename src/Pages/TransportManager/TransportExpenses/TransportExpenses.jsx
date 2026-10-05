@@ -7,6 +7,7 @@ import Dropdown from '../../../Common/CommonComponents/Dropdown'
 import ExportModal from '../../../Common/CommonComponents/ExportModal'
 import EditRequestModal from '../../../Common/CommonComponents/EditRequestModal'
 import DeleteRequestModal from '../../../Common/CommonComponents/DeleteRequestModal'
+import ReactECharts from 'echarts-for-react'
 import {
     FUEL_EXPENSES,
     SERVICE_EXPENSES,
@@ -15,6 +16,7 @@ import {
     SERVICE_TYPES,
     OTHER_EXPENSE_TYPES,
 } from './transportExpensesData'
+import { transportBudgetOverview } from './transportBudget'
 
 const TABS = [
     { id: 1, label: 'Fuel Management', key: 'fuel' },
@@ -36,6 +38,13 @@ const TransportExpenses = () => {
     const [editRequestModal, setEditRequestModal] = useState(false)
     const [deleteRequestModal, setDeleteRequestModal] = useState(false)
 
+    const budget = transportBudgetOverview()
+    const budgetOption = {
+        tooltip: { trigger: 'axis' },
+        xAxis: { type: 'category', data: ['Previous Budget', 'Current Budget', 'Actual Expenses'] },
+        yAxis: { type: 'value' },
+        series: [{ type: 'bar', data: [budget.previous, budget.current, budget.actual], itemStyle: { color: '#515DEF' } }],
+    }
     const activeCount = activeTab === 1
         ? FUEL_EXPENSES.length
         : activeTab === 2
@@ -120,6 +129,19 @@ const TransportExpenses = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
+                <h2 className='text-xl font-medium text-black mb-4'>Transport Budget Overview</h2>
+                {budget.hasPrevious ? (
+                    <div className='grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4 text-sm'>
+                        <p>Previous Budget: ₹{budget.previous.toLocaleString('en-IN')}</p>
+                        <p>Current Budget: ₹{budget.current.toLocaleString('en-IN')}</p>
+                        <p>Actual Expenses: ₹{budget.actual.toLocaleString('en-IN')}</p>
+                        <p>Balance: ₹{budget.balance.toLocaleString('en-IN')}</p>
+                    </div>
+                ) : <p className='text-sm text-[#667085] mb-4'>No previous budget request available</p>}
+                <ReactECharts option={budgetOption} style={{ height: 260 }} />
             </div>
 
             <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>

@@ -336,17 +336,18 @@ export function MovementTable({ rows, department }) {
 
 export function RequirementsPage({ department, requestedBy, lockDepartment = false }) {
     const [rows, setRows] = useState(() => getRequirements())
-    const [form, setForm] = useState({ item: 'Floor cleaner', quantity: 10, requiredDate: '2026-09-30', remarks: '' })
+    const [form, setForm] = useState({ item: 'Floor cleaner', quantity: 10, requiredDate: '2026-09-30', remarks: '', year: '2026-27', planType: 'Annual minimum order' })
     const visible = lockDepartment ? rows.filter((row) => row.department === department) : rows
     const submit = (event) => {
         event.preventDefault()
-        addRequirement({ ...form, department, requestedBy })
+        addRequirement({ ...form, department, requestedBy, year: form.year, planType: form.planType })
         setRows(getRequirements())
         toast.success('Requirement sent to Stores. Vendor is not required.')
     }
     return (
         <section className='space-y-4'>
             <form onSubmit={submit} className='bg-white rounded-2xl shadow-md p-4 grid grid-cols-1 md:grid-cols-4 gap-3'>
+                <select value={form.year} onChange={(event) => setForm({ ...form, year: event.target.value })} className={inputClass}><option>2026-27</option><option>2025-26</option></select>
                 <input value={form.item} onChange={(event) => setForm({ ...form, item: event.target.value })} className={inputClass} placeholder='Item' />
                 <input type='number' value={form.quantity} onChange={(event) => setForm({ ...form, quantity: event.target.value })} className={inputClass} />
                 <input type='date' value={form.requiredDate} onChange={(event) => setForm({ ...form, requiredDate: event.target.value })} className={inputClass} />

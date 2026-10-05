@@ -6,16 +6,29 @@ import { Calendar, ChevronLeft, ChevronRight, Download, EllipsisIcon, Plus } fro
 import Dropdown from '../../../Common/CommonComponents/Dropdown'
 import ExportModal from '../../../Common/CommonComponents/ExportModal'
 import EditRequestModal from '../../../Common/CommonComponents/EditRequestModal'
-import { ASSETS, ASSET_CATEGORIES, statusBadgeColor } from './assetData'
+import { ASSET_CATEGORIES, getAssets, statusBadgeColor } from './assetData'
 
 const AssetManagement = () => {
     const [fromDate, setFromDate] = useState(new Date())
     const [toDate, setToDate] = useState(new Date())
     const [exportModal, setExportModal] = useState(false)
     const [editRequestModal, setEditRequestModal] = useState(false)
+    const assets = getAssets()
+    const categoryCounts = ASSET_CATEGORIES.map((category) => ({
+        category,
+        count: assets.filter((asset) => asset.category === category).length,
+    })).filter((item) => item.count > 0 || item.category === 'Others')
 
     return (
         <section>
+            <div className='grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-6'>
+                {categoryCounts.map((item) => (
+                    <div key={item.category} className='bg-white rounded-2xl shadow-md p-4'>
+                        <p className='text-xs text-[#667085]'>{item.category}</p>
+                        <p className='text-2xl font-semibold text-[#1E1E1E]'>{item.count}</p>
+                    </div>
+                ))}
+            </div>
             <div className='bg-white rounded-2xl shadow-md p-4'>
                 <div className='flex justify-between md:items-center sm:items-stretch md:flex-row sm:flex-col flex-col gap-y-4'>
                     <button className='bg-[#515DEF] text-white uppercase text-sm px-6 py-2 border border-[#515DEF] rounded-lg hover:opacity-90 transition-all duration-200 cursor-pointer'>Clear Filters</button>
@@ -96,7 +109,7 @@ const AssetManagement = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {ASSETS.map((asset) => (
+                            {assets.map((asset) => (
                                 <tr key={asset.assetId} className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7]">
                                     <td className="px-2 py-4 font-medium text-[#1E1E1E] rounded-s-lg">{asset.assetId}</td>
                                     <td className="px-2 py-4 max-w-[160px] truncate" title={asset.assetName}>{asset.assetName}</td>
@@ -125,7 +138,7 @@ const AssetManagement = () => {
             </div>
 
             <div className='flex justify-between items-center px-4 mt-4'>
-                <p className='text-sm font-medium text-[#515DEF]'>Showing 1 to {ASSETS.length} of {ASSETS.length} entries</p>
+                <p className='text-sm font-medium text-[#515DEF]'>Showing 1 to {assets.length} of {assets.length} entries</p>
                 <div className="flex justify-center gap-x-2">
                     <button className="size-8 flex justify-center items-center p-2 bg-white text-[#515DEF] border border-[#E2E8F0] hover:bg-[#515DEF] hover:text-white rounded-full cursor-pointer"><ChevronLeft size={16} /></button>
                     <button className="size-8 flex justify-center items-center p-2 bg-[#EDEDF5] text-[#515DEF] border border-[#E2E8F0] rounded-full cursor-pointer">1</button>

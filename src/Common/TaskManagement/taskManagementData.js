@@ -93,11 +93,15 @@ export const addTask = (payload) => {
     return task
 }
 
-export const updateTaskStatus = (taskId, status) => {
+export const updateTaskStatus = (taskId, status, remark) => {
     const tasks = readTasks()
     const index = tasks.findIndex((task) => task.id === taskId)
     if (index === -1) return null
-    tasks[index] = { ...tasks[index], status }
+    tasks[index] = {
+        ...tasks[index],
+        status,
+        remark: remark === undefined ? (tasks[index].remark || '') : remark,
+    }
     writeTasks(tasks)
     return tasks[index]
 }

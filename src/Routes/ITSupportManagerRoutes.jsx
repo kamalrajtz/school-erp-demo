@@ -13,6 +13,7 @@ import Reports from '../Pages/ITSupportManager/Reports/Reports'
 import AnnouncementList from '../Pages/ITSupportManager/Announcement/AnnouncementList'
 import ViewAnnouncement from '../Pages/ITSupportManager/Announcement/ViewAnnouncement'
 import AddAnnouncement from '../Pages/ITSupportManager/Announcement/AddAnnouncement'
+import MaintenanceInventory from '../Pages/ITSupportManager/MaintenanceInventory/MaintenanceInventory'
 import { AssetImportPage } from '../Common/demoDomain/DemoScreens'
 import { ProcurementBoard } from '../Common/demoDomain/WorkflowScreens'
 
@@ -20,6 +21,7 @@ const ITSupportManagerRoutes = () => {
     return (
         <ReactRoutes>
             <Route path="/it-support-manager/dashboard" element={<Dashboard />} />
+            <Route path="/it-support-manager/maintenance-inventory" element={<MaintenanceInventory />} />
             <Route path="/it-support-manager/asset-management" element={<AssetManagement />} />
             <Route path="/it-support-manager/asset-management/add-asset" element={<AddAsset />} />
             <Route path="/it-support-manager/asset-management/view-asset/:id" element={<ViewAsset />} />

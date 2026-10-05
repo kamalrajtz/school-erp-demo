@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { NavLink, useLocation, useParams } from 'react-router-dom'
 import { ArrowLeft, ChevronRight } from 'lucide-react'
 import AttachmentChip from './AttachmentChip'
+import LessonPlanTemplateView from './LessonPlanTemplateView'
 import MarkAsDoneConfirmModal from './MarkAsDoneConfirmModal'
 import StatusBadge from './StatusBadge'
 import {
@@ -228,20 +229,18 @@ const LessonPlanGroupDetail = () => {
                                 </div>
 
                                 {isExpanded ? (
-                                    <div className='mt-4 pt-4 border-t border-[#f2f4f7] grid grid-cols-1 md:grid-cols-2 gap-3 text-sm'>
-                                        <p><span className='text-[#808080]'>Class:</span> <span className='text-[#1E1E1E]'>{plan.className}</span></p>
-                                        <p><span className='text-[#808080]'>Section:</span> <span className='text-[#1E1E1E]'>{plan.section}</span></p>
-                                        <p><span className='text-[#808080]'>Academic Year:</span> <span className='text-[#1E1E1E]'>{plan.academicYear || '—'}</span></p>
-                                        <p><span className='text-[#808080]'>Month:</span> <span className='text-[#1E1E1E]'>{plan.month || '—'}</span></p>
-                                        <p><span className='text-[#808080]'>Submitted At:</span> <span className='text-[#1E1E1E]'>{plan.submittedAt}</span></p>
-                                        <p className='flex flex-col gap-1'>
-                                            <span className='text-[#808080]'>Attachment:</span>
-                                            <AttachmentChip filename={plan.attachment} />
-                                        </p>
-                                        <p className='md:col-span-2'><span className='text-[#808080]'>Description:</span> <span className='text-[#1E1E1E]'>{plan.description}</span></p>
-                                        {plan.completionRemarks ? (
-                                            <p className='md:col-span-2'><span className='text-[#808080]'>Completion Remarks:</span> <span className='text-[#1E1E1E]'>{plan.completionRemarks}</span></p>
-                                        ) : null}
+                                    <div className='mt-4 pt-4 border-t border-[#f2f4f7] space-y-3'>
+                                        <div className='grid grid-cols-1 md:grid-cols-2 gap-3 text-sm'>
+                                            <p><span className='text-[#808080]'>Submitted At:</span> <span className='text-[#1E1E1E]'>{plan.submittedAt}</span></p>
+                                            <p className='flex flex-col gap-1'>
+                                                <span className='text-[#808080]'>Attachment:</span>
+                                                {plan.attachment ? <AttachmentChip filename={plan.attachment} /> : <span>None</span>}
+                                            </p>
+                                            {plan.completionRemarks ? (
+                                                <p className='md:col-span-2'><span className='text-[#808080]'>Completion Remarks:</span> <span className='text-[#1E1E1E]'>{plan.completionRemarks}</span></p>
+                                            ) : null}
+                                        </div>
+                                        <LessonPlanTemplateView plan={plan} />
                                     </div>
                                 ) : null}
                             </div>

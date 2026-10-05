@@ -4,6 +4,7 @@ export const FEE_TABS = [
     { id: 'concessions-waivers', label: 'Concessions & Waivers' },
     { id: 'defaulters', label: 'Defaulters' },
     { id: 'receipt-management', label: 'Receipt Management' },
+    { id: 'activity-fees', label: 'Activity Fees' },
 ]
 
 export const ACADEMIC_YEARS = ['2023-24', '2022-23', '2021-22']

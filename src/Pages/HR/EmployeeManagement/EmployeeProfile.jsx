@@ -1,16 +1,19 @@
 import React, { useMemo, useState } from 'react'
 import { NavLink, Navigate, useParams } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
+import { toast } from 'react-toastify'
 import mo_user from '../../../assets/images/no-profile.png'
 import { PROFILE_TABS } from './employeeData'
 import { formatInr } from '../domain/payrollCalculations'
 import { salaryRows } from '../domain/hrStore'
 import {
-    getAdvances, getAttendance, getDisciplinary, getDocuments, getEmployee, getExits,
+    getAdvances, getAttendance, getDisciplinary, getDocuments, getEmployee, getExits, saveExits,
     getObservations, getOnboarding, getPerformance, getReferrals, getShadow, getTraining, completionOf,
 } from '../domain/hrStore'
 import { getLeaveBundle } from '../domain/hrStore'
 import { Badge, td, th, useHrTick } from '../components/HrUi'
+import { SOM_KEY, SOM_SEED } from '../../../Common/demoDomain/housekeeping'
+import { ensureSeed } from '../../../Common/demoDomain/storage'
 
 const Info = ({ label, value }) => (
     <div className='rounded-xl border border-[#E8ECF4] bg-[#FAFBFD] px-4 py-3'>
@@ -51,6 +54,12 @@ const EmployeeProfile = () => {
     const observations = getObservations().filter((item) => item.employeeId === employee.id)
     const shadow = getShadow().filter((item) => item.employeeId === employee.id || item.mentorId === employee.id)
     const exits = getExits().filter((item) => item.employeeId === employee.id)
+    const somHistory = ensureSeed(SOM_KEY, SOM_SEED).filter((item) => {
+        if (item.employeeId && item.employeeId === employee.id) return true
+        const recorded = String(item.employee || '').trim().toLowerCase()
+        const name = employee.name.trim().toLowerCase()
+        return recorded.length > 2 && (recorded === name || name.includes(recorded) || recorded.includes(name))
+    })
     const visibleTabs = PROFILE_TABS.filter((item) => {
         if (item.id === 'onboarding') return onboarding.length > 0
         if (item.id === 'observation') return observations.length > 0
@@ -87,6 +96,8 @@ const EmployeeProfile = () => {
         leave: <MiniTable headers={['Type', 'From', 'To', 'Days', 'Status']} rows={leaves.map((item) => ({ key: item.id, cells: [item.leaveType, item.fromDate, item.toDate, item.days, <Badge key='s' value={item.status} />] }))} />,
         training: <MiniTable headers={['Title', 'Date', 'Status']} rows={training.map((item) => ({ key: item.id, cells: [item.title, item.startDate, <Badge key='s' value={item.status} />] }))} />,
         performance: <MiniTable headers={['Period', 'Rating', 'BSC', 'Audit', 'Reviewer']} rows={performance.map((item) => ({ key: item.id, cells: [item.period, item.rating, item.bsc, item.audit, item.reviewer] }))} />,
+        recognition: <MiniTable headers={['Month', 'Employee', 'Criteria', 'Score', 'Rated By']} rows={somHistory.map((item) => ({ key: item.id, cells: [item.month, item.employee, item.criteria, item.score, item.ratedBy] }))} />,
+        'hr-actions': <MiniTable headers={['Notice', 'Action', 'Date', 'Status']} rows={disciplinary.map((item) => ({ key: item.id, cells: [item.id, item.actionType, item.date, <Badge key='s' value={item.status} />] }))} />,
         payroll: payroll ? <MiniTable headers={['Month', 'Gross', 'Basic', 'PF', 'ESI', 'Net']} rows={[{ key: 'pay', cells: ['June 2026', formatInr(payroll.grossSalary), formatInr(payroll.basicSalary), formatInr(payroll.pfEmployee), formatInr(payroll.esiEmployee), formatInr(payroll.netSalary)] }]} /> : <p className='text-sm text-[#667085]'>No June 2026 statement row.</p>,
         advance: <MiniTable headers={['Request', 'Amount', 'Outstanding', 'Status']} rows={advances.map((item) => ({ key: item.id, cells: [item.id, formatInr(item.amount), formatInr(item.outstanding), <Badge key='s' value={item.status} />] }))} />,
         referral: <MiniTable headers={['Referral', 'Position', 'Amount', 'Status']} rows={referrals.map((item) => ({ key: item.id, cells: [item.id, item.position, formatInr(item.amount), <Badge key='s' value={item.status} />] }))} />,
@@ -94,7 +105,7 @@ const EmployeeProfile = () => {
         onboarding: <MiniTable headers={['Record', 'Joining', 'Completion', 'Status']} rows={onboarding.map((item) => ({ key: item.id, cells: [item.id, item.joiningDate, `${completionOf(item)}%`, <Badge key='s' value={item.overallStatus} />] }))} />,
         observation: <MiniTable headers={['Record', 'Template', 'Date', 'Status']} rows={observations.map((item) => ({ key: item.id, cells: [item.id, item.template, item.reviewDate, <Badge key='s' value={item.status} />] }))} />,
         shadow: <MiniTable headers={['Record', 'Start', 'End', 'Status']} rows={shadow.map((item) => ({ key: item.id, cells: [item.id, item.startDate, item.endDate, <Badge key='s' value={item.status} />] }))} />,
-        exit: <MiniTable headers={['Record', 'Last Working', 'Type', 'Status']} rows={exits.map((item) => ({ key: item.id, cells: [item.id, item.lastWorkingDate, item.exitType, <Badge key='s' value={item.status} />] }))} />,
+        exit: <ExitInterview exits={exits} employeeId={employee.id} />,
         activity: <MiniTable headers={['Event', 'Date', 'Detail']} rows={activity} />,
     }
 
@@ -116,6 +127,26 @@ const EmployeeProfile = () => {
             </div>
             <div className='bg-white rounded-2xl shadow-md p-4'>{content[tab]}</div>
         </section>
+    )
+}
+
+const EXIT_QUESTIONS = ['Reason for leaving', 'What worked well', 'What should improve', 'Would you recommend the school']
+
+const ExitInterview = ({ exits, employeeId }) => {
+    const record = exits[0]
+    const [answers, setAnswers] = useState(() => record?.exitInterviewResponse || {})
+    if (!record) return <p className='text-sm text-[#667085]'>No exit record for this employee yet. HR starts one from Exit Formalities.</p>
+    const submit = (event) => {
+        event.preventDefault()
+        saveExits(getExits().map((item) => item.id === record.id ? { ...item, exitInterviewResponse: answers, exitInterviewSubmittedBy: employeeId } : item))
+        toast.success('Exit interview response saved for HR closure.')
+    }
+    return (
+        <form onSubmit={submit} className='space-y-3'>
+            <p className='text-xs text-[#667085]'>Demo questions until the official QMIS exit-interview template is supplied. The same response appears on HR Exit Formalities.</p>
+            {EXIT_QUESTIONS.map((question) => <label key={question} className='block text-sm'>{question}<input className='mt-1 w-full border rounded-md px-2 py-2' value={answers[question] || ''} onChange={(event) => setAnswers({ ...answers, [question]: event.target.value })} /></label>)}
+            <button type='submit' className='bg-[#515DEF] text-white text-sm px-4 py-2 rounded-md cursor-pointer'>Submit response</button>
+        </form>
     )
 }
 

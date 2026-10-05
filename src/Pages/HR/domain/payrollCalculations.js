@@ -71,8 +71,57 @@ export function calculateEmployerContribution(pf, esi, otherBenefits = 0) {
     return nonNegative(pf.employer + esi.employer + otherBenefits)
 }
 
-export function calculateNetSalary({ payableGross, otherAllowance, advance, specialDeduction, pfEmployee, esiEmployee }) {
-    return nonNegative(payableGross + otherAllowance - advance - specialDeduction - pfEmployee - esiEmployee)
+export function calculateNetSalary({ payableGross, otherAllowance, advance, specialDeduction, pfEmployee, esiEmployee, disciplinaryDeduction = 0 }) {
+    return nonNegative(payableGross + otherAllowance - advance - specialDeduction - disciplinaryDeduction - pfEmployee - esiEmployee)
+}
+
+const PAYROLL_MONTH_INDEX = {
+    January: 1, February: 2, March: 3, April: 4, May: 5, June: 6,
+    July: 7, August: 8, September: 9, October: 10, November: 11, December: 12,
+}
+
+export function disciplinaryDaysFor(actionType) {
+    const type = String(actionType || '').trim().toLowerCase()
+    if (type === 'warning') return 0
+    if (type === 'memo') return 1
+    if (type === 'suspended' || type === 'suspension') return 2
+    return 0
+}
+
+const actionMonthYear = (value) => {
+    const parts = String(value || '').split('-').map((part) => Number(part))
+    if (parts.length !== 3 || parts.some((part) => Number.isNaN(part))) return null
+    if (parts[0] > 31) return { month: parts[1], year: parts[0] }
+    return { month: parts[1], year: parts[2] }
+}
+
+export function disciplinaryDeductionFor(actions, employeeId, month, year, perDay) {
+    const monthIndex = PAYROLL_MONTH_INDEX[month]
+    const seen = new Set()
+    const matched = (actions || []).filter((item) => {
+        if (!item || item.employeeId !== employeeId || item.status !== 'APPROVED') return false
+        if (item.id && seen.has(item.id)) return false
+        const parsed = actionMonthYear(item.date)
+        if (!parsed || parsed.month !== monthIndex || parsed.year !== Number(year)) return false
+        if (item.id) seen.add(item.id)
+        return true
+    })
+    const lines = matched.map((item) => {
+        const days = disciplinaryDaysFor(item.actionType)
+        return {
+            id: item.id,
+            actionType: item.actionType,
+            days,
+            dailyRate: money(perDay),
+            amount: money(perDay * days),
+        }
+    })
+    return {
+        amount: money(lines.reduce((sum, line) => sum + line.amount, 0)),
+        days: lines.reduce((sum, line) => sum + line.days, 0),
+        lines,
+        narration: lines.map((line) => `${line.actionType} — ${line.days} day${line.days === 1 ? '' : 's'}`).join('; ') || '—',
+    }
 }
 
 export function calculateCTC({ grossSalary, otherAllowance, employerContribution, otherBenefits = 0 }) {
@@ -86,7 +135,7 @@ export function calculateCTC({ grossSalary, otherAllowance, employerContribution
     }
 }
 
-export function buildSalaryRow({ employee, attendance, advances }) {
+export function buildSalaryRow({ employee, attendance, advances, disciplinaryActions = [], month, year }) {
     const grossSalary = nonNegative(employee.grossSalary)
     const otherAllowance = nonNegative(attendance?.otherAllowance ?? employee.otherAllowance)
     const specialDeduction = nonNegative(attendance?.specialDeduction ?? employee.specialDeduction)
@@ -99,11 +148,13 @@ export function buildSalaryRow({ employee, attendance, advances }) {
     const esi = calculateESI(payableGross)
     const advance = calculateSalaryAdvanceDeduction(advances, employee.id)
     const advanceRecord = (advances || []).find((item) => item.employeeId === employee.id && item.status === 'APPROVED')
+    const disciplinary = disciplinaryDeductionFor(disciplinaryActions, employee.id, month, year, attendanceDeduction.perDay)
     const netSalary = calculateNetSalary({
         payableGross,
         otherAllowance,
         advance,
         specialDeduction,
+        disciplinaryDeduction: disciplinary.amount,
         pfEmployee: pf.employee,
         esiEmployee: esi.employee,
     })
@@ -141,6 +192,12 @@ export function buildSalaryRow({ employee, attendance, advances }) {
         currentDeduction: advance,
         remainingAdvance: nonNegative((advanceRecord?.outstanding || 0) - advance),
         specialDeduction,
+        extraDeduction: specialDeduction,
+        permissionCount: lop.permission,
+        disciplinaryAction: disciplinary.narration,
+        disciplinaryDays: disciplinary.days,
+        disciplinaryLines: disciplinary.lines,
+        disciplinaryDeduction: disciplinary.amount,
         pfEmployee: pf.employee,
         esiEmployee: esi.employee,
         pfEmployer: pf.employer,
@@ -164,7 +221,7 @@ export function summarizePayroll(rows) {
             category,
             count: acc.count + 1,
             grossSalary: money(acc.grossSalary + row.grossSalary),
-            deductions: money(acc.deductions + row.lopDeduction + row.latePermissionDeduction + row.advance + row.specialDeduction + row.pfEmployee + row.esiEmployee),
+            deductions: money(acc.deductions + row.lopDeduction + row.latePermissionDeduction + row.advance + row.specialDeduction + row.disciplinaryDeduction + row.pfEmployee + row.esiEmployee),
             netSalary: money(acc.netSalary + row.netSalary),
             pfEmployer: money(acc.pfEmployer + row.pfEmployer),
             esiEmployer: money(acc.esiEmployer + row.esiEmployer),

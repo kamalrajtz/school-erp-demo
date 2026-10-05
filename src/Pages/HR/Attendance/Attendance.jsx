@@ -9,6 +9,12 @@ const Attendance = () => {
     const { filters, set } = useFilters({ search: '', status: '' })
     const filtered = rows.filter((row) => (!filters.status || row.status === filters.status) && matches(`${employeeName(row.employeeId)} ${row.employeeId}`, filters.search))
 
+    const changeStatus = (row, status) => {
+        if (row.status === status) return
+        saveAttendance(getAttendance().map((item) => item.id === row.id ? { ...item, previousStatus: item.status, status, statusChangedBy: 'HR', statusChangedAt: '24-09-2026' } : item))
+        toast.success(`${row.status} changed to ${status}. Payroll uses the saved status.`)
+    }
+
     const syncDemo = () => {
         const next = getAttendance().map((row) => row.status === 'Absent' ? { ...row, status: 'Present', punchIn: '08:05', punchOut: '16:40', checkIn: '08:05 AM', checkOut: '04:40 PM', source: 'ESSL Demo' } : row)
         saveAttendance(next)
@@ -25,7 +31,7 @@ const Attendance = () => {
             </PageIntro>
             <TableWrap title='Attendance' action={<PrimaryButton onClick={syncDemo}>Demo Sync</PrimaryButton>}>
                 <table className='w-full text-left'><thead className='bg-[#EDEEF5]'><tr>{['Employee', 'Date', 'Punch In', 'Punch Out', 'Status', 'Source'].map((h) => <th key={h} className={th}>{h}</th>)}</tr></thead>
-                    <tbody>{filtered.map((row) => <tr key={row.id} className='border-b border-[#f2f4f7]'><td className={td}>{employeeName(row.employeeId)}</td><td className={td}>{row.date}</td><td className={td}>{row.punchIn || '—'}</td><td className={td}>{row.punchOut || '—'}</td><td className={td}><Badge value={row.status} /></td><td className={td}>{row.source}</td></tr>)}</tbody>
+                    <tbody>{filtered.map((row) => <tr key={row.id} className='border-b border-[#f2f4f7]'><td className={td}>{employeeName(row.employeeId)}</td><td className={td}>{row.date}</td><td className={td}>{row.punchIn || '—'}</td><td className={td}>{row.punchOut || '—'}</td><td className={td}><select className='border rounded-md px-2 py-1 text-sm' value={row.status} onChange={(event) => changeStatus(row, event.target.value)}>{['Present', 'Late', 'Leave', 'Absent'].map((item) => <option key={item}>{item}</option>)}</select>{row.previousStatus && <div className='text-xs'>Was {row.previousStatus}</div>}</td><td className={td}>{row.source}</td></tr>)}</tbody>
                 </table>
             </TableWrap>
         </section>

@@ -61,6 +61,7 @@ const HRRoutes = () => {
             <Route path="/hr/payroll/salary-advance" element={<Payroll />} />
             <Route path="/hr/payroll/ctc" element={<Payroll />} />
             <Route path="/hr/payroll/referral-bonus" element={<Payroll />} />
+            <Route path="/hr/payroll/claim-compensation" element={<Payroll />} />
             <Route path="/hr/payroll/child-concession" element={<ChildConcession />} />
             <Route path="/hr/payroll" element={<Navigate to="/hr/payroll/salary-statement" replace />} />
             <Route path="/hr/disciplinary" element={<Disciplinary />} />

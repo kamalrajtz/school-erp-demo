@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Calendar, ChevronLeft, ChevronRight, Download } from 'lucide-react'
 import ExportModal from '../../../Common/CommonComponents/ExportModal'
+import { getIncidents } from '../../../Common/demoDomain/securityIncidents'
 
 const IncidentsList = () => {
 
@@ -109,16 +110,18 @@ const IncidentsList = () => {
                         </thead>
 
                         <tbody>
-                            <tr className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg">
-                                <td className="px-2 py-4 rounded-s-lg">INC001</td>
-                                <td className="px-2 py-4">Unauthorized Entry Attempt</td>
-                                <td className="px-2 py-4">Suresh Kumar</td>
-                                <td className="px-2 py-4">Main Gate</td>
-                                <td className="px-2 py-4">05-08-2025</td>
-                                <td className="px-2 py-4">Main Gate</td>
-                                <td className="px-2 py-4">Visitor attempted entry without approval.</td>
-                                <td className="px-2 py-4 text-center rounded-e-lg">High</td>
-                            </tr>
+                            {getIncidents().map((incident) => (
+                                <tr key={incident.id} className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg">
+                                    <td className="px-2 py-4 rounded-s-lg">{incident.id}</td>
+                                    <td className="px-2 py-4">{incident.incidentType}</td>
+                                    <td className="px-2 py-4">{incident.reportedBy}</td>
+                                    <td className="px-2 py-4">{incident.location}</td>
+                                    <td className="px-2 py-4">{incident.date}</td>
+                                    <td className="px-2 py-4">{incident.time}</td>
+                                    <td className="px-2 py-4">{incident.description}</td>
+                                    <td className="px-2 py-4 text-center rounded-e-lg">{incident.priority}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>

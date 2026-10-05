@@ -4,9 +4,11 @@ import { toast } from 'react-toastify'
 import { EMPLOYEE_CATEGORIES, DEPARTMENTS, EMPLOYEE_STATUSES } from '../domain/hrStatus'
 import { PAYROLL_MONTHS, PAYROLL_YEARS, PAYROLL_CONFIG } from '../domain/payrollConfig'
 import { formatInr } from '../domain/payrollCalculations'
+import { buildPayslipModel, payslipHtml } from './payslipFormat'
+import { downloadHtml, openPrintDocument } from '../../../Common/printDocument'
 import { ADVANCE_ACTORS } from '../domain/hrSeed'
 import { advanceNext, canMutate, employeeName, getAdvances, getEmployees, getPayrollBundle, getReferrals, nextId, payrollSummary, pushNotification, queueCommunication, referralAmountFor, salaryRows, saveAdvances, savePayrollBundle, saveReferrals, upsertPayslip } from '../domain/hrStore'
-import { Badge, Modal, PageIntro, PrimaryButton, printHtml, td, th, useHrTick } from '../components/HrUi'
+import { Badge, Modal, PageIntro, PrimaryButton, td, th, useHrTick } from '../components/HrUi'
 
 const moneyKeys = ['grossSalary', 'payableGross', 'basicSalary', 'lopDeduction', 'advance', 'pfEmployee', 'esiEmployee', 'netSalary']
 
@@ -55,10 +57,10 @@ const SalaryStatement = () => {
                 </div>
             ) : (
                 <div className='bg-white rounded-2xl shadow-md p-4 overflow-x-auto'>
-                    <table className='w-full text-left text-sm min-w-[1400px]'><thead className='bg-[#EDEEF5]'><tr>{['Employee', 'Category', 'Days', 'LOP', 'Gross', 'Basic', 'PF', 'ESI', 'Advance', 'Net', 'Payment', ''].map((h) => <th key={h} className={th}>{h}</th>)}</tr></thead>
-                        <tbody>{rows.map((row) => <tr key={row.employeeId} className='border-b'><td className={td}>{row.employeeName}<div className='text-xs'>{row.employeeId}</div></td><td className={td}>{row.category}</td><td className={td}>{row.workingDays}</td><td className={td}>{row.lopDays}</td>{moneyKeys.filter((key) => ['grossSalary', 'basicSalary', 'pfEmployee', 'esiEmployee', 'advance', 'netSalary'].includes(key)).map((key) => <td key={key} className={td}>{formatInr(row[key])}</td>)}<td className={td}><Badge value={row.paymentStatus} /><div className='text-xs'>{row.bankRef}</div></td><td className={td}>{row.paymentStatus !== 'Paid' && <button type='button' className='text-[#515DEF]' onClick={() => markPaid(row)}>Mark as Paid</button>}</td></tr>)}</tbody>
+                    <table className='w-full text-left text-sm min-w-[1600px]'><thead className='bg-[#EDEEF5]'><tr>{['Employee', 'Category', 'Days', 'LOP', 'Permission', 'Gross', 'Basic', 'PF', 'ESI', 'Advance', 'Extra Deduction', 'Disciplinary', 'Net', 'Payment', ''].map((h) => <th key={h} className={th}>{h}</th>)}</tr></thead>
+                        <tbody>{rows.map((row) => <tr key={row.employeeId} className='border-b'><td className={td}>{row.employeeName}<div className='text-xs'>{row.employeeId}</div></td><td className={td}>{row.category}</td><td className={td}>{row.workingDays}</td><td className={td}>{row.lopDays}</td><td className={td}>{row.permissionCount}</td>{moneyKeys.filter((key) => ['grossSalary', 'basicSalary', 'pfEmployee', 'esiEmployee', 'advance'].includes(key)).map((key) => <td key={key} className={td}>{formatInr(row[key])}</td>)}<td className={td}>{formatInr(row.extraDeduction)}</td><td className={td}>{formatInr(row.disciplinaryDeduction)}{(row.disciplinaryLines || []).map((line) => <div key={line.id || line.actionType} className='text-xs'>{line.actionType} — {line.days} day{line.days === 1 ? '' : 's'} · Daily Rate: {formatInr(line.dailyRate)} · Deduction: {formatInr(line.amount)}</div>)}</td><td className={td}>{formatInr(row.netSalary)}</td><td className={td}><Badge value={row.paymentStatus} /><div className='text-xs'>{row.bankRef}</div></td><td className={td}>{row.paymentStatus !== 'Paid' && <button type='button' className='text-[#515DEF]' onClick={() => markPaid(row)}>Mark as Paid</button>}</td></tr>)}</tbody>
                     </table>
-                    <p className='text-xs text-[#667085] mt-3'>Basic is {PAYROLL_CONFIG.basicSalaryPercentage}% of payable gross. Employee PF {PAYROLL_CONFIG.employeePfPercentage}%, ESI {PAYROLL_CONFIG.employeeEsiPercentage}% up to the wage ceiling. Production PF/ESI filing needs a backend.</p>
+                    <p className='text-xs text-[#667085] mt-3'>Basic is {PAYROLL_CONFIG.basicSalaryPercentage}% of payable gross. Permission is the permission count for the month and already reduces pay through the late/permission day rule. Extra deduction is the special deduction. Approved disciplinary actions use the daily rate (gross ÷ working days): Warning 0 days, Memo 1 day, Suspended 2 days. The same amount is deducted in net salary.</p>
                 </div>
             )}
         </section>
@@ -69,29 +71,49 @@ const Payslip = () => {
     const tick = useHrTick()
     const [month, setMonth] = useState('June')
     const [year, setYear] = useState(2026)
-    const slips = useMemo(() => salaryRows(month, year), [tick, month, year])
+    const slips = useMemo(() => salaryRows(month, year).map((row) => ({ ...row, month, year })), [tick, month, year])
     const [active, setActive] = useState(slips[0]?.employeeId)
     const slip = slips.find((item) => item.employeeId === active) || slips[0]
-    const html = slip ? `<h1>Payslip ${slip.month} ${slip.year}</h1><p>${slip.employeeName} · ${slip.employeeId}</p><p>${slip.department} · ${slip.designation}</p><p>Working days ${slip.workingDays} · Paid days ${slip.paidDays} · LOP ${slip.lopDays}</p><p>Gross ${formatInr(slip.grossSalary)} · Basic ${formatInr(slip.basicSalary)} · Allowances ${formatInr(slip.otherAllowance)}</p><p>PF ${formatInr(slip.pfEmployee)} · ESI ${formatInr(slip.esiEmployee)} · LOP deduction ${formatInr(slip.lopDeduction)} · Advance ${formatInr(slip.advance)}</p><h2>Net ${formatInr(slip.netSalary)}</h2>` : ''
+    const employee = slip ? getEmployees().find((item) => item.id === slip.employeeId) : null
+    const model = slip ? buildPayslipModel(slip, employee) : null
+    const html = model ? payslipHtml(model) : ''
     return (
         <section>
             <PageIntro text='Payslip figures are the same calculation as the salary statement for the selected month.'>
                 <div className='flex gap-2'>
                     <select className='border rounded-md px-2 py-2 text-sm' value={month} onChange={(e) => setMonth(e.target.value)}>{PAYROLL_MONTHS.map((item) => <option key={item}>{item}</option>)}</select>
-                    <select className='border rounded-md px-2 py-2 text-sm' value={active} onChange={(e) => setActive(e.target.value)}>{slips.map((item) => <option key={item.employeeId} value={item.employeeId}>{item.employeeName}</option>)}</select>
+                    <select className='border rounded-md px-2 py-2 text-sm' value={year} onChange={(e) => setYear(Number(e.target.value))}>{PAYROLL_YEARS.map((item) => <option key={item}>{item}</option>)}</select>
+                    <select className='border rounded-md px-2 py-2 text-sm' value={active || ''} onChange={(e) => setActive(e.target.value)}>{slips.map((item) => <option key={item.employeeId} value={item.employeeId}>{item.employeeName}</option>)}</select>
                 </div>
             </PageIntro>
-            {slip && <div className='bg-white rounded-2xl shadow-md p-4 mt-4'>
-                <h2 className='text-lg font-semibold'>School ERP Demo · {slip.month} {slip.year}</h2>
-                <p className='text-sm text-[#667085] mb-4'>{slip.employeeName} · {slip.employeeId} · {slip.designation}</p>
-                <div className='grid sm:grid-cols-2 gap-2 text-sm'>
-                    <p>Working days: {slip.workingDays}</p><p>Paid days: {slip.paidDays}</p><p>LOP: {slip.lopDays}</p>
-                    <p>Gross: {formatInr(slip.grossSalary)}</p><p>Basic: {formatInr(slip.basicSalary)}</p><p>Allowances: {formatInr(slip.otherAllowance)}</p>
-                    <p>PF: {formatInr(slip.pfEmployee)}</p><p>ESI: {formatInr(slip.esiEmployee)}</p><p>Advance: {formatInr(slip.advance)}</p>
-                    <p className='font-semibold'>Net: {formatInr(slip.netSalary)}</p>
+            {model && <div className='bg-white rounded-2xl shadow-md p-4 mt-4 text-sm'>
+                <p className='text-center text-xs text-[#667085]'>{model.school.contactLine}</p>
+                <h2 className='text-center text-xl font-semibold mt-3'>{model.school.name}</h2>
+                <p className='text-center'>{model.school.affiliation}</p>
+                <p className='text-center'>{model.school.addressLine}</p>
+                <h3 className='text-center font-semibold my-4'>PAY SLIP FOR THE MONTH OF {model.monthLabel.toUpperCase()}</h3>
+                <div className='grid sm:grid-cols-2 gap-2 border border-[#1E1E1E] p-3'>
+                    <p>Employee Name: {model.employeeName}</p><p>Employee Code: {model.employeeCode}</p>
+                    <p>Designation: {model.designation}</p><p>Monthly days {model.monthlyDays}</p>
+                    <p>PAN No. {model.pan}</p><p>No. of days worked {model.daysWorked}</p>
+                    <p>EPF - UAN NO. {model.uan}</p><p>Bank A/C. No. {model.bankAccount}</p>
+                    <p>ESI Insurance No. {model.esiNumber}</p><p>DOJ: {model.doj}</p>
                 </div>
-                <div className='flex gap-2 mt-4'>
-                    <PrimaryButton onClick={() => { upsertPayslip(slip, month, year); printHtml('Payslip', html) }}>Print / Download</PrimaryButton>
+                <div className='grid md:grid-cols-2 gap-4 mt-4'>
+                    <table className='w-full border-collapse'><thead><tr><th className='border px-2 py-2 text-left' colSpan={2}>Earnings</th></tr><tr><th className='border px-2 py-2 text-left'>Particulars</th><th className='border px-2 py-2 text-left'>Amount</th></tr></thead><tbody>{model.earnings.map((line) => <tr key={line.particular}><td className='border px-2 py-2'>{line.particular}</td><td className='border px-2 py-2'>{model.formatAmount(line.amount)}</td></tr>)}</tbody></table>
+                    <table className='w-full border-collapse'><thead><tr><th className='border px-2 py-2 text-left' colSpan={2}>Deductions</th></tr><tr><th className='border px-2 py-2 text-left'>Particulars</th><th className='border px-2 py-2 text-left'>Amount</th></tr></thead><tbody>{model.deductions.map((line) => <tr key={line.particular}><td className='border px-2 py-2'>{line.particular}{line.detail ? <div className='text-xs text-[#667085]'>{line.detail}</div> : null}</td><td className='border px-2 py-2'>{model.formatAmount(line.amount)}</td></tr>)}</tbody></table>
+                </div>
+                <div className='grid sm:grid-cols-2 gap-2 mt-3 font-medium'>
+                    <p>Gross Earnings {model.formatAmount(model.grossEarnings)}</p>
+                    <p>Total Deductions {model.formatAmount(model.totalDeductions)}</p>
+                    <p className='sm:col-span-2'>Net Amount {model.formatAmount(model.netAmount)}</p>
+                </div>
+                <div className='grid sm:grid-cols-3 gap-4 mt-10 text-sm'>
+                    <p>Manager - HR</p><p>Manager - Finance</p><p>Employee&apos;s Signature</p>
+                </div>
+                <div className='flex flex-wrap gap-2 mt-4'>
+                    <PrimaryButton onClick={() => { upsertPayslip(slip, month, year); openPrintDocument({ title: `Payslip ${model.monthLabel}`, body: html }) }}>Print Payslip</PrimaryButton>
+                    <PrimaryButton onClick={() => { upsertPayslip(slip, month, year); downloadHtml(`payslip-${slip.employeeId}-${month}-${year}.html`, `<!doctype html><html><head><meta charset="utf-8"><title>Payslip</title></head><body>${html}</body></html>`) }}>Export Payslip</PrimaryButton>
                     <PrimaryButton onClick={() => { queueCommunication({ channel: 'Email', subject: `Payslip ${slip.month}`, audience: slip.employeeName }); toast.success('Payslip queued as DEMO_SENT.') }}>Send demo email</PrimaryButton>
                 </div>
             </div>}
@@ -199,12 +221,50 @@ const ReferralBonus = () => {
     )
 }
 
+const CLAIM_KEY = 'school-erp-hr-claims-v1'
+
+const ClaimCompensation = () => {
+    const [rows, setRows] = useState(() => {
+        try { return JSON.parse(localStorage.getItem(CLAIM_KEY) || '[]') } catch { return [] }
+    })
+    const [form, setForm] = useState({ employee: 'Priya Sharma', claimType: 'Medical', amount: '', remarks: '' })
+    const save = (event) => {
+        event.preventDefault()
+        const next = [{ id: `CLM-${rows.length + 1}`, ...form, status: 'Submitted', amount: Number(form.amount) || 0 }, ...rows]
+        localStorage.setItem(CLAIM_KEY, JSON.stringify(next))
+        setRows(next)
+        toast.success('Claim saved for HR review. Official claim format is still pending.')
+    }
+    const review = (id) => {
+        const next = rows.map((row) => row.id === id ? { ...row, status: row.status === 'Submitted' ? 'HR Reviewed' : 'Closed' } : row)
+        localStorage.setItem(CLAIM_KEY, JSON.stringify(next))
+        setRows(next)
+    }
+    return (
+        <section className='space-y-4'>
+            <PageIntro text='Demo claim form. The official compensation format has not been supplied, so these fields are a working placeholder.' />
+            <form onSubmit={save} className='bg-white rounded-2xl shadow-md p-4 grid md:grid-cols-4 gap-3'>
+                <input className='border rounded-md px-2 py-2' value={form.employee} onChange={(e) => setForm({ ...form, employee: e.target.value })} placeholder='Employee' />
+                <select className='border rounded-md px-2 py-2' value={form.claimType} onChange={(e) => setForm({ ...form, claimType: e.target.value })}><option>Medical</option><option>Travel</option><option>Other</option></select>
+                <input className='border rounded-md px-2 py-2' value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} placeholder='Amount' />
+                <button className='bg-[#515DEF] text-white rounded-md text-sm cursor-pointer'>Submit claim</button>
+            </form>
+            <div className='bg-white rounded-2xl shadow-md p-4 overflow-x-auto'>
+                <table className='w-full text-sm text-left'><thead className='bg-[#EDEEF5]'><tr>{['Claim', 'Employee', 'Type', 'Amount', 'Status', ''].map((h) => <th key={h} className={th}>{h}</th>)}</tr></thead>
+                    <tbody>{rows.map((row) => <tr key={row.id} className='border-b'><td className={td}>{row.id}</td><td className={td}>{row.employee}</td><td className={td}>{row.claimType}</td><td className={td}>{formatInr(row.amount)}</td><td className={td}><Badge value={row.status} /></td><td className={td}><button type='button' className='text-[#515DEF]' onClick={() => review(row.id)}>Review</button></td></tr>)}</tbody>
+                </table>
+            </div>
+        </section>
+    )
+}
+
 const Payroll = () => {
     const path = useLocation().pathname
     if (path.includes('payslip')) return <Payslip />
     if (path.includes('salary-advance')) return <SalaryAdvance />
     if (path.includes('ctc')) return <CtcView />
     if (path.includes('referral')) return <ReferralBonus />
+    if (path.includes('claim-compensation')) return <ClaimCompensation />
     return <SalaryStatement />
 }
 

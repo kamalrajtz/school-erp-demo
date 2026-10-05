@@ -30,10 +30,20 @@ const ViewSupportTicket = () => {
     const [remarks, setRemarks] = useState(ticket?.remarks ?? '')
     const [outsideService, setOutsideService] = useState(Boolean(ticket?.outsideService))
     const [printerMaintenance, setPrinterMaintenance] = useState(Boolean(ticket?.printerMaintenance))
+    const [service, setService] = useState({
+        asset: ticket?.serviceAsset || '',
+        vendor: ticket?.serviceVendor || '',
+        sentDate: ticket?.sentDate || '',
+        expectedReturn: ticket?.expectedReturn || '',
+        returnedDate: ticket?.returnedDate || '',
+        cost: ticket?.serviceCost || '',
+        serviceStatus: ticket?.serviceStatus || 'Sent',
+        serviceRemarks: ticket?.serviceRemarks || '',
+    })
     const [saved, setSaved] = useState(false)
 
     const handleUpdateStatus = () => {
-        const next = updateTicket(id, { status, remarks, outsideService, printerMaintenance })
+        const next = updateTicket(id, { status, remarks, outsideService, printerMaintenance, ...service, serviceAsset: service.asset, serviceVendor: service.vendor, serviceCost: service.cost })
         setTicket(next)
         setSaved(true)
         toast.success('Ticket updated. The requester sees the same record.')
@@ -117,6 +127,14 @@ const ViewSupportTicket = () => {
                             <label className='flex items-center gap-2'><input type='checkbox' checked={outsideService} onChange={(event) => setOutsideService(event.target.checked)} /> Outside Service Maintenance</label>
                             <label className='flex items-center gap-2'><input type='checkbox' checked={printerMaintenance} onChange={(event) => setPrinterMaintenance(event.target.checked)} /> Printer Maintenance</label>
                         </div>
+                        {(outsideService || printerMaintenance) && (
+                            <div className='grid md:grid-cols-2 gap-3 mt-3 text-sm'>
+                                {[['asset', 'Asset / printer'], ['vendor', 'Vendor / service center'], ['sentDate', 'Sent date'], ['expectedReturn', 'Expected return'], ['returnedDate', 'Returned date'], ['cost', 'Cost'], ['serviceRemarks', 'Remarks']].map(([key, label]) => (
+                                    <label key={key} className='flex flex-col gap-1'>{label}<input className='border border-[#D9D9D9] rounded-md px-2 py-2' value={service[key]} onChange={(event) => setService({ ...service, [key]: event.target.value })} /></label>
+                                ))}
+                                <label className='flex flex-col gap-1'>Status<select className='border border-[#D9D9D9] rounded-md px-2 py-2' value={service.serviceStatus} onChange={(event) => setService({ ...service, serviceStatus: event.target.value })}><option>Sent</option><option>In Service</option><option>Returned</option></select></label>
+                            </div>
+                        )}
                         {ticket.history?.length > 0 && (
                             <ul className='mt-4 text-sm text-[#667085] space-y-1'>
                                 {ticket.history.map((event, index) => (

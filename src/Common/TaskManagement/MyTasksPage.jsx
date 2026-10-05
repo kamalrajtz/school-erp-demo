@@ -49,8 +49,9 @@ const MyTasksPage = () => {
         })
     }, [tasks, search, statusFilter, assignedByFilter])
 
-    const handleStatusSave = (taskId, status) => {
-        updateTaskStatus(taskId, status)
+    const showRemarks = pathname.includes('/housekeeping-manager/')
+    const handleStatusSave = (taskId, status, remark) => {
+        updateTaskStatus(taskId, status, remark)
         setRefreshKey((key) => key + 1)
     }
 
@@ -123,13 +124,14 @@ const MyTasksPage = () => {
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Priority</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Due Date</th>
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Status</th>
+                                {showRemarks && <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Remarks</th>}
                                 <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-e-lg'>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {filteredTasks.length === 0 ? (
                                 <tr>
-                                    <td colSpan={8} className='px-2 py-8 text-center text-[#808080]'>
+                                    <td colSpan={showRemarks ? 9 : 8} className='px-2 py-8 text-center text-[#808080]'>
                                         No tasks assigned to you.
                                     </td>
                                 </tr>
@@ -147,6 +149,7 @@ const MyTasksPage = () => {
                                             <td className='px-2 py-4'>
                                                 <span className={`px-2 py-1 rounded-lg text-xs font-semibold whitespace-nowrap ${statusBadgeColor[task.status] ?? ''}`}>{task.status}</span>
                                             </td>
+                                            {showRemarks && <td className='px-2 py-4 max-w-[180px]'>{task.remark || '—'}</td>}
                                             <td className='px-2 py-4 rounded-e-lg'>
                                                 {canUpdate ? (
                                                     <button
@@ -185,6 +188,7 @@ const MyTasksPage = () => {
                 open={Boolean(statusModalTask)}
                 task={statusModalTask}
                 onClose={() => setStatusModalTask(null)}
+                showRemark={showRemarks}
                 onSave={handleStatusSave}
             />
         </section>

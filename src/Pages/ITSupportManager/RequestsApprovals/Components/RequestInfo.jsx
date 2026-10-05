@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Upload } from 'lucide-react'
+import { downloadQuotationTemplate } from '../../../../Common/demoDomain/procurement'
 import {
     AUTO_FILLED,
     BUDGET_CATEGORIES,
@@ -15,7 +16,9 @@ const selectClass =
 const readOnlyClass =
     'text-sm font-normal text-[#1E1E1E] border border-[#D9D9D9] rounded-md px-2 py-3 w-full bg-[#F9F9F9]'
 
-const RequestInfo = () => (
+const RequestInfo = () => {
+    const [quotation, setQuotation] = useState(null)
+    return (
     <div className='space-y-8 lg:mt-8 mt-2'>
         <div>
             <h3 className='text-base font-semibold text-[#1E1E1E] mb-4'>Request Details</h3>
@@ -76,16 +79,23 @@ const RequestInfo = () => (
         <div>
             <h3 className='text-base font-semibold text-[#1E1E1E] mb-4'>Attachments</h3>
             <div className='grid grid-cols-1 sm:grid-cols-3 gap-6'>
-                {['Comparative Quotation Upload', 'Supporting Documents'].map((label) => (
-                    <div key={label} className='flex flex-col gap-y-2'>
-                        <span className='text-base font-medium text-[#1E1E1E]'>{label}</span>
-                        <label className='flex flex-col items-center justify-center gap-2 border border-dashed border-[#D9D9D9] rounded-md px-4 py-6 cursor-pointer hover:border-[#515DEF] transition-colors'>
-                            <Upload size={20} className='text-[#808080]' />
-                            <span className='text-xs text-[#667085]'>Click to upload</span>
-                            <input type="file" className='hidden' accept=".pdf,.doc,.docx,.xls,.xlsx,image/*" />
-                        </label>
-                    </div>
-                ))}
+                <div className='flex flex-col gap-y-2'>
+                    <span className='text-base font-medium text-[#1E1E1E]'>Comparative Quotation Upload</span>
+                    <button type='button' onClick={downloadQuotationTemplate} className='text-sm text-[#515DEF] underline text-left cursor-pointer'>Download demo comparative quotation template (CSV, not an official QMIS form)</button>
+                    <label className='flex flex-col items-center justify-center gap-2 border border-dashed border-[#D9D9D9] rounded-md px-4 py-6 cursor-pointer hover:border-[#515DEF] transition-colors'>
+                        <Upload size={20} className='text-[#808080]' />
+                        <span className='text-xs text-[#667085]'>{quotation ? `${quotation.name} · ${Math.ceil(quotation.size / 1024)} KB` : 'Click to upload or replace'}</span>
+                        <input type="file" className='hidden' accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,image/*" onChange={(event) => setQuotation(event.target.files?.[0] || null)} />
+                    </label>
+                </div>
+                <div className='flex flex-col gap-y-2'>
+                    <span className='text-base font-medium text-[#1E1E1E]'>Supporting Documents</span>
+                    <label className='flex flex-col items-center justify-center gap-2 border border-dashed border-[#D9D9D9] rounded-md px-4 py-6 cursor-pointer hover:border-[#515DEF] transition-colors'>
+                        <Upload size={20} className='text-[#808080]' />
+                        <span className='text-xs text-[#667085]'>Click to upload</span>
+                        <input type="file" className='hidden' accept=".pdf,.doc,.docx,.xls,.xlsx,image/*" />
+                    </label>
+                </div>
             </div>
         </div>
 
@@ -111,6 +121,7 @@ const RequestInfo = () => (
             </div>
         </div>
     </div>
-)
+    )
+}
 
 export default RequestInfo

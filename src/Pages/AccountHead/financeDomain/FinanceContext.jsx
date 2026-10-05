@@ -802,6 +802,49 @@ export const FinanceProvider = ({ children }) => {
         transactions,
     ])
 
+    const issueActivityFeeReceipt = useCallback((payload) => {
+        const student = payload.studentId ? getStudentById(payload.studentId) : null
+        const txnId = `ACT-${Date.now()}`
+        const receiptNo = generateReceiptNo(seq.current.rec)
+        seq.current.rec += 1
+        const receipt = {
+            id: `RCP-${txnId}`,
+            receiptNo,
+            studentId: student?.id || payload.participantName || 'Outsider',
+            academicYear: payload.academicYear || student?.academicYear || '',
+            className: student ? `${student.className}-${student.section}` : 'Activity',
+            admissionNo: student?.admissionNo || payload.participantName || '',
+            paymentDate: toIsoDate(new Date()),
+            feeHeads: [payload.activityName],
+            grossFee: Number(payload.gross) || 0,
+            concession: Number(payload.concession) || 0,
+            fine: 0,
+            amountPaid: Number(payload.payable) || 0,
+            paymentMode: 'Cash',
+            transactionReference: txnId,
+            balance: 0,
+            collectedBy: ACTOR_FINANCE_HEAD,
+            installmentIds: [],
+            reprintCount: 0,
+            lastReprintedAt: null,
+            lastReprintedBy: null,
+            reprintReason: null,
+            status: 'Issued',
+            communication: { email: false, whatsapp: false },
+            transactionId: txnId,
+            source: 'Activity Fee',
+        }
+        setReceipts((prev) => [receipt, ...prev])
+        appendAudit({
+            action: 'ACTIVITY_FEE_COLLECTED',
+            entity: 'Receipt',
+            entityId: receipt.id,
+            newValue: receiptNo,
+            reason: payload.activityName,
+        })
+        return { success: true, receipt }
+    }, [appendAudit, getStudentById])
+
     const value = useMemo(() => ({
         students,
         feeCategories,
@@ -853,6 +896,7 @@ export const FinanceProvider = ({ children }) => {
             calculateStudentOutstanding(getInstallmentsForStudent(studentId, academicYear))
         ),
         collectFeePayment,
+        issueActivityFeeReceipt,
         settleCheque,
         waiveFine,
         generatePaymentLink,
@@ -890,6 +934,7 @@ export const FinanceProvider = ({ children }) => {
         cashBookEntries,
         cheques,
         collectFeePayment,
+        issueActivityFeeReceipt,
         concessions,
         dashboardMetrics,
         dayBookEntries,

@@ -57,6 +57,8 @@ export const PROFILE_TABS = [
     { id: 'leave', label: 'Leave' },
     { id: 'training', label: 'Training' },
     { id: 'performance', label: 'Performance' },
+    { id: 'recognition', label: 'Performance / Recognition' },
+    { id: 'hr-actions', label: 'HR Actions' },
     { id: 'payroll', label: 'Payroll' },
     { id: 'advance', label: 'Salary Advance' },
     { id: 'referral', label: 'Referral' },

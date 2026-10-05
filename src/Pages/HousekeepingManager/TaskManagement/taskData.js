@@ -4,6 +4,7 @@ export const TASKS = [
         title: 'Classroom Block A — Deep Clean',
         description: 'Full deep cleaning of all classrooms in Block A including desks, floors, and windows.',
         assignedTo: 'Ramesh Kumar',
+        assignedBy: 'Shalini',
         priority: 'High',
         assignedDate: '10-06-2026',
         dueDate: '10-06-2026',

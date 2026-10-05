@@ -163,7 +163,36 @@ const DEFAULT_AUDIT_SCHEDULES = [
         endTime: '12:00',
         colorIdx: 2,
     }),
+    buildSchedule({
+        scheduleId: 'SCH-PA-REC-WEEK',
+        auditId: 'AUD-PA-REC-WEEK',
+        auditName: 'Weekly Gate Safety Walk',
+        department: 'Security',
+        frequency: 'WEEKLY',
+        assignedDate: '01-09-2026',
+        dueDate: '01-09-2026',
+        assignedBy: 'Process Audit Manager',
+        status: 'Scheduled',
+        colorIdx: 3,
+    }),
+    buildSchedule({
+        scheduleId: 'SCH-PA-REC-MONTH',
+        auditId: 'AUD-PA-REC-MONTH',
+        auditName: 'Monthly Fee Register Audit',
+        department: 'Finance',
+        frequency: 'MONTHLY',
+        assignedDate: '01-06-2026',
+        dueDate: '15-06-2026',
+        assignedBy: 'Process Audit Manager',
+        status: 'Scheduled',
+        colorIdx: 4,
+    }),
 ]
+
+const RECURRENCE_META = {
+    'SCH-PA-REC-WEEK': { isRecurring: true, recurrenceType: 'Weekly', dayOfWeek: 1, startDate: '01-09-2026', endDate: '', scheduleKind: 'Recurring' },
+    'SCH-PA-REC-MONTH': { isRecurring: true, recurrenceType: 'Monthly', dayOfMonth: 15, startDate: '01-06-2026', endDate: '', scheduleKind: 'Recurring' },
+}
 
 const auditIdByName = () =>
     Object.fromEntries(getMyAudits().map((audit) => [audit.auditName, audit.auditId]))
@@ -172,11 +201,74 @@ const defaultAuditIdByScheduleId = Object.fromEntries(
     DEFAULT_AUDIT_SCHEDULES.map((item) => [item.scheduleId, item.auditId]),
 )
 
+const formatDisplayDate = (date) => {
+    const day = String(date.getDate()).padStart(2, '0')
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    return `${day}-${month}-${date.getFullYear()}`
+}
+
+const startOfDay = (date) => new Date(date.getFullYear(), date.getMonth(), date.getDate())
+
+const mostRecentDue = (schedule, today) => {
+    const start = schedule.startDate ? startOfDay(parseDisplayDate(schedule.startDate)) : startOfDay(today)
+    const end = schedule.endDate ? startOfDay(parseDisplayDate(schedule.endDate)) : null
+    let due = null
+    if (schedule.recurrenceType === 'Weekly') {
+        const day = Number(schedule.dayOfWeek)
+        due = startOfDay(today)
+        due.setDate(due.getDate() - ((due.getDay() - day + 7) % 7))
+    }
+    if (schedule.recurrenceType === 'Monthly') {
+        const day = Number(schedule.dayOfMonth)
+        const year = today.getFullYear()
+        const month = today.getMonth()
+        due = new Date(year, month, day)
+        if (due.getMonth() !== month) due = new Date(year, month + 1, 0)
+        if (startOfDay(due) > startOfDay(today)) due = new Date(year, month - 1, day)
+    }
+    if (!due) return null
+    due = startOfDay(due)
+    if (due < start || due > startOfDay(today)) return null
+    if (end && due > end) return null
+    return due
+}
+
+export const scheduleKind = (item) => {
+    if (item.parentScheduleId) return 'Occurrence'
+    if (item.isRecurring) return 'Recurring'
+    return 'One-time'
+}
+
+const materializeOccurrences = (records) => {
+    const today = startOfDay(new Date())
+    const additions = []
+    records.filter((item) => item.isRecurring).forEach((schedule) => {
+        const due = mostRecentDue(schedule, today)
+        if (!due) return
+        const id = `${schedule.scheduleId}-${toDateKey(due)}`
+        if (records.some((item) => item.id === id) || additions.some((item) => item.id === id)) return
+        const display = formatDisplayDate(due)
+        additions.push({
+            ...schedule,
+            id,
+            scheduleId: id,
+            parentScheduleId: schedule.scheduleId,
+            isRecurring: false,
+            assignedDate: display,
+            dueDate: display,
+            status: 'Scheduled',
+        })
+    })
+    return additions.length ? [...records, ...additions] : records
+}
+
 export const migrateSchedules = (records) => {
     const byName = auditIdByName()
     return records.map((item) => ({
+        ...RECURRENCE_META[item.scheduleId],
         ...item,
         auditId: item.auditId ?? byName[item.auditName] ?? defaultAuditIdByScheduleId[item.scheduleId] ?? '',
+        isRecurring: item.isRecurring ?? RECURRENCE_META[item.scheduleId]?.isRecurring ?? false,
     }))
 }
 
@@ -184,15 +276,50 @@ export const saveAuditSchedules = (records) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(records))
 }
 
+export const addAuditSchedule = (payload) => {
+    const current = getAuditSchedules().filter((item) => !item.parentScheduleId)
+    const scheduleId = `SCH-PA-${Date.now()}`
+    const record = buildSchedule({
+        scheduleId,
+        auditId: payload.auditId || `AUD-${Date.now()}`,
+        auditName: payload.auditName,
+        department: payload.department || 'Academic',
+        frequency: payload.recurrenceType === 'Weekly' ? 'WEEKLY' : payload.recurrenceType === 'Monthly' ? 'MONTHLY' : 'Ad-hoc',
+        assignedDate: payload.startDate,
+        dueDate: payload.startDate,
+        assignedBy: payload.assignedBy || 'Process Audit Manager',
+        status: 'Scheduled',
+    })
+    const next = [...current, {
+        ...record,
+        isRecurring: payload.isRecurring,
+        recurrenceType: payload.isRecurring ? payload.recurrenceType : '',
+        dayOfWeek: payload.dayOfWeek,
+        dayOfMonth: payload.dayOfMonth,
+        startDate: payload.startDate,
+        endDate: payload.endDate || '',
+    }]
+    const materialized = materializeOccurrences(next)
+    saveAuditSchedules(materialized)
+    return materialized
+}
+
 export const getAuditSchedules = () => {
+    let records = DEFAULT_AUDIT_SCHEDULES
     try {
         const stored = localStorage.getItem(STORAGE_KEY)
-        if (stored) return migrateSchedules(JSON.parse(stored))
+        if (stored) records = JSON.parse(stored)
     } catch {
-        /* ignore */
+        records = DEFAULT_AUDIT_SCHEDULES
     }
-    saveAuditSchedules(DEFAULT_AUDIT_SCHEDULES)
-    return DEFAULT_AUDIT_SCHEDULES
+    records = migrateSchedules(records)
+    const ids = new Set(records.map((item) => item.scheduleId))
+    const missing = DEFAULT_AUDIT_SCHEDULES.filter((item) => !ids.has(item.scheduleId))
+    if (missing.length) records = [...records, ...missing]
+    records = migrateSchedules(records)
+    const materialized = materializeOccurrences(records)
+    if (materialized.length !== records.length || missing.length) saveAuditSchedules(materialized)
+    return materialized
 }
 
 export const schedulesToCalendarEvents = (schedules) =>

@@ -47,8 +47,12 @@ const LeaveManagement = () => {
             </PageIntro>
             {policiesMode ? (
                 <TableWrap title='Leave Policies' action={<PrimaryButton onClick={() => setForm({ name: '', category: 'Academics', leaveType: 'Casual Leave', entitlement: 12, maxConsecutive: 3, carryForward: false })}>Add Policy</PrimaryButton>}>
-                    <table className='w-full text-left'><thead className='bg-[#EDEEF5]'><tr>{['Policy', 'Category', 'Type', 'Entitlement', 'Carry Forward', 'Max Days'].map((h) => <th key={h} className={th}>{h}</th>)}</tr></thead>
-                        <tbody>{bundle.policies.map((row) => <tr key={row.id} className='border-b border-[#f2f4f7]'><td className={td}>{row.name}</td><td className={td}>{row.category}</td><td className={td}>{row.leaveType}</td><td className={td}>{row.entitlement}</td><td className={td}>{row.carryForward ? 'Yes' : 'No'}</td><td className={td}>{row.maxConsecutive}</td></tr>)}</tbody>
+                    <table className='w-full text-left'><thead className='bg-[#EDEEF5]'><tr>{['Policy', 'Category', 'Type', 'Year entitlement', 'Term 1 / 2 / 3', 'Used', 'Balance', 'Carry Forward', 'Max Days'].map((h) => <th key={h} className={th}>{h}</th>)}</tr></thead>
+                        <tbody>{bundle.policies.map((row) => {
+                            const term = Math.floor(Number(row.entitlement || 0) / 3)
+                            const used = bundle.requests.filter((item) => item.leaveType === row.leaveType && item.status === 'Approved').reduce((sum, item) => sum + (Number(item.days) || 0), 0)
+                            return <tr key={row.id} className='border-b border-[#f2f4f7]'><td className={td}>{row.name}</td><td className={td}>{row.category}</td><td className={td}>{row.leaveType}</td><td className={td}>{row.entitlement}</td><td className={td}>{term} / {term} / {Number(row.entitlement) - (term * 2)}</td><td className={td}>{used}</td><td className={td}>{Math.max(0, Number(row.entitlement) - used)}</td><td className={td}>{row.carryForward ? 'Yes' : 'No'}</td><td className={td}>{row.maxConsecutive}</td></tr>
+                        })}</tbody>
                     </table>
                 </TableWrap>
             ) : (

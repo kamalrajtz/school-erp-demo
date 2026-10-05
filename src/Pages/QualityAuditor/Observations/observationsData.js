@@ -319,17 +319,21 @@ export const generateObservationId = () => {
 }
 
 export const emptyObservationForm = () => ({
-    auditReference: '',
-    department: '',
-    location: '',
-    category: '',
+    auditReference: 'NA',
+    department: 'NA',
+    location: 'NA',
+    category: 'NA',
+    grade: 'NA',
+    section: 'NA',
+    subject: 'NA',
+    rating: 'NA',
     title: '',
     description: '',
     priority: 'Medium',
     severity: 'Medium',
-    responsibleDepartment: '',
-    responsiblePerson: '',
-    evidence: '',
+    responsibleDepartment: 'NA',
+    responsiblePerson: 'NA',
+    evidence: 'NA',
     dueDate: '',
     status: 'Open',
 })

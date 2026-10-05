@@ -11,5 +11,5 @@ export const PAYROLL_CONFIG = {
     defaultWorkingDays: 26,
 }
 
-export const PAYROLL_MONTHS = ['April', 'May', 'June', 'July', 'August', 'September']
-export const PAYROLL_YEARS = [2026]
+export const PAYROLL_MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+export const PAYROLL_YEARS = [2025, 2026]

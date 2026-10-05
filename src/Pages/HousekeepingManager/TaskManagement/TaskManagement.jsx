@@ -11,8 +11,24 @@ import { TASKS, statusBadgeColor } from './taskData'
 
 const TaskManagement = () => {
 
-    const [fromDate, setFromDate] = useState(new Date());
-    const [toDate, setToDate] = useState(new Date());
+    const [fromDate, setFromDate] = useState(null);
+    const [toDate, setToDate] = useState(null);
+    const [search, setSearch] = useState('');
+    const [status, setStatus] = useState('');
+    const parseDmy = (value) => {
+        const [day, month, year] = String(value || '').split('-').map(Number)
+        return year ? new Date(year, month - 1, day) : null
+    }
+    const visibleTasks = TASKS.filter((task) => {
+        const query = search.trim().toLowerCase()
+        const date = parseDmy(task.assignedDate)
+        const start = fromDate ? new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate()) : null
+        const end = toDate ? new Date(toDate.getFullYear(), toDate.getMonth(), toDate.getDate()) : null
+        return (!query || `${task.taskId} ${task.title} ${task.assignedTo} ${task.assignedBy || ''}`.toLowerCase().includes(query))
+            && (!status || task.status === status)
+            && (!start || (date && date >= start))
+            && (!end || (date && date <= end))
+    })
     const [exportModal, setExportModal] = useState(false);
     const [editRequestModal, setEditRequestModal] = useState(false);
     const [deleteRequestModal, setDeleteRequestModal] = useState(false);
@@ -21,7 +37,7 @@ const TaskManagement = () => {
         <section>
             <div className='bg-white rounded-2xl shadow-md p-4'>
                 <div className='flex justify-between md:items-center sm:items-stretch md:flex-row sm:flex-col flex-col gap-y-4'>
-                    <button className='bg-[#515DEF] text-white uppercase text-sm px-6 py-1.5 border border-[#515DEF] rounded-lg hover:opacity-90 transition-all duration-200 cursor-pointer'>Clear Filters</button>
+                    <button type='button' onClick={() => { setSearch(''); setStatus(''); setFromDate(null); setToDate(null) }} className='bg-[#515DEF] text-white uppercase text-sm px-6 py-1.5 border border-[#515DEF] rounded-lg hover:opacity-90 transition-all duration-200 cursor-pointer'>Clear Filters</button>
                     <select name="" id="" className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full md:max-w-xs sm:max-w-full'>
                         <option value="">From Beginning</option>
                     </select>
@@ -29,12 +45,13 @@ const TaskManagement = () => {
                 <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:mt-8 mt-2'>
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor="search" className='text-base font-medium text-[#808080]'>Search</label>
-                        <input type="text" className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full' />
+                        <input type="text" value={search} onChange={(event) => setSearch(event.target.value)} className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full' />
                     </div>
                     <div className='flex flex-col gap-y-2'>
                         <label htmlFor="status" className='text-base font-medium text-[#808080]'>Status</label>
-                        <select name="" id="" className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full'>
+                        <select value={status} onChange={(event) => setStatus(event.target.value)} className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full'>
                             <option value="">All</option>
+                            {['In Progress', 'Completed', 'In Complete'].map((item) => <option key={item}>{item}</option>)}
                         </select>
                     </div>
                     <div className='flex flex-col gap-y-2'>
@@ -120,7 +137,7 @@ const TaskManagement = () => {
                         </thead>
 
                         <tbody>
-                            {TASKS.map((task) => (
+                            {visibleTasks.map((task) => (
                                 <tr key={task.taskId} className="border-b text-[#667085] border-[#f2f4f7] hover:bg-[#f2f4f7] rounded-lg">
                                     <td className="px-2 py-4 rounded-s-lg">{task.taskId}</td>
                                     <td className="px-2 py-4">{task.title}</td>

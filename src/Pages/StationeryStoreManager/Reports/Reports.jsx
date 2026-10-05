@@ -38,6 +38,8 @@ const Reports = () => {
     const [toDate, setToDate] = useState(new Date())
     const [exportModal, setExportModal] = useState(false)
     const [activeReport, setActiveReport] = useState('All')
+    const [search, setSearch] = useState('')
+    const matches = (row) => !search.trim() || Object.values(row).join(' ').toLowerCase().includes(search.trim().toLowerCase())
 
     const show = (type) => activeReport === 'All' || activeReport === type
 
@@ -68,10 +70,14 @@ const Reports = () => {
 
             <div className='bg-white rounded-2xl shadow-md p-4'>
                 <div className='flex justify-between md:items-center sm:items-stretch md:flex-row sm:flex-col flex-col gap-y-4'>
-                    <button className='bg-[#515DEF] text-white uppercase text-sm px-6 py-2 border border-[#515DEF] rounded-lg hover:opacity-90 transition-all duration-200 cursor-pointer'>Clear Filters</button>
+                    <button type='button' onClick={() => setSearch('')} className='bg-[#515DEF] text-white uppercase text-sm px-6 py-2 border border-[#515DEF] rounded-lg hover:opacity-90 transition-all duration-200 cursor-pointer'>Clear Filters</button>
                     <select className='text-sm font-normal text-[#808080] border border-[#D9D9D9] rounded-md px-2 py-2 w-full md:max-w-xs'>
                         <option value="">From Beginning</option>
                     </select>
+                </div>
+                <div className='mt-4'>
+                    <label className='text-base font-medium text-[#808080]'>Search</label>
+                    <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder='Item, product, invoice, department' className='mt-2 w-full md:max-w-md text-sm border border-[#D9D9D9] rounded-md px-3 py-2' />
                 </div>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4 lg:mt-6 mt-2'>
                     <div className='flex flex-col gap-y-2'>
@@ -104,7 +110,7 @@ const Reports = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {STOCK_MOVEMENT_REPORT.map((row) => (
+                            {STOCK_MOVEMENT_REPORT.filter(matches).map((row) => (
                                 <tr key={row.item} className="border-b border-[#f2f4f7] hover:bg-[#f2f4f7]">
                                     <td className={`${tdClass} font-medium text-[#1E1E1E] rounded-s-lg`}>{row.item}</td>
                                     <td className={tdClass}>{row.openingStock}</td>
@@ -130,7 +136,7 @@ const Reports = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {CONSUMPTION_REPORT.map((row) => (
+                            {CONSUMPTION_REPORT.filter(matches).map((row) => (
                                 <tr key={`${row.item}-${row.department}`} className="border-b border-[#f2f4f7] hover:bg-[#f2f4f7]">
                                     <td className={`${tdClass} font-medium text-[#1E1E1E] rounded-s-lg`}>{row.item}</td>
                                     <td className={tdClass}>{row.quantityUsed}</td>
@@ -148,16 +154,20 @@ const Reports = () => {
                     <table className="w-full text-sm text-left">
                         <thead className="text-xs bg-[#EDEEF5] whitespace-nowrap rounded-lg">
                             <tr>
-                                <th className={`${thClass} rounded-s-lg`}>Invoice No</th>
+                                <th className={`${thClass} rounded-s-lg`}>S.No</th>
+                                <th className={thClass}>Invoice No</th>
+                                <th className={thClass}>Product Name</th>
                                 <th className={thClass}>Vendor</th>
                                 <th className={thClass}>Amount</th>
                                 <th className={`${thClass} rounded-e-lg`}>Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {EXPENSE_REPORT.map((row) => (
+                            {EXPENSE_REPORT.filter(matches).map((row, index) => (
                                 <tr key={row.invoiceNo} className="border-b border-[#f2f4f7] hover:bg-[#f2f4f7]">
-                                    <td className={`${tdClass} font-medium text-[#1E1E1E] rounded-s-lg`}>{row.invoiceNo}</td>
+                                    <td className={`${tdClass} rounded-s-lg`}>{index + 1}</td>
+                                    <td className={`${tdClass} font-medium text-[#1E1E1E]`}>{row.invoiceNo}</td>
+                                    <td className={tdClass}>{row.productName}</td>
                                     <td className={tdClass}>{row.vendor}</td>
                                     <td className={tdClass}>{row.amount}</td>
                                     <td className={`${tdClass} rounded-e-lg`}>{row.date}</td>
@@ -179,7 +189,7 @@ const Reports = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {LOW_STOCK_REPORT.map((row) => (
+                            {LOW_STOCK_REPORT.filter(matches).map((row) => (
                                 <tr key={row.item} className="border-b border-[#f2f4f7] hover:bg-[#f2f4f7]">
                                     <td className={`${tdClass} font-medium text-[#1E1E1E] rounded-s-lg`}>{row.item}</td>
                                     <td className={`${tdClass} ${row.currentQty <= row.reorderLevel ? 'text-[#FF5722] font-medium' : ''}`}>{row.currentQty}</td>

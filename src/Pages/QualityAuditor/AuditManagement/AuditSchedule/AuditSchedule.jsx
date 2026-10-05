@@ -7,9 +7,11 @@ import ExportModal from '../../../../Common/CommonComponents/ExportModal'
 import AuditScheduleCalendar from './AuditScheduleCalendar'
 import {
     getAuditSchedules,
+    addAuditSchedule,
     DEPARTMENTS,
     FREQUENCIES,
     SCHEDULE_STATUSES,
+    scheduleKind,
     statusBadgeColor,
 } from './auditScheduleData'
 
@@ -20,6 +22,27 @@ const AuditSchedule = () => {
     const [fromDate, setFromDate] = useState(new Date())
     const [toDate, setToDate] = useState(new Date())
     const [exportModal, setExportModal] = useState(false)
+    const [recurring, setRecurring] = useState(false)
+    const [recurrenceType, setRecurrenceType] = useState('Weekly')
+
+    const createSchedule = (event) => {
+        event.preventDefault()
+        const data = new FormData(event.currentTarget)
+        const iso = String(data.get('startDate') || '')
+        const [year, month, day] = iso.split('-')
+        addAuditSchedule({
+            auditName: data.get('auditName'),
+            department: data.get('department'),
+            isRecurring: data.get('isRecurring') === 'yes',
+            recurrenceType: data.get('recurrenceType'),
+            dayOfWeek: Number(data.get('dayOfWeek')),
+            dayOfMonth: Number(data.get('dayOfMonth')),
+            startDate: day && month && year ? `${day}-${month}-${year}` : iso,
+            endDate: '',
+        })
+        setSchedules(getAuditSchedules())
+        event.currentTarget.reset()
+    }
 
     useEffect(() => {
         setSchedules(getAuditSchedules())
@@ -133,6 +156,30 @@ const AuditSchedule = () => {
                 )}
             </div>
 
+            <form onSubmit={createSchedule} className='bg-white rounded-2xl shadow-md p-4 mt-8 grid md:grid-cols-3 gap-3'>
+                <h2 className='md:col-span-3 text-lg font-medium'>Create schedule</h2>
+                <input name='auditName' required placeholder='Schedule name' className='border rounded-md px-2 py-2 text-sm' />
+                <select name='department' className='border rounded-md px-2 py-2 text-sm'>{DEPARTMENTS.map((item) => <option key={item}>{item}</option>)}</select>
+                <input name='startDate' type='date' required className='border rounded-md px-2 py-2 text-sm' />
+                <select name='isRecurring' value={recurring ? 'yes' : 'no'} onChange={(event) => setRecurring(event.target.value === 'yes')} className='border rounded-md px-2 py-2 text-sm'>
+                    <option value='no'>One-time</option>
+                    <option value='yes'>Recurring</option>
+                </select>
+                {recurring && (
+                    <select name='recurrenceType' value={recurrenceType} onChange={(event) => setRecurrenceType(event.target.value)} className='border rounded-md px-2 py-2 text-sm'>
+                        <option>Weekly</option>
+                        <option>Monthly</option>
+                    </select>
+                )}
+                {recurring && recurrenceType === 'Weekly' && (
+                    <select name='dayOfWeek' className='border rounded-md px-2 py-2 text-sm'>
+                        {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day, index) => <option key={day} value={index}>{day}</option>)}
+                    </select>
+                )}
+                {recurring && recurrenceType === 'Monthly' && <input name='dayOfMonth' type='number' min='1' max='31' required placeholder='Day of month' className='border rounded-md px-2 py-2 text-sm' />}
+                <button type='submit' className='bg-[#515DEF] text-white text-sm rounded-md cursor-pointer'>Save schedule</button>
+            </form>
+
             {viewMode === 'list' ? (
                 <>
                     <div className='bg-white rounded-2xl shadow-md p-4 mt-8'>
@@ -162,6 +209,7 @@ const AuditSchedule = () => {
                                         <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase rounded-s-lg'>Schedule ID</th>
                                         <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Audit ID</th>
                                         <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Audit Name</th>
+                                        <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Kind</th>
                                         <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Assigned Date</th>
                                         <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Due Date</th>
                                         <th className='px-2 py-3.5 text-[#0C1E5B] font-medium uppercase'>Assigned By</th>
@@ -174,6 +222,7 @@ const AuditSchedule = () => {
                                             <td className='px-2 py-4 font-medium text-[#1E1E1E] rounded-s-lg'>{record.scheduleId}</td>
                                             <td className='px-2 py-4 font-medium text-[#515DEF] whitespace-nowrap'>{record.auditId}</td>
                                             <td className='px-2 py-4 font-medium text-[#1E1E1E] max-w-[180px] truncate' title={record.auditName}>{record.auditName}</td>
+                                            <td className='px-2 py-4'>{scheduleKind(record)}</td>
                                             <td className='px-2 py-4 whitespace-nowrap'>{record.assignedDate}</td>
                                             <td className='px-2 py-4 whitespace-nowrap'>{record.dueDate}</td>
                                             <td className='px-2 py-4'>{record.assignedBy}</td>

@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { X } from 'lucide-react'
 import { getNextStatusOptions, statusBadgeColor, TASK_STATUSES } from '../taskManagementConfig'
 
-const UpdateTaskStatusModal = ({ open, task, onClose, onSave }) => {
+const UpdateTaskStatusModal = ({ open, task, onClose, onSave, showRemark = false }) => {
     const [status, setStatus] = useState(task?.status ?? 'Pending')
+    const [remark, setRemark] = useState(task?.remark ?? '')
 
     useEffect(() => {
         if (task?.status) setStatus(task.status)
+        setRemark(task?.remark ?? '')
     }, [task])
 
     if (!open || !task) return null
@@ -17,7 +19,7 @@ const UpdateTaskStatusModal = ({ open, task, onClose, onSave }) => {
         : TASK_STATUSES.filter((item) => item !== task.status)
 
     const handleSave = () => {
-        onSave(task.id, status)
+        onSave(task.id, status, remark)
         onClose()
     }
 
@@ -56,6 +58,12 @@ const UpdateTaskStatusModal = ({ open, task, onClose, onSave }) => {
                             ))}
                         </select>
                     </div>
+                    {showRemark && (
+                        <div className='flex flex-col gap-y-2'>
+                            <label htmlFor='task-remark' className='text-base font-medium text-[#1E1E1E]'>Remarks</label>
+                            <textarea id='task-remark' value={remark} onChange={(e) => setRemark(e.target.value)} rows={3} className='text-sm border border-[#D9D9D9] rounded-md px-2 py-2 w-full' />
+                        </div>
+                    )}
                 </div>
                 <div className='flex justify-end gap-3 px-6 py-4 border-t border-[#EDEEF5]'>
                     <button
@@ -68,7 +76,7 @@ const UpdateTaskStatusModal = ({ open, task, onClose, onSave }) => {
                     <button
                         type='button'
                         onClick={handleSave}
-                        disabled={status === task.status}
+                        disabled={!showRemark && status === task.status}
                         className='bg-[#515DEF] text-white text-sm px-6 py-2 rounded-md border border-[#515DEF] hover:opacity-90 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
                     >
                         Update Status

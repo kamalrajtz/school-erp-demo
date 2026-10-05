@@ -27,6 +27,7 @@ import { formatCurrency } from '../financeDomain/financeHelpers'
 import ConcessionsWaiversTab from './Components/ConcessionsWaiversTab'
 import DefaultersTab from './Components/DefaultersTab'
 import ReceiptManagementTab from './Components/ReceiptManagementTab'
+import ActivityFeesTab from './Components/ActivityFeesTab'
 import {
     ACADEMIC_YEARS,
     FEE_TABS,
@@ -420,6 +421,7 @@ const FeesManagement = () => {
             {activeTab === 'receipt-management' && (
                 <ReceiptManagementTab exportModal={exportModal} setExportModal={setExportModal} />
             )}
+            {activeTab === 'activity-fees' && <ActivityFeesTab />}
 
             {defineFeeModal && (
                 <DefineFeeStructureModal

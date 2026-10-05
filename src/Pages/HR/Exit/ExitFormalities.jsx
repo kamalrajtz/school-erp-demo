@@ -32,7 +32,8 @@ const ExitFormalities = () => {
             </TableWrap>
             {current && <div className='bg-white rounded-2xl shadow-md p-4 mt-4'>
                 <h3 className='font-medium mb-3'>{employeeName(current.employeeId)} timeline</h3>
-                <ul className='text-sm space-y-2 mb-4'><li>Initiated · last working {current.lastWorkingDate}</li><li>Reason · {current.reason}</li><li>Status · {current.status}</li></ul>
+                <ul className='text-sm space-y-2 mb-4'><li>Initiated · last working {current.lastWorkingDate}</li><li>Reason · {current.reason}</li><li>Status · {current.status}</li><li>Exit interview · {current.exitInterviewResponse ? 'Response received' : 'Waiting for employee response'}</li></ul>
+                {current.exitInterviewResponse && <div className='text-sm mb-4 space-y-1'>{Object.entries(current.exitInterviewResponse).map(([question, answer]) => <p key={question}><span className='text-[#667085]'>{question}:</span> {answer}</p>)}<button type='button' className='text-[#515DEF]' onClick={() => { saveExits(getExits().map((item) => item.id === current.id ? { ...item, exitInterview: true, exitInterviewClosedBy: 'HR' } : item)); toast.success('Exit interview closed by HR.') }}>Close exit interview</button></div>}
                 <div className='grid sm:grid-cols-2 gap-2'>{FLAGS.map((flag) => <label key={flag} className='text-sm flex gap-2 items-center'><input type='checkbox' checked={!!current[flag]} onChange={() => toggle(current, flag)} />{flag}</label>)}</div>
             </div>}
             {form && <ExitForm form={form} employees={employees} rows={rows} setForm={setForm} />}

@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 import { getDocuments, getEmployees, nextId, saveDocuments } from '../domain/hrStore'
 import { Badge, HrExport, Modal, PageIntro, PrimaryButton, SearchBox, Select, TableWrap, inputClass, td, th, useFilters, useHrTick, matches } from '../components/HrUi'
 
-const empty = { employeeId: '', type: 'ID Proof', name: '', fileName: '', fileSize: '', expiryDate: '', status: 'Pending' }
+const empty = { employeeId: '', type: 'ID Proof', name: '', files: [], expiryDate: '', status: 'Pending' }
 
 const EmployeeDocuments = () => {
     const tick = useHrTick()
@@ -16,19 +16,23 @@ const EmployeeDocuments = () => {
     const filtered = rows.filter((row) => (!filters.status || row.status === filters.status) && matches(`${row.name} ${row.fileName} ${row.employeeId}`, filters.search))
 
     const onFile = (event) => {
-        const file = event.target.files?.[0]
-        if (!file) return
-        if (preview) URL.revokeObjectURL(preview)
-        const url = file.type.startsWith('image/') ? URL.createObjectURL(file) : ''
-        setPreview(url)
-        setForm((current) => ({ ...current, fileName: file.name, fileSize: `${Math.ceil(file.size / 1024)} KB`, name: current.name || file.name }))
+        const selected = [...(event.target.files || [])].map((file) => ({
+            fileName: file.name,
+            fileSize: `${Math.ceil(file.size / 1024)} KB`,
+            preview: file.type.startsWith('image/') ? URL.createObjectURL(file) : '',
+        }))
+        if (!selected.length) return
+        setPreview(selected.find((file) => file.preview)?.preview || '')
+        setForm((current) => ({ ...current, files: [...(current.files || []), ...selected], name: current.name || selected[0].fileName }))
     }
 
     const save = (event) => {
         event.preventDefault()
-        if (!form.employeeId || !form.type || !form.fileName) return toast.error('Employee, type, and file are required.')
+        const files = form.files || []
+        if (!form.employeeId || !form.type || !files.length) return toast.error('Employee, type, and at least one file are required.')
         const employee = employees.find((item) => item.id === form.employeeId)
-        saveDocuments([{ id: nextId('DOC', rows), uploadedDate: '24-09-2026', uploadedBy: 'HR', employeeId: employee.id, ...form }, ...getDocuments()])
+        const records = files.map((file, index) => ({ id: `${nextId('DOC', rows)}-${index + 1}`, uploadedDate: '24-09-2026', uploadedBy: 'HR', employeeId: employee.id, type: form.type, name: form.name, fileName: file.fileName, fileSize: file.fileSize, expiryDate: form.expiryDate, status: form.status }))
+        saveDocuments([...records, ...getDocuments()])
         toast.success('Document metadata saved. File binary is not stored.')
         setForm(null)
         if (preview) URL.revokeObjectURL(preview)
@@ -56,7 +60,8 @@ const EmployeeDocuments = () => {
                     <Select label='Employee' value={form.employeeId} onChange={(e) => setForm({ ...form, employeeId: e.target.value })} options={employees.map((item) => item.id)} allLabel='Select' />
                     <input className={inputClass} placeholder='Document type' value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })} />
                     <input className={inputClass} placeholder='Document name' value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-                    <input type='file' onChange={onFile} />
+                    <input type='file' multiple onChange={onFile} />
+                    <ul className='text-sm text-[#667085]'>{(form.files || []).map((file) => <li key={file.fileName} className='flex justify-between gap-2'><span>{file.fileName} · {file.fileSize}</span><button type='button' className='text-[#515DEF]' onClick={() => setForm({ ...form, files: form.files.filter((item) => item.fileName !== file.fileName) })}>Remove</button></li>)}</ul>
                     <input className={inputClass} type='date' value={form.expiryDate} onChange={(e) => setForm({ ...form, expiryDate: e.target.value })} />
                     {preview && <img src={preview} alt='Preview' className='max-h-40 object-contain' />}
                     <PrimaryButton type='submit'>Save metadata</PrimaryButton>

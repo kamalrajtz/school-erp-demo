@@ -62,6 +62,7 @@ const ObservationForm = ({ form, onChange, readOnly = false }) => {
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
             <Field label='Audit Reference'>
                 <select value={form.auditReference} onChange={(e) => update('auditReference', e.target.value)} className={inputClass}>
+                    <option value='NA'>NA</option>
                     <option value=''>Select audit</option>
                     {AUDIT_REFERENCES.map((ref) => (
                         <option key={ref} value={ref}>{ref}</option>
@@ -69,7 +70,8 @@ const ObservationForm = ({ form, onChange, readOnly = false }) => {
                 </select>
             </Field>
             <Field label='Department'>
-                <select value={form.department || 'Academics'} onChange={(e) => update('department', e.target.value)} className={inputClass}>
+                <select value={form.department || 'NA'} onChange={(e) => update('department', e.target.value)} className={inputClass}>
+                    <option value='NA'>NA</option>
                     <option value='Academics'>Academics</option>
                     {DEPARTMENTS.filter((dept) => dept !== 'Academics').map((dept) => (
                         <option key={dept} value={dept}>{dept}</option>
@@ -78,6 +80,7 @@ const ObservationForm = ({ form, onChange, readOnly = false }) => {
             </Field>
             <Field label='Component'>
                 <select value={form.category} onChange={(e) => update('category', e.target.value)} className={inputClass}>
+                    <option value='NA'>NA</option>
                     <option value=''>Select component</option>
                     {CATEGORIES.map((cat) => (
                         <option key={cat} value={cat}>{cat}</option>
@@ -95,6 +98,7 @@ const ObservationForm = ({ form, onChange, readOnly = false }) => {
             </Field>
             <Field label='Rating (1-5)'>
                 <select value={form.rating || '3'} onChange={(e) => update('rating', e.target.value)} className={inputClass}>
+                    <option value='NA'>NA</option>
                     {['1', '2', '3', '4', '5'].map((score) => <option key={score}>{score}</option>)}
                 </select>
             </Field>
@@ -114,6 +118,7 @@ const ObservationForm = ({ form, onChange, readOnly = false }) => {
             </Field>
             <Field label='Responsible Person'>
                 <select value={form.responsiblePerson} onChange={(e) => update('responsiblePerson', e.target.value)} className={inputClass}>
+                    <option value='NA'>NA</option>
                     <option value=''>Select person</option>
                     {RESPONSIBLE_PERSONS.map((person) => (
                         <option key={person} value={person}>{person}</option>
